@@ -4,13 +4,18 @@ import { NavLink } from 'react-router-dom';
 
 const SideBar = ({show, OnHandleShowSideBar}) =>{
     return (
-        <div id='sideBar' className='fade' style={{display: show ? 'block':'none',opacity: show ? 1 : 0,position: 'absolute',
-        height: '100vh',
-        backgroundColor:'#283037',
-        width:'27vw',
-        top:0,
-        right:0,
-        padding:'3.3em 3.8em' }}>
+        <div id='sideBar' className={show ? 'fade-effect':'fade-out-effect'}
+            style={{
+                    display: show ? 'block':'none',
+                    opacity: show ? 1 : 0,
+                    position: 'absolute',
+                    height: '100vh',
+                    backgroundColor:'#283037',
+                    width:'27vw',
+                    top:0,
+                    right:0,
+                    padding:'3.3em 3.8em',
+                 }}>
           <div style={style.content}>
             <div style={style.sidebarProfile}>
                 <div style={style.profileInfo}>

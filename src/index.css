@@ -193,7 +193,9 @@ ul.md-tabs{
   border-bottom: solid .7px #ffffff2e;
   padding-bottom: 5px;
   position: relative;
-  bottom: 1em
+  bottom: 1em;
+  width:43vw;
+  margin: auto;
 }
 
 .tab-content.card {
@@ -218,4 +220,99 @@ ul.md-tabs > li hr{
   position: relative;
   top:6px;
   margin: auto;
+}
+
+.fade-effect{
+  -webkit-animation: fadein .3s; /* Safari and Chrome */
+  -moz-animation: fadein .3s; /* Firefox */
+  -ms-animation: fadein .3s; /* Internet Explorer */
+  -o-animation: fadein .3s; /* Opera */
+  animation: fadein .3s;
+}
+
+.fade-out-effect{
+  -webkit-animation: fadeout .3s; /* Safari and Chrome */
+  -moz-animation: fadeout .3s; /* Firefox */
+  -ms-animation: fadeout .3s; /* Internet Explorer */
+  -o-animation: fadeout .3s; /* Opera */
+  animation: fadeout .3s;
+}
+
+@keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Firefox */
+@-moz-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+/* Safari and Chrome */
+@-webkit-keyframes fadein {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+
+@keyframes fadeout {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* Firefox */
+@-moz-keyframes fadeout {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* Safari and Chrome */
+@-webkit-keyframes fadeout {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+.btn-animate-signup:hover{
+  border:solid 1.3px #8ec63f !important;
+  color: #8ec63f !important;
+  text-transform: capitalize !important;
+  transition:.2s;
+}
+.btn-animate-text-signup{
+  position: absolute;
+  line-height:35px;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  left:0;
+  display: block; 
+  transition:.2s;
+}
+.btn-animate-text-signup:hover{
+  font-size: 15px;
+  font-weight: normal;
+}
+
+
+.btn-animate-login:hover{
+  border:solid 1.3px rgba(255, 255, 255, 0.71) !important;
+  color: rgba(255, 255, 255, 0.71) !important;
+  text-transform: capitalize !important;
+  transition:.2s;
+}
+.btn-animate-text-login{
+  position: absolute;
+  line-height:35px;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  left:0;
+  display: block;
+  transition:.2s;
+}
+.btn-animate-text-login:hover{
+  font-size: 15px;
+  font-weight: normal;
+  transition:.2s;
 }

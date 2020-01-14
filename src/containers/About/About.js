@@ -14,7 +14,7 @@ class About extends PureComponent {
     return (
         <div style={styles.main}>
             <Header/>
-            <Tab/>
+            <Tab />
         </div>
     );
   }
