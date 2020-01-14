@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Login from '../Login/Login';
+import About from '../About/About';
 import Main from '../Main/Main';
 import styles from './App.style';
 
@@ -17,10 +17,10 @@ class App extends Component {
     return (
       <Router>
         <div style={styles.appContainer}>
-          {isLoggedIn ? <Redirect to="/" /> : <Redirect to="/login" />}
+          {/* {isLoggedIn ? <Redirect to="/" /> : <Redirect to="/login" />} */}
           <Switch>
-            <Route exact path="/login" component={Login} />
-            <Route path="/" component={Main} />
+            {/* <Route exact path="/" component={About} /> */}
+            <Route path="/" component={About} />
           </Switch>
         </div>
       </Router>
