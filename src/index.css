@@ -1,3 +1,19 @@
+@font-face {
+  font-family: 'Harabara';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./assets/fonts/Harabara.ttf');
+  src: local('Open Sans'), local('OpenSans'), url('./assets/fonts/Harabara.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Helvetica';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./assets/fonts/Helvetica.ttf');
+  src: local('Open Sans'), local('OpenSans'), url('./assets/fonts/Helvetica.ttf') format('truetype');
+}
+
 html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
@@ -6,7 +22,8 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: 'flex';
@@ -102,217 +119,312 @@ h6 {
   width: 100%;
 }
 
-.navbar{
+.navbar {
   box-shadow: none !important;
 }
 
-.cursor-pointer{
+.cursor-pointer {
   cursor: pointer;
 }
 
 @media only screen and (max-width: 768px) {
-  #sideBar{
+  #sideBar {
     width: 100vw !important;
     left: 0 !important;
   }
 }
 
 @media only screen and (max-width: 768px) {
-  .header-nav{
+  .header-nav {
     padding: 1.5em !important;
   }
-  #profile-lg{
+  #profile-lg {
     display: none !important;
   }
-  #sideBar{
+  #sideBar {
     width: 50vw;
+  }
+  #mainTab {
+    width: 90vw !important;
+  }
+  ul.nav.md-tabs {
+    width: 100% !important;
+  }
+  #loginForm {
+    width: 45vw !important;
   }
 }
 
 @media only screen and (min-width: 1300px) {
-  #sideBar{
+  #sideBar {
     width: 27vw;
   }
 }
 
-@media only screen and (max-width: 1024px) and (min-width: 769px){
-  #sideBar{
+@media only screen and (max-width: 1024px) and (min-width: 769px) {
+  #sideBar {
     width: 50vw !important;
+  }
+  #loginForm {
+    width: 40vw !important;
   }
 }
 
-@media only screen and (max-width: 1214px) and (min-width: 1025px){
-  #sideBar{
+@media only screen and (max-width: 1214px) and (min-width: 1025px) {
+  #sideBar {
     width: 30vw !important;
   }
 }
 
 @media only screen and (min-width: 768px) {
-  .header-nav{
+  .header-nav {
     padding: 3em 4em !important;
   }
 }
 
 @media only screen and (min-width: 1000px) {
-  .header-nav{
-    padding: 1.5em 7.5em !important;
+  .header-nav {
+    padding: 1.3em 6.6em 0.5em 6.6em !important;
   }
 }
 
-@media only screen and (max-width: 400px) {
-  #sideBar{
+@media only screen and (max-width: 500px) {
+  #sideBar {
     padding: 2.5em 2em !important;
   }
+  #loginForm {
+    width: 100% !important;
+    padding: 0;
+  }
+  #btnLoginTab {
+    width: 100% !important;
+  }
 }
 
-#bars{
-  transition: all .2s ease-in-out;
+#bars {
+  transition: all 0.2s ease-in-out;
   color: #fff;
   cursor: pointer;
 }
 
-#bars:hover{
+#bars:hover {
   color: #8ec63f !important;
   transform: scale(1.2);
 }
 
-a.sideBarLink:hover{
+a.sideBarLink:hover {
   border-left: 2px solid #8ec63f;
-  padding-left: .7em;
+  padding-left: 0.7em;
+  opacity: 1 !important;
 }
 
-#sideBar{
+#sideBar {
   z-index: 9999999;
-} 
+}
 
-.active-tab hr{
+.active-tab hr {
   border-bottom: 1.5px solid #8ec63f;
 }
 
-ul.md-tabs{
-  border-bottom: solid .7px #ffffff2e;
-  padding-bottom: 5px;
+ul.md-tabs {
+  border-bottom: solid 0.7px #ffffff2e;
+  padding-bottom: 7px;
   position: relative;
   bottom: 1em;
-  width:43vw;
+  width: 40vw;
   margin: auto;
 }
 
 .tab-content.card {
-    margin-top: 1em;
+  margin-top: 1em;
 }
 
-ul.md-tabs > li{
+ul.md-tabs > li {
   padding-left: 1em;
   padding-right: 1em;
   text-transform: uppercase !important;
 }
 
-ul.md-tabs > li a{
-  font-size: .8em;
+ul.md-tabs > li a {
+  font-size: 0.8em;
   color: #fff;
   font-weight: bold;
   letter-spacing: 1px;
 }
 
-ul.md-tabs > li hr{
+ul.md-tabs > li hr {
   width: 20px;
   position: relative;
-  top:6px;
+  top: 9px;
   margin: auto;
 }
 
-.fade-effect{
-  -webkit-animation: fadein .3s; /* Safari and Chrome */
-  -moz-animation: fadein .3s; /* Firefox */
-  -ms-animation: fadein .3s; /* Internet Explorer */
-  -o-animation: fadein .3s; /* Opera */
-  animation: fadein .3s;
+.fade-effect {
+  -webkit-animation: fadein 0.3s; /* Safari and Chrome */
+  -moz-animation: fadein 0.3s; /* Firefox */
+  -ms-animation: fadein 0.3s; /* Internet Explorer */
+  -o-animation: fadein 0.3s; /* Opera */
+  animation: fadein 0.3s;
 }
 
-.fade-out-effect{
-  -webkit-animation: fadeout .3s; /* Safari and Chrome */
-  -moz-animation: fadeout .3s; /* Firefox */
-  -ms-animation: fadeout .3s; /* Internet Explorer */
-  -o-animation: fadeout .3s; /* Opera */
-  animation: fadeout .3s;
+.fade-out-effect {
+  -webkit-animation: fadeout 0.3s; /* Safari and Chrome */
+  -moz-animation: fadeout 0.3s; /* Firefox */
+  -ms-animation: fadeout 0.3s; /* Internet Explorer */
+  -o-animation: fadeout 0.3s; /* Opera */
+  animation: fadeout 0.3s;
 }
 
 @keyframes fadein {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Firefox */
 @-moz-keyframes fadein {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 /* Safari and Chrome */
 @-webkit-keyframes fadein {
-  from { opacity: 0; }
-  to   { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
-
 @keyframes fadeout {
-  from { opacity: 1; }
-  to   { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 /* Firefox */
 @-moz-keyframes fadeout {
-  from { opacity: 1; }
-  to   { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
 /* Safari and Chrome */
 @-webkit-keyframes fadeout {
-  from { opacity: 1; }
-  to   { opacity: 0; }
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
 }
 
-.btn-animate-signup:hover{
-  border:solid 1.3px #8ec63f !important;
+.btn-animate-signup:hover {
+  border: solid 1.3px #8ec63f !important;
   color: #8ec63f !important;
   text-transform: capitalize !important;
-  transition:.2s;
+  transition: 0.2s;
 }
-.btn-animate-text-signup{
+.btn-animate-text-signup {
   position: absolute;
-  line-height:35px;
+  line-height: 35px;
   top: 0;
   height: 100%;
   width: 100%;
-  left:0;
-  display: block; 
-  transition:.2s;
+  left: 0;
+  display: block;
+  transition: 0.2s;
 }
-.btn-animate-text-signup:hover{
+.btn-animate-text-signup:hover {
   font-size: 15px;
   font-weight: normal;
 }
 
-
-.btn-animate-login:hover{
-  border:solid 1.3px rgba(255, 255, 255, 0.71) !important;
+.btn-animate-login:hover {
+  border: solid 1.3px rgba(255, 255, 255, 0.71) !important;
   color: rgba(255, 255, 255, 0.71) !important;
   text-transform: capitalize !important;
-  transition:.2s;
+  transition: 0.15s;
 }
-.btn-animate-text-login{
+.btn-animate-text-login {
   position: absolute;
-  line-height:35px;
+  line-height: 35px;
   top: 0;
   height: 100%;
   width: 100%;
-  left:0;
+  left: 0;
   display: block;
-  transition:.2s;
+  transition: 0.15s;
 }
-.btn-animate-text-login:hover{
+.btn-animate-text-login:hover {
   font-size: 15px;
   font-weight: normal;
-  transition:.2s;
+  transition: 0.15s;
+}
+
+div#mainTab {
+  min-height: 100vh;
+}
+
+input:focus {
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+input {
+  background-color: #363f42 !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+#btnLoginTab {
+  top: 0.7em !important;
+}
+
+.text-error {
+  font-size: 0.7em;
+  margin: 0;
+  position: relative;
+  bottom: 1em;
+}
+
+.bottom-3 {
+  bottom: 2em !important;
+}
+
+.drop-down,
+.sliders {
+  -moz-transition: 200px 0.5s;
+  -ms-transition: 200px 0.5s;
+  -o-transition: 200px 0.5s;
+  -webkit-transition: 200px 0.5s;
+  transition: 200px 0.5s;
+  overflow: hidden;
+}
+
+.logo {
+  width: auto;
+  height: 50px;
+}
+
+.nav-links p {
+  opacity: 0.5;
+}
+
+.nav-links.active-tab > p {
+  opacity: 1 !important;
 }

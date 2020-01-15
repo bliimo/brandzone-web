@@ -1,13 +1,8 @@
 import React, { Component } from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import About from '../About/About';
+import Home from '../Home/Home';
 import Main from '../Main/Main';
 import styles from './App.style';
 
@@ -20,7 +15,7 @@ class App extends Component {
           {/* {isLoggedIn ? <Redirect to="/" /> : <Redirect to="/login" />} */}
           <Switch>
             {/* <Route exact path="/" component={About} /> */}
-            <Route path="/" component={About} />
+            <Route path='/' component={Home} />
           </Switch>
         </div>
       </Router>
@@ -29,7 +24,7 @@ class App extends Component {
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.auth.isLoggedIn,
+  isLoggedIn: state.auth.isLoggedIn
 });
 
 export default connect(mapStateToProps)(App);
