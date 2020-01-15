@@ -144,6 +144,19 @@ const LoginTab = ({ parent }) => {
   );
 };
 
+const Participant = ({ parent }) => {
+  return (
+    <div style={style.participant}>
+      <Dropdown
+        items={parent.state.institutionTypes}
+        action={parent.OnHandleInstitutionType}
+        label='Type of Institution'
+        zIndex={2}
+      />
+    </div>
+  );
+};
+
 const SingUpTab = ({ parent }) => {
   return (
     <MDBTabPane tabId='3' role='tabpanel' className='fade-effect'>
@@ -152,7 +165,73 @@ const SingUpTab = ({ parent }) => {
       </Text>
       <hr style={style.tabTitleHeaderHr} />
       <MDBContainer style={style.signUpForm} id='signUpForm'>
-        <Dropdown items={parent.state.items} action={parent.OnHandleSignUpType} />
+        <Dropdown
+          items={parent.state.userType}
+          action={parent.OnHandleSignUpType}
+          label='Registration Type'
+          zIndex={3}
+        />
+        <Participant parent={parent} />
+        <TextInput
+          placeholder='Name of Company'
+          id='companyName'
+          onChange={parent.OnHandleChange}
+          type='text'
+          value={parent.state.companyName}
+          size='sm'
+          required={true}
+          autocomplete='off'
+          className='signup-input'
+          style={style.inputs}
+        />
+        <TextInput
+          placeholder='Country'
+          id='companyCountry'
+          onChange={parent.OnHandleChange}
+          type='text'
+          value={parent.state.companyCountry}
+          size='sm'
+          required={true}
+          autocomplete='off'
+          className='signup-input'
+          style={style.inputs}
+        />
+        <TextInput
+          placeholder='Province'
+          id='companyProvince'
+          onChange={parent.OnHandleChange}
+          type='text'
+          value={parent.state.companyProvince}
+          size='sm'
+          required={true}
+          autocomplete='off'
+          className='signup-input'
+          style={style.inputs}
+        />
+        <TextInput
+          placeholder='City'
+          id='companyCity'
+          onChange={parent.OnHandleChange}
+          type='text'
+          value={parent.state.companyCity}
+          size='sm'
+          required={true}
+          autocomplete='off'
+          className='signup-input'
+          style={style.inputs}
+        />
+        <TextInput
+          placeholder='Website'
+          id='companyWebsite'
+          onChange={parent.OnHandleChange}
+          type='text'
+          value={parent.state.companyWebsite}
+          size='sm'
+          required={true}
+          autocomplete='off'
+          className='signup-input'
+          style={style.inputs}
+        />
       </MDBContainer>
     </MDBTabPane>
   );
@@ -164,8 +243,12 @@ class HomeTab extends Component {
     email: '',
     password: '',
     emailError: false,
+    companyName: '',
+    companyCountry: '',
+    companyProvince: '',
+    companyCity: '',
     passwordError: false,
-    items: [
+    userType: [
       {
         id: 0,
         name: 'Participants'
@@ -173,6 +256,16 @@ class HomeTab extends Component {
       {
         id: 1,
         name: 'Exhibitors'
+      }
+    ],
+    institutionTypes: [
+      {
+        id: 0,
+        name: 'Organization'
+      },
+      {
+        id: 1,
+        name: 'University'
       }
     ]
   };
@@ -183,8 +276,8 @@ class HomeTab extends Component {
 
   OnHandleChange = event => {
     let { emailError, passwordError } = this.state;
-    if (event.target.id == 'email') emailError = !validation.isEmail(event.target.value);
-    if (event.target.id == 'password')
+    if (event.target.id === 'email') emailError = !validation.isEmail(event.target.value);
+    if (event.target.id === 'password')
       passwordError = !validation.isValidPassword(event.target.value);
     this.setState({ [event.target.id]: event.target.value, emailError, passwordError });
   };
@@ -198,6 +291,10 @@ class HomeTab extends Component {
 
   OnHandleSignUpType = id => {
     console.log('test', id);
+  };
+
+  OnHandleInstitutionType = id => {
+    console.log('test 2', id);
   };
 
   render() {
@@ -286,7 +383,7 @@ const style = {
     marginTop: 7,
     marginBottom: 1,
     fontFamily: 'Harabara',
-    fontSize:14,
+    fontSize: 14
   },
   input: {
     fontSize: 10,
@@ -304,8 +401,14 @@ const style = {
   },
   signUpForm: {
     width: '22.8vw',
-    position: 'relative',
-    top: '2em'
+    position: 'relative'
+  },
+  participant: {
+    marginTop: '1em',
+    marginBottom: '1.3em'
+  },
+  inputs: {
+    margin: 0
   }
 };
 export default HomeTab;

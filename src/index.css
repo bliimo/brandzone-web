@@ -150,7 +150,8 @@ h6 {
   ul.nav.md-tabs {
     width: 100% !important;
   }
-  #loginForm {
+  #loginForm,
+  #signUpForm {
     width: 45vw !important;
   }
 }
@@ -165,7 +166,8 @@ h6 {
   #sideBar {
     width: 50vw !important;
   }
-  #loginForm {
+  #loginForm,
+  #signUpForm {
     width: 40vw !important;
   }
 }
@@ -192,7 +194,8 @@ h6 {
   #sideBar {
     padding: 2.5em 2em !important;
   }
-  #loginForm {
+  #loginForm,
+  #signUpForm {
     width: 100% !important;
     padding: 0;
   }
@@ -427,4 +430,29 @@ input {
 
 .nav-links.active-tab > p {
   opacity: 1 !important;
+}
+
+input.signup-input {
+  padding: 10px 15px !important;
+  background-color: rgb(71, 84, 89) !important;
+  font: bold 11px Helvetica;
+  position: relative;
+  bottom: 0.5em;
+  color: #fff !important;
+}
+input.signup-input::placeholder {
+  color: #b7b7b7;
+}
+
+.opacity-1 {
+  opacity: 1 !important;
+}
+
+.opacity-.5 {
+  opacity: 0.5 !important;
+}
+
+#signUpForm > div.md-form.form-sm.md-outline {
+  margin-top: 1em;
+  margin-bottom: 0 !important;
 }

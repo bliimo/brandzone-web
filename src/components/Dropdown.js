@@ -6,8 +6,8 @@ const Active = ({ parent }) => {
   const { active, items, isOpen } = parent.state;
   return (
     <div className='cursor-pointer' onClick={() => parent.OnHandleOpen()}>
-      <Text style={style.active}>
-        {active != null ? items[active]['name'] : 'Registration Type'}
+      <Text style={style.active} className={`${active != null ? 'opacity-1' : 'opacity-.5'}`}>
+        {active != null ? items[active]['name'] : parent.state.label}
         <MDBIcon
           icon={isOpen ? 'caret-up' : 'caret-down'}
           style={style.caret}
@@ -40,12 +40,14 @@ class Dropdown extends Component {
     active: null,
     items: [],
     isOpen: false,
+    label: '',
+    zIndex: 1,
     action: () => {}
   };
 
   componentWillMount() {
-    const { items, action } = this.props;
-    this.setState({ items, action });
+    const { items, action, label, zIndex } = this.props;
+    this.setState({ items, action, label, zIndex });
   }
   OnHandleActive = active => {
     this.state.action(active);
@@ -58,8 +60,10 @@ class Dropdown extends Component {
   };
 
   render() {
+    let zIndex = { zIndex: this.state.zIndex };
+    let mainStyle = { ...style.main, ...zIndex };
     return (
-      <MDBContainer style={style.main} className='drop-down'>
+      <MDBContainer style={mainStyle} className='drop-down'>
         <Active parent={this} />
         <Items parent={this} />
       </MDBContainer>
@@ -73,7 +77,9 @@ const style = {
     color: '#fff',
     borderRadius: 3,
     padding: '0 1em .1em',
-    paddingTop: '.4em'
+    paddingTop: '.4em',
+    position: 'relative',
+    marginTop: '10px'
   },
   active: {
     opacity: 0.5,
@@ -94,8 +100,8 @@ const style = {
   },
   caret: {
     position: 'relative',
-    left:'.2em',
-    fontSize:14
+    left: '.2em',
+    fontSize: 14
   }
 };
 
