@@ -2,113 +2,54 @@ import React, { Component } from 'react';
 import Text from './Text';
 import Time from './Time';
 
-const Schedules = ({ parent }) => {
+const Schedules = ({ parent, scheds }) => {
   let timeSlots = [];
-  parent.state.scheds.map((e, i) => {
-    const props = {
-      text: `${e.startTime} - ${e.endTime}`,
-      data: e,
-      index: i,
-      selected: parent.state.selected,
-      onSelect: parent.OnHandleSelect,
-      isSelectedAll: parent.state.isSelectedAll
-    };
-    timeSlots.push(<Time key={i} props={props} />);
-  });
+  if (scheds) {
+    scheds.map((e, i) => {
+      const props = {
+        text: `${e.startTime} - ${e.endTime}`,
+        data: e,
+        index: i,
+        selected: parent.state.selected,
+        onSelect: parent.OnHandleSelect,
+        isSelectedAll: parent.state.isSelectedAll
+      };
+      timeSlots.push(<Time key={i} props={props} />);
+    });
+  }
   return timeSlots;
 };
-
 class EventTimeSlot extends Component {
   state = {
-    scheds: [
-      {
-        id: 1,
-        startTime: '2:30',
-        endTime: '2:50'
-      },
-      {
-        id: 2,
-        startTime: '2:30',
-        endTime: '2:50'
-      },
-      {
-        id: 3,
-        startTime: '2:30',
-        endTime: '2:50'
-      },
-      {
-        id: 4,
-        startTime: '2:30',
-        endTime: '2:50'
-      },
-      {
-        id: 5,
-        startTime: '2:30',
-        endTime: '2:50'
-      },
-      {
-        id: 6,
-        startTime: '2:30',
-        endTime: '2:50'
-      },
-      {
-        id: 7,
-        startTime: '2:30',
-        endTime: '2:50'
-      },
-      {
-        id: 8,
-        startTime: '2:30',
-        endTime: '2:50'
-      },
-      {
-        id: 9,
-        startTime: '2:30',
-        endTime: '2:50'
-      },
-      {
-        id: 10,
-        startTime: '2:30',
-        endTime: '2:50'
-      },
-      {
-        id: 11,
-        startTime: '2:30',
-        endTime: '2:50'
-      },
-      {
-        id: 12,
-        startTime: '2:30',
-        endTime: '2:50'
-      }
-    ],
     selected: {},
     isSelectedAll: false
   };
 
   OnHandleSelect = event => {
-    const { selected } = this.state;
-    const { OnHandleGetTimeSlots } = this.props;
+    let { selected, isSelectedAll } = this.state;
+    const { OnHandleGetTimeSlots, scheds } = this.props;
 
     if (selected[event.target.getAttribute('id')] === undefined) {
       selected[event.target.getAttribute('id')] = true;
     } else {
       delete selected[event.target.getAttribute('id')];
     }
+    isSelectedAll = Object.keys(scheds).length == Object.keys(selected).length;
 
-    this.setState({ selected, isSelectedAll: false });
+    this.setState({ selected, isSelectedAll });
     OnHandleGetTimeSlots(this.OnHandleGetSelected());
   };
 
   OnHandleGetSelected = () => this.state.selected;
 
-  componentWillMount() {
-    const { OnHandleGetTimeSlots } = this.props;
+  componentWillReceiveProps() {
+    let { OnHandleGetTimeSlots } = this.props;
     this.setState({ OnHandleGetTimeSlots });
   }
 
   OnHandleSelectAll = () => {
-    let { isSelectedAll, scheds, selected } = this.state;
+    let { isSelectedAll, selected } = this.state;
+    let { scheds } = this.props;
     const { OnHandleGetTimeSlots } = this.props;
 
     isSelectedAll = !isSelectedAll;
@@ -128,6 +69,7 @@ class EventTimeSlot extends Component {
   };
 
   render() {
+    const { scheds } = this.props;
     return (
       <div style={style.main}>
         <div className='text-center mt-4'>
@@ -142,7 +84,7 @@ class EventTimeSlot extends Component {
             </span>
           </Text>
         </div>
-        <Schedules parent={this} />
+        <Schedules parent={this} scheds={scheds} />
       </div>
     );
   }

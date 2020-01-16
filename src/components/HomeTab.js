@@ -300,7 +300,10 @@ const SingUpTab = ({ parent }) => {
           action={parent.OnHandleEventType}
           label='Choose an event you will be participating in:'
         />
-        <EventTimeSlot OnHandleGetTimeSlots={parent.OnHandleGetTimeSlots} />
+        <EventTimeSlot
+          OnHandleGetTimeSlots={parent.OnHandleGetTimeSlots}
+          scheds={parent.state.scheds}
+        />
         <SubmitSignUp parent={parent} />
       </MDBContainer>
     </MDBTabPane>
@@ -382,18 +385,144 @@ class HomeTab extends Component {
     events: [
       {
         id: 0,
-        name: 'Feb 28 - New world Hotel Makati'
+        name: 'Feb 28 - New world Hotel Makati',
+        scheds: [
+          {
+            id: 1,
+            startTime: '2:30',
+            endTime: '2:50'
+          },
+          {
+            id: 2,
+            startTime: '2:30',
+            endTime: '2:50'
+          },
+          {
+            id: 3,
+            startTime: '2:30',
+            endTime: '2:50'
+          },
+          {
+            id: 4,
+            startTime: '2:30',
+            endTime: '2:50'
+          },
+          {
+            id: 5,
+            startTime: '2:30',
+            endTime: '2:50'
+          },
+          {
+            id: 6,
+            startTime: '2:30',
+            endTime: '2:50'
+          },
+          {
+            id: 7,
+            startTime: '2:30',
+            endTime: '2:50'
+          },
+          {
+            id: 8,
+            startTime: '2:30',
+            endTime: '2:50'
+          },
+          {
+            id: 9,
+            startTime: '2:30',
+            endTime: '2:50'
+          },
+          {
+            id: 10,
+            startTime: '2:30',
+            endTime: '2:50'
+          },
+          {
+            id: 11,
+            startTime: '2:30',
+            endTime: '2:50'
+          },
+          {
+            id: 12,
+            startTime: '2:30',
+            endTime: '2:50'
+          }
+        ]
       },
       {
         id: 1,
-        name: 'March 2 - Seda Hotel Cebu'
+        name: 'March 2 - Seda Hotel Cebu',
+        scheds: [
+          {
+            id: 1,
+            startTime: '2:30',
+            endTime: '2:50'
+          },
+          {
+            id: 2,
+            startTime: '2:30',
+            endTime: '2:50'
+          },
+          {
+            id: 3,
+            startTime: '2:30',
+            endTime: '2:50'
+          },
+          {
+            id: 4,
+            startTime: '2:30',
+            endTime: '2:50'
+          },
+          {
+            id: 5,
+            startTime: '2:30',
+            endTime: '2:50'
+          },
+          {
+            id: 6,
+            startTime: '2:30',
+            endTime: '2:50'
+          }
+        ]
       },
       {
         id: 2,
-        name: 'All'
+        name: 'All',
+        scheds: [
+          {
+            id: 7,
+            startTime: '2:30',
+            endTime: '2:50'
+          },
+          {
+            id: 8,
+            startTime: '2:30',
+            endTime: '2:50'
+          },
+          {
+            id: 9,
+            startTime: '2:30',
+            endTime: '2:50'
+          },
+          {
+            id: 10,
+            startTime: '2:30',
+            endTime: '2:50'
+          },
+          {
+            id: 11,
+            startTime: '2:30',
+            endTime: '2:50'
+          },
+          {
+            id: 12,
+            startTime: '2:30',
+            endTime: '2:50'
+          }
+        ]
       }
     ],
-    timeSlots: {}
+    schedules: {}
   };
 
   OnHandleToggle = tab => () => {
@@ -415,8 +544,9 @@ class HomeTab extends Component {
     this.setState({ emailError, passwordError });
   };
 
-  OnHandleGetTimeSlots = timeSlots => {
-    this.setState({ timeSlots });
+  OnHandleGetTimeSlots = schedules => {
+    console.log(schedules);
+    this.setState({ schedules });
   };
 
   OnHandleCheckTerms = () => {
@@ -429,7 +559,13 @@ class HomeTab extends Component {
   };
 
   OnHandleEventType = id => {
-    console.log('test', id);
+    let { events, scheds } = this.state;
+    events.map(e => {
+      if (e['id'] == id) {
+        scheds = e.scheds;
+      }
+    });
+    this.setState({ scheds });
   };
 
   OnHandleInstitutionType = id => {
