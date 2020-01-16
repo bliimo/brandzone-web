@@ -4,10 +4,18 @@ import Text from '../components/Text';
 
 const Active = ({ parent }) => {
   const { active, items, isOpen } = parent.state;
+  let index = null;
+
+  if (active != null) {
+    items.map((v, i) => {
+      if (v.id === active) index = i;
+    });
+  }
+
   return (
     <div className='cursor-pointer' onClick={() => parent.OnHandleOpen()}>
-      <Text style={style.active} className={`${active != null ? 'opacity-1' : 'opacity-.5'}`}>
-        {active != null ? items[active]['name'] : parent.state.label}
+      <Text style={style.active} className={`${index != null ? 'opacity-1' : 'opacity-.5'}`}>
+        {index != null ? items[index]['name'] : parent.state.label}
         <MDBIcon
           icon={isOpen ? 'caret-up' : 'caret-down'}
           style={style.caret}
@@ -22,7 +30,11 @@ const Items = ({ parent }) => {
   const { items, isOpen } = parent.state;
   let elem = [];
   items.map(e => elem.push(<Item data={e} key={e.id} setActive={parent.OnHandleActive} />));
-  return <MDBCollapse isOpen={isOpen}>{elem}</MDBCollapse>;
+  return (
+    <MDBCollapse className='absolute-collapse' isOpen={isOpen}>
+      <div className='ml-3 mr-3 mb-4 mt-3'>{elem}</div>
+    </MDBCollapse>
+  );
 };
 
 const Item = ({ data, setActive }) => {
@@ -41,13 +53,12 @@ class Dropdown extends Component {
     items: [],
     isOpen: false,
     label: '',
-    zIndex: 1,
     action: () => {}
   };
 
   componentWillMount() {
-    const { items, action, label, zIndex } = this.props;
-    this.setState({ items, action, label, zIndex });
+    const { items, action, label } = this.props;
+    this.setState({ items, action, label });
   }
   OnHandleActive = active => {
     this.state.action(active);
@@ -60,10 +71,8 @@ class Dropdown extends Component {
   };
 
   render() {
-    let zIndex = { zIndex: this.state.zIndex };
-    let mainStyle = { ...style.main, ...zIndex };
     return (
-      <MDBContainer style={mainStyle} className='drop-down'>
+      <MDBContainer style={style.main} className='drop-down'>
         <Active parent={this} />
         <Items parent={this} />
       </MDBContainer>
@@ -73,7 +82,7 @@ class Dropdown extends Component {
 
 const style = {
   main: {
-    background: '#475459 0% 0% no-repeat padding-box',
+    backgroundColor: '#4B5755 !important',
     color: '#fff',
     borderRadius: 3,
     padding: '0 1em .1em',
@@ -87,13 +96,15 @@ const style = {
     margin: 0,
     marginBottom: '1.2em',
     position: 'relative',
+    letterSpacing: 0.5,
     top: '.4em'
   },
   notActive: {
     opacity: 1,
     font: 'Bold 11px Helvetica',
     position: 'relative',
-    paddingTop: '1.1em'
+    paddingTop: '1.1em',
+    letterSpacing: 0.5
   },
   open: {
     marginBottom: '1em'

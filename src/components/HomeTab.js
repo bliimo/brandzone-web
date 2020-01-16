@@ -8,6 +8,20 @@ import TextInput from '../components/TextInput';
 import response from '../helper/response';
 import validation from '../helper/validation';
 import Dropdown from './Dropdown';
+import PictureUpload from './PictureUpload';
+import EventTimeSlot from './EventTimeSlot';
+
+const ParticipantDropDown = ({ parent }) => {
+  return (
+    <div style={style.participant}>
+      <Dropdown
+        items={parent.state.institutionTypes}
+        action={parent.OnHandleInstitutionType}
+        label='Type of Institution'
+      />
+    </div>
+  );
+};
 
 const TabLinks = ({ parent }) => {
   return (
@@ -144,19 +158,6 @@ const LoginTab = ({ parent }) => {
   );
 };
 
-const Participant = ({ parent }) => {
-  return (
-    <div style={style.participant}>
-      <Dropdown
-        items={parent.state.institutionTypes}
-        action={parent.OnHandleInstitutionType}
-        label='Type of Institution'
-        zIndex={2}
-      />
-    </div>
-  );
-};
-
 const SingUpTab = ({ parent }) => {
   return (
     <MDBTabPane tabId='3' role='tabpanel' className='fade-effect'>
@@ -169,9 +170,8 @@ const SingUpTab = ({ parent }) => {
           items={parent.state.userType}
           action={parent.OnHandleSignUpType}
           label='Registration Type'
-          zIndex={3}
         />
-        <Participant parent={parent} />
+        <ParticipantDropDown parent={parent} />
         <TextInput
           placeholder='Name of Company'
           id='companyName'
@@ -232,8 +232,113 @@ const SingUpTab = ({ parent }) => {
           className='signup-input'
           style={style.inputs}
         />
+        <TextInput
+          placeholder='Short profile of the Company'
+          id='companyProfile'
+          onChange={parent.OnHandleChange}
+          type='textarea'
+          value={parent.state.companyProfile}
+          size='sm'
+          required={true}
+          autocomplete='off'
+          className='signup-input'
+          style={style.inputs}
+          rows={5}
+        />
+        <hr style={style.divider} />
+        <TextInput
+          placeholder='Name of Representative'
+          id='repName'
+          onChange={parent.OnHandleChange}
+          type='text'
+          value={parent.state.repName}
+          size='sm'
+          required={true}
+          autocomplete='off'
+          className='signup-input'
+          style={style.inputs}
+        />
+        <TextInput
+          placeholder='Job Title'
+          id='jobTitle'
+          onChange={parent.OnHandleChange}
+          type='text'
+          value={parent.state.jobTitle}
+          size='sm'
+          required={true}
+          autocomplete='off'
+          className='signup-input'
+          style={style.inputs}
+        />
+        <TextInput
+          placeholder='Email'
+          id='signUpEmail'
+          onChange={parent.OnHandleChange}
+          type='email'
+          value={parent.state.signUpEmail}
+          size='sm'
+          required={true}
+          autocomplete='off'
+          className='signup-input'
+          style={style.inputs}
+        />
+        <TextInput
+          placeholder='Telephone Number'
+          id='phoneNumber'
+          onChange={parent.OnHandleChange}
+          type='email'
+          value={parent.state.phoneNumber}
+          size='sm'
+          required={true}
+          autocomplete='off'
+          className='signup-input'
+          style={style.inputs}
+        />
+        <PictureUpload OnHandlePicture={parent.OnHandlePicture} />
+        <Dropdown
+          items={parent.state.events}
+          action={parent.OnHandleEventType}
+          label='Choose an event you will be participating in:'
+        />
+        <EventTimeSlot OnHandleGetTimeSlots={parent.OnHandleGetTimeSlots} />
+        <SubmitSignUp parent={parent} />
       </MDBContainer>
     </MDBTabPane>
+  );
+};
+
+const SubmitSignUp = ({ parent }) => {
+  return (
+    <div className='mt-5'>
+      <Text style={style.privacyPolicy}>
+        Read&nbsp;
+        <NavLink to='#' style={style.privacyPolicyLinks}>
+          <strong>Privacy Policy</strong>
+        </NavLink>
+        &nbsp;and&nbsp;
+        <NavLink to='#' style={style.privacyPolicyLinks}>
+          <strong>Terms and Conditions</strong>
+        </NavLink>
+      </Text>
+      <div className='m-auto text-center'>
+        <div className='d-inline-block' style={style.agreeContainer}>
+          <span
+            onClick={() => parent.OnHandleCheckPrivacy()}
+            style={style.privacyCheckBox}
+            className={parent.state.isCheckedPrivacy ? 'privacy-checked' : ''}
+          ></span>
+          <span style={style.agree}>I agree to the terms and conditions of BrandZone</span>
+        </div>
+        <Button
+          style={style.buttonSignUp}
+          className='btn-animate-signup'
+          id='btnSignup'
+          onClick={parent.OnHandleToggle('3')}
+        >
+          <Text className='btn-animate-text-signup'>Sign Up</Text>
+        </Button>
+      </div>
+    </div>
   );
 };
 
@@ -243,18 +348,24 @@ class HomeTab extends Component {
     email: '',
     password: '',
     emailError: false,
+    passwordError: false,
     companyName: '',
     companyCountry: '',
     companyProvince: '',
+    companyProfile: '',
     companyCity: '',
-    passwordError: false,
+    repName: '',
+    jobTitle: '',
+    phoneNumber: '',
+    signUpEmail: '',
+    isCheckedPrivacy: false,
     userType: [
       {
-        id: 0,
-        name: 'Participants'
+        id: 1,
+        name: 'Participant'
       },
       {
-        id: 1,
+        id: 2,
         name: 'Exhibitors'
       }
     ],
@@ -267,7 +378,22 @@ class HomeTab extends Component {
         id: 1,
         name: 'University'
       }
-    ]
+    ],
+    events: [
+      {
+        id: 0,
+        name: 'Feb 28 - New world Hotel Makati'
+      },
+      {
+        id: 1,
+        name: 'March 2 - Seda Hotel Cebu'
+      },
+      {
+        id: 2,
+        name: 'All'
+      }
+    ],
+    timeSlots: {}
   };
 
   OnHandleToggle = tab => () => {
@@ -289,12 +415,34 @@ class HomeTab extends Component {
     this.setState({ emailError, passwordError });
   };
 
+  OnHandleGetTimeSlots = timeSlots => {
+    this.setState({ timeSlots });
+  };
+
+  OnHandleCheckTerms = () => {
+    const { isCheckedPrivacy } = this.state;
+    this.setState({ isCheckedPrivacy: !isCheckedPrivacy });
+  };
+
   OnHandleSignUpType = id => {
+    console.log('test', id);
+  };
+
+  OnHandleEventType = id => {
     console.log('test', id);
   };
 
   OnHandleInstitutionType = id => {
     console.log('test 2', id);
+  };
+
+  OnHandlePicture = event => {
+    console.log('pic', event.target.files);
+  };
+
+  OnHandleCheckPrivacy = () => {
+    const { isCheckedPrivacy } = this.state;
+    this.setState({ isCheckedPrivacy: !isCheckedPrivacy });
   };
 
   render() {
@@ -400,15 +548,57 @@ const style = {
     top: '1em'
   },
   signUpForm: {
-    width: '22.8vw',
-    position: 'relative'
+    width: '22.9vw',
+    position: 'relative',
+    marginTop: '1.8em'
   },
   participant: {
     marginTop: '1em',
-    marginBottom: '1.3em'
+    marginBottom: '1.3em',
+    backgroundColor: '#4B5755',
+    borderRadius: 5
   },
   inputs: {
     margin: 0
+  },
+  divider: {
+    border: 'solid 0.7px #ffffff2e',
+    width: 150,
+    marginBottom: '2.5em',
+    marginTop: '1.8em'
+  },
+  privacyPolicy: {
+    color: '#fff',
+    fontFamily: 'Helvetica',
+    fontSize: 13.5,
+    letterSpacing: 0.3,
+    textAlign: 'center'
+  },
+  privacyPolicyLinks: {
+    color: '#fff',
+    textDecoration: 'underline',
+    cursor: 'pointer'
+  },
+  privacyCheckBox: {
+    height: 18,
+    width: 18,
+    border: 'solid 1px #8ec63f',
+    display: 'inline-block',
+    borderRadius: 3,
+    marginRight: 16,
+    cursor: 'pointer'
+  },
+  agree: {
+    fontSize: 13,
+    position: 'relative',
+    bottom: '.4em',
+    color: '#fff',
+    fontFamily: 'Helvetica'
+  },
+  agreeContainer: {
+    position: 'relative',
+    right: '1em',
+    width: '110%'
   }
 };
 export default HomeTab;

@@ -3,9 +3,9 @@ const styles = {
   main: {
     padding: 0,
     backgroundImage: `url("${bg}")`,
-    backgroundPosition: 'center',
+    backgroundRepeat: 'no-repeat',
     backgroundSize: 'cover',
-    minHeight: '100vh'
+    minHeight: '2080px'
   }
 };
 
