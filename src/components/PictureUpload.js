@@ -21,18 +21,25 @@ class PictureUpload extends Component {
   }
 
   render() {
+    const { parent } = this.props;
     return (
       <div style={style.main}>
         <div
-          className='text-center cursor-pointer'
+          className={`text-center cursor-pointer ${parent.state.profilePic != null ? 'p-3' : ''}`}
           onClick={() => this.OnHandleOpenFile()}
           style={style.box}
         >
-          <MDBIcon icon='plus' style={style.icon} />
-          <Text className='upload-text'>
-            Upload a <br />
-            Profile Picture
-          </Text>
+          {parent.state.profilePic ? (
+            <img style={style.profile} src={parent.state.profilePic} alt='profile' />
+          ) : (
+            <div>
+              <MDBIcon icon='plus' style={style.icon} />
+              <Text className='upload-text'>
+                Upload a <br />
+                Profile Picture
+              </Text>
+            </div>
+          )}
         </div>
         <MDBInput
           type='file'
@@ -60,6 +67,10 @@ const style = {
     borderRadius: 4,
     marginTop: '.8em',
     marginBottom: '1.3em'
+  },
+  profile: {
+    height: 120,
+    width: 120
   }
 };
 export default PictureUpload;

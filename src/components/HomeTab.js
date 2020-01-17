@@ -8,20 +8,11 @@ import TextInput from '../components/TextInput';
 import response from '../helper/response';
 import validation from '../helper/validation';
 import Dropdown from './Dropdown';
-import PictureUpload from './PictureUpload';
-import EventTimeSlot from './EventTimeSlot';
+import ParticipantSignUp from './ParticipantSignUp';
+import ExhibitorSignUp from './ExhibitorSignUp';
 
-const ParticipantDropDown = ({ parent }) => {
-  return (
-    <div style={style.participant}>
-      <Dropdown
-        items={parent.state.institutionTypes}
-        action={parent.OnHandleInstitutionType}
-        label='Type of Institution'
-      />
-    </div>
-  );
-};
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const TabLinks = ({ parent }) => {
   return (
@@ -121,13 +112,6 @@ const LoginTab = ({ parent }) => {
           required={true}
           autocomplete='off'
         />
-        <Text
-          className={`text-danger float-right text-error ${
-            parent.state.emailError ? 'd-block' : 'd-none'
-          }`}
-        >
-          {response.invalid('email address')}
-        </Text>
         <TextInput
           placeholder='Password'
           id='password'
@@ -137,14 +121,8 @@ const LoginTab = ({ parent }) => {
           size='sm'
           style={style.input}
           required={true}
+          className='mt-4'
         />
-        <Text
-          className={`text-danger float-right text-error bottom-3 ${
-            parent.state.passwordError ? 'd-block' : 'd-none'
-          }`}
-        >
-          {response.invalid('Invalid password')}
-        </Text>
         <Button
           style={style.buttonLogin}
           id='btnLoginTab'
@@ -167,144 +145,12 @@ const SingUpTab = ({ parent }) => {
       <hr style={style.tabTitleHeaderHr} />
       <MDBContainer style={style.signUpForm} id='signUpForm'>
         <Dropdown
-          items={parent.state.userType}
+          items={contents.userType}
           action={parent.OnHandleSignUpType}
           label='Registration Type'
         />
-        <ParticipantDropDown parent={parent} />
-        <TextInput
-          placeholder='Name of Company'
-          id='companyName'
-          onChange={parent.OnHandleChange}
-          type='text'
-          value={parent.state.companyName}
-          size='sm'
-          required={true}
-          autocomplete='off'
-          className='signup-input'
-          style={style.inputs}
-        />
-        <TextInput
-          placeholder='Country'
-          id='companyCountry'
-          onChange={parent.OnHandleChange}
-          type='text'
-          value={parent.state.companyCountry}
-          size='sm'
-          required={true}
-          autocomplete='off'
-          className='signup-input'
-          style={style.inputs}
-        />
-        <TextInput
-          placeholder='Province'
-          id='companyProvince'
-          onChange={parent.OnHandleChange}
-          type='text'
-          value={parent.state.companyProvince}
-          size='sm'
-          required={true}
-          autocomplete='off'
-          className='signup-input'
-          style={style.inputs}
-        />
-        <TextInput
-          placeholder='City'
-          id='companyCity'
-          onChange={parent.OnHandleChange}
-          type='text'
-          value={parent.state.companyCity}
-          size='sm'
-          required={true}
-          autocomplete='off'
-          className='signup-input'
-          style={style.inputs}
-        />
-        <TextInput
-          placeholder='Website'
-          id='companyWebsite'
-          onChange={parent.OnHandleChange}
-          type='text'
-          value={parent.state.companyWebsite}
-          size='sm'
-          required={true}
-          autocomplete='off'
-          className='signup-input'
-          style={style.inputs}
-        />
-        <TextInput
-          placeholder='Short profile of the Company'
-          id='companyProfile'
-          onChange={parent.OnHandleChange}
-          type='textarea'
-          value={parent.state.companyProfile}
-          size='sm'
-          required={true}
-          autocomplete='off'
-          className='signup-input'
-          style={style.inputs}
-          rows={5}
-        />
-        <hr style={style.divider} />
-        <TextInput
-          placeholder='Name of Representative'
-          id='repName'
-          onChange={parent.OnHandleChange}
-          type='text'
-          value={parent.state.repName}
-          size='sm'
-          required={true}
-          autocomplete='off'
-          className='signup-input'
-          style={style.inputs}
-        />
-        <TextInput
-          placeholder='Job Title'
-          id='jobTitle'
-          onChange={parent.OnHandleChange}
-          type='text'
-          value={parent.state.jobTitle}
-          size='sm'
-          required={true}
-          autocomplete='off'
-          className='signup-input'
-          style={style.inputs}
-        />
-        <TextInput
-          placeholder='Email'
-          id='signUpEmail'
-          onChange={parent.OnHandleChange}
-          type='email'
-          value={parent.state.signUpEmail}
-          size='sm'
-          required={true}
-          autocomplete='off'
-          className='signup-input'
-          style={style.inputs}
-        />
-        <TextInput
-          placeholder='Telephone Number'
-          id='phoneNumber'
-          onChange={parent.OnHandleChange}
-          type='email'
-          value={parent.state.phoneNumber}
-          size='sm'
-          required={true}
-          autocomplete='off'
-          className='signup-input'
-          style={style.inputs}
-        />
-        <PictureUpload OnHandlePicture={parent.OnHandlePicture} />
-        <Dropdown
-          items={parent.state.events}
-          action={parent.OnHandleEventType}
-          label='Choose an event you will be participating in:'
-        />
-        <EventTimeSlot
-          OnHandleGetTimeSlots={parent.OnHandleGetTimeSlots}
-          scheds={parent.state.scheds}
-        />
-        <SubmitSignUp parent={parent} />
+        {parent.OnHandleSignUpForm()}
+        {parent.state.userTypeSelected != null && <SubmitSignUp parent={parent} />}
       </MDBContainer>
     </MDBTabPane>
   );
@@ -336,7 +182,7 @@ const SubmitSignUp = ({ parent }) => {
           style={style.buttonSignUp}
           className='btn-animate-signup'
           id='btnSignup'
-          onClick={parent.OnHandleToggle('3')}
+          onClick={parent.OnHandleSignUp}
         >
           <Text className='btn-animate-text-signup'>Sign Up</Text>
         </Button>
@@ -350,8 +196,6 @@ class HomeTab extends Component {
     activeItem: '3',
     email: '',
     password: '',
-    emailError: false,
-    passwordError: false,
     companyName: '',
     companyCountry: '',
     companyProvince: '',
@@ -361,27 +205,10 @@ class HomeTab extends Component {
     jobTitle: '',
     phoneNumber: '',
     signUpEmail: '',
+    institutionName: '',
+    programs: '',
+    profilePic: null,
     isCheckedPrivacy: false,
-    userType: [
-      {
-        id: 1,
-        name: 'Participant'
-      },
-      {
-        id: 2,
-        name: 'Exhibitors'
-      }
-    ],
-    institutionTypes: [
-      {
-        id: 0,
-        name: 'Organization'
-      },
-      {
-        id: 1,
-        name: 'University'
-      }
-    ],
     events: [
       {
         id: 0,
@@ -522,7 +349,18 @@ class HomeTab extends Component {
         ]
       }
     ],
-    schedules: {}
+    schedules: {},
+    userTypeSelected: null,
+    institutionTypes: [
+      {
+        id: 0,
+        name: 'Organization'
+      },
+      {
+        id: 1,
+        name: 'University'
+      }
+    ]
   };
 
   OnHandleToggle = tab => () => {
@@ -537,15 +375,7 @@ class HomeTab extends Component {
     this.setState({ [event.target.id]: event.target.value, emailError, passwordError });
   };
 
-  OnHandleLogin = () => {
-    let { email, password, emailError, passwordError } = this.state;
-    emailError = !validation.isEmail(email);
-    passwordError = !validation.isValidPassword(password);
-    this.setState({ emailError, passwordError });
-  };
-
   OnHandleGetTimeSlots = schedules => {
-    console.log(schedules);
     this.setState({ schedules });
   };
 
@@ -555,7 +385,24 @@ class HomeTab extends Component {
   };
 
   OnHandleSignUpType = id => {
-    console.log('test', id);
+    this.setState({ userTypeSelected: id });
+  };
+
+  OnHandleSignUpForm = () => {
+    if (this.state.userTypeSelected === 0) {
+      return <ParticipantSignUp parent={this} />;
+    } else if (this.state.userTypeSelected === 1) {
+      return <ExhibitorSignUp parent={this} />;
+    }
+  };
+
+  OnHandleLogin = () => {
+    let { email, password } = this.state;
+    toast.error('Wow so easy !');
+  };
+
+  OnHandleSignUp = () => {
+    toast.error('Wow so easy !');
   };
 
   OnHandleEventType = id => {
@@ -573,7 +420,7 @@ class HomeTab extends Component {
   };
 
   OnHandlePicture = event => {
-    console.log('pic', event.target.files);
+    this.setState({ profilePic: URL.createObjectURL(event.target.files[0]) });
   };
 
   OnHandleCheckPrivacy = () => {
@@ -590,6 +437,7 @@ class HomeTab extends Component {
           <LoginTab parent={this} />
           <SingUpTab parent={this} />
         </MDBTabContent>
+        <ToastContainer />
       </MDBContainer>
     );
   }
@@ -688,20 +536,8 @@ const style = {
     position: 'relative',
     marginTop: '1.8em'
   },
-  participant: {
-    marginTop: '1em',
-    marginBottom: '1.3em',
-    backgroundColor: '#4B5755',
-    borderRadius: 5
-  },
   inputs: {
     margin: 0
-  },
-  divider: {
-    border: 'solid 0.7px #ffffff2e',
-    width: 150,
-    marginBottom: '2.5em',
-    marginTop: '1.8em'
   },
   privacyPolicy: {
     color: '#fff',

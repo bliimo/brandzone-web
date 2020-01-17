@@ -14,7 +14,7 @@ const Active = ({ parent }) => {
 
   return (
     <div className='cursor-pointer' onClick={() => parent.OnHandleOpen()}>
-      <Text style={style.active} className={`${index != null ? 'opacity-1' : 'opacity-.5'}`}>
+      <Text style={style.active} className={`${isOpen ? 'opacity-1' : 'opacity-.5'}`}>
         {index != null ? items[index]['name'] : parent.state.label}
         <MDBIcon
           icon={isOpen ? 'caret-up' : 'caret-down'}
