@@ -1,3 +1,8 @@
+body {
+  background: url('./assets/images/bg.png') no-repeat center center;
+  background-size: cover;
+}
+
 @font-face {
   font-family: 'Harabara';
   font-style: normal;
@@ -621,4 +626,69 @@ textarea.signup-input {
 
 #institutionName {
   margin-top: 2em !important;
+}
+.btn-animate-time.inactive:hover {
+  border: solid 1.3px #b1b1b1a3 !important;
+  color: #b1b1b1 !important;
+  text-transform: capitalize !important;
+  transition: 0.2s;
+  -webkit-animation: fadeout-btn 1s; /* Safari and Chrome */
+  -moz-animation: fadeout-btn 1s; /* Firefox */
+  -ms-animation: fadeout-btn 1s; /* Internet Explorer */
+  -o-animation: fadeout-btn 1s; /* Opera */
+  animation: fadeout-btn 1s;
+  background-color: rgba(75, 87, 85, 0.2) !important;
+}
+
+.btn-animate-text-time {
+  position: absolute;
+  line-height: 35px;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  display: block;
+  transition: 0.2s;
+}
+.btn-animate-text-time:hover {
+  font-size: 15px;
+  font-weight: normal;
+}
+
+.font-size-15 {
+  font-size: 15px;
+}
+
+.time-collapse {
+  -webkit-transition: none;
+  transition: none;
+}
+
+@keyframes fadeout-btn {
+  from {
+    background-color: #ffffffad;
+  }
+  to {
+    background-color: rgba(75, 87, 85, 0.2) !important;
+  }
+}
+
+/* Firefox */
+@-moz-keyframes fadeout-btn {
+  from {
+    background-color: #ffffffad;
+  }
+  to {
+    background-color: rgba(75, 87, 85, 0.2) !important;
+  }
+}
+
+/* Safari and Chrome */
+@-webkit-keyframes fadeout-btn {
+  from {
+    background-color: #ffffffad;
+  }
+  to {
+    background-color: rgba(75, 87, 85, 0.2) !important;
+  }
 }

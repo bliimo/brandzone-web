@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-d
 import { connect } from 'react-redux';
 
 import Home from '../Home/Home';
-import Main from '../Main/Main';
+import Event from '../Event/Event';
 import styles from './App.style';
 
 class App extends Component {
@@ -15,7 +15,8 @@ class App extends Component {
           {/* {isLoggedIn ? <Redirect to="/" /> : <Redirect to="/login" />} */}
           <Switch>
             {/* <Route exact path="/" component={About} /> */}
-            <Route path='/' component={Home} />
+            <Route exact path='/' component={Home} />
+            <Route exact path='/events' component={Event} />
           </Switch>
         </div>
       </Router>
