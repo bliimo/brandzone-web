@@ -622,3 +622,29 @@ textarea.signup-input {
 #institutionName {
   margin-top: 2em !important;
 }
+
+.btn-animate-time:hover {
+  border: solid 1.3px #b1b1b1 !important;
+  color: #b1b1b1 !important;
+  text-transform: capitalize !important;
+  transition: 0.2s;
+}
+.btn-animate-text-time {
+  position: absolute;
+  line-height: 35px;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  display: block;
+  transition: 0.2s;
+}
+.btn-animate-text-time:hover {
+  font-size: 15px;
+  font-weight: normal;
+}
+
+.time-collapse {
+  -webkit-transition: none;
+  transition: none;
+}

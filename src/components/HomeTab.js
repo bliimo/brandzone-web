@@ -5,7 +5,6 @@ import Button from '../components/Button';
 import contents from '../constants/contents';
 import Text from '../components/Text';
 import TextInput from '../components/TextInput';
-import response from '../helper/response';
 import validation from '../helper/validation';
 import Dropdown from './Dropdown';
 import ParticipantSignUp from './ParticipantSignUp';
@@ -19,7 +18,7 @@ const TabLinks = ({ parent }) => {
     <MDBNav tabs className='justify-content-center'>
       <MDBNavItem>
         <NavLink
-          to='/'
+          to='#'
           className={`nav-links ${parent.state.activeItem === '1' ? 'active-tab' : ''}`}
           onClick={parent.OnHandleToggle('1')}
           role='tab'
@@ -212,7 +211,8 @@ class HomeTab extends Component {
     events: [
       {
         id: 0,
-        name: 'Feb 28 - New world Hotel Makati',
+        date: 'Feb 28',
+        address: 'New world Hotel Makati',
         scheds: [
           {
             id: 1,
@@ -278,7 +278,8 @@ class HomeTab extends Component {
       },
       {
         id: 1,
-        name: 'March 2 - Seda Hotel Cebu',
+        date: 'Feb 28',
+        address: 'New world Hotel Makati',
         scheds: [
           {
             id: 1,
@@ -314,7 +315,8 @@ class HomeTab extends Component {
       },
       {
         id: 2,
-        name: 'All',
+        date: 'Feb 28',
+        address: 'All',
         scheds: [
           {
             id: 7,
@@ -407,11 +409,13 @@ class HomeTab extends Component {
 
   OnHandleEventType = id => {
     let { events, scheds } = this.state;
+
     events.map(e => {
       if (e['id'] == id) {
         scheds = e.scheds;
       }
     });
+
     this.setState({ scheds });
   };
 
@@ -427,6 +431,15 @@ class HomeTab extends Component {
     const { isCheckedPrivacy } = this.state;
     this.setState({ isCheckedPrivacy: !isCheckedPrivacy });
   };
+
+  componentWillMount() {
+    const { events } = this.state;
+    for (let i = 0; i < events.length; i++) {
+      events[i]['name'] = `${events[i]['date']} - ${events[i]['address']}`;
+    }
+
+    this.setState({ events });
+  }
 
   render() {
     return (
