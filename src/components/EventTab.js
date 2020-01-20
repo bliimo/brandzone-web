@@ -3,6 +3,7 @@ import { MDBContainer, MDBTabPane, MDBTabContent, MDBNav, MDBNavItem, MDBCollaps
 import { NavLink } from 'react-router-dom';
 import Text from '../components/Text';
 import Button from './Button';
+import BookingProfileList from './BookingProfileList';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -66,7 +67,7 @@ const Tabs = ({ parent }) => {
 const Schedule = ({ data, parent }) => {
   const { id, startTime, endTime } = data;
   return (
-    <MDBContainer
+    <div
       className={`mb-3 text-light fade-effect ${
         id === parent.state.isOpen || parent.state.isOpen === null
           ? 'd-block'
@@ -84,7 +85,7 @@ const Schedule = ({ data, parent }) => {
           }`}
         >{`${startTime} - ${endTime}`}</Text>
       </Button>
-      <MDBContainer
+      <div
         className={`fade-effect .fade-out-effect mt-3 time-collapse ${
           id === parent.state.isOpen ? 'd-block' : 'd-none'
         }`}
@@ -92,16 +93,9 @@ const Schedule = ({ data, parent }) => {
         <Text className='text-center' style={style.participantText}>
           Available Participants:
         </Text>
-        <p>
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt
-          ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation
-          ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in
-          reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur
-          sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id
-          est laborum
-        </p>
-      </MDBContainer>
-    </MDBContainer>
+        <BookingProfileList />
+      </div>
+    </div>
   );
 };
 
@@ -288,17 +282,18 @@ class EventTab extends Component {
   };
   render() {
     return (
-      <MDBContainer style={style.main} id='mainTab'>
+      <div style={style.main} className='p-0' id='mainTab'>
         <Tabs parent={this} />
         <ToastContainer />
-      </MDBContainer>
+      </div>
     );
   }
 }
 
 const style = {
   main: {
-    width: '63.7vw'
+    width: '100%',
+    padding: '0 !important'
   },
   tabs: {
     backgroundColor: 'transparent',
@@ -369,7 +364,8 @@ const style = {
     fontFamily: 'Helvetica',
     position: 'relative',
     top: '.8em',
-    color: '#fff'
+    color: '#fff',
+    marginBottom: '0'
   }
 };
 export default EventTab;

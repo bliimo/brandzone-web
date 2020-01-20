@@ -145,7 +145,16 @@ h6 {
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
+  .actionList {
+    padding: 2em 1em !important;
+  }
+  #row-profile {
+    height: auto !important;
+  }
+  .btn-animate-time {
+    width: 90% !important;
+  }
   .header-nav {
     padding: 1.5em !important;
   }
@@ -180,6 +189,9 @@ h6 {
 }
 
 @media only screen and (max-width: 1024px) and (min-width: 769px) {
+  #row-profile {
+    height: auto !important;
+  }
   #sideBar {
     width: 50vw !important;
   }
@@ -691,4 +703,14 @@ textarea.signup-input {
   to {
     background-color: rgba(75, 87, 85, 0.2) !important;
   }
+}
+
+.profileBtnList p {
+  margin-bottom: 0 !important;
+  height: 100% !important;
+  line-height: 23px;
+  letter-spacing: 0;
+}
+
+@media only screen and (min-width: 1024px) {
 }
