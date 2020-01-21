@@ -4,8 +4,7 @@ const styles = {
     padding: 0,
     // backgroundImage: `url("${bg}")`,
     backgroundRepeat: 'no-repeat',
-    backgroundSize: 'cover',
-    minHeight: '2080px'
+    backgroundSize: 'cover'
   }
 };
 

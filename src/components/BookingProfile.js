@@ -166,7 +166,7 @@ class BookingProfileList extends Component {
               </MDBRow>
             </MDBCol>
             <MDBCol size={'12'} className='sched-text'>
-              <Text className='text-center' style={style.scheduleText}>
+              <Text className='text-center mb-0' style={style.scheduleText}>
                 Available Schedules:
               </Text>
             </MDBCol>
@@ -338,9 +338,8 @@ const style = {
     fontSize: 11.5,
     fontFamily: 'Helvetica',
     position: 'relative',
-    top: '.8em',
     color: '#fff',
-    marginBottom: '0'
+    paddingTop: '1em'
   }
 };
 export default BookingProfileList;

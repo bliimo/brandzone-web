@@ -761,6 +761,9 @@ textarea.signup-input {
 }
 
 @media only screen and (max-width: 767px) {
+  .container.booking-profile-main {
+    margin-top: 1em !important;
+  }
   .actionList p,
   .profile-institution-info > p {
     text-align: center !important;
@@ -870,9 +873,6 @@ div.slot-list-row:not(:first-of-type) {
 }
 
 @media only screen and (min-width: 768px) {
-  #first-row-profile-btn {
-    margin-top: 0 !important;
-  }
   .back-button-text span {
     margin-left: 1.8em !important;
   }
@@ -888,6 +888,59 @@ div.slot-list-row:not(:first-of-type) {
   }
 }
 
+@media only screen and (min-width: 768px) and (max-width: 1024px) {
+}
+
+@media only screen and (width: 768px) {
+  .sched-text p {
+    padding-top: 4em;
+    padding-bottom: 1em;
+  }
+  .col-footer {
+    position: relative;
+    left: 0 !important;
+    text-align: left;
+  }
+  .footer-link {
+    padding: 0;
+  }
+  .footer-link:last-child {
+    margin-top: 1em !important;
+  }
+  .footer-link li {
+    margin: 0 0.2em !important;
+  }
+  .footer-last-link {
+    position: relative;
+    bottom: 1em;
+  }
+  .container.w-100.footer.p-5 {
+    padding: 2em 2em 1em 2em !important;
+  }
+}
+
+@media only screen and (width: 1024px) {
+  .col-footer {
+    position: relative;
+    left: 2em;
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+  .col-footer {
+    position: relative;
+    left: 10em;
+  }
+}
+
 .container.booking-profile-main {
   margin-top: 2.8em;
+}
+
+.footer {
+  max-width: 100% !important;
+}
+
+.footer-link li {
+  margin-right: 1.8em;
 }

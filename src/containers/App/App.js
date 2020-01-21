@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 import Home from '../Home/Home';
 import Event from '../Event/Event';
 import styles from './App.style';
-
+import Footer from '../../components/Footer';
 class App extends Component {
   render() {
     const { isLoggedIn } = this.props;
@@ -19,6 +19,7 @@ class App extends Component {
             <Route exact path='/events' component={Event} />
           </Switch>
         </div>
+        <Footer />
       </Router>
     );
   }
