@@ -712,5 +712,182 @@ textarea.signup-input {
   letter-spacing: 0;
 }
 
+@media only screen and (min-width: 769px) {
+  .sched-text {
+    position: relative;
+    top: 1.8em;
+  }
+  .booking-profile {
+    display: inline-block;
+    padding: 0 5.7em !important;
+  }
+
+  .booking-profile-back {
+    width: 150px;
+    position: absolute;
+  }
+  .booking-profile-main {
+    width: 60% !important;
+  }
+
+  #booking-profile-row {
+    height: 390px !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+  }
+  #booking-profile-row .col-img {
+    padding-left: 10px !important;
+    padding-right: 0 !important;
+  }
+  #booking-profile-row .col-info {
+    padding: 1.1em 2.6em;
+  }
+}
+
+.col-img img {
+  object-fit: cover !important;
+}
+#row-profile img {
+  object-fit: cover !important;
+}
+
+@media only screen and (max-width: 1024px) {
+  #booking-profile-row p.booking-profile-info.pl-2 {
+    padding: 0 !important;
+  }
+  .btn-profile {
+    width: 75% !important;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .actionList p,
+  .profile-institution-info > p {
+    text-align: center !important;
+  }
+  .profile-institution-info > p {
+    margin-top: 0.5em;
+  }
+  .btn-profile {
+    width: 88% !important;
+  }
+  p.back-button-text {
+    text-align: left;
+  }
+  p.back-button-text span {
+    margin-left: 2em !important;
+  }
+  #first-row-profile-btn {
+    margin-top: 4em !important;
+  }
+  .col-12.sched-text {
+    position: relative;
+    top: 1.2em;
+  }
+}
+
+@media only screen and (width: 1024px) {
+  .container.booking-profile-main {
+    max-width: 540px !important;
+  }
+  .col-md-6.col-lg-6.col-xl-8.col-info.profile-institution-info {
+    padding: 1em 1.4em !important;
+  }
+}
+
+@media only screen and (width: 768px) {
+  .container-fluid.booking-profile {
+    width: 75% !important;
+    margin: auto !important;
+  }
+}
+
 @media only screen and (min-width: 1024px) {
+  .slot-list-row {
+    padding: 0 6em 0 5.5em;
+    margin: auto !important;
+  }
+}
+
+.slot-list-row {
+  position: relative;
+  bottom: 2em;
+}
+
+div.slot-list-row:not(:first-of-type) {
+  margin-top: 1em !important;
+}
+.btn-animate-get-slot {
+  transition: 0.08s;
+}
+.btn-animate-get-slot:hover {
+  font-size: 13px !important;
+  margin-top: -3px;
+}
+.btn-animate-get-slot-text,
+.btn-animate-get-slot-list {
+  transition: 0.1s !important;
+}
+.btn-animate-get-slot-list:hover {
+  border: solid 1.5px #8ec63f !important;
+  color: #8ec63f !important;
+  font-weight: bolder !important;
+}
+.btn-animate-get-slot-text {
+  margin-top: -1px;
+}
+.btn-animate-get-slot-text:hover {
+  font-weight: bold !important;
+  font-size: 12px !important;
+}
+.back-button-text span {
+  transition: 0.2s;
+}
+.back-button-text span:hover {
+  font-size: 11px !important;
+  opacity: 1 !important;
+}
+
+.btn-animate-get-slot-text {
+  top: 0 !important;
+  height: 100% !important;
+  line-height: 25px !important;
+}
+
+#chevron {
+  background: url('./assets/images/back.png') left no-repeat;
+  height: 11px;
+  width: 11px;
+  background-size: contain;
+  position: relative;
+  top: 0.87em;
+  width: 100%;
+  left: 0.5em;
+}
+
+.back-button-text:hover #chevron {
+  background-image: url('./assets/images/chevron_left_border.png') !important;
+}
+
+@media only screen and (min-width: 768px) {
+  #first-row-profile-btn {
+    margin-top: 0 !important;
+  }
+  .back-button-text span {
+    margin-left: 1.8em !important;
+  }
+  .container.booking-profile-main {
+    position: relative;
+    bottom: 0.8em;
+  }
+  #chevron {
+    margin-left: 0.4em;
+  }
+  .cursor-pointer.booking-profile-back {
+    margin-top: 1.3em;
+  }
+}
+
+.container.booking-profile-main {
+  margin-top: 2.8em;
 }

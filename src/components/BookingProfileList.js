@@ -36,7 +36,13 @@ const Profile = ({ parent }) => {
               <Text style={style.name}>
                 <EllipsisText text={`${e.firstName} ${e.lastName}`} length={19} />
               </Text>
-              <Button className='profileBtnList' style={style.btnProfile}>
+              <Button
+                className='profileBtnList'
+                onClick={() => {
+                  parent.state.OnHandleSelectProfile(e);
+                }}
+                style={style.btnProfile}
+              >
                 <Text>{'View Profile'}</Text>
               </Button>
               <Button className='profileBtnList' style={style.btnSlot}>
@@ -61,7 +67,17 @@ class BookingProfileList extends Component {
         lastName: 'Name',
         institutionName: 'Institution',
         bookingId: 1,
-        profilePic: 'https://i.pravatar.cc/300'
+        profilePic: 'https://i.pravatar.cc/300',
+        eventId: 1
+      },
+      {
+        id: 2,
+        firstName: 'Participant',
+        lastName: 'Name',
+        institutionName: 'Institution',
+        bookingId: 1,
+        profilePic: 'https://i.pravatar.cc/300',
+        eventId: 1
       },
       {
         id: 1,
@@ -69,7 +85,8 @@ class BookingProfileList extends Component {
         lastName: 'Name',
         institutionName: 'Institution',
         bookingId: 1,
-        profilePic: 'https://i.pravatar.cc/300'
+        profilePic: 'https://i.pravatar.cc/300',
+        eventId: 1
       },
       {
         id: 1,
@@ -77,15 +94,8 @@ class BookingProfileList extends Component {
         lastName: 'Name',
         institutionName: 'Institution',
         bookingId: 1,
-        profilePic: 'https://i.pravatar.cc/300'
-      },
-      {
-        id: 1,
-        firstName: 'Participant',
-        lastName: 'Name',
-        institutionName: 'Institution',
-        bookingId: 1,
-        profilePic: 'https://i.pravatar.cc/300'
+        profilePic: 'https://i.pravatar.cc/300',
+        eventId: 1
       },
       {
         id: 1,
@@ -93,7 +103,8 @@ class BookingProfileList extends Component {
         lastName: 'Name',
         institutionName: 'Institution',
         bookingId: 1,
-        profilePic: 'https://i.pravatar.cc/300'
+        profilePic: 'https://i.pravatar.cc/300',
+        eventId: 1
       },
       {
         id: 1,
@@ -101,12 +112,17 @@ class BookingProfileList extends Component {
         lastName: 'Name',
         institutionName: 'Institution',
         bookingId: 1,
-        profilePic: 'https://i.pravatar.cc/300'
+        profilePic: 'https://i.pravatar.cc/300',
+        eventId: 1
       }
-    ]
+    ],
+    OnHandleSelectProfile: null
   };
 
-  componentWillMount() {}
+  componentWillMount() {
+    const { OnHandleSelectProfile } = this.props.parent;
+    this.setState({ OnHandleSelectProfile });
+  }
 
   render() {
     return (
@@ -134,7 +150,8 @@ const style = {
     textTransform: 'uppercase',
     fontSize: 16,
     position: 'relative',
-    bottom: '.2em'
+    bottom: '.2em',
+    textAlign: 'left'
   },
   mainCol: {
     marginTop: '1.8em'
@@ -145,7 +162,8 @@ const style = {
     letterSpacing: 1.1,
     textTransform: 'capitalize',
     fontSize: 13,
-    marginTop: 4
+    marginTop: 4,
+    textAlign: 'left'
   },
   btnProfile: {
     border: '.5px solid rgba(255, 255, 255, 0.56)',

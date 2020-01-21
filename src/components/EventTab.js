@@ -4,6 +4,7 @@ import { NavLink } from 'react-router-dom';
 import Text from '../components/Text';
 import Button from './Button';
 import BookingProfileList from './BookingProfileList';
+import BookingProfile from './BookingProfile';
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
@@ -54,11 +55,16 @@ const Tabs = ({ parent }) => {
       <MDBNav tabs className='justify-content-center event-tabs'>
         {link}
       </MDBNav>
-      <MDBTabContent className='card' activeItem={parent.state.activeItem} style={style.tabs}>
-        {event}
-      </MDBTabContent>
-      <div style={style.schedules}>
-        <Schedules parent={parent} />
+      <div className={`text-center ${parent.state.selectedProfile != null ? 'd-none' : 'd-block'}`}>
+        <MDBTabContent className='card' activeItem={parent.state.activeItem} style={style.tabs}>
+          {event}
+        </MDBTabContent>
+        <div style={style.schedules}>
+          <Schedules parent={parent} />
+        </div>
+      </div>
+      <div className={`text-center ${parent.state.selectedProfile != null ? 'd-block' : 'd-none'}`}>
+        <BookingProfile parent={parent} />
       </div>
     </div>
   );
@@ -93,7 +99,7 @@ const Schedule = ({ data, parent }) => {
         <Text className='text-center' style={style.participantText}>
           Available Participants:
         </Text>
-        <BookingProfileList />
+        <BookingProfileList parent={parent} />
       </div>
     </div>
   );
@@ -257,12 +263,13 @@ class EventTab extends Component {
       }
     ],
     isOpen: null,
-    schedules: []
+    schedules: [],
+    selectedProfile: null
   };
 
   OnHandleToggle = tab => () => {
     const { events } = this.state;
-    this.setState({ isOpen: null, schedules: events[tab].scheds });
+    this.setState({ isOpen: null, schedules: events[tab].scheds, selectedProfile: null });
     if (this.state.activeItem !== tab) this.setState({ activeItem: tab });
   };
 
@@ -274,12 +281,21 @@ class EventTab extends Component {
   OnHandleOpenTime = id => {
     let { isOpen } = this.state;
     isOpen = id != isOpen ? id : null;
-    this.setState({ isOpen });
+    this.setState({ isOpen, selectedProfile: null });
   };
 
   OnHandleGetTimeSlots = schedules => {
     this.setState({ schedules });
   };
+
+  OnHandleSelectProfile = selectedProfile => {
+    this.setState({ selectedProfile });
+  };
+
+  OnHandleResetProfile = () => {
+    this.setState({ selectedProfile: null });
+  };
+
   render() {
     return (
       <div style={style.main} className='p-0' id='mainTab'>
