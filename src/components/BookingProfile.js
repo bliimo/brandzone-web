@@ -5,6 +5,198 @@ import Text from './Text';
 import EllipsisText from 'react-ellipsis-text';
 import MediaQuery from 'react-responsive';
 
+const Slots = () => {
+  return (
+    <React.Fragment>
+      <MDBRow className='slot-list-row mt-0' id='first-row-profile-btn'>
+        <MDBCol size={'9'} className='pr-0'>
+          <Button style={style.btnSlotList} className='btn-profile'>
+            <Text style={style.time}>2:30 - 2:50</Text>
+          </Button>
+        </MDBCol>
+        <MDBCol size={'3'} className='p-0'>
+          <Button style={style.btnBookList} className='btn-animate-get-slot-list'>
+            <Text style={style.time} className='btn-animate-get-slot-text'>
+              Get slot
+            </Text>
+          </Button>
+        </MDBCol>
+      </MDBRow>
+      <MDBRow className='slot-list-row mt-0'>
+        <MDBCol size={'9'} className='pr-0'>
+          <Button style={style.btnSlotList} className='btn-profile'>
+            <Text style={style.time}>2:30 - 2:50</Text>
+          </Button>
+        </MDBCol>
+        <MDBCol size={'3'} className='p-0'>
+          <Button style={style.btnBookList} className='btn-animate-get-slot-list'>
+            <Text style={style.time} className='btn-animate-get-slot-text'>
+              Get slot
+            </Text>
+          </Button>
+        </MDBCol>
+      </MDBRow>
+      <MDBRow className='slot-list-row mt-0'>
+        <MDBCol size={'9'} className='pr-0'>
+          <Button style={style.btnSlotList} className='btn-profile'>
+            <Text style={style.time}>2:30 - 2:50</Text>
+          </Button>
+        </MDBCol>
+        <MDBCol size={'3'} className='p-0'>
+          <Button style={style.btnBookList} className='btn-animate-get-slot-list'>
+            <Text style={style.time} className='btn-animate-get-slot-text'>
+              Get slot
+            </Text>
+          </Button>
+        </MDBCol>
+      </MDBRow>
+      <MDBRow className='slot-list-row mt-0'>
+        <MDBCol size={'9'} className='pr-0'>
+          <Button style={style.btnSlotList} className='btn-profile'>
+            <Text style={style.time}>2:30 - 2:50</Text>
+          </Button>
+        </MDBCol>
+        <MDBCol size={'3'} className='p-0'>
+          <Button style={style.btnBookList} className='btn-animate-get-slot-list'>
+            <Text style={style.time} className='btn-animate-get-slot-text'>
+              Get slot
+            </Text>
+          </Button>
+        </MDBCol>
+      </MDBRow>
+    </React.Fragment>
+  );
+};
+
+const Informations = ({ parent }) => {
+  const { institutionName } = parent.state.profile;
+  return (
+    <MDBCol xl={'8'} lg={'6'} md={'6'} className='col-info profile-institution-info'>
+      <Text style={style.institutionName}>{institutionName}</Text>
+      <MDBRow className='mr-0 ml-0'>
+        <MDBCol xl={'6'} md={'12'} className='p-0'>
+          <Text className='booking-profile-info' style={style.profileInfo}>
+            Profile Description:&nbsp;&nbsp;
+            <MediaQuery maxDeviceWidth={768}>
+              <EllipsisText
+                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
+                length={35}
+              />
+            </MediaQuery>
+            <MediaQuery minDeviceWidth={768}>
+              <EllipsisText
+                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
+                length={18}
+              />
+            </MediaQuery>
+          </Text>
+        </MDBCol>
+        <MDBCol xl={'6'} md={'12'} className='p-0'>
+          <Text className='booking-profile-info pl-2' style={style.profileInfo}>
+            Tel Number:&nbsp;&nbsp;
+            <MediaQuery maxDeviceWidth={768}>
+              <EllipsisText
+                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
+                length={40}
+              />
+            </MediaQuery>
+            <MediaQuery minDeviceWidth={768}>
+              <EllipsisText
+                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
+                length={18}
+              />
+            </MediaQuery>
+          </Text>
+        </MDBCol>
+        <MDBCol xl={'6'} md={'12'} className='p-0'>
+          <Text className='booking-profile-info' style={style.profileInfo}>
+            Participant Name:&nbsp;&nbsp;
+            <MediaQuery maxDeviceWidth={768}>
+              <EllipsisText
+                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
+                length={39}
+              />
+            </MediaQuery>
+            <MediaQuery minDeviceWidth={768}>
+              <EllipsisText
+                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
+                length={19}
+              />
+            </MediaQuery>
+          </Text>
+        </MDBCol>
+        <MDBCol xl={'6'} md={'12'} className='p-0'>
+          <Text className='booking-profile-info pl-2' style={style.profileInfo}>
+            Email:&nbsp;&nbsp;
+            <MediaQuery maxDeviceWidth={768}>
+              <EllipsisText
+                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
+                length={45}
+              />
+            </MediaQuery>
+            <MediaQuery minDeviceWidth={768}>
+              <EllipsisText
+                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
+                length={23}
+              />
+            </MediaQuery>
+          </Text>
+        </MDBCol>
+        <MDBCol xl={'6'} md={'12'} className='p-0'>
+          <Text className='booking-profile-info' style={style.profileInfo}>
+            Job Title:&nbsp;&nbsp;
+            <MediaQuery maxDeviceWidth={768}>
+              <EllipsisText
+                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
+                length={45}
+              />
+            </MediaQuery>
+            <MediaQuery minDeviceWidth={768}>
+              <EllipsisText
+                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
+                length={27}
+              />
+            </MediaQuery>
+          </Text>
+        </MDBCol>
+        <MDBCol xl={'6'} md={'12'} className='p-0'>
+          <Text className='booking-profile-info pl-2' style={style.profileInfo}>
+            Available Slots:&nbsp;&nbsp;
+            <MediaQuery maxDeviceWidth={768}>
+              <EllipsisText
+                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
+                length={40}
+              />
+            </MediaQuery>
+            <MediaQuery minDeviceWidth={768}>
+              <EllipsisText
+                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
+                length={15}
+              />
+            </MediaQuery>
+          </Text>
+        </MDBCol>
+        <MDBCol size={'12'} className='p-0 mt-2'>
+          <MDBRow>
+            <MDBCol size={'8'} className='pr-0'>
+              <Button style={style.btnSlot} className='btn-profile main-btn-profile'>
+                <Text style={style.time}>2:30 - 2:50</Text>
+              </Button>
+            </MDBCol>
+            <MDBCol size={'4'} className='p-0 '>
+              <Button style={style.btnBook}>
+                <Text style={style.time} className='btn-animate-get-slot'>
+                  Get slot
+                </Text>
+              </Button>
+            </MDBCol>
+          </MDBRow>
+        </MDBCol>
+      </MDBRow>
+    </MDBCol>
+  );
+};
+
 class BookingProfileList extends Component {
   state = {
     profile: {
@@ -25,7 +217,7 @@ class BookingProfileList extends Component {
   }
 
   render() {
-    const { profilePic, institutionName } = this.state.profile;
+    const { profilePic } = this.state.profile;
     return (
       <MDBContainer fluid className='booking-profile'>
         <Button
@@ -42,191 +234,14 @@ class BookingProfileList extends Component {
             <MDBCol xl={'4'} lg={'6'} md={'6'} className='col-img'>
               <img className='booking-profile-img w-100 h-100' src={profilePic} alt='profile' />
             </MDBCol>
-            <MDBCol xl={'8'} lg={'6'} md={'6'} className='col-info profile-institution-info'>
-              <Text style={style.institutionName}>{institutionName}</Text>
-              <MDBRow className='mr-0 ml-0'>
-                <MDBCol xl={'6'} md={'12'} className='p-0'>
-                  <Text className='booking-profile-info' style={style.profileInfo}>
-                    Profile Description:&nbsp;&nbsp;
-                    <MediaQuery maxDeviceWidth={768}>
-                      <EllipsisText
-                        text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
-                        length={35}
-                      />
-                    </MediaQuery>
-                    <MediaQuery minDeviceWidth={768}>
-                      <EllipsisText
-                        text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
-                        length={18}
-                      />
-                    </MediaQuery>
-                  </Text>
-                </MDBCol>
-                <MDBCol xl={'6'} md={'12'} className='p-0'>
-                  <Text className='booking-profile-info pl-2' style={style.profileInfo}>
-                    Tel Number:&nbsp;&nbsp;
-                    <MediaQuery maxDeviceWidth={768}>
-                      <EllipsisText
-                        text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
-                        length={40}
-                      />
-                    </MediaQuery>
-                    <MediaQuery minDeviceWidth={768}>
-                      <EllipsisText
-                        text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
-                        length={18}
-                      />
-                    </MediaQuery>
-                  </Text>
-                </MDBCol>
-                <MDBCol xl={'6'} md={'12'} className='p-0'>
-                  <Text className='booking-profile-info' style={style.profileInfo}>
-                    Participant Name:&nbsp;&nbsp;
-                    <MediaQuery maxDeviceWidth={768}>
-                      <EllipsisText
-                        text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
-                        length={39}
-                      />
-                    </MediaQuery>
-                    <MediaQuery minDeviceWidth={768}>
-                      <EllipsisText
-                        text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
-                        length={19}
-                      />
-                    </MediaQuery>
-                  </Text>
-                </MDBCol>
-                <MDBCol xl={'6'} md={'12'} className='p-0'>
-                  <Text className='booking-profile-info pl-2' style={style.profileInfo}>
-                    Email:&nbsp;&nbsp;
-                    <MediaQuery maxDeviceWidth={768}>
-                      <EllipsisText
-                        text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
-                        length={45}
-                      />
-                    </MediaQuery>
-                    <MediaQuery minDeviceWidth={768}>
-                      <EllipsisText
-                        text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
-                        length={23}
-                      />
-                    </MediaQuery>
-                  </Text>
-                </MDBCol>
-                <MDBCol xl={'6'} md={'12'} className='p-0'>
-                  <Text className='booking-profile-info' style={style.profileInfo}>
-                    Job Title:&nbsp;&nbsp;
-                    <MediaQuery maxDeviceWidth={768}>
-                      <EllipsisText
-                        text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
-                        length={45}
-                      />
-                    </MediaQuery>
-                    <MediaQuery minDeviceWidth={768}>
-                      <EllipsisText
-                        text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
-                        length={27}
-                      />
-                    </MediaQuery>
-                  </Text>
-                </MDBCol>
-                <MDBCol xl={'6'} md={'12'} className='p-0'>
-                  <Text className='booking-profile-info pl-2' style={style.profileInfo}>
-                    Available Slots:&nbsp;&nbsp;
-                    <MediaQuery maxDeviceWidth={768}>
-                      <EllipsisText
-                        text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
-                        length={40}
-                      />
-                    </MediaQuery>
-                    <MediaQuery minDeviceWidth={768}>
-                      <EllipsisText
-                        text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
-                        length={15}
-                      />
-                    </MediaQuery>
-                  </Text>
-                </MDBCol>
-                <MDBCol size={'12'} className='p-0 mt-2'>
-                  <MDBRow>
-                    <MDBCol size={'8'} className='pr-0'>
-                      <Button style={style.btnSlot} className='btn-profile main-btn-profile'>
-                        <Text style={style.time}>2:30 - 2:50</Text>
-                      </Button>
-                    </MDBCol>
-                    <MDBCol size={'4'} className='p-0 '>
-                      <Button style={style.btnBook}>
-                        <Text style={style.time} className='btn-animate-get-slot'>
-                          Get slot
-                        </Text>
-                      </Button>
-                    </MDBCol>
-                  </MDBRow>
-                </MDBCol>
-              </MDBRow>
-            </MDBCol>
+            <Informations parent={this} />
             <MDBCol size={'12'} className='sched-text'>
               <Text className='text-center mb-0 avail-sched-text' style={style.scheduleText}>
                 Available Schedules:
               </Text>
             </MDBCol>
           </MDBRow>
-          <MDBRow className='slot-list-row mt-0' id='first-row-profile-btn'>
-            <MDBCol size={'9'} className='pr-0'>
-              <Button style={style.btnSlotList} className='btn-profile'>
-                <Text style={style.time}>2:30 - 2:50</Text>
-              </Button>
-            </MDBCol>
-            <MDBCol size={'3'} className='p-0'>
-              <Button style={style.btnBookList} className='btn-animate-get-slot-list'>
-                <Text style={style.time} className='btn-animate-get-slot-text'>
-                  Get slot
-                </Text>
-              </Button>
-            </MDBCol>
-          </MDBRow>
-          <MDBRow className='slot-list-row mt-0'>
-            <MDBCol size={'9'} className='pr-0'>
-              <Button style={style.btnSlotList} className='btn-profile'>
-                <Text style={style.time}>2:30 - 2:50</Text>
-              </Button>
-            </MDBCol>
-            <MDBCol size={'3'} className='p-0'>
-              <Button style={style.btnBookList} className='btn-animate-get-slot-list'>
-                <Text style={style.time} className='btn-animate-get-slot-text'>
-                  Get slot
-                </Text>
-              </Button>
-            </MDBCol>
-          </MDBRow>
-          <MDBRow className='slot-list-row mt-0'>
-            <MDBCol size={'9'} className='pr-0'>
-              <Button style={style.btnSlotList} className='btn-profile'>
-                <Text style={style.time}>2:30 - 2:50</Text>
-              </Button>
-            </MDBCol>
-            <MDBCol size={'3'} className='p-0'>
-              <Button style={style.btnBookList} className='btn-animate-get-slot-list'>
-                <Text style={style.time} className='btn-animate-get-slot-text'>
-                  Get slot
-                </Text>
-              </Button>
-            </MDBCol>
-          </MDBRow>
-          <MDBRow className='slot-list-row mt-0'>
-            <MDBCol size={'9'} className='pr-0'>
-              <Button style={style.btnSlotList} className='btn-profile'>
-                <Text style={style.time}>2:30 - 2:50</Text>
-              </Button>
-            </MDBCol>
-            <MDBCol size={'3'} className='p-0'>
-              <Button style={style.btnBookList} className='btn-animate-get-slot-list'>
-                <Text style={style.time} className='btn-animate-get-slot-text'>
-                  Get slot
-                </Text>
-              </Button>
-            </MDBCol>
-          </MDBRow>
+          <Slots />
         </MDBContainer>
       </MDBContainer>
     );
