@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MDBContainer, MDBIcon, MDBRow, MDBCol } from 'mdbreact';
+import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
 import Button from './Button';
 import Text from './Text';
 import EllipsisText from 'react-ellipsis-text';
@@ -150,7 +150,7 @@ class BookingProfileList extends Component {
                 <MDBCol size={'12'} className='p-0 mt-2'>
                   <MDBRow>
                     <MDBCol size={'8'} className='pr-0'>
-                      <Button style={style.btnSlot} className='btn-profile'>
+                      <Button style={style.btnSlot} className='btn-profile main-btn-profile'>
                         <Text style={style.time}>2:30 - 2:50</Text>
                       </Button>
                     </MDBCol>
@@ -166,7 +166,7 @@ class BookingProfileList extends Component {
               </MDBRow>
             </MDBCol>
             <MDBCol size={'12'} className='sched-text'>
-              <Text className='text-center mb-0' style={style.scheduleText}>
+              <Text className='text-center mb-0 avail-sched-text' style={style.scheduleText}>
                 Available Schedules:
               </Text>
             </MDBCol>

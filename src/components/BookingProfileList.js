@@ -137,7 +137,8 @@ class BookingProfileList extends Component {
 
 const style = {
   main: {
-    padding: '0 2.3em'
+    padding: '0 2.3em',
+    marginBottom: '10em'
   },
   actionList: {
     backgroundColor: 'rgba(28, 44, 49, 0.65)',
