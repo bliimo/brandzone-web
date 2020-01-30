@@ -989,6 +989,19 @@ div.slot-list-row:not(:first-of-type) {
     left: 2em;
   }
 }
+@media only screen and (min-width: 1607px) {
+  div#slots {
+    position: relative !important;
+    top: 3em !important;
+  }
+}
+
+@media only screen and (min-width: 2560px) {
+  div#slots {
+    position: relative !important;
+    top: 5em !important;
+  }
+}
 
 @media only screen and (min-width: 1025px) {
   .col-12.sched-text {
@@ -1015,4 +1028,38 @@ div.slot-list-row:not(:first-of-type) {
 
 .footer-link li {
   margin-right: 1.8em;
+}
+
+.main-btn-login {
+  width: 100% !important;
+}
+
+.modal-dialog {
+  max-width: 720px !important;
+}
+
+.modal-backdrop.fade.show {
+  background: #242424 !important;
+  opacity: 0.8;
+}
+
+.modal-content {
+  background: #37424b !important;
+  padding: 2em 1.6em 4em 1.6em !important;
+  color: #fff;
+  font-family: 'Helvetica';
+}
+
+.modal-content h6:first-child {
+  font-weight: bold;
+}
+
+.modal-content h6:not(:last-child) {
+  font-size: 1.24em;
+}
+
+.f-italic {
+  font-style: italic !important;
+  font-size: 0.9em;
+  margin: 0.7em 0 1.4em 0;
 }

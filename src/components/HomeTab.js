@@ -125,7 +125,7 @@ const LoginTab = ({ parent }) => {
         <Button
           style={style.buttonLogin}
           id='btnLoginTab'
-          className='btn-animate-login'
+          className='btn-animate-login main-btn-login'
           onClick={() => parent.OnHandleLogin()}
         >
           <Text className='btn-animate-text-login'>Login</Text>

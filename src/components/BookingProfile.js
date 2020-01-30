@@ -4,66 +4,69 @@ import Button from './Button';
 import Text from './Text';
 import EllipsisText from 'react-ellipsis-text';
 import MediaQuery from 'react-responsive';
+import ModalBooking from './ModalBooking';
 
 const Slots = () => {
   return (
     <React.Fragment>
-      <MDBRow className='slot-list-row mt-0' id='first-row-profile-btn'>
-        <MDBCol size={'9'} className='pr-0'>
-          <Button style={style.btnSlotList} className='btn-profile'>
-            <Text style={style.time}>2:30 - 2:50</Text>
-          </Button>
-        </MDBCol>
-        <MDBCol size={'3'} className='p-0'>
-          <Button style={style.btnBookList} className='btn-animate-get-slot-list'>
-            <Text style={style.time} className='btn-animate-get-slot-text'>
-              Get slot
-            </Text>
-          </Button>
-        </MDBCol>
-      </MDBRow>
-      <MDBRow className='slot-list-row mt-0'>
-        <MDBCol size={'9'} className='pr-0'>
-          <Button style={style.btnSlotList} className='btn-profile'>
-            <Text style={style.time}>2:30 - 2:50</Text>
-          </Button>
-        </MDBCol>
-        <MDBCol size={'3'} className='p-0'>
-          <Button style={style.btnBookList} className='btn-animate-get-slot-list'>
-            <Text style={style.time} className='btn-animate-get-slot-text'>
-              Get slot
-            </Text>
-          </Button>
-        </MDBCol>
-      </MDBRow>
-      <MDBRow className='slot-list-row mt-0'>
-        <MDBCol size={'9'} className='pr-0'>
-          <Button style={style.btnSlotList} className='btn-profile'>
-            <Text style={style.time}>2:30 - 2:50</Text>
-          </Button>
-        </MDBCol>
-        <MDBCol size={'3'} className='p-0'>
-          <Button style={style.btnBookList} className='btn-animate-get-slot-list'>
-            <Text style={style.time} className='btn-animate-get-slot-text'>
-              Get slot
-            </Text>
-          </Button>
-        </MDBCol>
-      </MDBRow>
-      <MDBRow className='slot-list-row mt-0'>
-        <MDBCol size={'9'} className='pr-0'>
-          <Button style={style.btnSlotList} className='btn-profile'>
-            <Text style={style.time}>2:30 - 2:50</Text>
-          </Button>
-        </MDBCol>
-        <MDBCol size={'3'} className='p-0'>
-          <Button style={style.btnBookList} className='btn-animate-get-slot-list'>
-            <Text style={style.time} className='btn-animate-get-slot-text'>
-              Get slot
-            </Text>
-          </Button>
-        </MDBCol>
-      </MDBRow>
+      <div id='slots'>
+        <MDBRow className='slot-list-row mt-0' id='first-row-profile-btn'>
+          <MDBCol size={'9'} className='pr-0'>
+            <Button style={style.btnSlotList} className='btn-profile'>
+              <Text style={style.time}>2:30 - 2:50</Text>
+            </Button>
+          </MDBCol>
+          <MDBCol size={'3'} className='p-0'>
+            <Button style={style.btnBookList} className='btn-animate-get-slot-list'>
+              <Text style={style.time} className='btn-animate-get-slot-text'>
+                Get slot
+              </Text>
+            </Button>
+          </MDBCol>
+        </MDBRow>
+        <MDBRow className='slot-list-row mt-0'>
+          <MDBCol size={'9'} className='pr-0'>
+            <Button style={style.btnSlotList} className='btn-profile'>
+              <Text style={style.time}>2:30 - 2:50</Text>
+            </Button>
+          </MDBCol>
+          <MDBCol size={'3'} className='p-0'>
+            <Button style={style.btnBookList} className='btn-animate-get-slot-list'>
+              <Text style={style.time} className='btn-animate-get-slot-text'>
+                Get slot
+              </Text>
+            </Button>
+          </MDBCol>
+        </MDBRow>
+        <MDBRow className='slot-list-row mt-0'>
+          <MDBCol size={'9'} className='pr-0'>
+            <Button style={style.btnSlotList} className='btn-profile'>
+              <Text style={style.time}>2:30 - 2:50</Text>
+            </Button>
+          </MDBCol>
+          <MDBCol size={'3'} className='p-0'>
+            <Button style={style.btnBookList} className='btn-animate-get-slot-list'>
+              <Text style={style.time} className='btn-animate-get-slot-text'>
+                Get slot
+              </Text>
+            </Button>
+          </MDBCol>
+        </MDBRow>
+        <MDBRow className='slot-list-row mt-0'>
+          <MDBCol size={'9'} className='pr-0'>
+            <Button style={style.btnSlotList} className='btn-profile'>
+              <Text style={style.time}>2:30 - 2:50</Text>
+            </Button>
+          </MDBCol>
+          <MDBCol size={'3'} className='p-0'>
+            <Button style={style.btnBookList} className='btn-animate-get-slot-list'>
+              <Text style={style.time} className='btn-animate-get-slot-text'>
+                Get slot
+              </Text>
+            </Button>
+          </MDBCol>
+        </MDBRow>
+      </div>
     </React.Fragment>
   );
 };
@@ -184,7 +187,12 @@ const Informations = ({ parent }) => {
               </Button>
             </MDBCol>
             <MDBCol size={'4'} className='p-0 '>
-              <Button style={style.btnBook}>
+              <Button
+                style={style.btnBook}
+                onClick={() => {
+                  parent.OnHandleToogleModal();
+                }}
+              >
                 <Text style={style.time} className='btn-animate-get-slot'>
                   Get slot
                 </Text>
@@ -200,8 +208,9 @@ const Informations = ({ parent }) => {
 class BookingProfileList extends Component {
   state = {
     profile: {
-      profilePic: '',
-      institutionName: ''
+      profilePic: 'https://i.pravatar.cc/300',
+      institutionName: '',
+      isOpenModal: false
     },
     OnHandleResetProfile: null
   };
@@ -216,8 +225,13 @@ class BookingProfileList extends Component {
     if (selectedProfile) this.setState({ profile: selectedProfile });
   }
 
+  OnHandleToogleModal() {
+    this.setState({ isOpenModal: true });
+  }
+
   render() {
-    const { profilePic } = this.state.profile;
+    const { profile, isOpenModal } = this.state;
+    const { profilePic } = profile;
     return (
       <MDBContainer fluid className='booking-profile'>
         <Button
@@ -243,6 +257,7 @@ class BookingProfileList extends Component {
           </MDBRow>
           <Slots />
         </MDBContainer>
+        {isOpenModal && <ModalBooking isOpen={true} />}
       </MDBContainer>
     );
   }
