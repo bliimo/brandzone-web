@@ -1,3 +1,9 @@
+body {
+  background: url('./assets/images/bg.png') no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
 @font-face {
   font-family: 'Harabara';
   font-style: normal;
@@ -140,7 +146,16 @@ h6 {
   }
 }
 
-@media only screen and (max-width: 768px) {
+@media only screen and (max-width: 767px) {
+  .actionList {
+    padding: 2em 1em !important;
+  }
+  #row-profile {
+    height: auto !important;
+  }
+  .btn-animate-time {
+    width: 90% !important;
+  }
   .header-nav {
     padding: 1.5em !important;
   }
@@ -175,6 +190,12 @@ h6 {
 }
 
 @media only screen and (max-width: 1024px) and (min-width: 769px) {
+  .time-slots {
+    margin-right: 1em !important;
+  }
+  #row-profile {
+    height: auto !important;
+  }
   #sideBar {
     width: 50vw !important;
   }
@@ -189,22 +210,36 @@ h6 {
     width: 30vw !important;
   }
 }
-
-@media only screen and (min-width: 768px) {
-  .header-nav {
-    padding: 3em 4em !important;
-  }
-  .time-slots {
-    margin-right: 2em !important;
-  }
-}
-
-@media only screen and (min-width: 1000px) {
+@media only screen and (min-width: 1280px) {
   .header-nav {
     padding: 1.3em 6.6em 0.5em 6.6em !important;
   }
   .time-slots {
-    margin-right: 1.5em !important;
+    margin-right: 1em !important;
+  }
+}
+
+@media only screen and (min-width: 1441px) {
+  div#main-pic-upload {
+    padding: 2.5em 8em 1.3em !important;
+  }
+}
+
+@media only screen and (min-width: 1441px) {
+  .time-slots {
+    margin-right: 5em !important;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  div#signUpForm {
+    min-width: 40vw !important;
+  }
+  .header-nav {
+    padding: 3em 4em !important;
+  }
+  .time-slots {
+    margin-right: 0.8em !important;
   }
 }
 
@@ -434,7 +469,7 @@ ul.md-tabs > li hr {
 }
 
 div#mainTab {
-  min-height: 100vh;
+  min-height: 60vh;
 }
 
 input:focus {
@@ -621,4 +656,427 @@ textarea.signup-input {
 
 #institutionName {
   margin-top: 2em !important;
+}
+.btn-animate-time.inactive:hover {
+  border: solid 1.3px #b1b1b1a3 !important;
+  color: #b1b1b1 !important;
+  text-transform: capitalize !important;
+  transition: 0.2s;
+  -webkit-animation: fadeout-btn 1s; /* Safari and Chrome */
+  -moz-animation: fadeout-btn 1s; /* Firefox */
+  -ms-animation: fadeout-btn 1s; /* Internet Explorer */
+  -o-animation: fadeout-btn 1s; /* Opera */
+  animation: fadeout-btn 1s;
+  background-color: rgba(75, 87, 85, 0.2) !important;
+}
+
+.btn-animate-text-time {
+  position: absolute;
+  line-height: 35px;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  display: block;
+  transition: 0.2s;
+}
+.btn-animate-text-time:hover {
+  font-size: 15px;
+  font-weight: normal;
+}
+
+.font-size-15 {
+  font-size: 15px;
+}
+
+.time-collapse {
+  -webkit-transition: none;
+  transition: none;
+}
+
+@keyframes fadeout-btn {
+  from {
+    background-color: #ffffffad;
+  }
+  to {
+    background-color: rgba(75, 87, 85, 0.2) !important;
+  }
+}
+
+/* Firefox */
+@-moz-keyframes fadeout-btn {
+  from {
+    background-color: #ffffffad;
+  }
+  to {
+    background-color: rgba(75, 87, 85, 0.2) !important;
+  }
+}
+
+/* Safari and Chrome */
+@-webkit-keyframes fadeout-btn {
+  from {
+    background-color: #ffffffad;
+  }
+  to {
+    background-color: rgba(75, 87, 85, 0.2) !important;
+  }
+}
+
+.profileBtnList p {
+  margin-bottom: 0 !important;
+  height: 100% !important;
+  line-height: 23px;
+  letter-spacing: 0;
+}
+
+@media only screen and (min-width: 769px) {
+  .sched-text {
+    position: relative;
+    top: 1.8em;
+  }
+  .booking-profile {
+    display: inline-block;
+    padding: 0 5.7em !important;
+  }
+
+  .booking-profile-back {
+    width: 150px;
+    position: absolute;
+  }
+  .booking-profile-main {
+    width: 60% !important;
+  }
+
+  #booking-profile-row {
+    height: 390px !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+  }
+  #booking-profile-row .col-img {
+    padding-left: 10px !important;
+    padding-right: 0 !important;
+  }
+  #booking-profile-row .col-info {
+    padding: 1.1em 2.6em;
+  }
+}
+
+.col-img img {
+  object-fit: cover !important;
+}
+#row-profile img {
+  object-fit: cover !important;
+}
+
+@media only screen and (max-width: 767px) {
+  #booking-profile-row p.booking-profile-info.pl-2 {
+    padding: 0 !important;
+  }
+  .btn-profile {
+    width: 75% !important;
+  }
+  .container.booking-profile-main {
+    margin-top: 1em !important;
+  }
+  .actionList p,
+  .profile-institution-info > p {
+    text-align: center !important;
+  }
+  .profile-institution-info > p {
+    margin-top: 0.5em;
+  }
+  .btn-profile {
+    width: 88% !important;
+  }
+  p.back-button-text {
+    text-align: left;
+  }
+  p.back-button-text span {
+    margin-left: 2em !important;
+  }
+  #first-row-profile-btn {
+    margin-top: 4em !important;
+  }
+  .col-12.sched-text {
+    position: relative;
+    top: 1.2em;
+  }
+}
+
+@media only screen and (width: 1024px) {
+  .booking-profile {
+    min-height: 72vh;
+  }
+  .container.booking-profile-main {
+    max-width: 540px !important;
+  }
+  .col-md-6.col-lg-6.col-xl-8.col-info.profile-institution-info {
+    padding: 1em 1.4em !important;
+  }
+}
+
+@media only screen and (width: 768px) {
+  .container-fluid.booking-profile {
+    width: 75% !important;
+    margin: auto !important;
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+  .slot-list-row {
+    padding: 0 6em 0 5.5em;
+    margin: auto !important;
+  }
+}
+
+.slot-list-row {
+  position: relative;
+  bottom: 2em;
+}
+
+div.slot-list-row:not(:first-of-type) {
+  margin-top: 1em !important;
+}
+.btn-animate-get-slot {
+  transition: 0.08s;
+}
+.btn-animate-get-slot:hover {
+  font-size: 13px !important;
+  margin-top: -3px;
+}
+.btn-animate-get-slot-text,
+.btn-animate-get-slot-list {
+  transition: 0.1s !important;
+}
+.btn-animate-get-slot-list:hover {
+  border: solid 1.5px #8ec63f !important;
+  color: #8ec63f !important;
+  font-weight: bolder !important;
+}
+.btn-animate-get-slot-text {
+  margin-top: -1px;
+}
+.btn-animate-get-slot-text:hover {
+  font-weight: bold !important;
+  font-size: 12px !important;
+}
+.back-button-text span {
+  transition: 0.2s;
+}
+.back-button-text span:hover {
+  font-size: 11px !important;
+  opacity: 1 !important;
+}
+
+.btn-animate-get-slot-text {
+  top: 0 !important;
+  height: 100% !important;
+  line-height: 25px !important;
+}
+
+#chevron {
+  background: url('./assets/images/back.png') left no-repeat;
+  height: 11px;
+  width: 11px;
+  background-size: contain;
+  position: relative;
+  top: 0.87em;
+  width: 100%;
+  left: 0.5em;
+}
+
+.back-button-text:hover #chevron {
+  background-image: url('./assets/images/chevron_left_border.png') !important;
+}
+
+@media only screen and (max-width: 767px) {
+  div#first-row-profile-btn {
+    margin-top: 2em !important;
+  }
+  .main-btn-profile {
+    width: 90% !important;
+  }
+  p.back-button-text span {
+    float: left;
+    position: relative;
+    left: 0.5em !important;
+    top: 0.1em;
+  }
+  p.back-button-text {
+    margin-bottom: 1.5em !important;
+  }
+
+  .col-12.sched-text {
+    margin-bottom: 1em !important;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .back-button-text span {
+    margin-left: 1.8em !important;
+  }
+  .container.booking-profile-main {
+    position: relative;
+    bottom: 0.8em;
+  }
+  #chevron {
+    margin-left: 0.4em;
+  }
+  .cursor-pointer.booking-profile-back {
+    margin-top: 1.3em;
+  }
+}
+
+@media only screen and (width: 1024px) {
+  .col-12.sched-text {
+    height: 2em;
+  }
+  .main-btn-profile {
+    width: 82% !important;
+  }
+  div#first-row-profile-btn {
+    margin-top: 0.2em !important;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .btn-profile.main-btn-profile {
+    width: 90% !important;
+  }
+  ul.d-inline-block.footer-link.mb-0 {
+    padding: 0 !important;
+    font-size: 10px !important;
+  }
+  ul.d-inline-block.footer-link.mb-0 li {
+    display: block !important;
+    margin: 0 !important;
+  }
+  .col-sm-12.col-lg-6.col-xl-6.col-footer {
+    margin-bottom: 1em !important;
+  }
+}
+
+@media only screen and (width: 768px) {
+  .btn-profile.main-btn-profile {
+    width: 82% !important;
+  }
+  p.back-button-text span {
+    float: left;
+    position: relative;
+    left: 1em !important;
+    top: 0.1em;
+  }
+  p.back-button-text {
+    margin-bottom: 1.5em !important;
+  }
+  .col-12.sched-text {
+    padding: 2em 0 0.2em;
+    height: auto !important;
+  }
+  .sched-text p {
+    padding-top: 4em;
+    padding-bottom: 1em;
+  }
+  .col-footer {
+    position: relative;
+    left: 0 !important;
+    text-align: left;
+  }
+  .footer-link {
+    padding: 0;
+  }
+  .footer-link:last-child {
+    margin-top: 1em !important;
+  }
+  .footer-link li {
+    margin: 0 0.2em !important;
+  }
+  .footer-last-link {
+    position: relative;
+    bottom: 1em;
+  }
+  .container.w-100.footer.p-5 {
+    padding: 2em 2em 1em 2em !important;
+  }
+}
+
+@media only screen and (width: 1024px) {
+  .col-footer {
+    position: relative;
+    left: 2em;
+  }
+}
+@media only screen and (min-width: 1607px) {
+  div#slots {
+    position: relative !important;
+    top: 3em !important;
+  }
+}
+
+@media only screen and (min-width: 2560px) {
+  div#slots {
+    position: relative !important;
+    top: 5em !important;
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+  .col-12.sched-text {
+    height: 2em !important;
+    position: relative;
+    margin-top: 0.8em !important;
+  }
+  div#first-row-profile-btn {
+    margin-top: 0 !important;
+  }
+  .col-footer {
+    position: relative;
+    left: 10em;
+  }
+}
+
+.container.booking-profile-main {
+  margin-top: 2.8em;
+}
+
+.footer {
+  max-width: 100% !important;
+}
+
+.footer-link li {
+  margin-right: 1.8em;
+}
+
+.main-btn-login {
+  width: 100% !important;
+}
+
+.modal-dialog {
+  max-width: 720px !important;
+}
+
+.modal-backdrop.fade.show {
+  background: #242424 !important;
+  opacity: 0.8;
+}
+
+.modal-content {
+  background: #37424b !important;
+  padding: 2em 1.6em 4em 1.6em !important;
+  color: #fff;
+  font-family: 'Helvetica';
+}
+
+.modal-content h6:first-child {
+  font-weight: bold;
+}
+
+.modal-content h6:not(:last-child) {
+  font-size: 1.24em;
+}
+
+.f-italic {
+  font-style: italic !important;
+  font-size: 0.9em;
+  margin: 0.7em 0 1.4em 0;
 }

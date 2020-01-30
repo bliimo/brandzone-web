@@ -5,7 +5,6 @@ import Button from '../components/Button';
 import contents from '../constants/contents';
 import Text from '../components/Text';
 import TextInput from '../components/TextInput';
-import response from '../helper/response';
 import validation from '../helper/validation';
 import Dropdown from './Dropdown';
 import ParticipantSignUp from './ParticipantSignUp';
@@ -19,7 +18,7 @@ const TabLinks = ({ parent }) => {
     <MDBNav tabs className='justify-content-center'>
       <MDBNavItem>
         <NavLink
-          to='/'
+          to='#'
           className={`nav-links ${parent.state.activeItem === '1' ? 'active-tab' : ''}`}
           onClick={parent.OnHandleToggle('1')}
           role='tab'
@@ -126,7 +125,7 @@ const LoginTab = ({ parent }) => {
         <Button
           style={style.buttonLogin}
           id='btnLoginTab'
-          className='btn-animate-login'
+          className='btn-animate-login main-btn-login'
           onClick={() => parent.OnHandleLogin()}
         >
           <Text className='btn-animate-text-login'>Login</Text>
@@ -212,7 +211,8 @@ class HomeTab extends Component {
     events: [
       {
         id: 0,
-        name: 'Feb 28 - New world Hotel Makati',
+        date: 'Feb 28',
+        address: 'New world Hotel Makati',
         scheds: [
           {
             id: 1,
@@ -278,35 +278,36 @@ class HomeTab extends Component {
       },
       {
         id: 1,
-        name: 'March 2 - Seda Hotel Cebu',
+        date: 'Feb 28',
+        address: 'New world Hotel Makati',
         scheds: [
           {
-            id: 1,
+            id: 13,
             startTime: '2:30',
             endTime: '2:50'
           },
           {
-            id: 2,
+            id: 14,
             startTime: '2:30',
             endTime: '2:50'
           },
           {
-            id: 3,
+            id: 15,
             startTime: '2:30',
             endTime: '2:50'
           },
           {
-            id: 4,
+            id: 16,
             startTime: '2:30',
             endTime: '2:50'
           },
           {
-            id: 5,
+            id: 17,
             startTime: '2:30',
             endTime: '2:50'
           },
           {
-            id: 6,
+            id: 18,
             startTime: '2:30',
             endTime: '2:50'
           }
@@ -314,35 +315,36 @@ class HomeTab extends Component {
       },
       {
         id: 2,
-        name: 'All',
+        date: 'Feb 28',
+        address: 'All',
         scheds: [
           {
-            id: 7,
+            id: 19,
             startTime: '2:30',
             endTime: '2:50'
           },
           {
-            id: 8,
+            id: 20,
             startTime: '2:30',
             endTime: '2:50'
           },
           {
-            id: 9,
+            id: 21,
             startTime: '2:30',
             endTime: '2:50'
           },
           {
-            id: 10,
+            id: 22,
             startTime: '2:30',
             endTime: '2:50'
           },
           {
-            id: 11,
+            id: 23,
             startTime: '2:30',
             endTime: '2:50'
           },
           {
-            id: 12,
+            id: 24,
             startTime: '2:30',
             endTime: '2:50'
           }
@@ -407,11 +409,13 @@ class HomeTab extends Component {
 
   OnHandleEventType = id => {
     let { events, scheds } = this.state;
+
     events.map(e => {
       if (e['id'] == id) {
         scheds = e.scheds;
       }
     });
+
     this.setState({ scheds });
   };
 
@@ -427,6 +431,15 @@ class HomeTab extends Component {
     const { isCheckedPrivacy } = this.state;
     this.setState({ isCheckedPrivacy: !isCheckedPrivacy });
   };
+
+  componentWillMount() {
+    const { events } = this.state;
+    for (let i = 0; i < events.length; i++) {
+      events[i]['name'] = `${events[i]['date']} - ${events[i]['address']}`;
+    }
+
+    this.setState({ events });
+  }
 
   render() {
     return (

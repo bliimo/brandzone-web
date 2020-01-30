@@ -22,7 +22,8 @@ const Schedules = ({ parent, scheds }) => {
 class EventTimeSlot extends Component {
   state = {
     selected: {},
-    isSelectedAll: false
+    isSelectedAll: false,
+    isMounted: false
   };
 
   OnHandleSelect = event => {

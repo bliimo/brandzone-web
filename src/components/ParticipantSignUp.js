@@ -4,7 +4,7 @@ import TextInput from './TextInput';
 import PictureUpload from './PictureUpload';
 import EventTimeSlot from './EventTimeSlot';
 
-const ParticipantSignUp = ({ parent }) => {
+const ParticipantSignUp = ({ parent, events }) => {
   return (
     <div>
       <div style={style.participant}>
