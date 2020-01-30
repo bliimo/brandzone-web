@@ -23,7 +23,7 @@ class PictureUpload extends Component {
   render() {
     const { parent } = this.props;
     return (
-      <div style={style.main}>
+      <div style={style.main} id='main-pic-upload'>
         <div
           className={`text-center cursor-pointer ${parent.state.profilePic != null ? 'p-3' : ''}`}
           onClick={() => this.OnHandleOpenFile()}
