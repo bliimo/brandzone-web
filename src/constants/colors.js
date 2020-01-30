@@ -1,4 +1,6 @@
 const palette = {
+  yellowGreen: '#8ec63f',
+  white: '#e2e5e5',
   maroon: '#461522',
   purple: '#340121',
   plum: '#896C7E',

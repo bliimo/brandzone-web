@@ -1,3 +1,25 @@
+body {
+  background: url('./assets/images/bg.png') no-repeat center center;
+  background-size: cover;
+  background-attachment: fixed;
+}
+
+@font-face {
+  font-family: 'Harabara';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./assets/fonts/Harabara.ttf');
+  src: local('Open Sans'), local('OpenSans'), url('./assets/fonts/Harabara.ttf') format('truetype');
+}
+
+@font-face {
+  font-family: 'Helvetica';
+  font-style: normal;
+  font-weight: 400;
+  src: url('./assets/fonts/Helvetica.ttf');
+  src: local('Open Sans'), local('OpenSans'), url('./assets/fonts/Helvetica.ttf') format('truetype');
+}
+
 html {
   line-height: 1.15; /* 1 */
   -webkit-text-size-adjust: 100%; /* 2 */
@@ -6,7 +28,8 @@ html {
 body {
   margin: 0;
   padding: 0;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen', 'Ubuntu',
+    'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   display: 'flex';
@@ -100,4 +123,943 @@ h6 {
 
 .ck.ck-toolbar.ck-rounded-corners {
   width: 100%;
+}
+
+.navbar {
+  box-shadow: none !important;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+@media only screen and (min-width: 2500px) {
+  #loginForm,
+  #signUpForm {
+    max-width: 13vw;
+  }
+}
+
+@media only screen and (max-width: 768px) {
+  #sideBar {
+    width: 100vw !important;
+    left: 0 !important;
+  }
+}
+
+@media only screen and (max-width: 767px) {
+  .actionList {
+    padding: 2em 1em !important;
+  }
+  #row-profile {
+    height: auto !important;
+  }
+  .btn-animate-time {
+    width: 90% !important;
+  }
+  .header-nav {
+    padding: 1.5em !important;
+  }
+  #profile-lg {
+    display: none !important;
+  }
+  #sideBar {
+    width: 50vw;
+  }
+  #mainTab {
+    width: 98vw !important;
+  }
+  ul.nav.md-tabs {
+    width: 100% !important;
+  }
+  #loginForm,
+  #signUpForm {
+    width: 45vw !important;
+  }
+}
+@media only screen and (min-width: 1280px) and (max-width: 1299px) {
+  #loginForm,
+  #signUpForm {
+    width: 26vw !important;
+  }
+}
+
+@media only screen and (min-width: 1300px) {
+  #sideBar {
+    width: 27vw;
+  }
+}
+
+@media only screen and (max-width: 1024px) and (min-width: 769px) {
+  #row-profile {
+    height: auto !important;
+  }
+  #sideBar {
+    width: 50vw !important;
+  }
+  #loginForm,
+  #signUpForm {
+    width: 34vw !important;
+  }
+}
+
+@media only screen and (max-width: 1214px) and (min-width: 1025px) {
+  #sideBar {
+    width: 30vw !important;
+  }
+}
+
+@media only screen and (min-width: 768px) {
+  .header-nav {
+    padding: 3em 4em !important;
+  }
+  .time-slots {
+    margin-right: 2em !important;
+  }
+}
+
+@media only screen and (min-width: 1000px) {
+  .header-nav {
+    padding: 1.3em 6.6em 0.5em 6.6em !important;
+  }
+  .time-slots {
+    margin-right: 1.5em !important;
+  }
+}
+
+@media only screen and (max-width: 500px) {
+  #sideBar {
+    padding: 2.5em 2em !important;
+  }
+  #loginForm,
+  #signUpForm {
+    width: 100% !important;
+    padding: 0;
+  }
+
+  #btnLoginTab {
+    width: 100% !important;
+  }
+  .time-slots {
+    margin-right: 2.5em;
+  }
+}
+
+@media only screen and (max-width: 376px) and (min-width: 361px) {
+  #loginForm,
+  #signUpForm {
+    width: 100% !important;
+    padding: 0;
+  }
+  .time-slots {
+    margin-right: 1.7em !important;
+  }
+}
+@media only screen and (max-width: 360px) {
+  #loginForm,
+  #signUpForm {
+    width: 100% !important;
+    padding: 0;
+  }
+  .time-slots {
+    margin-right: 1.4em !important;
+  }
+}
+
+@media only screen and (max-width: 321px) {
+  #loginForm,
+  #signUpForm {
+    width: 100% !important;
+    padding: 0;
+  }
+  .time-slots {
+    margin-right: 0.3em !important;
+  }
+}
+
+#bars {
+  transition: all 0.2s ease-in-out;
+  color: #fff;
+  cursor: pointer;
+}
+
+#bars:hover {
+  color: #8ec63f !important;
+  transform: scale(1.2);
+}
+
+a.sideBarLink:hover {
+  border-left: 2px solid #8ec63f;
+  padding-left: 0.7em;
+  opacity: 1 !important;
+}
+
+#sideBar {
+  z-index: 9999999;
+}
+
+.active-tab hr {
+  border-bottom: 1.5px solid #8ec63f;
+}
+
+ul.md-tabs {
+  border-bottom: solid 0.7px #ffffff2e;
+  padding-bottom: 7px;
+  position: relative;
+  bottom: 1em;
+  width: 40vw;
+  margin: auto;
+}
+
+.tab-content.card {
+  margin-top: 1em;
+}
+
+ul.md-tabs > li {
+  padding-left: 1em;
+  padding-right: 1em;
+  text-transform: uppercase !important;
+}
+
+ul.md-tabs > li a {
+  font-size: 0.8em;
+  color: #fff;
+  font-weight: bold;
+  letter-spacing: 1px;
+}
+
+ul.md-tabs > li hr {
+  width: 20px;
+  position: relative;
+  top: 9px;
+  margin: auto;
+}
+
+.fade-effect {
+  -webkit-animation: fadein 0.3s; /* Safari and Chrome */
+  -moz-animation: fadein 0.3s; /* Firefox */
+  -ms-animation: fadein 0.3s; /* Internet Explorer */
+  -o-animation: fadein 0.3s; /* Opera */
+  animation: fadein 0.3s;
+}
+
+.fade-out-effect {
+  -webkit-animation: fadeout 0.3s; /* Safari and Chrome */
+  -moz-animation: fadeout 0.3s; /* Firefox */
+  -ms-animation: fadeout 0.3s; /* Internet Explorer */
+  -o-animation: fadeout 0.3s; /* Opera */
+  animation: fadeout 0.3s;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Firefox */
+@-moz-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Safari and Chrome */
+@-webkit-keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+@keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Firefox */
+@-moz-keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+/* Safari and Chrome */
+@-webkit-keyframes fadeout {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.btn-animate-signup:hover {
+  border: solid 1.3px #8ec63f !important;
+  color: #8ec63f !important;
+  text-transform: capitalize !important;
+  transition: 0.2s;
+}
+.btn-animate-text-signup {
+  position: absolute;
+  line-height: 35px;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  display: block;
+  transition: 0.2s;
+}
+.btn-animate-text-signup:hover {
+  font-size: 15px;
+  font-weight: normal;
+}
+
+.btn-animate-login:hover {
+  border: solid 1.3px rgba(255, 255, 255, 0.71) !important;
+  color: rgba(255, 255, 255, 0.71) !important;
+  text-transform: capitalize !important;
+  transition: 0.15s;
+}
+.btn-animate-text-login {
+  position: absolute;
+  line-height: 35px;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  display: block;
+  transition: 0.15s;
+}
+.btn-animate-text-login:hover {
+  font-size: 15px;
+  font-weight: normal;
+  transition: 0.15s;
+}
+
+div#mainTab {
+  min-height: 60vh;
+}
+
+input:focus {
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+input {
+  background-color: #363f42 !important;
+  border-color: transparent !important;
+  box-shadow: none !important;
+}
+
+#btnLoginTab {
+  top: 0.7em !important;
+}
+
+.text-error {
+  font-size: 0.7em;
+  margin: 0;
+  position: relative;
+  bottom: 1em;
+}
+
+.bottom-3 {
+  bottom: 2em !important;
+}
+
+.drop-down {
+  background: #4b5755 !important;
+}
+
+.logo {
+  width: auto;
+  height: 50px;
+}
+
+.nav-links p {
+  opacity: 0.5;
+}
+
+.nav-links.active-tab > p {
+  opacity: 1 !important;
+}
+.upload-text {
+  color: #fff !important;
+  font: bolder 13.5px Helvetica;
+  opacity: 0.5;
+  line-height: 20px;
+}
+label.form-check-label {
+  color: #fff !important;
+  font: bold 11px Helvetica;
+  opacity: 0.5;
+  position: relative;
+  top: 0.85em;
+}
+input.signup-input,
+textarea.signup-input {
+  padding: 10px 15px !important;
+  background-color: #4b5755 !important;
+  font: bold 11px Helvetica;
+  position: relative;
+  bottom: 0.5em;
+  color: #fff !important;
+  border: none;
+  letter-spacing: 0.5px;
+}
+input.signup-input::placeholder,
+textarea.signup-input::placeholder {
+  color: #b7b7b7;
+}
+
+textarea.signup-input {
+  border-radius: 4px !important;
+  resize: none;
+}
+
+.opacity-1 {
+  opacity: 1 !important;
+}
+
+.opacity-.5 {
+  opacity: 0.5 !important;
+}
+
+#signUpForm > div.md-form.form-sm.md-outline {
+  margin-top: 1em;
+  margin-bottom: 0 !important;
+}
+
+.styled-checkbox {
+  position: absolute;
+  opacity: 0;
+}
+.checkbox-text {
+  color: #fff;
+  opacity: 0.5;
+  font: bolder 11px Helvetica;
+  opacity: 0.5;
+  cursor: pointer;
+  position: relative;
+  bottom: 0.15em;
+}
+.styled-checkbox + .checkbox-label {
+  position: relative;
+  cursor: pointer;
+  padding: 0;
+}
+.styled-checkbox + .checkbox-label:before {
+  content: '';
+  margin-right: 10px;
+  display: inline-block;
+  vertical-align: text-top;
+  width: 20px;
+  height: 20px;
+  background: transparent;
+  border: solid 1px #b1b1b1;
+  border-radius: 3px;
+}
+.styled-checkbox:hover + .checkbox-label:before {
+  background: transparent;
+}
+.styled-checkbox:focus + .checkbox-label:before {
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, 0.12);
+}
+.styled-checkbox:checked + .checkbox-label:before {
+  background: transparent;
+}
+.styled-checkbox:disabled + .checkbox-label {
+  color: #b8b8b8;
+  cursor: auto;
+}
+.styled-checkbox:disabled + .checkbox-label:before {
+  box-shadow: none;
+  background: #ddd;
+}
+.styled-checkbox:checked + .checkbox-label:after {
+  content: '';
+  position: absolute;
+  left: 5px;
+  top: 11px;
+  background: white;
+  width: 2px;
+  height: 2px;
+  box-shadow: 2px 0 0 white, 4px 0 0 white, 4px -2px 0 white, 4px -4px 0 white, 4px -6px 0 white,
+    4px -8px 0 white;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}
+
+.privacy-checked {
+  background: #8ec63f;
+}
+
+#btnSignup p.btn-animate-text-signup {
+  color: #fff !important;
+}
+#btnSignup {
+  background: #8ec63f !important;
+  width: 65% !important;
+}
+
+#btnSignup p.btn-animate-text-signup:hover {
+  color: #8ec63f !important;
+}
+#btnSignup:hover {
+  background: transparent !important;
+}
+
+.absolute-collapse {
+  position: absolute !important;
+  z-index: 2;
+  background: #4b5755 !important;
+  width: 100%;
+  left: 0;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+.md-form.form-sm.md-outline {
+  margin: 1em 0 !important;
+}
+
+#institutionName {
+  margin-top: 2em !important;
+}
+.btn-animate-time.inactive:hover {
+  border: solid 1.3px #b1b1b1a3 !important;
+  color: #b1b1b1 !important;
+  text-transform: capitalize !important;
+  transition: 0.2s;
+  -webkit-animation: fadeout-btn 1s; /* Safari and Chrome */
+  -moz-animation: fadeout-btn 1s; /* Firefox */
+  -ms-animation: fadeout-btn 1s; /* Internet Explorer */
+  -o-animation: fadeout-btn 1s; /* Opera */
+  animation: fadeout-btn 1s;
+  background-color: rgba(75, 87, 85, 0.2) !important;
+}
+
+.btn-animate-text-time {
+  position: absolute;
+  line-height: 35px;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  display: block;
+  transition: 0.2s;
+}
+.btn-animate-text-time:hover {
+  font-size: 15px;
+  font-weight: normal;
+}
+
+.font-size-15 {
+  font-size: 15px;
+}
+
+.time-collapse {
+  -webkit-transition: none;
+  transition: none;
+}
+
+@keyframes fadeout-btn {
+  from {
+    background-color: #ffffffad;
+  }
+  to {
+    background-color: rgba(75, 87, 85, 0.2) !important;
+  }
+}
+
+/* Firefox */
+@-moz-keyframes fadeout-btn {
+  from {
+    background-color: #ffffffad;
+  }
+  to {
+    background-color: rgba(75, 87, 85, 0.2) !important;
+  }
+}
+
+/* Safari and Chrome */
+@-webkit-keyframes fadeout-btn {
+  from {
+    background-color: #ffffffad;
+  }
+  to {
+    background-color: rgba(75, 87, 85, 0.2) !important;
+  }
+}
+
+.profileBtnList p {
+  margin-bottom: 0 !important;
+  height: 100% !important;
+  line-height: 23px;
+  letter-spacing: 0;
+}
+
+@media only screen and (min-width: 769px) {
+  .sched-text {
+    position: relative;
+    top: 1.8em;
+  }
+  .booking-profile {
+    display: inline-block;
+    padding: 0 5.7em !important;
+  }
+
+  .booking-profile-back {
+    width: 150px;
+    position: absolute;
+  }
+  .booking-profile-main {
+    width: 60% !important;
+  }
+
+  #booking-profile-row {
+    height: 390px !important;
+    margin-right: 0 !important;
+    margin-left: 0 !important;
+  }
+  #booking-profile-row .col-img {
+    padding-left: 10px !important;
+    padding-right: 0 !important;
+  }
+  #booking-profile-row .col-info {
+    padding: 1.1em 2.6em;
+  }
+}
+
+.col-img img {
+  object-fit: cover !important;
+}
+#row-profile img {
+  object-fit: cover !important;
+}
+
+@media only screen and (max-width: 767px) {
+  #booking-profile-row p.booking-profile-info.pl-2 {
+    padding: 0 !important;
+  }
+  .btn-profile {
+    width: 75% !important;
+  }
+  .container.booking-profile-main {
+    margin-top: 1em !important;
+  }
+  .actionList p,
+  .profile-institution-info > p {
+    text-align: center !important;
+  }
+  .profile-institution-info > p {
+    margin-top: 0.5em;
+  }
+  .btn-profile {
+    width: 88% !important;
+  }
+  p.back-button-text {
+    text-align: left;
+  }
+  p.back-button-text span {
+    margin-left: 2em !important;
+  }
+  #first-row-profile-btn {
+    margin-top: 4em !important;
+  }
+  .col-12.sched-text {
+    position: relative;
+    top: 1.2em;
+  }
+}
+
+@media only screen and (width: 1024px) {
+  .booking-profile {
+    min-height: 72vh;
+  }
+  .container.booking-profile-main {
+    max-width: 540px !important;
+  }
+  .col-md-6.col-lg-6.col-xl-8.col-info.profile-institution-info {
+    padding: 1em 1.4em !important;
+  }
+}
+
+@media only screen and (width: 768px) {
+  .container-fluid.booking-profile {
+    width: 75% !important;
+    margin: auto !important;
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+  .slot-list-row {
+    padding: 0 6em 0 5.5em;
+    margin: auto !important;
+  }
+}
+
+.slot-list-row {
+  position: relative;
+  bottom: 2em;
+}
+
+div.slot-list-row:not(:first-of-type) {
+  margin-top: 1em !important;
+}
+.btn-animate-get-slot {
+  transition: 0.08s;
+}
+.btn-animate-get-slot:hover {
+  font-size: 13px !important;
+  margin-top: -3px;
+}
+.btn-animate-get-slot-text,
+.btn-animate-get-slot-list {
+  transition: 0.1s !important;
+}
+.btn-animate-get-slot-list:hover {
+  border: solid 1.5px #8ec63f !important;
+  color: #8ec63f !important;
+  font-weight: bolder !important;
+}
+.btn-animate-get-slot-text {
+  margin-top: -1px;
+}
+.btn-animate-get-slot-text:hover {
+  font-weight: bold !important;
+  font-size: 12px !important;
+}
+.back-button-text span {
+  transition: 0.2s;
+}
+.back-button-text span:hover {
+  font-size: 11px !important;
+  opacity: 1 !important;
+}
+
+.btn-animate-get-slot-text {
+  top: 0 !important;
+  height: 100% !important;
+  line-height: 25px !important;
+}
+
+#chevron {
+  background: url('./assets/images/back.png') left no-repeat;
+  height: 11px;
+  width: 11px;
+  background-size: contain;
+  position: relative;
+  top: 0.87em;
+  width: 100%;
+  left: 0.5em;
+}
+
+.back-button-text:hover #chevron {
+  background-image: url('./assets/images/chevron_left_border.png') !important;
+}
+
+@media only screen and (max-width: 767px) {
+  div#first-row-profile-btn {
+    margin-top: 2em !important;
+  }
+  .main-btn-profile {
+    width: 90% !important;
+  }
+  p.back-button-text span {
+    float: left;
+    position: relative;
+    left: 0.5em !important;
+    top: 0.1em;
+  }
+  p.back-button-text {
+    margin-bottom: 1.5em !important;
+  }
+
+  .col-12.sched-text {
+    margin-bottom: 1em !important;
+  }
+}
+@media only screen and (min-width: 768px) {
+  .back-button-text span {
+    margin-left: 1.8em !important;
+  }
+  .container.booking-profile-main {
+    position: relative;
+    bottom: 0.8em;
+  }
+  #chevron {
+    margin-left: 0.4em;
+  }
+  .cursor-pointer.booking-profile-back {
+    margin-top: 1.3em;
+  }
+}
+
+@media only screen and (width: 1024px) {
+  .col-12.sched-text {
+    height: 2em;
+  }
+  .main-btn-profile {
+    width: 82% !important;
+  }
+  div#first-row-profile-btn {
+    margin-top: 0.2em !important;
+  }
+}
+
+@media only screen and (max-width: 480px) {
+  .btn-profile.main-btn-profile {
+    width: 90% !important;
+  }
+  ul.d-inline-block.footer-link.mb-0 {
+    padding: 0 !important;
+    font-size: 10px !important;
+  }
+  ul.d-inline-block.footer-link.mb-0 li {
+    display: block !important;
+    margin: 0 !important;
+  }
+  .col-sm-12.col-lg-6.col-xl-6.col-footer {
+    margin-bottom: 1em !important;
+  }
+}
+
+@media only screen and (width: 768px) {
+  .btn-profile.main-btn-profile {
+    width: 82% !important;
+  }
+  p.back-button-text span {
+    float: left;
+    position: relative;
+    left: 1em !important;
+    top: 0.1em;
+  }
+  p.back-button-text {
+    margin-bottom: 1.5em !important;
+  }
+  .col-12.sched-text {
+    padding: 2em 0 0.2em;
+    height: auto !important;
+  }
+  .sched-text p {
+    padding-top: 4em;
+    padding-bottom: 1em;
+  }
+  .col-footer {
+    position: relative;
+    left: 0 !important;
+    text-align: left;
+  }
+  .footer-link {
+    padding: 0;
+  }
+  .footer-link:last-child {
+    margin-top: 1em !important;
+  }
+  .footer-link li {
+    margin: 0 0.2em !important;
+  }
+  .footer-last-link {
+    position: relative;
+    bottom: 1em;
+  }
+  .container.w-100.footer.p-5 {
+    padding: 2em 2em 1em 2em !important;
+  }
+}
+
+@media only screen and (width: 1024px) {
+  .col-footer {
+    position: relative;
+    left: 2em;
+  }
+}
+@media only screen and (min-width: 1607px) {
+  div#slots {
+    position: relative !important;
+    top: 3em !important;
+  }
+}
+
+@media only screen and (min-width: 2560px) {
+  div#slots {
+    position: relative !important;
+    top: 5em !important;
+  }
+}
+
+@media only screen and (min-width: 1025px) {
+  .col-12.sched-text {
+    height: 2em !important;
+    position: relative;
+    margin-top: 0.8em !important;
+  }
+  div#first-row-profile-btn {
+    margin-top: 0 !important;
+  }
+  .col-footer {
+    position: relative;
+    left: 10em;
+  }
+}
+
+.container.booking-profile-main {
+  margin-top: 2.8em;
+}
+
+.footer {
+  max-width: 100% !important;
+}
+
+.footer-link li {
+  margin-right: 1.8em;
+}
+
+.main-btn-login {
+  width: 100% !important;
+}
+
+.modal-dialog {
+  max-width: 720px !important;
+}
+
+.modal-backdrop.fade.show {
+  background: #242424 !important;
+  opacity: 0.8;
+}
+
+.modal-content {
+  background: #37424b !important;
+  padding: 2em 1.6em 4em 1.6em !important;
+  color: #fff;
+  font-family: 'Helvetica';
+}
+
+.modal-content h6:first-child {
+  font-weight: bold;
+}
+
+.modal-content h6:not(:last-child) {
+  font-size: 1.24em;
+}
+
+.f-italic {
+  font-style: italic !important;
+  font-size: 0.9em;
+  margin: 0.7em 0 1.4em 0;
 }

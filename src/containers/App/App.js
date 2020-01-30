@@ -1,35 +1,32 @@
 import React, { Component } from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-  Redirect,
-} from 'react-router-dom';
+import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-import Login from '../Login/Login';
-import Main from '../Main/Main';
+import Home from '../Home/Home';
+import Event from '../Event/Event';
 import styles from './App.style';
-
+import Footer from '../../components/Footer';
 class App extends Component {
   render() {
     const { isLoggedIn } = this.props;
     return (
       <Router>
         <div style={styles.appContainer}>
-          {isLoggedIn ? <Redirect to="/" /> : <Redirect to="/login" />}
+          {/* {isLoggedIn ? <Redirect to="/" /> : <Redirect to="/login" />} */}
           <Switch>
-            <Route exact path="/login" component={Login} />
-            <Route path="/" component={Main} />
+            {/* <Route exact path="/" component={About} /> */}
+            <Route exact path='/' component={Home} />
+            <Route exact path='/events' component={Event} />
           </Switch>
         </div>
+        <Footer />
       </Router>
     );
   }
 }
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.auth.isLoggedIn,
+  isLoggedIn: state.auth.isLoggedIn
 });
 
 export default connect(mapStateToProps)(App);
