@@ -5,6 +5,7 @@ import PictureUpload from './PictureUpload';
 import EventTimeSlot from './EventTimeSlot';
 
 const ExhibitorSignUp = ({ parent }) => {
+  console.log(parent);
   return (
     <div>
       <TextInput
@@ -147,10 +148,7 @@ const ExhibitorSignUp = ({ parent }) => {
         action={parent.OnHandleEventType}
         label='Choose an event you will be participating in:'
       />
-      <EventTimeSlot
-        OnHandleGetTimeSlots={parent.OnHandleGetTimeSlots}
-        scheds={parent.state.scheds}
-      />
+      <EventTimeSlot OnHandleGetTimeSlots={parent.OnHandleGetTimeSlots} parent={parent} />
     </div>
   );
 };
