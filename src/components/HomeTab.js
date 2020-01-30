@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { MDBContainer, MDBTabPane, MDBTabContent, MDBNav, MDBNavItem } from 'mdbreact';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import Button from '../components/Button';
 import contents from '../constants/contents';
 import Text from '../components/Text';
@@ -9,9 +9,11 @@ import validation from '../helper/validation';
 import Dropdown from './Dropdown';
 import ParticipantSignUp from './ParticipantSignUp';
 import ExhibitorSignUp from './ExhibitorSignUp';
-
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { isEmpty, isEqual } from 'lodash';
+import { login } from '../store/actions';
+import { connect } from 'react-redux';
 
 const TabLinks = ({ parent }) => {
   return (
@@ -204,6 +206,7 @@ class HomeTab extends Component {
     jobTitle: '',
     phoneNumber: '',
     signUpEmail: '',
+    signUpPassword: '',
     institutionName: '',
     programs: '',
     profilePic: null,
@@ -365,6 +368,11 @@ class HomeTab extends Component {
     ]
   };
 
+  componentDidMount() {
+    const { isLoggedIn } = this.props;
+    if (isLoggedIn) window.location.replace('/events');
+  }
+
   OnHandleToggle = tab => () => {
     if (this.state.activeItem !== tab) this.setState({ activeItem: tab });
   };
@@ -398,9 +406,25 @@ class HomeTab extends Component {
     }
   };
 
+  componentWillReceiveProps() {
+    const { isLoggedIn, payload } = this.props;
+    if (isLoggedIn && payload.accessToken) window.location.replace('/events');
+  }
+
   OnHandleLogin = () => {
-    let { email, password } = this.state;
-    toast.error('Wow so easy !');
+    const { email, password } = this.state;
+    const { onLogin } = this.props;
+
+    if (isEmpty(email)) {
+      toast.error('Please enter your email address');
+    } else if (isEmpty(password)) {
+      toast.error('Please enter your password');
+    } else {
+      onLogin({
+        email,
+        password
+      });
+    }
   };
 
   OnHandleSignUp = () => {
@@ -442,8 +466,10 @@ class HomeTab extends Component {
   }
 
   render() {
+    const { isLoggedIn } = this.props;
     return (
       <MDBContainer style={style.main} id='mainTab'>
+        {isLoggedIn && <Redirect to='/events' />}
         <TabLinks parent={this} />
         <MDBTabContent className='card' activeItem={this.state.activeItem} style={style.tabs}>
           <AboutTab parent={this} />
@@ -586,4 +612,18 @@ const style = {
     width: '110%'
   }
 };
-export default HomeTab;
+
+const mapStateToProps = state => ({
+  payload: state.auth.payload,
+  isLoggedIn: state.auth.isLoggedIn,
+  isLoggingIn: state.auth.isLoggingIn
+});
+
+const mapDispatchToProps = dispatch => ({
+  onLogin: data => dispatch(login(data))
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(HomeTab);

@@ -2,7 +2,7 @@ import { MDBIcon } from 'mdbreact';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const SideBar = ({ show, OnHandleShowSideBar }) => {
+const SideBar = ({ show, OnHandleShowSideBar, onLogout }) => {
   return (
     <div
       id='sideBar'
@@ -50,7 +50,14 @@ const SideBar = ({ show, OnHandleShowSideBar }) => {
         <NavLink to='#' style={style.links} className='sideBarLink'>
           Terms & Conditions
         </NavLink>
-        <NavLink to='#' style={style.links} className='sideBarLink'>
+        <NavLink
+          to='#'
+          onClick={() => {
+            onLogout();
+          }}
+          style={style.links}
+          className='sideBarLink'
+        >
           Logout
         </NavLink>
       </div>

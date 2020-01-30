@@ -1,11 +1,11 @@
 import React, { Component } from 'react';
 import { MDBContainer, MDBTabPane, MDBTabContent, MDBNav, MDBNavItem, MDBCollapse } from 'mdbreact';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import Text from '../components/Text';
 import Button from './Button';
 import BookingProfileList from './BookingProfileList';
 import BookingProfile from './BookingProfile';
-
+import { connect } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -299,6 +299,7 @@ class EventTab extends Component {
   render() {
     return (
       <div style={style.main} className='p-0' id='mainTab'>
+        {!this.props.isLoggedIn && <Redirect to='/' />}
         <Tabs parent={this} />
         <ToastContainer />
       </div>
@@ -384,4 +385,18 @@ const style = {
     marginBottom: '0'
   }
 };
-export default EventTab;
+
+const mapStateToProps = state => ({
+  token: state.auth.payload.token,
+  isLoggedIn: state.auth.isLoggedIn
+});
+
+const mapDispatchToProps = dispatch => ({
+  // fetchCurrentUser: data => dispatch(getCurrentUser(data)),
+  // fetchUsers: data => dispatch(getUsers(data)),
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(EventTab);

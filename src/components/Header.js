@@ -1,9 +1,11 @@
 import React, { Component } from 'react';
 import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBIcon } from 'mdbreact';
-import { NavLink } from 'react-router-dom';
+import { NavLink, Redirect } from 'react-router-dom';
 import SideBar from './SideBar';
 import Text from './Text';
 import logo from '../assets/images/logo.png';
+import { logout } from '../store/actions';
+import { connect } from 'react-redux';
 const Profile = ({ OnHandleShowSideBar }) => {
   return (
     <div className='d-flex' style={style.profile}>
@@ -26,11 +28,11 @@ class Header extends Component {
   };
 
   OnHandleShowSideBar = () => {
-    console.log(!this.state.show);
     this.setState({ show: !this.state.show });
   };
 
   render() {
+    const { onLogout, isLoggedIn } = this.props;
     return (
       <div>
         <MDBNavbar color='transparent' expand='md' className='header-nav'>
@@ -39,13 +41,21 @@ class Header extends Component {
               <img src={logo} alt='logo' className='logo' />
             </NavLink>
           </MDBNavbarBrand>
-          <MDBNavbarNav right style={{ display: this.state.isLoggedIn ? 'block' : 'none' }}>
-            <MDBNavItem>
-              <Profile OnHandleShowSideBar={this.OnHandleShowSideBar} />
-            </MDBNavItem>
-          </MDBNavbarNav>
+          {isLoggedIn && (
+            <MDBNavbarNav right>
+              <MDBNavItem>
+                <Profile OnHandleShowSideBar={this.OnHandleShowSideBar} />
+              </MDBNavItem>
+            </MDBNavbarNav>
+          )}
         </MDBNavbar>
-        <SideBar show={this.state.show} OnHandleShowSideBar={this.OnHandleShowSideBar} />
+        {isLoggedIn && (
+          <SideBar
+            show={this.state.show}
+            OnHandleShowSideBar={this.OnHandleShowSideBar}
+            onLogout={onLogout}
+          />
+        )}
       </div>
     );
   }
@@ -90,4 +100,16 @@ const style = {
     right: '.8em'
   }
 };
-export default Header;
+
+const mapStateToProps = state => ({
+  isLoggedIn: state.auth.isLoggedIn
+});
+
+const mapDispatchToProps = dispatch => ({
+  onLogout: () => dispatch(logout())
+});
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(Header);

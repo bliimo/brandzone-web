@@ -1,10 +1,6 @@
 import { takeLatest, call, put } from 'redux-saga/effects';
 
-import {
-  LOGIN_REQUEST,
-  LOGIN_FAILURE,
-  LOGIN_SUCCESS,
-} from '../actions/actionTypes';
+import { LOGIN_REQUEST, LOGIN_FAILURE, LOGIN_SUCCESS } from '../actions/actionTypes';
 
 import { login } from '../api/auth';
 

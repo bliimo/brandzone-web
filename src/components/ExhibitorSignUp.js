@@ -95,11 +95,23 @@ const ExhibitorSignUp = ({ parent }) => {
       />
       <hr style={style.divider} />
       <TextInput
-        placeholder='Name of Representative: First Name | Last Name'
-        id='repName'
+        placeholder='Representative First name'
+        id='firstName'
         onChange={parent.OnHandleChange}
         type='text'
-        value={parent.state.repName}
+        value={parent.state.firstName}
+        size='sm'
+        required={true}
+        autocomplete='off'
+        className='signup-input'
+        style={style.inputs}
+      />
+      <TextInput
+        placeholder='Representative Last name'
+        id='lastName'
+        onChange={parent.OnHandleChange}
+        type='text'
+        value={parent.state.lastName}
         size='sm'
         required={true}
         autocomplete='off'
@@ -124,6 +136,18 @@ const ExhibitorSignUp = ({ parent }) => {
         onChange={parent.OnHandleChange}
         type='email'
         value={parent.state.signUpEmail}
+        size='sm'
+        required={true}
+        autocomplete='off'
+        className='signup-input'
+        style={style.inputs}
+      />
+      <TextInput
+        placeholder='Password'
+        id='signUpPassword'
+        onChange={parent.OnHandleChange}
+        type='password'
+        value={parent.state.signUpPassword}
         size='sm'
         required={true}
         autocomplete='off'
