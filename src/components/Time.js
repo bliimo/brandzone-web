@@ -10,6 +10,8 @@ const Time = ({ props }) => {
       <input
         className='styled-checkbox'
         id={data['id']}
+        starttime={data['startTime']}
+        endtime={data['endTime']}
         type='checkbox'
         index={index}
         onChange={onSelect}

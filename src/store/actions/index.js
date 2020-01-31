@@ -12,3 +12,5 @@ export {
 } from './user';
 
 export { events } from './event';
+
+export { setBooking } from './booking';

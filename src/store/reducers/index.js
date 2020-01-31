@@ -6,7 +6,7 @@ import auth from './auth';
 import user from './user';
 import institution from './institution';
 import events from './events';
-
+import booking from './booking';
 const authPersistConfig = {
   key: 'auth',
   storage
@@ -24,12 +24,17 @@ const eventsPersistConfig = {
   key: 'events',
   storage
 };
+const bookingPersistConfig = {
+  key: 'booking',
+  storage
+};
 
 const rootReducer = combineReducers({
   auth: persistReducer(authPersistConfig, auth),
   user: persistReducer(userPersistConfig, user),
   institution: persistReducer(institutionPersistConfig, institution),
-  events: persistReducer(eventsPersistConfig, events)
+  events: persistReducer(eventsPersistConfig, events),
+  booking: persistReducer(bookingPersistConfig, booking)
 });
 
 export default rootReducer;

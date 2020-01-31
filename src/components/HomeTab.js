@@ -12,7 +12,7 @@ import ExhibitorSignUp from './ExhibitorSignUp';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { isEmpty, isEqual } from 'lodash';
-import { login, getInstitution, addUser, upload, events } from '../store/actions';
+import { login, getInstitution, addUser, upload, events, setBooking } from '../store/actions';
 import { connect } from 'react-redux';
 
 const TabLinks = ({ parent }) => {
@@ -221,7 +221,8 @@ class HomeTab extends Component {
     confirmPassword: '',
     selectedSchedules: {},
     selectedEvent: null,
-    allEvents: {}
+    allEvents: {},
+    setBookings: []
   };
 
   componentDidMount() {}
@@ -282,14 +283,18 @@ class HomeTab extends Component {
       isUploaded,
       isRequestingEvent,
       isGetEvents,
-      payloadEvents
+      payloadEvents,
+      onSetBooking,
+      isGetBooking,
+      payloadSetBooking
     } = newProps;
-    if (isLoggedIn) window.location.replace('/events');
+
+    // if (isLoggedIn) window.location.replace('/events');
 
     const { onLogin } = this.props;
-    const { signUpEmail, signUpPassword, selectedEvent, selectedSchedules, events } = this.state;
+    const { signUpEmail, signUpPassword, events, setBookings } = this.state;
 
-    if (!isRequestingEvent && isGetEvents) {
+    if (!isRequestingEvent && isGetEvents && events.length == 0) {
       let events = [];
       if (Object.keys(payloadEvents).length > 0) {
         delete payloadEvents.status;
@@ -299,7 +304,7 @@ class HomeTab extends Component {
         });
       }
       const allEvents = {
-        id: events[events.length - 1].id,
+        id: events[events.length - 1].id + 1,
         date: new Date(),
         title: 'All',
         address: '',
@@ -378,12 +383,10 @@ class HomeTab extends Component {
           selectedEvent: events[events.length - 1]
         });
     }
-
     if (isUploading && !isUploaded) {
     } else if (!isUploading && isUploaded) {
       console.log(payloadUser);
     }
-
     if (Object.keys(payloadInstitution).length > 0) {
       let types = [];
 
@@ -419,11 +422,19 @@ class HomeTab extends Component {
       }
     } else if (requestSuccessful && !isLoggedIn) {
       onLogin({ email: signUpEmail, password: signUpPassword });
-      toast.success('Successfully registered');
     }
 
     if (isLoggedIn && payloadLogin.accessToken) {
       if (payloadLogin.userType !== 'Admin') {
+        if (setBookings.length > 0) {
+          onSetBooking({
+            token: payloadLogin.accessToken,
+            scheduleId: setBookings
+          });
+        }
+        // } else if (isLoggedIn) {
+        //   sessionStorage.setItem('user', JSON.stringify(payloadLogin));
+        // }
         // window.location.replace('/events');
       } else if (isLoggedIn) {
         toast.error('Admin should not access this');
@@ -434,6 +445,8 @@ class HomeTab extends Component {
     ) {
       toast.error(payloadLogin.message);
     }
+
+    //if (isGetBooking && isLoggedIn) sessionStorage.setItem('user', JSON.stringify(payloadLogin));
   }
 
   OnHandleLogin = () => {
@@ -494,6 +507,24 @@ class HomeTab extends Component {
       password: signUpPassword,
       confirmPassword
     };
+    let setBookings = [];
+    if (selectedEvent.isAllEvent) {
+      Object.values(selectedSchedules).map(scheds => {
+        events.map(e => {
+          if (e.id != selectedEvent.id) {
+            e.schedules.map(sched => {
+              if (sched.startTime == scheds.startTime) setBookings.push(sched.id);
+            });
+          }
+        });
+      });
+    } else {
+      Object.keys(selectedSchedules).map(scheds => {
+        setBookings.push(scheds);
+      });
+    }
+
+    this.setState({ setBookings });
 
     const exhibitor = {
       institutionName,
@@ -590,6 +621,10 @@ class HomeTab extends Component {
         }
       }
     }
+    if (Object.keys(selectedSchedules).length <= 0) {
+      toast.error('Please select time slot');
+      return false;
+    }
 
     if (!isCheckedPrivacy) {
       toast.error('Please agree with the terms and conditions');
@@ -640,6 +675,7 @@ class HomeTab extends Component {
     return (
       <MDBContainer style={style.main} id='mainTab'>
         <TabLinks parent={this} />
+        {sessionStorage.getItem('user') && <Redirect to='/events' />}
         <MDBTabContent className='card' activeItem={this.state.activeItem} style={style.tabs}>
           <AboutTab parent={this} />
           <LoginTab parent={this} />
@@ -792,7 +828,9 @@ const mapStateToProps = state => ({
   requestSuccessful: state.user.requestSuccessful,
   isRequestingEvent: state.events.isRequestingEvent,
   isGetEvents: state.events.isGetEvents,
-  payloadEvents: state.events.payload
+  payloadEvents: state.events.payload,
+  payloadSetBooking: state.booking.payload,
+  isGetBooking: state.booking.isGetBooking
 });
 
 const mapDispatchToProps = dispatch => ({
@@ -800,7 +838,8 @@ const mapDispatchToProps = dispatch => ({
   onLogin: data => dispatch(login(data)),
   onAddUser: data => dispatch(addUser(data)),
   onUpload: data => dispatch(upload(data)),
-  onGetEvents: data => dispatch(events(data))
+  onGetEvents: data => dispatch(events(data)),
+  onSetBooking: data => dispatch(setBooking(data))
 });
 
 export default connect(

@@ -165,6 +165,7 @@ const user = (state = initialState, action) => {
       };
 
     case LOGOUT:
+      sessionStorage.clear();
       return {
         ...initialState
       };

@@ -53,7 +53,9 @@ const SideBar = ({ show, OnHandleShowSideBar, onLogout }) => {
         <NavLink
           to='#'
           onClick={() => {
+            sessionStorage.clear();
             onLogout();
+            window.location.replace('/');
           }}
           style={style.links}
           className='sideBarLink'

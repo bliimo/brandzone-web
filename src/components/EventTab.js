@@ -297,12 +297,15 @@ class EventTab extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    if (!nextProps.isLoggedIn) window.location.replace('/');
+    console.log(nextProps);
   }
+
+  componentDidUpdate() {}
 
   render() {
     return (
       <div style={style.main} className='p-0' id='mainTab'>
+        {!sessionStorage.getItem('user') && <Redirect to='/' />}
         <Tabs parent={this} />
         <ToastContainer />
       </div>

@@ -35,7 +35,10 @@ class EventTimeSlot extends Component {
     const { OnHandleGetTimeSlots, schedules } = this.props;
 
     if (selected[event.target.getAttribute('id')] === undefined) {
-      selected[event.target.getAttribute('id')] = true;
+      selected[event.target.getAttribute('id')] = {
+        startTime: event.target.getAttribute('starttime'),
+        endtime: event.target.getAttribute('endtime')
+      };
     } else {
       delete selected[event.target.getAttribute('id')];
     }
@@ -72,7 +75,8 @@ class EventTimeSlot extends Component {
 
     if (isSelectedAll) {
       schedules.map(e => {
-        if (selected[e.id] == undefined) selected[e.id] = true;
+        if (selected[e.id] == undefined)
+          selected[e.id] = { startTime: e.startTime, endTime: e.endTime };
       });
     } else {
       for (const prop of Object.getOwnPropertyNames(selected)) {

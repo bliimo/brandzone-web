@@ -34,14 +34,10 @@ class Header extends Component {
     this.setState({ show: !this.state.show });
   };
 
-  componentWillReceiveProps(newProps) {
-    const { onLogout, isLoggedIn, isLoggingIn } = newProps;
-    console.log(newProps);
-    this.setState({ onLogout, isLoggedIn, isLoggingIn });
-  }
+  componentWillReceiveProps(newProps) {}
 
   render() {
-    const { onLogout, isLoggedIn } = this.state;
+    const { onLogout } = this.props;
     return (
       <div>
         <MDBNavbar color='transparent' expand='md' className='header-nav'>
@@ -50,7 +46,7 @@ class Header extends Component {
               <img src={logo} alt='logo' className='logo' />
             </NavLink>
           </MDBNavbarBrand>
-          {isLoggedIn && (
+          {sessionStorage.getItem('user') && (
             <MDBNavbarNav right>
               <MDBNavItem>
                 <Profile OnHandleShowSideBar={this.OnHandleShowSideBar} />
@@ -58,7 +54,7 @@ class Header extends Component {
             </MDBNavbarNav>
           )}
         </MDBNavbar>
-        {isLoggedIn && (
+        {sessionStorage.getItem('user') && (
           <SideBar
             show={this.state.show}
             OnHandleShowSideBar={this.OnHandleShowSideBar}
