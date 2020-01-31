@@ -53,14 +53,18 @@ class Dropdown extends Component {
     items: [],
     isOpen: false,
     label: '',
+    id: '',
     action: () => {}
   };
 
   componentWillMount() {
-    const { items, action, label } = this.props;
-    this.setState({ items, action, label });
+    const { items, action, label, id } = this.props;
+    this.setState({ items, action, label, id });
   }
   OnHandleActive = active => {
+    if (this.state.id) {
+      document.getElementById(this.state.id).classList.remove('invalid-field');
+    }
     this.state.action(active);
     this.setState({ active, isOpen: false });
   };
@@ -72,7 +76,7 @@ class Dropdown extends Component {
 
   render() {
     return (
-      <MDBContainer style={style.main} className='drop-down'>
+      <MDBContainer id={this.state.id} style={style.main} className='drop-down'>
         <Active parent={this} />
         <Items parent={this} />
       </MDBContainer>

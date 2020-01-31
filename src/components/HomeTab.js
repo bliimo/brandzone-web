@@ -12,7 +12,7 @@ import ExhibitorSignUp from './ExhibitorSignUp';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { isEmpty, isEqual } from 'lodash';
-import { login } from '../store/actions';
+import { login, getInstitution, addUser, upload } from '../store/actions';
 import { connect } from 'react-redux';
 
 const TabLinks = ({ parent }) => {
@@ -202,12 +202,13 @@ class HomeTab extends Component {
     companyProvince: '',
     companyProfile: '',
     companyCity: '',
-    repName: '',
     jobTitle: '',
     phoneNumber: '',
     signUpEmail: '',
     signUpPassword: '',
     institutionName: '',
+    firstName: '',
+    lastName: '',
     programs: '',
     profilePic: null,
     isCheckedPrivacy: false,
@@ -356,16 +357,10 @@ class HomeTab extends Component {
     ],
     schedules: {},
     userTypeSelected: null,
-    institutionTypes: [
-      {
-        id: 0,
-        name: 'Organization'
-      },
-      {
-        id: 1,
-        name: 'University'
-      }
-    ]
+    institutionTypes: [],
+    institutionType: null,
+    companyWebsite: '',
+    confirmPassword: ''
   };
 
   componentDidMount() {
@@ -379,6 +374,11 @@ class HomeTab extends Component {
 
   OnHandleChange = event => {
     let { emailError, passwordError } = this.state;
+    if (event.target.value !== '') {
+      document.getElementById(event.target.id).classList.remove('invalid-field');
+    } else {
+      document.getElementById(event.target.id).classList.add('invalid-field');
+    }
     if (event.target.id === 'email') emailError = !validation.isEmail(event.target.value);
     if (event.target.id === 'password')
       passwordError = !validation.isValidPassword(event.target.value);
@@ -398,6 +398,11 @@ class HomeTab extends Component {
     this.setState({ userTypeSelected: id });
   };
 
+  OnHandleInstitutionType = id => {
+    const { institutionTypes } = this.state;
+    this.setState({ institutionType: id });
+  };
+
   OnHandleSignUpForm = () => {
     if (this.state.userTypeSelected === 0) {
       return <ParticipantSignUp parent={this} />;
@@ -407,8 +412,74 @@ class HomeTab extends Component {
   };
 
   componentWillReceiveProps() {
-    const { isLoggedIn, payload } = this.props;
-    if (isLoggedIn && payload.accessToken) window.location.replace('/events');
+    const {
+      isLoggedIn,
+      payloadLogin,
+      isLoggingIn,
+      payloadUser,
+      isRequesting,
+      payloadInstitution,
+      requestSuccessful,
+      isUploading,
+      isUploaded
+    } = this.props;
+
+    if (isUploading && !isUploaded) {
+      console.log(payloadUser);
+    } else if (!isUploading && isUploaded) {
+      console.log(payloadUser);
+    }
+
+    if (Object.keys(payloadInstitution).length > 0) {
+      let types = [];
+
+      delete payloadInstitution.status;
+      delete payloadInstitution.ok;
+      Object.values(payloadInstitution).map((e, i) => {
+        types.push(e);
+      });
+      console.log(types);
+      this.setState({ institutionTypes: types });
+    }
+
+    if (isRequesting && !requestSuccessful) {
+      if (payloadUser.code != 200) {
+        try {
+          if (
+            payloadUser.message.search('email') >= 0 ||
+            payloadUser.message.search('Email') >= 0
+          ) {
+            document.getElementById('signUpEmail').classList.add('invalid-field');
+            toast.error(payloadUser.message);
+          } else {
+            document.getElementById('signUpEmail').classList.remove('invalid-field');
+          }
+          console.log(payloadUser.message.search('Password'));
+          if (payloadUser.message.search('Password') >= 0) {
+            document.getElementById('signUpPassword').classList.add('invalid-field');
+            toast.error(payloadUser.message);
+          } else {
+            document.getElementById('signUpPassword').classList.remove('invalid-field');
+          }
+        } catch (error) {
+          console.log(error);
+        }
+      }
+    } else if (requestSuccessful && !isRequesting) {
+      toast.success('Successfully registered');
+    }
+
+    if (isLoggingIn) {
+      if (isLoggedIn && payloadLogin.accessToken) {
+        if (payloadLogin.userType !== 'Admin') {
+          window.location.replace('/events');
+        } else if (isLoggedIn) {
+          toast.error('Admin should not access this');
+        }
+      } else if (isLoggingIn && payloadLogin.code === 500) {
+        toast.error(payloadLogin.message);
+      }
+    }
   }
 
   OnHandleLogin = () => {
@@ -428,12 +499,156 @@ class HomeTab extends Component {
   };
 
   OnHandleSignUp = () => {
-    toast.error('Wow so easy !');
+    const { onAddUser } = this.props;
+    const {
+      companyName,
+      companyCountry,
+      companyProvince,
+      companyProfile,
+      companyCity,
+      firstName,
+      lastName,
+      jobTitle,
+      phoneNumber,
+      signUpEmail,
+      signUpPassword,
+      institutionName,
+      programs,
+      institutionType,
+      companyWebsite,
+      confirmPassword,
+      userTypeSelected,
+      isCheckedPrivacy
+    } = this.state;
+
+    const participant = {
+      institutionTypeId: institutionType,
+      companyName,
+      companyCountry,
+      companyProvince,
+      companyCity,
+      companyWebsite,
+      companyProfile,
+      firstName,
+      lastName,
+      jobTitle,
+      phoneNumber,
+      email: signUpEmail,
+      password: signUpPassword,
+      confirmPassword
+    };
+
+    const exhibitor = {
+      institutionName,
+      institutionProfile: companyProfile,
+      institutionProvince: companyProvince,
+      institutionCity: companyCity,
+      institutionCountry: companyCountry,
+      institutionWebsite: companyWebsite,
+      institutionTelephone: phoneNumber,
+      programs: programs,
+      firstName,
+      lastName,
+      jobTitle,
+      phoneNumber,
+      email: signUpEmail,
+      password: signUpPassword,
+      confirmPassword: confirmPassword
+    };
+
+    let userType, user;
+    if (userTypeSelected == 0) {
+      userType = 'participant';
+      user = participant;
+    } else {
+      userType = 'exhibitor';
+      user = exhibitor;
+    }
+
+    for (const key of Object.keys(user)) {
+      if (user[key] <= 0) {
+        if (user[key] === null || user[key] === undefined || user[key].trim() === '') {
+          let fields = {};
+          if (userTypeSelected == 0) {
+            fields = {
+              institutionTypeId: 'institutionType',
+              companyName: 'companyName',
+              companyCountry: 'companyCountry',
+              companyProvince: 'companyProvince',
+              companyCity: 'companyCity',
+              companyWebsite: 'companyWebsite',
+              companyProfile: 'companyProfile',
+              firstName: 'firstName',
+              lastName: 'lastName',
+              jobTitle: 'jobTitle',
+              phoneNumber: 'phoneNumber',
+              email: 'signUpEmail',
+              password: 'signUpPassword',
+              confirmPassword: 'confirmPassword'
+            };
+          } else {
+            fields = {
+              institutionName: 'institutionName',
+              institutionProfile: 'companyProfile',
+              institutionProvince: 'companyProvince',
+              institutionCity: 'companyCity',
+              institutionCountry: 'companyCountry',
+              institutionWebsite: 'companyWebsite',
+              institutionTelephone: 'phoneNumber',
+              programs: 'programs',
+              firstName: 'firstName',
+              lastName: 'lastName',
+              jobTitle: 'jobTitle',
+              phoneNumber: 'phoneNumber',
+              email: 'signUpEmail',
+              password: 'signUpPassword',
+              confirmPassword: 'confirmPassword'
+            };
+          }
+
+          Object.keys(fields).map((v, k) => {
+            try {
+              if (key === v) {
+                console.log(key);
+                document.getElementById(key).classList.add('invalid-field');
+              } else {
+                document.getElementById(k).classList.remove('invalid-field');
+              }
+            } catch (error) {}
+          });
+
+          toast.error(
+            `Required ${key
+              .replace('Id', '')
+              .replace('company', 'company ')
+              .replace('institution', 'institution ')
+              .replace('institutionName', 'institution name')
+              .replace('firstName', 'first name')
+              .replace('lastName', 'last name')
+              .replace('confirm', 'confirm ')
+              .replace('job', 'job ')
+              .toLowerCase()}`
+          );
+          return true;
+        }
+      }
+    }
+
+    if (!isCheckedPrivacy) {
+      toast.error('Please agree with the terms and conditions');
+      return false;
+    }
+
+    const userData = {
+      ...user,
+      userType
+    };
+
+    onAddUser(userData);
   };
 
   OnHandleEventType = id => {
     let { events, scheds } = this.state;
-
     events.map(e => {
       if (e['id'] == id) {
         scheds = e.scheds;
@@ -443,11 +658,10 @@ class HomeTab extends Component {
     this.setState({ scheds });
   };
 
-  OnHandleInstitutionType = id => {
-    console.log('test 2', id);
-  };
-
   OnHandlePicture = event => {
+    const { onUpload } = this.props;
+
+    // onUpload({ filePath: event.target.value });
     this.setState({ profilePic: URL.createObjectURL(event.target.files[0]) });
   };
 
@@ -461,6 +675,8 @@ class HomeTab extends Component {
     for (let i = 0; i < events.length; i++) {
       events[i]['name'] = `${events[i]['date']} - ${events[i]['address']}`;
     }
+    const { onShowInstitution } = this.props;
+    onShowInstitution();
 
     this.setState({ events });
   }
@@ -469,7 +685,7 @@ class HomeTab extends Component {
     const { isLoggedIn } = this.props;
     return (
       <MDBContainer style={style.main} id='mainTab'>
-        {isLoggedIn && <Redirect to='/events' />}
+        {/* {isLoggedIn && <Redirect to='/events' />} */}
         <TabLinks parent={this} />
         <MDBTabContent className='card' activeItem={this.state.activeItem} style={style.tabs}>
           <AboutTab parent={this} />
@@ -614,13 +830,20 @@ const style = {
 };
 
 const mapStateToProps = state => ({
-  payload: state.auth.payload,
+  payloadLogin: state.auth.payload,
   isLoggedIn: state.auth.isLoggedIn,
-  isLoggingIn: state.auth.isLoggingIn
+  isLoggingIn: state.auth.isLoggingIn,
+  payloadInstitution: state.institution.payload,
+  isRequesting: state.user.isRequesting,
+  payloadUser: state.user.payload,
+  requestSuccessful: state.user.requestSuccessful
 });
 
 const mapDispatchToProps = dispatch => ({
-  onLogin: data => dispatch(login(data))
+  onShowInstitution: () => dispatch(getInstitution()),
+  onLogin: data => dispatch(login(data)),
+  onAddUser: data => dispatch(addUser(data)),
+  onUpload: data => dispatch(upload(data))
 });
 
 export default connect(

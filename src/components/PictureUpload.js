@@ -70,7 +70,8 @@ const style = {
   },
   profile: {
     height: 120,
-    width: 120
+    width: 120,
+    objectFit: 'contain'
   }
 };
 export default PictureUpload;

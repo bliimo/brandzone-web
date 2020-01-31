@@ -6,39 +6,45 @@ import {
   INVITE_USERS_REQUEST,
   UPDATE_ACCOUNTSTATUS_REQUEST,
   EDIT_USERINFO_REQUEST,
+  IMG_REQUEST
 } from './actionTypes';
 
 export const getCurrentUser = data => ({
   type: GET_CURRENTUSER_REQUEST,
-  data,
+  data
 });
 
 export const getUsers = data => ({
   type: GET_USERS_REQUEST,
-  data,
+  data
 });
 
 export const getUserInfo = data => ({
   type: GET_USERINFO_REQUEST,
-  data,
+  data
 });
 
 export const addUser = data => ({
   type: ADD_USER_REQUEST,
-  data,
+  data
 });
 
 export const inviteUsers = data => ({
   type: INVITE_USERS_REQUEST,
-  data,
+  data
 });
 
 export const updateAccountStatus = data => ({
   type: UPDATE_ACCOUNTSTATUS_REQUEST,
-  data,
+  data
 });
 
 export const editUserInfo = data => ({
   type: EDIT_USERINFO_REQUEST,
-  data,
+  data
+});
+
+export const upload = data => ({
+  type: IMG_REQUEST,
+  data
 });

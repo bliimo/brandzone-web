@@ -5,7 +5,6 @@ import PictureUpload from './PictureUpload';
 import EventTimeSlot from './EventTimeSlot';
 
 const ExhibitorSignUp = ({ parent }) => {
-  console.log(parent);
   return (
     <div>
       <TextInput
@@ -155,6 +154,18 @@ const ExhibitorSignUp = ({ parent }) => {
         style={style.inputs}
       />
       <TextInput
+        placeholder='Confirm Password'
+        id='confirmPassword'
+        onChange={parent.OnHandleChange}
+        type='password'
+        value={parent.state.confirmPassword}
+        size='sm'
+        required={true}
+        autocomplete='off'
+        className='signup-input'
+        style={style.inputs}
+      />
+      <TextInput
         placeholder='Telephone Number'
         id='phoneNumber'
         onChange={parent.OnHandleChange}
@@ -172,7 +183,11 @@ const ExhibitorSignUp = ({ parent }) => {
         action={parent.OnHandleEventType}
         label='Choose an event you will be participating in:'
       />
-      <EventTimeSlot OnHandleGetTimeSlots={parent.OnHandleGetTimeSlots} parent={parent} />
+      <EventTimeSlot
+        OnHandleGetTimeSlots={parent.OnHandleGetTimeSlots}
+        parent={parent}
+        scheds={parent.state.scheds}
+      />
     </div>
   );
 };

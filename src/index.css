@@ -1080,3 +1080,7 @@ div.slot-list-row:not(:first-of-type) {
   font-size: 0.9em;
   margin: 0.7em 0 1.4em 0;
 }
+
+.invalid-field {
+  border: solid 1px #e22b2b !important;
+}

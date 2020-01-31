@@ -1,2 +1,12 @@
 export { login, logout } from './auth';
-export { getCurrentUser, getUsers, getUserInfo, addUser, inviteUsers, updateAccountStatus, editUserInfo } from './user';
+export { getInstitution } from './institution';
+export {
+  getCurrentUser,
+  getUsers,
+  getUserInfo,
+  addUser,
+  inviteUsers,
+  updateAccountStatus,
+  editUserInfo,
+  upload
+} from './user';

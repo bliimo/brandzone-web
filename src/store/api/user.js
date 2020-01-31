@@ -8,12 +8,12 @@ export const getCurrentUser = data => {
     {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
-      },
+        'Content-Type': 'application/json'
+      }
     },
     {
-      token: data.token,
-    },
+      token: data.token
+    }
   );
 };
 
@@ -24,12 +24,12 @@ export const getUsers = data => {
     {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
-      },
+        'Content-Type': 'application/json'
+      }
     },
     {
-      token: data.token,
-    },
+      token: data.token
+    }
   );
 };
 
@@ -40,30 +40,25 @@ export const getUserInfo = data => {
     {
       method: 'GET',
       headers: {
-        'Content-Type': 'application/json',
-      },
+        'Content-Type': 'application/json'
+      }
     },
     {
-      token: data.token,
-    },
+      token: data.token
+    }
   );
 };
 
 export const addUser = data => {
-  const url = `${API}/users`;
-  return ajax(
-    url,
-    {
-      method: 'POST',
-      body: JSON.stringify(data.userData),
-      headers: {
-        'Content-Type': 'application/json',
-      },
-    },
-    {
-      token: data.token,
-    },
-  );
+  const { userType } = data;
+  const url = `${API}/${userType}/register`;
+  return ajax(url, {
+    method: 'POST',
+    body: JSON.stringify(data),
+    headers: {
+      'Content-Type': 'application/json'
+    }
+  });
 };
 
 export const inviteUsers = data => {
@@ -74,12 +69,12 @@ export const inviteUsers = data => {
       method: 'POST',
       body: JSON.stringify(data.userData),
       headers: {
-        'Content-Type': 'application/json',
-      },
+        'Content-Type': 'application/json'
+      }
     },
     {
-      token: data.token,
-    },
+      token: data.token
+    }
   );
 };
 
@@ -91,12 +86,12 @@ export const updateAccountStatus = data => {
       method: 'PUT',
       body: JSON.stringify(data.status),
       headers: {
-        'Content-Type': 'application/json',
-      },
+        'Content-Type': 'application/json'
+      }
     },
     {
-      token: data.token,
-    },
+      token: data.token
+    }
   );
 };
 
@@ -108,11 +103,28 @@ export const editUserInfo = data => {
       method: 'PUT',
       body: JSON.stringify(data.userData),
       headers: {
-        'Content-Type': 'application/json',
-      },
+        'Content-Type': 'application/json'
+      }
     },
     {
-      token: data.token,
+      token: data.token
+    }
+  );
+};
+
+export const upload = data => {
+  const url = `${API}/storage/uploadFile`;
+  return ajax(
+    url,
+    {
+      method: 'POST',
+      body: JSON.stringify(data),
+      headers: {
+        'Content-Type': 'application/json'
+      }
     },
+    {
+      token: data.token
+    }
   );
 };

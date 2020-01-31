@@ -9,6 +9,7 @@ const ParticipantSignUp = ({ parent, events }) => {
     <div>
       <div style={style.participant}>
         <Dropdown
+          id='institutionTypeId'
           items={parent.state.institutionTypes}
           action={parent.OnHandleInstitutionType}
           label='Type of Institution'
@@ -149,6 +150,18 @@ const ParticipantSignUp = ({ parent, events }) => {
         style={style.inputs}
       />
       <TextInput
+        placeholder='Confirm Password'
+        id='confirmPassword'
+        onChange={parent.OnHandleChange}
+        type='password'
+        value={parent.state.confirmPassword}
+        size='sm'
+        required={true}
+        autocomplete='off'
+        className='signup-input'
+        style={style.inputs}
+      />
+      <TextInput
         placeholder='Telephone Number'
         id='phoneNumber'
         onChange={parent.OnHandleChange}
@@ -169,6 +182,7 @@ const ParticipantSignUp = ({ parent, events }) => {
       <EventTimeSlot
         OnHandleGetTimeSlots={parent.OnHandleGetTimeSlots}
         scheds={parent.state.scheds}
+        parent={parent}
       />
     </div>
   );

@@ -22,6 +22,9 @@ import {
   EDIT_USERINFO_REQUEST,
   EDIT_USERINFO_FAILURE,
   EDIT_USERINFO_SUCCESS,
+  IMG_REQUEST,
+  IMG_FAILURE,
+  IMG_SUCCESS
 } from '../actions/actionTypes';
 
 import {
@@ -32,6 +35,7 @@ import {
   inviteUsers,
   updateAccountStatus,
   editUserInfo,
+  upload
 } from '../api/user';
 
 /* update account status */
@@ -172,4 +176,23 @@ function* getUsersWorker(action) {
 
 export function* getUsersWatcher() {
   yield takeLatest(GET_USERS_REQUEST, getUsersWorker);
+}
+
+function* uploadWorker(action) {
+  try {
+    const result = yield call(upload, action.data);
+    // dispatch success action
+    if (result.ok) {
+      yield put({ type: IMG_SUCCESS, payload: result });
+    } else {
+      yield put({ type: IMG_FAILURE, payload: result });
+    }
+  } catch (error) {
+    // dispatch failure action
+    yield put({ type: IMG_FAILURE });
+  }
+}
+
+export function* uploadWatcher() {
+  yield takeLatest(IMG_REQUEST, uploadWorker);
 }

@@ -69,6 +69,10 @@ class EventTimeSlot extends Component {
     OnHandleGetTimeSlots(this.OnHandleGetSelected());
   };
 
+  componentDidMount() {
+    this.setState({ isMounted: true });
+  }
+
   render() {
     const { scheds } = this.props;
     return (

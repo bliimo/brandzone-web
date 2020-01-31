@@ -21,6 +21,9 @@ import {
   EDIT_USERINFO_REQUEST,
   EDIT_USERINFO_FAILURE,
   EDIT_USERINFO_SUCCESS,
+  IMG_REQUEST,
+  IMG_FAILURE,
+  IMG_SUCCESS,
   LOGOUT
 } from '../actions/actionTypes';
 
@@ -35,7 +38,9 @@ const initialState = {
   payload: {},
   currentUserInfo: {},
   users: [],
-  userInfo: {}
+  userInfo: {},
+  isUploading: false,
+  isUploaded: true
 };
 
 const user = (state = initialState, action) => {
@@ -132,6 +137,31 @@ const user = (state = initialState, action) => {
         error: {},
         response: get(action, 'payload'),
         payload: get(action, 'payload')
+      };
+
+    case IMG_REQUEST:
+      return {
+        ...state,
+        isUploading: true,
+        error: {},
+        hasError: false
+      };
+
+    case IMG_FAILURE:
+      return {
+        ...state,
+        isUploading: false,
+        error: {},
+        hasError: false
+      };
+
+    case IMG_SUCCESS:
+      return {
+        ...state,
+        isUploading: false,
+        isUploaded: true,
+        error: {},
+        hasError: false
       };
 
     case LOGOUT:
