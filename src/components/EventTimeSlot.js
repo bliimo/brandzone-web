@@ -2,12 +2,16 @@ import React, { Component } from 'react';
 import Text from './Text';
 import Time from './Time';
 
-const Schedules = ({ parent, scheds }) => {
+const Schedules = ({ parent, schedules }) => {
   let timeSlots = [];
-  if (scheds) {
-    scheds.map((e, i) => {
+  if (schedules) {
+    schedules.map((e, i) => {
+      let startTime = e.startTime.substring(0, e.startTime.length - 3);
+      let endTime = e.endTime.substring(0, e.endTime.length - 3);
+      startTime = startTime.substring(0, 1) == '0' ? startTime.substring(1) : startTime;
+      endTime = endTime.substring(0, 1) == '0' ? endTime.substring(1) : endTime;
       const props = {
-        text: `${e.startTime} - ${e.endTime}`,
+        text: `${startTime} - ${endTime}`,
         data: e,
         index: i,
         selected: parent.state.selected,
@@ -28,14 +32,14 @@ class EventTimeSlot extends Component {
 
   OnHandleSelect = event => {
     let { selected, isSelectedAll } = this.state;
-    const { OnHandleGetTimeSlots, scheds } = this.props;
+    const { OnHandleGetTimeSlots, schedules } = this.props;
 
     if (selected[event.target.getAttribute('id')] === undefined) {
       selected[event.target.getAttribute('id')] = true;
     } else {
       delete selected[event.target.getAttribute('id')];
     }
-    isSelectedAll = Object.keys(scheds).length == Object.keys(selected).length;
+    isSelectedAll = Object.keys(schedules).length == Object.keys(selected).length;
 
     this.setState({ selected, isSelectedAll });
     OnHandleGetTimeSlots(this.OnHandleGetSelected());
@@ -50,13 +54,13 @@ class EventTimeSlot extends Component {
 
   OnHandleSelectAll = () => {
     let { isSelectedAll, selected } = this.state;
-    let { scheds } = this.props;
+    let { schedules } = this.props;
     const { OnHandleGetTimeSlots } = this.props;
 
     isSelectedAll = !isSelectedAll;
 
     if (isSelectedAll) {
-      scheds.map(e => {
+      schedules.map(e => {
         if (selected[e.id] == undefined) selected[e.id] = true;
       });
     } else {
@@ -74,7 +78,7 @@ class EventTimeSlot extends Component {
   }
 
   render() {
-    const { scheds } = this.props;
+    const { schedules } = this.props;
     return (
       <div style={style.main}>
         <div className='text-center mt-4'>
@@ -89,7 +93,7 @@ class EventTimeSlot extends Component {
             </span>
           </Text>
         </div>
-        <Schedules parent={this} scheds={scheds} />
+        <Schedules parent={this} schedules={schedules} />
       </div>
     );
   }

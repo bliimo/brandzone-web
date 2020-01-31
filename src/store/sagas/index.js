@@ -12,6 +12,7 @@ import {
   editUserInfoWatcher,
   uploadWatcher
 } from './user';
+import { eventWatcher } from './events';
 function* rootSaga() {
   yield all([fork(loginWatcher)]);
   yield all([fork(getCurrentUserWatcher)]);
@@ -23,6 +24,7 @@ function* rootSaga() {
   yield all([fork(editUserInfoWatcher)]);
   yield all([fork(institutionWatcher)]);
   yield all([fork(uploadWatcher)]);
+  yield all([fork(eventWatcher)]);
 }
 
 export default rootSaga;

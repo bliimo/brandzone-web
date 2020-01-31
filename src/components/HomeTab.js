@@ -12,7 +12,7 @@ import ExhibitorSignUp from './ExhibitorSignUp';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { isEmpty, isEqual } from 'lodash';
-import { login, getInstitution, addUser, upload } from '../store/actions';
+import { login, getInstitution, addUser, upload, events } from '../store/actions';
 import { connect } from 'react-redux';
 
 const TabLinks = ({ parent }) => {
@@ -212,155 +212,15 @@ class HomeTab extends Component {
     programs: '',
     profilePic: null,
     isCheckedPrivacy: false,
-    events: [
-      {
-        id: 0,
-        date: 'Feb 28',
-        address: 'New world Hotel Makati',
-        scheds: [
-          {
-            id: 1,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 2,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 3,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 4,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 5,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 6,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 7,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 8,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 9,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 10,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 11,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 12,
-            startTime: '2:30',
-            endTime: '2:50'
-          }
-        ]
-      },
-      {
-        id: 1,
-        date: 'Feb 28',
-        address: 'New world Hotel Makati',
-        scheds: [
-          {
-            id: 13,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 14,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 15,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 16,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 17,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 18,
-            startTime: '2:30',
-            endTime: '2:50'
-          }
-        ]
-      },
-      {
-        id: 2,
-        date: 'Feb 28',
-        address: 'All',
-        scheds: [
-          {
-            id: 19,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 20,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 21,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 22,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 23,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 24,
-            startTime: '2:30',
-            endTime: '2:50'
-          }
-        ]
-      }
-    ],
-    schedules: {},
+    events: [],
+    schedules: [],
     userTypeSelected: null,
     institutionTypes: [],
     institutionType: null,
     companyWebsite: '',
-    confirmPassword: ''
+    confirmPassword: '',
+    selectedSchedules: [],
+    selectedEvent: null
   };
 
   componentDidMount() {
@@ -385,8 +245,9 @@ class HomeTab extends Component {
     this.setState({ [event.target.id]: event.target.value, emailError, passwordError });
   };
 
-  OnHandleGetTimeSlots = schedules => {
-    this.setState({ schedules });
+  OnHandleGetTimeSlots = selectedSchedules => {
+    console.log(selectedSchedules);
+    this.setState({ selectedSchedules });
   };
 
   OnHandleCheckTerms = () => {
@@ -421,13 +282,101 @@ class HomeTab extends Component {
       payloadInstitution,
       requestSuccessful,
       isUploading,
-      isUploaded
+      isUploaded,
+      isRequestingEvent,
+      isGetEvents,
+      payloadEvents
     } = newProps;
 
-    console.log(newProps);
+    if (!isRequestingEvent && isGetEvents) {
+      let events = [];
+      if (Object.keys(payloadEvents).length > 0) {
+        delete payloadEvents.status;
+        delete payloadEvents.ok;
+        Object.values(payloadEvents).map((e, i) => {
+          events.push(e);
+        });
+      }
+      const allEvents = {
+        id: events[events.length - 1].id,
+        date: new Date(),
+        title: 'All',
+        address: '',
+        isAllEvent: true,
+        schedules: [
+          {
+            id: 1,
+            startTime: '02:30:00',
+            endTime: '02:50:00'
+          },
+          {
+            id: 1,
+            startTime: '02:50:00',
+            endTime: '03:10:00'
+          },
+          {
+            id: 1,
+            startTime: '03:10:00',
+            endTime: '03:30:00'
+          },
+          {
+            id: 1,
+            startTime: '03:30:00',
+            endTime: '03:50:00'
+          },
+          {
+            id: 1,
+            startTime: '03:50:00',
+            endTime: '04:10:00'
+          },
+          {
+            id: 1,
+            startTime: '04:10:00',
+            endTime: '04:30:00'
+          },
+          {
+            id: 1,
+            startTime: '04:30:00',
+            endTime: '04:50:00'
+          },
+          {
+            id: 1,
+            startTime: '04:50:00',
+            endTime: '05:10:00'
+          },
+          {
+            id: 1,
+            startTime: '05:10:00',
+            endTime: '05:30:00'
+          },
+          {
+            id: 1,
+            startTime: '05:30:00',
+            endTime: '05:50:00'
+          },
+          {
+            id: 1,
+            startTime: '05:50:00',
+            endTime: '06:10:00'
+          },
+          {
+            id: 1,
+            startTime: '06:10:00',
+            endTime: '06:30:00'
+          }
+        ]
+      };
+      events.push(allEvents);
+
+      if (events.length > 0)
+        this.setState({
+          events,
+          schedules: events[events.length - 1].schedules,
+          selectedEvent: events[events.length - 1]
+        });
+    }
 
     if (isUploading && !isUploaded) {
-      console.log(payloadUser);
     } else if (!isUploading && isUploaded) {
       console.log(payloadUser);
     }
@@ -440,7 +389,6 @@ class HomeTab extends Component {
       Object.values(payloadInstitution).map((e, i) => {
         types.push(e);
       });
-      console.log(types);
       this.setState({ institutionTypes: types });
     }
 
@@ -479,7 +427,10 @@ class HomeTab extends Component {
         } else if (isLoggedIn) {
           toast.error('Admin should not access this');
         }
-      } else if (isLoggingIn && payloadLogin.code === 500) {
+      } else if (
+        (isLoggingIn && payloadLogin.code === 500) ||
+        (isLoggingIn && payloadLogin.code === 400)
+      ) {
         toast.error(payloadLogin.message);
       }
     }
@@ -489,16 +440,17 @@ class HomeTab extends Component {
     const { email, password } = this.state;
     const { onLogin } = this.props;
 
-    if (isEmpty(email)) {
-      toast.error('Please enter your email address');
-    } else if (isEmpty(password)) {
-      toast.error('Please enter your password');
-    } else {
-      onLogin({
-        email,
-        password
-      });
-    }
+    // if (isEmpty(email)) {
+    //   toast.error('Please enter your email address');
+    // } else if (isEmpty(password)) {
+    //   toast.error('Please enter your password');
+    // } else {
+    //   onLogin({
+    //     email,
+    //     password
+    //   });
+    // }
+    window.location.replace('/events');
   };
 
   OnHandleSignUp = () => {
@@ -650,15 +602,9 @@ class HomeTab extends Component {
     onAddUser(userData);
   };
 
-  OnHandleEventType = id => {
-    let { events, scheds } = this.state;
-    events.map(e => {
-      if (e['id'] == id) {
-        scheds = e.scheds;
-      }
-    });
-
-    this.setState({ scheds });
+  OnHandleEventType = index => {
+    let { events } = this.state;
+    this.setState({ schedules: events[index].schedules, selectedEvent: events[index] });
   };
 
   OnHandlePicture = event => {
@@ -678,8 +624,9 @@ class HomeTab extends Component {
     for (let i = 0; i < events.length; i++) {
       events[i]['name'] = `${events[i]['date']} - ${events[i]['address']}`;
     }
-    const { onShowInstitution } = this.props;
+    const { onShowInstitution, onGetEvents } = this.props;
     onShowInstitution();
+    onGetEvents();
 
     this.setState({ events });
   }
@@ -688,7 +635,7 @@ class HomeTab extends Component {
     const { isLoggedIn } = this.props;
     return (
       <MDBContainer style={style.main} id='mainTab'>
-        {/* {isLoggedIn && <Redirect to='/events' />} */}
+        {isLoggedIn && <Redirect to='/events' />}
         <TabLinks parent={this} />
         <MDBTabContent className='card' activeItem={this.state.activeItem} style={style.tabs}>
           <AboutTab parent={this} />
@@ -839,14 +786,18 @@ const mapStateToProps = state => ({
   payloadInstitution: state.institution.payload,
   isRequesting: state.user.isRequesting,
   payloadUser: state.user.payload,
-  requestSuccessful: state.user.requestSuccessful
+  requestSuccessful: state.user.requestSuccessful,
+  isRequestingEvent: state.events.isRequestingEvent,
+  isGetEvents: state.events.isGetEvents,
+  payloadEvents: state.events.payload
 });
 
 const mapDispatchToProps = dispatch => ({
   onShowInstitution: () => dispatch(getInstitution()),
   onLogin: data => dispatch(login(data)),
   onAddUser: data => dispatch(addUser(data)),
-  onUpload: data => dispatch(upload(data))
+  onUpload: data => dispatch(upload(data)),
+  onGetEvents: data => dispatch(events(data))
 });
 
 export default connect(

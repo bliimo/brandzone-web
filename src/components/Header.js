@@ -41,23 +41,23 @@ class Header extends Component {
               <img src={logo} alt='logo' className='logo' />
             </NavLink>
           </MDBNavbarBrand>
-          {isLoggedIn ||
-            (isLoggingIn && payload.userType !== 'Admin' && (
-              <MDBNavbarNav right>
-                <MDBNavItem>
-                  <Profile OnHandleShowSideBar={this.OnHandleShowSideBar} />
-                </MDBNavItem>
-              </MDBNavbarNav>
-            ))}
+          {/* {isLoggedIn ||
+            (isLoggingIn && payload.userType !== 'Admin' && ( */}
+          <MDBNavbarNav right>
+            <MDBNavItem>
+              <Profile OnHandleShowSideBar={this.OnHandleShowSideBar} />
+            </MDBNavItem>
+          </MDBNavbarNav>
+          {/* ))} */}
         </MDBNavbar>
-        {isLoggedIn ||
-          (isLoggingIn && payload.userType !== 'Admin' && (
-            <SideBar
-              show={this.state.show}
-              OnHandleShowSideBar={this.OnHandleShowSideBar}
-              onLogout={onLogout}
-            />
-          ))}
+        {/* {isLoggedIn ||
+          (isLoggingIn && payload.userType !== 'Admin' && ( */}
+        <SideBar
+          show={this.state.show}
+          OnHandleShowSideBar={this.OnHandleShowSideBar}
+          onLogout={onLogout}
+        />
+        {/* ))} */}
       </div>
     );
   }

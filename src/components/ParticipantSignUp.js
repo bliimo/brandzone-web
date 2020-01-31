@@ -177,11 +177,12 @@ const ParticipantSignUp = ({ parent, events }) => {
       <Dropdown
         items={parent.state.events}
         action={parent.OnHandleEventType}
+        isActive={true}
         label='Choose an event you will be participating in:'
       />
       <EventTimeSlot
         OnHandleGetTimeSlots={parent.OnHandleGetTimeSlots}
-        scheds={parent.state.scheds}
+        schedules={parent.state.schedules}
         parent={parent}
       />
     </div>

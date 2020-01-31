@@ -181,12 +181,13 @@ const ExhibitorSignUp = ({ parent }) => {
       <Dropdown
         items={parent.state.events}
         action={parent.OnHandleEventType}
+        isActive={true}
         label='Choose an event you will be participating in:'
       />
       <EventTimeSlot
         OnHandleGetTimeSlots={parent.OnHandleGetTimeSlots}
+        schedules={parent.state.schedules}
         parent={parent}
-        scheds={parent.state.scheds}
       />
     </div>
   );

@@ -226,8 +226,8 @@ class EventTab extends Component {
       {
         id: 2,
         date: 'Feb 28',
-        title: 'Pangasinan',
-        address: 'All',
+        title: 'Pasig',
+        address: 'Pasig',
         scheds: [
           {
             id: 19,

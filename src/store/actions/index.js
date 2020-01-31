@@ -10,3 +10,5 @@ export {
   editUserInfo,
   upload
 } from './user';
+
+export { events } from './event';
