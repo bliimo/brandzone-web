@@ -411,7 +411,7 @@ class HomeTab extends Component {
     }
   };
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(newProps) {
     const {
       isLoggedIn,
       payloadLogin,
@@ -422,7 +422,9 @@ class HomeTab extends Component {
       requestSuccessful,
       isUploading,
       isUploaded
-    } = this.props;
+    } = newProps;
+
+    console.log(newProps);
 
     if (isUploading && !isUploaded) {
       console.log(payloadUser);
@@ -454,7 +456,6 @@ class HomeTab extends Component {
           } else {
             document.getElementById('signUpEmail').classList.remove('invalid-field');
           }
-          console.log(payloadUser.message.search('Password'));
           if (payloadUser.message.search('Password') >= 0) {
             document.getElementById('signUpPassword').classList.add('invalid-field');
             toast.error(payloadUser.message);
@@ -464,6 +465,8 @@ class HomeTab extends Component {
         } catch (error) {
           console.log(error);
         }
+      } else if (payloadUser.code == 200) {
+        toast.success('Successfully registered');
       }
     } else if (requestSuccessful && !isRequesting) {
       toast.success('Successfully registered');
