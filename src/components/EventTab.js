@@ -296,10 +296,13 @@ class EventTab extends Component {
     this.setState({ selectedProfile: null });
   };
 
+  componentWillReceiveProps(nextProps) {
+    if (!nextProps.isLoggedIn) window.location.replace('/');
+  }
+
   render() {
     return (
       <div style={style.main} className='p-0' id='mainTab'>
-        {!this.props.isLoggedIn && <Redirect to='/' />}
         <Tabs parent={this} />
         <ToastContainer />
       </div>

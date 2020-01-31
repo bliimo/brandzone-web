@@ -24,15 +24,24 @@ const Profile = ({ OnHandleShowSideBar }) => {
 class Header extends Component {
   state = {
     show: false,
-    isLoggedIn: true
+    onLogout: null,
+    isLoggedIn: null,
+    isLoggingIn: null,
+    payload: null
   };
 
   OnHandleShowSideBar = () => {
     this.setState({ show: !this.state.show });
   };
 
+  componentWillReceiveProps(newProps) {
+    const { onLogout, isLoggedIn, isLoggingIn } = newProps;
+    console.log(newProps);
+    this.setState({ onLogout, isLoggedIn, isLoggingIn });
+  }
+
   render() {
-    const { onLogout, isLoggedIn, isLoggingIn, payload } = this.props;
+    const { onLogout, isLoggedIn } = this.state;
     return (
       <div>
         <MDBNavbar color='transparent' expand='md' className='header-nav'>
@@ -41,23 +50,21 @@ class Header extends Component {
               <img src={logo} alt='logo' className='logo' />
             </NavLink>
           </MDBNavbarBrand>
-          {/* {isLoggedIn ||
-            (isLoggingIn && payload.userType !== 'Admin' && ( */}
-          <MDBNavbarNav right>
-            <MDBNavItem>
-              <Profile OnHandleShowSideBar={this.OnHandleShowSideBar} />
-            </MDBNavItem>
-          </MDBNavbarNav>
-          {/* ))} */}
+          {isLoggedIn && (
+            <MDBNavbarNav right>
+              <MDBNavItem>
+                <Profile OnHandleShowSideBar={this.OnHandleShowSideBar} />
+              </MDBNavItem>
+            </MDBNavbarNav>
+          )}
         </MDBNavbar>
-        {/* {isLoggedIn ||
-          (isLoggingIn && payload.userType !== 'Admin' && ( */}
-        <SideBar
-          show={this.state.show}
-          OnHandleShowSideBar={this.OnHandleShowSideBar}
-          onLogout={onLogout}
-        />
-        {/* ))} */}
+        {isLoggedIn && (
+          <SideBar
+            show={this.state.show}
+            OnHandleShowSideBar={this.OnHandleShowSideBar}
+            onLogout={onLogout}
+          />
+        )}
       </div>
     );
   }

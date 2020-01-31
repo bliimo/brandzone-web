@@ -182,7 +182,9 @@ const ParticipantSignUp = ({ parent, events }) => {
       />
       <EventTimeSlot
         OnHandleGetTimeSlots={parent.OnHandleGetTimeSlots}
+        isReset={parent.state.isReset}
         schedules={parent.state.schedules}
+        onResetSelected={parent.OnHandleResetSelected}
         parent={parent}
       />
     </div>

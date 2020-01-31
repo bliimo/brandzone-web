@@ -47,10 +47,21 @@ class EventTimeSlot extends Component {
 
   OnHandleGetSelected = () => this.state.selected;
 
-  componentWillReceiveProps() {
-    let { OnHandleGetTimeSlots } = this.props;
+  componentWillReceiveProps(prevProps) {
+    let { OnHandleGetTimeSlots, schedules } = this.props;
+    if (prevProps.schedules != schedules) this.OnHandleResetSelected();
+
     this.setState({ OnHandleGetTimeSlots });
   }
+
+  OnHandleResetSelected = () => {
+    let { isSelectedAll, selected } = this.state;
+    for (const prop of Object.getOwnPropertyNames(selected)) {
+      delete selected[prop];
+    }
+    isSelectedAll = false;
+    this.setState({ isSelectedAll, selected });
+  };
 
   OnHandleSelectAll = () => {
     let { isSelectedAll, selected } = this.state;

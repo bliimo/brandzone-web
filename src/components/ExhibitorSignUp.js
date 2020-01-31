@@ -186,6 +186,7 @@ const ExhibitorSignUp = ({ parent }) => {
       />
       <EventTimeSlot
         OnHandleGetTimeSlots={parent.OnHandleGetTimeSlots}
+        isReset={parent.state.isReset}
         schedules={parent.state.schedules}
         parent={parent}
       />

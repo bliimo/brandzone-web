@@ -41,7 +41,7 @@ const Items = ({ parent }) => {
   const { items, isOpen } = parent.state;
   let elem = [];
   items.map((e, i) =>
-    elem.push(<Item data={e} index={i} key={e.id} setActive={parent.OnHandleActive} />)
+    elem.push(<Item data={e} index={i} key={`${i} ${e.id}`} setActive={parent.OnHandleActive} />)
   );
   return (
     <MDBCollapse className='absolute-collapse' isOpen={isOpen}>

@@ -219,14 +219,12 @@ class HomeTab extends Component {
     institutionType: null,
     companyWebsite: '',
     confirmPassword: '',
-    selectedSchedules: [],
-    selectedEvent: null
+    selectedSchedules: {},
+    selectedEvent: null,
+    allEvents: {}
   };
 
-  componentDidMount() {
-    const { isLoggedIn } = this.props;
-    if (isLoggedIn) window.location.replace('/events');
-  }
+  componentDidMount() {}
 
   OnHandleToggle = tab => () => {
     if (this.state.activeItem !== tab) this.setState({ activeItem: tab });
@@ -246,7 +244,6 @@ class HomeTab extends Component {
   };
 
   OnHandleGetTimeSlots = selectedSchedules => {
-    console.log(selectedSchedules);
     this.setState({ selectedSchedules });
   };
 
@@ -255,13 +252,13 @@ class HomeTab extends Component {
     this.setState({ isCheckedPrivacy: !isCheckedPrivacy });
   };
 
-  OnHandleSignUpType = id => {
-    this.setState({ userTypeSelected: id });
+  OnHandleSignUpType = index => {
+    this.setState({ userTypeSelected: index });
   };
 
-  OnHandleInstitutionType = id => {
+  OnHandleInstitutionType = index => {
     const { institutionTypes } = this.state;
-    this.setState({ institutionType: id });
+    this.setState({ institutionType: institutionTypes[index].id });
   };
 
   OnHandleSignUpForm = () => {
@@ -287,6 +284,10 @@ class HomeTab extends Component {
       isGetEvents,
       payloadEvents
     } = newProps;
+    if (isLoggedIn) window.location.replace('/events');
+
+    const { onLogin } = this.props;
+    const { signUpEmail, signUpPassword, selectedEvent, selectedSchedules, events } = this.state;
 
     if (!isRequestingEvent && isGetEvents) {
       let events = [];
@@ -306,70 +307,72 @@ class HomeTab extends Component {
         schedules: [
           {
             id: 1,
-            startTime: '02:30:00',
-            endTime: '02:50:00'
+            startTime: '02:00:00',
+            endTime: '02:20:00'
           },
           {
-            id: 1,
-            startTime: '02:50:00',
-            endTime: '03:10:00'
+            id: 2,
+            startTime: '02:20:00',
+            endTime: '03:40:00'
           },
           {
-            id: 1,
-            startTime: '03:10:00',
-            endTime: '03:30:00'
+            id: 3,
+            startTime: '03:40:00',
+            endTime: '04:00:00'
           },
           {
-            id: 1,
-            startTime: '03:30:00',
-            endTime: '03:50:00'
+            id: 4,
+            startTime: '04:00:00',
+            endTime: '04:20:00'
           },
           {
-            id: 1,
-            startTime: '03:50:00',
-            endTime: '04:10:00'
+            id: 5,
+            startTime: '04:20:00',
+            endTime: '04:40:00'
           },
           {
-            id: 1,
-            startTime: '04:10:00',
-            endTime: '04:30:00'
+            id: 6,
+            startTime: '04:40:00',
+            endTime: '05:00:00'
           },
           {
-            id: 1,
-            startTime: '04:30:00',
-            endTime: '04:50:00'
+            id: 7,
+            startTime: '05:00:00',
+            endTime: '05:20:00'
           },
           {
-            id: 1,
-            startTime: '04:50:00',
-            endTime: '05:10:00'
+            id: 8,
+            startTime: '05:20:00',
+            endTime: '05:40:00'
           },
           {
-            id: 1,
-            startTime: '05:10:00',
-            endTime: '05:30:00'
+            id: 9,
+            startTime: '05:40:00',
+            endTime: '06:00:00'
           },
           {
-            id: 1,
-            startTime: '05:30:00',
-            endTime: '05:50:00'
+            id: 10,
+            startTime: '06:00:00',
+            endTime: '06:20:00'
           },
           {
-            id: 1,
-            startTime: '05:50:00',
-            endTime: '06:10:00'
+            id: 11,
+            startTime: '06:20:00',
+            endTime: '06:40:00'
           },
           {
-            id: 1,
-            startTime: '06:10:00',
-            endTime: '06:30:00'
+            id: 12,
+            startTime: '06:40:00',
+            endTime: '07:00:00'
           }
         ]
       };
+
       events.push(allEvents);
 
       if (events.length > 0)
         this.setState({
+          allEvents,
           events,
           schedules: events[events.length - 1].schedules,
           selectedEvent: events[events.length - 1]
@@ -392,7 +395,7 @@ class HomeTab extends Component {
       this.setState({ institutionTypes: types });
     }
 
-    if (isRequesting && !requestSuccessful) {
+    if (!isRequesting && !requestSuccessful) {
       if (payloadUser.code != 200) {
         try {
           if (
@@ -413,26 +416,23 @@ class HomeTab extends Component {
         } catch (error) {
           console.log(error);
         }
-      } else if (payloadUser.code == 200) {
-        toast.success('Successfully registered');
       }
-    } else if (requestSuccessful && !isRequesting) {
+    } else if (requestSuccessful && !isLoggedIn) {
+      onLogin({ email: signUpEmail, password: signUpPassword });
       toast.success('Successfully registered');
     }
 
-    if (isLoggingIn) {
-      if (isLoggedIn && payloadLogin.accessToken) {
-        if (payloadLogin.userType !== 'Admin') {
-          window.location.replace('/events');
-        } else if (isLoggedIn) {
-          toast.error('Admin should not access this');
-        }
-      } else if (
-        (isLoggingIn && payloadLogin.code === 500) ||
-        (isLoggingIn && payloadLogin.code === 400)
-      ) {
-        toast.error(payloadLogin.message);
+    if (isLoggedIn && payloadLogin.accessToken) {
+      if (payloadLogin.userType !== 'Admin') {
+        // window.location.replace('/events');
+      } else if (isLoggedIn) {
+        toast.error('Admin should not access this');
       }
+    } else if (
+      (!isLoggingIn && !isLoggedIn && payloadLogin.code === 500) ||
+      (!isLoggingIn && !isLoggedIn && payloadLogin.code === 400)
+    ) {
+      toast.error(payloadLogin.message);
     }
   }
 
@@ -440,17 +440,16 @@ class HomeTab extends Component {
     const { email, password } = this.state;
     const { onLogin } = this.props;
 
-    // if (isEmpty(email)) {
-    //   toast.error('Please enter your email address');
-    // } else if (isEmpty(password)) {
-    //   toast.error('Please enter your password');
-    // } else {
-    //   onLogin({
-    //     email,
-    //     password
-    //   });
-    // }
-    window.location.replace('/events');
+    if (isEmpty(email)) {
+      toast.error('Please enter your email address');
+    } else if (isEmpty(password)) {
+      toast.error('Please enter your password');
+    } else {
+      onLogin({
+        email,
+        password
+      });
+    }
   };
 
   OnHandleSignUp = () => {
@@ -473,7 +472,10 @@ class HomeTab extends Component {
       companyWebsite,
       confirmPassword,
       userTypeSelected,
-      isCheckedPrivacy
+      isCheckedPrivacy,
+      selectedEvent,
+      events,
+      selectedSchedules
     } = this.state;
 
     const participant = {
@@ -522,7 +524,7 @@ class HomeTab extends Component {
 
     for (const key of Object.keys(user)) {
       if (user[key] <= 0) {
-        if (user[key] === null || user[key] === undefined || user[key].trim() === '') {
+        if (user[key] === null || user[key] === undefined || user[key] === '') {
           let fields = {};
           if (userTypeSelected == 0) {
             fields = {
@@ -604,7 +606,10 @@ class HomeTab extends Component {
 
   OnHandleEventType = index => {
     let { events } = this.state;
-    this.setState({ schedules: events[index].schedules, selectedEvent: events[index] });
+    this.setState({
+      schedules: events[index].schedules,
+      selectedEvent: events[index]
+    });
   };
 
   OnHandlePicture = event => {
@@ -632,10 +637,8 @@ class HomeTab extends Component {
   }
 
   render() {
-    const { isLoggedIn } = this.props;
     return (
       <MDBContainer style={style.main} id='mainTab'>
-        {isLoggedIn && <Redirect to='/events' />}
         <TabLinks parent={this} />
         <MDBTabContent className='card' activeItem={this.state.activeItem} style={style.tabs}>
           <AboutTab parent={this} />
