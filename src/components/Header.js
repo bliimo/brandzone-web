@@ -7,12 +7,19 @@ import logo from '../assets/images/logo.png';
 import { loginUser, logoutUser } from '../store/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-const Profile = ({ OnHandleShowSideBar }) => {
+const Profile = ({ OnHandleShowSideBar, account }) => {
+  const { firstName, lastName, profilePicture } = account;
   return (
     <div className='d-flex' style={style.profile}>
       <div className='d-flex' id='profile-lg'>
-        <img src={'https://i.pravatar.cc/28'} style={style.avatar} alt='profile' />
-        <Text style={style.userName}>Hi, User Name!</Text>
+        <img
+          src={profilePicture ? profilePicture : 'https://i.pravatar.cc/28'}
+          style={style.avatar}
+          alt='profile'
+        />
+        <Text style={style.userName}>
+          Hi, {firstName} {lastName}!
+        </Text>
         <span style={style.divider}></span>
       </div>
       <span onClick={() => OnHandleShowSideBar()}>
@@ -28,35 +35,43 @@ class Header extends Component {
     onLogout: null,
     isLoggedIn: null,
     isLoggingIn: null,
-    payload: null
+    payload: null,
+    account: {}
   };
 
   OnHandleShowSideBar = () => {
     this.setState({ show: !this.state.show });
   };
 
-  componentWillReceiveProps(nextProps) {}
+  componentWillReceiveProps(nextProps) {
+    const { account } = nextProps;
+    this.setState({ account });
+  }
+  componentDidMount() {}
 
   render() {
     const { auth } = this.props;
+    const { account } = this.state;
+
     return (
       <div>
         <MDBNavbar color='transparent' expand='md' className='header-nav'>
           <MDBNavbarBrand>
-            <NavLink to='/'>
+            <NavLink to={auth.isAuthenticated ? '#' : '/6:6'}>
               <img src={logo} alt='logo' className='logo' />
             </NavLink>
           </MDBNavbarBrand>
           {auth.isAuthenticated && (
             <MDBNavbarNav right>
               <MDBNavItem>
-                <Profile OnHandleShowSideBar={this.OnHandleShowSideBar} />
+                <Profile account={account} OnHandleShowSideBar={this.OnHandleShowSideBar} />
               </MDBNavItem>
             </MDBNavbarNav>
           )}
         </MDBNavbar>
         {auth.isAuthenticated && (
           <SideBar
+            account={account}
             show={this.state.show}
             OnHandleShowSideBar={this.OnHandleShowSideBar}
             onLogout={this.props.logoutUser}
@@ -77,7 +92,8 @@ const style = {
     fontSize: 14,
     fontFamily: 'Helvetica',
     color: '#fff',
-    letterSpacing: 1
+    letterSpacing: 1,
+    textTransform: 'capitalize'
   },
   bars: {
     position: 'relative',
@@ -109,7 +125,8 @@ const style = {
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  error: state.auth.error
+  error: state.auth.error,
+  account: state.auth.currentUser
 });
 
 export default connect(

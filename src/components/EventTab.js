@@ -299,12 +299,13 @@ class EventTab extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    console.log(nextProps);
+    const { account } = nextProps;
+    console.log(account);
   }
 
   componentWillMount() {}
 
-  render() {
+  render() { 
     return (
       <div style={style.main} className='p-0' id='mainTab'>
         {!this.props.auth.isAuthenticated && <Redirect to='/' />}
@@ -396,8 +397,10 @@ const style = {
 
 const mapStateToProps = state => ({
   auth: state.auth,
+  account: state.auth.currentUser,
   error: state.auth.error,
-  events: state.event.events
+  events: state.event.events,
+  user: state.user
 });
 
 export default connect(

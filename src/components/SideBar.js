@@ -2,7 +2,8 @@ import { MDBIcon } from 'mdbreact';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const SideBar = ({ show, OnHandleShowSideBar, onLogout }) => {
+const SideBar = ({ account, show, OnHandleShowSideBar, onLogout }) => {
+  const { firstName, lastName, profilePicture } = account;
   return (
     <div
       id='sideBar'
@@ -22,10 +23,16 @@ const SideBar = ({ show, OnHandleShowSideBar, onLogout }) => {
       <div style={style.content}>
         <div style={style.sidebarProfile}>
           <div style={style.profileInfo}>
-            <img src={'https://i.pravatar.cc/300'} style={style.avatar} alt='profile' />
+            <img
+              src={profilePicture ? profilePicture : 'https://i.pravatar.cc/300'}
+              style={style.avatar}
+              alt='profile'
+            />
             <div style={style.profileContent}>
-              <p style={style.userName}>User Name</p>
-              <p style={style.userType}>Exhibitor</p>
+              <p style={style.userName}>
+                {firstName} {lastName}
+              </p>
+              <p style={style.userType}>{localStorage.getItem('userType')}</p>
             </div>
           </div>
           <span className='cursor-pointer' style={style.closeBtn}>
@@ -75,7 +82,8 @@ const style = {
     fontSize: 14
   },
   close: {
-    color: '#fff'
+    color: '#fff',
+    fontSize: '21px'
   },
   sidebarProfile: {
     display: 'flex',
@@ -102,13 +110,15 @@ const style = {
     marginBottom: 3,
     letterSpacing: 1,
     fontSize: 15,
-    fontFamily: 'Harabara'
+    fontFamily: 'Harabara',
+    textTransform: 'capitalize'
   },
   userType: {
     margin: 0,
     fontSize: 12,
     letterSpacing: 1,
-    fontfamily: 'Helvetica'
+    fontfamily: 'Helvetica',
+    textTransform: 'capitalize'
   },
   divider: {
     width: '100%',

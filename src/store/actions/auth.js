@@ -18,9 +18,10 @@ export const loginUser = userData => dispatch => {
     .post(`${API}/user/login`, userData)
     .then(res => {
       if (res.data.userType !== 'Admin') {
-        const { accessToken, tokenType } = res.data;
+        const { accessToken, tokenType, userType } = res.data;
         const token = `${tokenType} ${accessToken}`;
         localStorage.setItem('jwtToken', token);
+        localStorage.setItem('userType', userType.toLowerCase());
         setAuthToken(token);
         const decoded = jwt_decode(token);
         dispatch({ type: LOGIN_SUCCESS, payload: setCurrentUser(decoded) });
@@ -53,11 +54,11 @@ export const setCurrentUser = decoded => dispatch => {
 export const setLoggedInUser = id => dispatch => {
   dispatch({ type: LOGIN_REQUEST });
   axios
-    .get(`${API}/user/${id}`)
+    .get(`${API}/${localStorage.getItem('userType')}/${id}`)
     .then(res => {
       dispatch({
         type: LOGIN_SUCCESS,
-        payload: res.data.data
+        payload: res.data
       });
     })
     .catch(err =>
@@ -71,6 +72,7 @@ export const setLoggedInUser = id => dispatch => {
 export const logoutUser = () => dispatch => {
   dispatch({ type: LOGOUT_REQUEST });
   localStorage.removeItem('jwtToken');
+  localStorage.removeItem('userType');
   setAuthToken(false);
   dispatch(setCurrentUser({}));
   dispatch({

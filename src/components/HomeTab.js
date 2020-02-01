@@ -410,7 +410,7 @@ class HomeTab extends Component {
       });
     }
 
-    if (auth.isAuthenticated) history.push('/events');
+    if (auth.isAuthenticated) window.location.reload();
 
     if (events && !auth.isLoading) {
       this.OnHandleSetEvents(events);
