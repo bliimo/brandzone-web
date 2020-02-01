@@ -2,7 +2,7 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import { Redirect, NavLink } from 'react-router-dom';
 import styles from './Event.style';
-import { login } from '../../store/actions';
+import { loginUser } from '../../store/actions';
 import Header from '../../components/Header';
 import EventTab from '../../components/EventTab';
 
@@ -25,7 +25,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onLogin: data => dispatch(login(data))
+  onLogin: data => dispatch(loginUser(data))
 });
 
 export default connect(

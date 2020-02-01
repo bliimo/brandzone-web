@@ -95,23 +95,6 @@ export const updateAccountStatus = data => {
   );
 };
 
-export const editUserInfo = data => {
-  const url = `${API}/users/${data.userId}`;
-  return ajax(
-    url,
-    {
-      method: 'PUT',
-      body: JSON.stringify(data.userData),
-      headers: {
-        'Content-Type': 'application/json'
-      }
-    },
-    {
-      token: data.token
-    }
-  );
-};
-
 export const upload = data => {
   const url = `${API}/storage/uploadFile`;
   return ajax(

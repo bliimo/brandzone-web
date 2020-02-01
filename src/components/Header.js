@@ -4,8 +4,9 @@ import { NavLink, Redirect } from 'react-router-dom';
 import SideBar from './SideBar';
 import Text from './Text';
 import logo from '../assets/images/logo.png';
-import { logout } from '../store/actions';
+import { loginUser, logoutUser } from '../store/actions';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 const Profile = ({ OnHandleShowSideBar }) => {
   return (
     <div className='d-flex' style={style.profile}>
@@ -34,10 +35,10 @@ class Header extends Component {
     this.setState({ show: !this.state.show });
   };
 
-  componentWillReceiveProps(newProps) {}
+  componentWillReceiveProps(nextProps) {}
 
   render() {
-    const { onLogout } = this.props;
+    const { auth } = this.props;
     return (
       <div>
         <MDBNavbar color='transparent' expand='md' className='header-nav'>
@@ -46,7 +47,7 @@ class Header extends Component {
               <img src={logo} alt='logo' className='logo' />
             </NavLink>
           </MDBNavbarBrand>
-          {sessionStorage.getItem('user') && (
+          {auth.isAuthenticated && (
             <MDBNavbarNav right>
               <MDBNavItem>
                 <Profile OnHandleShowSideBar={this.OnHandleShowSideBar} />
@@ -54,11 +55,11 @@ class Header extends Component {
             </MDBNavbarNav>
           )}
         </MDBNavbar>
-        {sessionStorage.getItem('user') && (
+        {auth.isAuthenticated && (
           <SideBar
             show={this.state.show}
             OnHandleShowSideBar={this.OnHandleShowSideBar}
-            onLogout={onLogout}
+            onLogout={this.props.logoutUser}
           />
         )}
       </div>
@@ -107,14 +108,11 @@ const style = {
 };
 
 const mapStateToProps = state => ({
-  isLoggedIn: state.auth.isLoggedIn
-});
-
-const mapDispatchToProps = dispatch => ({
-  onLogout: () => dispatch(logout())
+  auth: state.auth,
+  error: state.auth.error
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
-)(Header);
+  { loginUser, logoutUser }
+)(withRouter(Header));

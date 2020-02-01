@@ -1,42 +1,24 @@
-import { get } from 'lodash';
-import { BOOKING_REQUEST, BOOKING_FAILURE, BOOKING_SUCCESS } from '../actions/actionTypes';
+import { BOOKING_REQUEST, BOOKING_SUCCESS, BOOKING_FAILURE } from '../actions/actionTypes';
 
 const initialState = {
-  isRequestingBooking: false,
-  isGetBooking: false,
-  hasError: false,
-  error: {},
-  payload: {}
+  isLoading: false,
+  booking: null,
+  error: ''
 };
 
-const booking = (state = initialState, action) => {
+export default function(state = initialState, action) {
   switch (action.type) {
     case BOOKING_REQUEST:
-      return {
-        ...state,
-        isGetBooking: false,
-        isRequestingBooking: true,
-        hasError: false
-      };
+      return { ...state, isLoading: true, error: '' };
+    case BOOKING_SUCCESS:
+      return { ...state, isLoading: false, booking: action.payload };
     case BOOKING_FAILURE:
       return {
         ...state,
-        isGetBooking: false,
-        isRequestingBooking: false,
-        hasError: true,
-        payload: get(action, 'payload')
+        isLoading: false,
+        error: action.payload
       };
-    case BOOKING_SUCCESS:
-      return {
-        ...state,
-        isGetBooking: true,
-        isRequestingBooking: false,
-        payload: get(action, 'payload')
-      };
-
     default:
       return state;
   }
-};
-
-export default booking;
+}

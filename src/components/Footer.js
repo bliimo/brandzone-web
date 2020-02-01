@@ -19,7 +19,7 @@ const Footer = () => {
               Tel. +632 8296 9044
             </Text>
           </MDBCol>
-          <MDBCol lg='6' xl='6' sm='12' className='justify-content-center col-footer'>
+          <MDBCol lg='4' xl='4' sm='12' className='justify-content-center col-footer'>
             <MDBRow>
               <MDBCol lg='12' xl='12' sm='12'>
                 <ul className='d-inline-block footer-link mb-0'>

@@ -12,8 +12,9 @@ import ExhibitorSignUp from './ExhibitorSignUp';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { isEmpty, isEqual } from 'lodash';
-import { login, getInstitution, addUser, upload, events, setBooking } from '../store/actions';
+import { loginUser, getLatestEvents, getInstitution, addUser, setBookings } from '../store/actions';
 import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 const TabLinks = ({ parent }) => {
   return (
@@ -128,9 +129,11 @@ const LoginTab = ({ parent }) => {
           style={style.buttonLogin}
           id='btnLoginTab'
           className='btn-animate-login main-btn-login'
-          onClick={() => parent.OnHandleLogin()}
+          onClick={parent.props.auth.isLoading ? () => {} : parent.OnHandleLogin}
         >
-          <Text className='btn-animate-text-login'>Login</Text>
+          <Text className='btn-animate-text-login'>
+            {parent.props.auth.isLoading ? 'Please wait...' : 'Login'}
+          </Text>
         </Button>
       </MDBContainer>
     </MDBTabPane>
@@ -183,9 +186,11 @@ const SubmitSignUp = ({ parent }) => {
           style={style.buttonSignUp}
           className='btn-animate-signup'
           id='btnSignup'
-          onClick={parent.OnHandleSignUp}
+          onClick={parent.props.user.isLoading ? () => {} : parent.OnHandleSignUp}
         >
-          <Text className='btn-animate-text-signup'>Sign Up</Text>
+          <Text className='btn-animate-text-signup'>
+            {parent.props.user.isLoading ? 'Please wait...' : 'Sign Up'}
+          </Text>
         </Button>
       </div>
     </div>
@@ -193,42 +198,51 @@ const SubmitSignUp = ({ parent }) => {
 };
 
 class HomeTab extends Component {
-  state = {
-    activeItem: '3',
-    email: '',
-    password: '',
-    companyName: '',
-    companyCountry: '',
-    companyProvince: '',
-    companyProfile: '',
-    companyCity: '',
-    jobTitle: '',
-    phoneNumber: '',
-    signUpEmail: '',
-    signUpPassword: '',
-    institutionName: '',
-    firstName: '',
-    lastName: '',
-    programs: '',
-    profilePic: null,
-    isCheckedPrivacy: false,
-    events: [],
-    schedules: [],
-    userTypeSelected: null,
-    institutionTypes: [],
-    institutionType: null,
-    companyWebsite: '',
-    confirmPassword: '',
-    selectedSchedules: {},
-    selectedEvent: null,
-    allEvents: {},
-    setBookings: []
+  constructor(props) {
+    super(props);
+    this.toastId = null;
+    this.state = {
+      activeItem: '1',
+      email: '',
+      password: '',
+      companyName: '',
+      companyCountry: '',
+      companyProvince: '',
+      companyProfile: '',
+      companyCity: '',
+      jobTitle: '',
+      phoneNumber: '',
+      signUpEmail: '',
+      signUpPassword: '',
+      institutionName: '',
+      firstName: '',
+      lastName: '',
+      programs: '',
+      profilePic: null,
+      isCheckedPrivacy: false,
+      events: [],
+      schedules: [],
+      userTypeSelected: null,
+      institutionTypes: [],
+      institutionType: null,
+      companyWebsite: '',
+      confirmPassword: '',
+      selectedSchedules: {},
+      selectedEvent: null,
+      allEvents: {},
+      setBookings: []
+    };
+  }
+
+  notify = txt => {
+    if (!toast.isActive(this.toastId)) {
+      this.toastId = toast.error(txt);
+    }
   };
 
-  componentDidMount() {}
-
   OnHandleToggle = tab => () => {
-    if (this.state.activeItem !== tab) this.setState({ activeItem: tab });
+    if (this.toastId) toast.dismiss(this.toastId);
+    this.setState({ activeItem: tab });
   };
 
   OnHandleChange = event => {
@@ -270,39 +284,8 @@ class HomeTab extends Component {
     }
   };
 
-  componentWillReceiveProps(newProps) {
-    const {
-      isLoggedIn,
-      payloadLogin,
-      isLoggingIn,
-      payloadUser,
-      isRequesting,
-      payloadInstitution,
-      requestSuccessful,
-      isUploading,
-      isUploaded,
-      isRequestingEvent,
-      isGetEvents,
-      payloadEvents,
-      onSetBooking,
-      isGetBooking,
-      payloadSetBooking
-    } = newProps;
-
-    // if (isLoggedIn) window.location.replace('/events');
-
-    const { onLogin } = this.props;
-    const { signUpEmail, signUpPassword, events, setBookings } = this.state;
-
-    if (!isRequestingEvent && isGetEvents && events.length == 0) {
-      let events = [];
-      if (Object.keys(payloadEvents).length > 0) {
-        delete payloadEvents.status;
-        delete payloadEvents.ok;
-        Object.values(payloadEvents).map((e, i) => {
-          events.push(e);
-        });
-      }
+  OnHandleSetEvents = events => {
+    if (this.state.events.length == 0 && events.length > 0) {
       const allEvents = {
         id: events[events.length - 1].id + 1,
         date: new Date(),
@@ -318,180 +301,181 @@ class HomeTab extends Component {
           {
             id: 2,
             startTime: '02:20:00',
-            endTime: '03:40:00'
+            endTime: '02:40:00'
           },
           {
             id: 3,
+            startTime: '02:40:00',
+            endTime: '03:00:00'
+          },
+          {
+            id: 4,
+            startTime: '03:00:00',
+            endTime: '03:20:00'
+          },
+          {
+            id: 5,
+            startTime: '03:20:00',
+            endTime: '03:40:00'
+          },
+          {
+            id: 6,
             startTime: '03:40:00',
             endTime: '04:00:00'
           },
           {
-            id: 4,
+            id: 7,
             startTime: '04:00:00',
             endTime: '04:20:00'
           },
           {
-            id: 5,
+            id: 8,
             startTime: '04:20:00',
             endTime: '04:40:00'
           },
           {
-            id: 6,
+            id: 9,
             startTime: '04:40:00',
             endTime: '05:00:00'
           },
           {
-            id: 7,
+            id: 10,
             startTime: '05:00:00',
             endTime: '05:20:00'
           },
           {
-            id: 8,
+            id: 11,
             startTime: '05:20:00',
             endTime: '05:40:00'
           },
           {
-            id: 9,
+            id: 12,
             startTime: '05:40:00',
             endTime: '06:00:00'
-          },
-          {
-            id: 10,
-            startTime: '06:00:00',
-            endTime: '06:20:00'
-          },
-          {
-            id: 11,
-            startTime: '06:20:00',
-            endTime: '06:40:00'
-          },
-          {
-            id: 12,
-            startTime: '06:40:00',
-            endTime: '07:00:00'
           }
         ]
       };
-
       events.push(allEvents);
-
-      if (events.length > 0)
-        this.setState({
-          allEvents,
-          events,
-          schedules: events[events.length - 1].schedules,
-          selectedEvent: events[events.length - 1]
-        });
-    }
-    if (isUploading && !isUploaded) {
-    } else if (!isUploading && isUploaded) {
-      console.log(payloadUser);
-    }
-    if (Object.keys(payloadInstitution).length > 0) {
-      let types = [];
-
-      delete payloadInstitution.status;
-      delete payloadInstitution.ok;
-      Object.values(payloadInstitution).map((e, i) => {
-        types.push(e);
+      this.setState({
+        events,
+        allEvents,
+        schedules: allEvents.schedules,
+        selectedEvent: allEvents
       });
-      this.setState({ institutionTypes: types });
+    }
+  };
+
+  OnHandleSetInstitution = institutionTypes => {
+    this.setState({ institutionTypes });
+  };
+
+  componentWillReceiveProps(nextProps) {
+    const { auth, events, institution, history, user, loginError, signUpError } = nextProps;
+
+    const { signUpEmail, signUpPassword, activeItem } = this.state;
+
+    if (loginError && activeItem === '2') {
+      this.notify(loginError);
+      return false;
     }
 
-    if (!isRequesting && !requestSuccessful) {
-      if (payloadUser.code != 200) {
-        try {
-          if (
-            payloadUser.message.search('email') >= 0 ||
-            payloadUser.message.search('Email') >= 0
-          ) {
-            document.getElementById('signUpEmail').classList.add('invalid-field');
-            toast.error(payloadUser.message);
-          } else {
-            document.getElementById('signUpEmail').classList.remove('invalid-field');
-          }
-          if (payloadUser.message.search('Password') >= 0) {
-            document.getElementById('signUpPassword').classList.add('invalid-field');
-            toast.error(payloadUser.message);
-          } else {
-            document.getElementById('signUpPassword').classList.remove('invalid-field');
-          }
-        } catch (error) {
-          console.log(error);
-        }
-      }
-    } else if (requestSuccessful && !isLoggedIn) {
-      onLogin({ email: signUpEmail, password: signUpPassword });
+    if (signUpError && activeItem === '3') {
+      this.notify(signUpError);
+      return false;
     }
 
-    if (isLoggedIn && payloadLogin.accessToken) {
-      if (payloadLogin.userType !== 'Admin') {
-        if (setBookings.length > 0) {
-          onSetBooking({
-            token: payloadLogin.accessToken,
-            scheduleId: setBookings
-          });
-        }
-        // } else if (isLoggedIn) {
-        //   sessionStorage.setItem('user', JSON.stringify(payloadLogin));
-        // }
-        // window.location.replace('/events');
-      } else if (isLoggedIn) {
-        toast.error('Admin should not access this');
-      }
-    } else if (
-      (!isLoggingIn && !isLoggedIn && payloadLogin.code === 500) ||
-      (!isLoggingIn && !isLoggedIn && payloadLogin.code === 400)
-    ) {
-      toast.error(payloadLogin.message);
+    if (user.user && Object.keys(user.user).length > 0 && this.state.activeItem === '3') {
+      toast.success('Successfully registered please login');
+      this.setState({
+        activeItem: '2',
+        email: '',
+        password: '',
+        companyName: '',
+        companyCountry: '',
+        companyProvince: '',
+        companyProfile: '',
+        companyCity: '',
+        jobTitle: '',
+        phoneNumber: '',
+        signUpEmail: '',
+        signUpPassword: '',
+        institutionName: '',
+        firstName: '',
+        lastName: '',
+        programs: '',
+        profilePic: null,
+        isCheckedPrivacy: false,
+        companyWebsite: '',
+        confirmPassword: ''
+      });
     }
 
-    //if (isGetBooking && isLoggedIn) sessionStorage.setItem('user', JSON.stringify(payloadLogin));
+    if (auth.isAuthenticated) history.push('/events');
+
+    if (events && !auth.isLoading) {
+      this.OnHandleSetEvents(events);
+      this.OnHandleSetInstitution(institution);
+    }
   }
 
   OnHandleLogin = () => {
     const { email, password } = this.state;
-    const { onLogin } = this.props;
-
+    const { loginUser } = this.props;
     if (isEmpty(email)) {
-      toast.error('Please enter your email address');
+      this.notify('Please enter your email address');
     } else if (isEmpty(password)) {
-      toast.error('Please enter your password');
+      this.notify('Please enter your password');
     } else {
-      onLogin({
+      loginUser({
         email,
         password
       });
     }
   };
 
-  OnHandleSignUp = () => {
-    const { onAddUser } = this.props;
+  OnHandleSelectedSchedules = () => {
+    const { selectedEvent, selectedSchedules, events } = this.state;
+    let setBookings = [];
+    if (selectedEvent.isAllEvent) {
+      Object.values(selectedSchedules).map(scheds => {
+        events.map(e => {
+          if (e.id != selectedEvent.id) {
+            e.schedules.map(sched => {
+              if (sched.startTime == scheds.startTime) {
+                setBookings.push(sched.id);
+              }
+            });
+          }
+        });
+      });
+    } else {
+      Object.keys(selectedSchedules).map(scheds => {
+        setBookings.push(scheds);
+      });
+    }
+    this.setState({ setBookings: [...new Set(setBookings)] });
+  };
+
+  OnHandleGetParticipants = () => {
     const {
+      institutionType,
       companyName,
       companyCountry,
       companyProvince,
-      companyProfile,
       companyCity,
+      companyWebsite,
+      companyProfile,
       firstName,
       lastName,
       jobTitle,
       phoneNumber,
       signUpEmail,
       signUpPassword,
-      institutionName,
-      programs,
-      institutionType,
-      companyWebsite,
       confirmPassword,
-      userTypeSelected,
-      isCheckedPrivacy,
-      selectedEvent,
-      events,
-      selectedSchedules
+      setBookings
     } = this.state;
 
-    const participant = {
+    return {
       institutionTypeId: institutionType,
       companyName,
       companyCountry,
@@ -505,28 +489,32 @@ class HomeTab extends Component {
       phoneNumber,
       email: signUpEmail,
       password: signUpPassword,
-      confirmPassword
+      confirmPassword,
+      bookingScheduleId: { scheduleId: setBookings },
+      userType: 'participant'
     };
-    let setBookings = [];
-    if (selectedEvent.isAllEvent) {
-      Object.values(selectedSchedules).map(scheds => {
-        events.map(e => {
-          if (e.id != selectedEvent.id) {
-            e.schedules.map(sched => {
-              if (sched.startTime == scheds.startTime) setBookings.push(sched.id);
-            });
-          }
-        });
-      });
-    } else {
-      Object.keys(selectedSchedules).map(scheds => {
-        setBookings.push(scheds);
-      });
-    }
+  };
 
-    this.setState({ setBookings });
+  OnHandleGetExibitors = () => {
+    const {
+      institutionName,
+      companyProfile,
+      companyProvince,
+      companyCity,
+      companyCountry,
+      companyWebsite,
+      phoneNumber,
+      programs,
+      firstName,
+      lastName,
+      jobTitle,
+      signUpEmail,
+      signUpPassword,
+      confirmPassword,
+      setBookings
+    } = this.state;
 
-    const exhibitor = {
+    return {
       institutionName,
       institutionProfile: companyProfile,
       institutionProvince: companyProvince,
@@ -541,17 +529,14 @@ class HomeTab extends Component {
       phoneNumber,
       email: signUpEmail,
       password: signUpPassword,
-      confirmPassword: confirmPassword
+      confirmPassword: confirmPassword,
+      bookingScheduleId: { scheduleId: setBookings },
+      userType: 'exhibitor'
     };
+  };
 
-    let userType, user;
-    if (userTypeSelected == 0) {
-      userType = 'participant';
-      user = participant;
-    } else {
-      userType = 'exhibitor';
-      user = exhibitor;
-    }
+  OnHandleValidateSignUp = user => {
+    const { userTypeSelected, isCheckedPrivacy, selectedSchedules } = this.state;
 
     for (const key of Object.keys(user)) {
       if (user[key] <= 0) {
@@ -597,7 +582,6 @@ class HomeTab extends Component {
           Object.keys(fields).map((v, k) => {
             try {
               if (key === v) {
-                console.log(key);
                 document.getElementById(key).classList.add('invalid-field');
               } else {
                 document.getElementById(k).classList.remove('invalid-field');
@@ -605,7 +589,7 @@ class HomeTab extends Component {
             } catch (error) {}
           });
 
-          toast.error(
+          this.notify(
             `Required ${key
               .replace('Id', '')
               .replace('company', 'company ')
@@ -621,22 +605,34 @@ class HomeTab extends Component {
         }
       }
     }
+
     if (Object.keys(selectedSchedules).length <= 0) {
-      toast.error('Please select time slot');
+      this.notify('Please select time slot');
       return false;
     }
 
     if (!isCheckedPrivacy) {
-      toast.error('Please agree with the terms and conditions');
+      this.notify('Please agree with the terms and conditions');
       return false;
     }
+  };
 
-    const userData = {
-      ...user,
-      userType
-    };
+  OnHandleSetBookings = () => {
+    const bookingScheds = this.state.setBookings;
+    const { setBookings } = this.props;
+    setBookings({ scheduleId: bookingScheds });
+  };
 
-    onAddUser(userData);
+  OnHandleSignUp = () => {
+    const { addUser } = this.props;
+    const { userTypeSelected } = this.state;
+
+    this.OnHandleSelectedSchedules();
+    const user =
+      userTypeSelected == 0 ? this.OnHandleGetParticipants() : this.OnHandleGetExibitors();
+    this.OnHandleValidateSignUp(user);
+
+    addUser(user);
   };
 
   OnHandleEventType = index => {
@@ -660,22 +656,16 @@ class HomeTab extends Component {
   };
 
   componentWillMount() {
-    const { events } = this.state;
-    for (let i = 0; i < events.length; i++) {
-      events[i]['name'] = `${events[i]['date']} - ${events[i]['address']}`;
-    }
-    const { onShowInstitution, onGetEvents } = this.props;
-    onShowInstitution();
-    onGetEvents();
-
-    this.setState({ events });
+    const { getLatestEvents, getInstitution } = this.props;
+    getLatestEvents();
+    getInstitution();
   }
 
   render() {
     return (
       <MDBContainer style={style.main} id='mainTab'>
         <TabLinks parent={this} />
-        {sessionStorage.getItem('user') && <Redirect to='/events' />}
+        {this.props.auth.isAuthenticated && <Redirect to='/events' />}
         <MDBTabContent className='card' activeItem={this.state.activeItem} style={style.tabs}>
           <AboutTab parent={this} />
           <LoginTab parent={this} />
@@ -819,30 +809,16 @@ const style = {
 };
 
 const mapStateToProps = state => ({
-  payloadLogin: state.auth.payload,
-  isLoggedIn: state.auth.isLoggedIn,
-  isLoggingIn: state.auth.isLoggingIn,
-  payloadInstitution: state.institution.payload,
-  isRequesting: state.user.isRequesting,
-  payloadUser: state.user.payload,
-  requestSuccessful: state.user.requestSuccessful,
-  isRequestingEvent: state.events.isRequestingEvent,
-  isGetEvents: state.events.isGetEvents,
-  payloadEvents: state.events.payload,
-  payloadSetBooking: state.booking.payload,
-  isGetBooking: state.booking.isGetBooking
-});
-
-const mapDispatchToProps = dispatch => ({
-  onShowInstitution: () => dispatch(getInstitution()),
-  onLogin: data => dispatch(login(data)),
-  onAddUser: data => dispatch(addUser(data)),
-  onUpload: data => dispatch(upload(data)),
-  onGetEvents: data => dispatch(events(data)),
-  onSetBooking: data => dispatch(setBooking(data))
+  auth: state.auth,
+  loginError: state.auth.error,
+  events: state.event.events,
+  institution: state.institution.institution,
+  user: state.user,
+  signUpError: state.user.error,
+  booking: state.booking
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
-)(HomeTab);
+  { loginUser, getLatestEvents, getInstitution, addUser, setBookings }
+)(withRouter(HomeTab));

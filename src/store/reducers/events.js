@@ -1,42 +1,34 @@
-import { get } from 'lodash';
 import { EVENTS_REQUEST, EVENTS_FAILURE, EVENTS_SUCCESS } from '../actions/actionTypes';
 
 const initialState = {
-  isRequestingEvent: false,
-  isGetEvents: false,
-  hasError: false,
-  error: {},
-  payload: {}
+  events: [],
+  error: ''
 };
 
-const events = (state = initialState, action) => {
+export default function(state = initialState, action) {
   switch (action.type) {
     case EVENTS_REQUEST:
       return {
         ...state,
-        isGetEvents: false,
-        isRequestingEvent: true,
-        hasError: false
-      };
-    case EVENTS_FAILURE:
-      return {
-        ...state,
-        isGetEvents: false,
-        isRequestingEvent: false,
-        hasError: true,
-        payload: get(action, 'payload')
+        events: [],
+        isLoading: true,
+        error: ''
       };
     case EVENTS_SUCCESS:
       return {
         ...state,
-        isGetEvents: true,
-        isRequestingEvent: false,
-        payload: get(action, 'payload')
+        events: action.payload,
+        isLoading: false,
+        error: ''
       };
-
+    case EVENTS_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        events: [],
+        error: action.payload
+      };
     default:
       return state;
   }
-};
-
-export default events;
+}

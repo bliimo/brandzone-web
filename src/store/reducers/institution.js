@@ -1,4 +1,3 @@
-import { get } from 'lodash';
 import {
   INSTITUTION_REQUEST,
   INSTITUTION_FAILURE,
@@ -6,33 +5,34 @@ import {
 } from '../actions/actionTypes';
 
 const initialState = {
-  hasError: false,
-  error: {},
-  payload: {}
+  institution: [],
+  error: ''
 };
 
-const institution = (state = initialState, action) => {
+export default function(state = initialState, action) {
   switch (action.type) {
     case INSTITUTION_REQUEST:
       return {
         ...state,
-        hasError: false
-      };
-    case INSTITUTION_FAILURE:
-      return {
-        ...state,
-        hasError: true,
-        payload: get(action, 'payload')
+        institution: [],
+        isLoading: true,
+        error: ''
       };
     case INSTITUTION_SUCCESS:
       return {
         ...state,
-        payload: get(action, 'payload')
+        institution: action.payload,
+        isLoading: false,
+        error: ''
       };
-
+    case INSTITUTION_FAILURE:
+      return {
+        ...state,
+        isLoading: false,
+        institution: [],
+        error: action.payload
+      };
     default:
       return state;
   }
-};
-
-export default institution;
+}

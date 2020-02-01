@@ -5,9 +5,11 @@ import Text from '../components/Text';
 import Button from './Button';
 import BookingProfileList from './BookingProfileList';
 import BookingProfile from './BookingProfile';
-import { connect } from 'react-redux';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { loginUser, getLatestEvents } from '../store/actions';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 
 const Link = ({ data, parent, index }) => {
   const { title, address, date } = data;
@@ -300,12 +302,12 @@ class EventTab extends Component {
     console.log(nextProps);
   }
 
-  componentDidUpdate() {}
+  componentWillMount() {}
 
   render() {
     return (
       <div style={style.main} className='p-0' id='mainTab'>
-        {!sessionStorage.getItem('user') && <Redirect to='/' />}
+        {!this.props.auth.isAuthenticated && <Redirect to='/' />}
         <Tabs parent={this} />
         <ToastContainer />
       </div>
@@ -393,16 +395,12 @@ const style = {
 };
 
 const mapStateToProps = state => ({
-  token: state.auth.payload.token,
-  isLoggedIn: state.auth.isLoggedIn
-});
-
-const mapDispatchToProps = dispatch => ({
-  // fetchCurrentUser: data => dispatch(getCurrentUser(data)),
-  // fetchUsers: data => dispatch(getUsers(data)),
+  auth: state.auth,
+  error: state.auth.error,
+  events: state.event.events
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
-)(EventTab);
+  { loginUser, getLatestEvents }
+)(withRouter(EventTab));

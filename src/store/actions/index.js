@@ -1,16 +1,5 @@
-export { login, logout } from './auth';
+export { loginUser, logoutUser } from './auth';
 export { getInstitution } from './institution';
-export {
-  getCurrentUser,
-  getUsers,
-  getUserInfo,
-  addUser,
-  inviteUsers,
-  updateAccountStatus,
-  editUserInfo,
-  upload
-} from './user';
-
-export { events } from './event';
-
-export { setBooking } from './booking';
+export { addUser } from './user';
+export { getLatestEvents } from './event';
+export { setBookings } from './booking';
