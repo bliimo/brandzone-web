@@ -162,6 +162,7 @@ const Schedule = ({ data, parent, index }) => {
           users={booking}
           schedule={data}
           account={parent.props.account}
+          isShowList={false}
         />
       </div>
     </div>

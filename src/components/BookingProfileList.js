@@ -16,7 +16,7 @@ const Profile = ({ parent }) => {
       let institution;
       setBy.roles.map(role => {
         if (role.authority === 'ROLE_EXHIBITOR') institution = setBy.institution.name;
-        if (role.authority === 'ROLE_PARTICIPANT') institution = setBy.institutionType.name;
+        if (role.authority === 'ROLE_PARTICIPANT') institution = setBy.company.name;
       });
       profiles.push(
         <MDBCol
@@ -31,7 +31,11 @@ const Profile = ({ parent }) => {
           <MDBContainer>
             <MDBRow style={style.rowProfile} id='row-profile'>
               <MDBCol className='p-0' xl='5' lg={'6'} md={'6'} sm={'12'}>
-                <img src={'https://i.pravatar.cc/300'} alt='Profile' className='w-100 h-100' />
+                <img
+                  src={'https://i.pravatar.cc/300'}
+                  alt='Profile'
+                  className={`${parent.props.isShowList ? 'h-230' : 'h-100'} w-100 `}
+                />
               </MDBCol>
               <MDBCol
                 style={style.actionList}
@@ -41,7 +45,10 @@ const Profile = ({ parent }) => {
                 sm={'12'}
                 className='actionList'
               >
-                <Text style={style.institutionName}>
+                <Text
+                  style={style.institutionName}
+                  className={`${parent.props.isShowList ? 'mt-1-3' : ''}`}
+                >
                   <EllipsisText text={institution} length={13} />
                 </Text>
                 <Text style={style.name}>
@@ -56,15 +63,17 @@ const Profile = ({ parent }) => {
                 >
                   <Text>View Profile</Text>
                 </Button>
-                <Button
-                  className='profileBtnList'
-                  style={style.btnSlot}
-                  onClick={() => {
-                    parent.OnHandleToogleModal(id);
-                  }}
-                >
-                  <Text>Book this slot</Text>
-                </Button>
+                {!parent.props.isShowList && (
+                  <Button
+                    className='profileBtnList'
+                    style={style.btnSlot}
+                    onClick={() => {
+                      parent.OnHandleToogleModal(id);
+                    }}
+                  >
+                    <Text>Book this slot</Text>
+                  </Button>
+                )}
               </MDBCol>
             </MDBRow>
           </MDBContainer>
@@ -99,7 +108,7 @@ class BookingProfileList extends Component {
     this.state.OnHandleResetEvents();
   }
   componentWillReceiveProps(nextProps) {
-    const { parent, bookingScheduleId, users, schedule, account } = nextProps;
+    const { parent, bookingScheduleId, users, schedule, account, isShowList } = nextProps;
     const { events, activeItem } = parent.state;
     let bookings = [];
     users.map(user => {

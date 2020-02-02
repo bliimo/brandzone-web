@@ -53,41 +53,44 @@ const Counter = ({ parent }) => {
 };
 const Slot = ({ slots, parent }) => {
   const slot = [];
+  const { profile } = parent.state;
   slots.map((booking, index) => {
     let { startTime, endTime } = booking.schedule;
     startTime = startTime.substring(0, startTime.length - 3);
     endTime = endTime.substring(0, endTime.length - 3);
     startTime = startTime.substring(0, 1) === '0' ? startTime.substring(1) : startTime;
     endTime = endTime.substring(0, 1) === '0' ? endTime.substring(1) : endTime;
-    slot.push(
-      <MDBRow
-        className='slot-list-row mt-0'
-        key={index}
-        id={index == 0 ? 'first-row-profile-btn' : ''}
-      >
-        <MDBCol size={'9'} className='pr-0'>
-          <Button style={style.btnSlotList} className='btn-profile'>
-            <Text style={style.time}>
-              {startTime} - {endTime}
-            </Text>
-          </Button>
-        </MDBCol>
-        <MDBCol size={'3'} className='p-0'>
-          <Button
-            onClick={() => {
-              parent.OnHandleToogleModal(booking.booking.id);
-              parent.setState({ selectedSchedule: booking.schedule });
-            }}
-            style={style.btnBookList}
-            className='btn-animate-get-slot-list'
-          >
-            <Text style={style.time} className='btn-animate-get-slot-text'>
-              Get slot
-            </Text>
-          </Button>
-        </MDBCol>
-      </MDBRow>
-    );
+    if (profile.id != booking.booking.id) {
+      slot.push(
+        <MDBRow
+          className='slot-list-row mt-0'
+          key={index}
+          id={index == 0 ? 'first-row-profile-btn' : ''}
+        >
+          <MDBCol size={'9'} className='pr-0'>
+            <Button style={style.btnSlotList} className='btn-profile'>
+              <Text style={style.time}>
+                {startTime} - {endTime}
+              </Text>
+            </Button>
+          </MDBCol>
+          <MDBCol size={'3'} className='p-0'>
+            <Button
+              onClick={() => {
+                parent.OnHandleToogleModal(booking.booking.id);
+                parent.setState({ selectedSchedule: booking.schedule });
+              }}
+              style={style.btnBookList}
+              className='btn-animate-get-slot-list'
+            >
+              <Text style={style.time} className='btn-animate-get-slot-text'>
+                Get slot
+              </Text>
+            </Button>
+          </MDBCol>
+        </MDBRow>
+      );
+    }
   });
 
   return slot;
@@ -103,16 +106,21 @@ const Slots = ({ parent }) => {
 
 const Informations = ({ parent }) => {
   let {
-    institutionName,
     phoneNumber,
     firstName,
     lastName,
     email,
-    jobTitle
+    jobTitle,
+    institution
   } = parent.state.profile.setBy;
-  institutionName = institutionName
-    ? institutionName
-    : parent.state.profile.setBy.institutionType.name;
+  let institutionName = '';
+
+  try {
+    institutionName = institution.name;
+  } catch (error) {
+    institutionName = parent.state.profile.setBy.company.name;
+  }
+
   const { id, title } = parent.state.profile;
   let { startTime, endTime } = parent.state.selectedSchedule;
   startTime = startTime.substring(0, startTime.length - 3);
