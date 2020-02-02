@@ -293,11 +293,12 @@ class BookingProfile extends Component {
     selectedSlot: null,
     slots: [],
     notes: '',
+    isEditing: false,
     OnHandleResetEvents: () => {},
     OnHandleSetNotes: () => {}
   };
 
-  componentWillReceiveProps() {
+  componentWillReceiveProps(nextProps) {
     const {
       selectedProfile,
       selectedSchedule,
@@ -305,6 +306,11 @@ class BookingProfile extends Component {
       activeItem,
       account
     } = this.props.parent.state;
+
+    if (!this.props.parent.props.isLoading && this.props.parent.props.booking) {
+      this.OnHandleEditing(false);
+    }
+
     const { OnHandleResetProfile, OnHandleResetEvents, OnHandleSetNotes } = this.props.parent;
     const event = events[activeItem];
     let slots = [];
@@ -360,6 +366,13 @@ class BookingProfile extends Component {
     return new Date() >= start && new Date() < end;
   };
 
+  OnHandleEditing = isEdit => {
+    let { isEditing } = this.state;
+
+    isEditing = isEdit != undefined ? isEdit : !isEditing;
+    this.setState({ isEditing });
+  };
+
   render() {
     const { profile, isOpenModal, event, account, OnHandleSetNotes, notes } = this.state;
     const { profilePic, title, bookedBy } = profile;
@@ -403,7 +416,7 @@ class BookingProfile extends Component {
                   type='textarea'
                   value={this.state.notes}
                   size='xl'
-                  disabled={account.id !== bookedBy.id}
+                  disabled={!this.state.isEditing || account.id !== bookedBy.id}
                   required={true}
                   autocomplete='off'
                   className='signup-input'
@@ -415,12 +428,18 @@ class BookingProfile extends Component {
                     onClick={() =>
                       this.props.parent.props.isLoading
                         ? () => {}
+                        : !this.state.isEditing
+                        ? this.OnHandleEditing()
                         : OnHandleSetNotes(profile.id, notes)
                     }
                     style={style.btnSave}
                   >
                     <Text style={style.txtSave}>
-                      {this.props.parent.props.isLoading ? 'Please wait...' : 'Save'}
+                      {this.props.parent.props.isLoading
+                        ? 'Please wait...'
+                        : !this.state.isEditing
+                        ? 'Edit'
+                        : 'Save'}
                     </Text>
                   </Button>
                 )}

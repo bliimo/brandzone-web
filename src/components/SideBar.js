@@ -9,7 +9,8 @@ const SideBar = ({
   onLogout,
   isShow,
   isEvent,
-  OnHandleToggle
+  OnHandleToggle,
+  parent
 }) => {
   const { firstName, lastName, profilePicture } = account;
   return (
@@ -19,7 +20,7 @@ const SideBar = ({
       style={{
         display: show ? 'block' : 'none',
         opacity: show ? 1 : 0,
-        position: 'absolute',
+        position: 'fixed',
         height: '100vh',
         backgroundColor: '#283037',
         width: '27vw',
@@ -59,6 +60,7 @@ const SideBar = ({
           className='sideBarLink'
           onClick={() => {
             isShow(false);
+            OnHandleShowSideBar();
           }}
         >
           My Schedule
@@ -69,6 +71,7 @@ const SideBar = ({
           className='sideBarLink'
           onClick={() => {
             isShow(true);
+            OnHandleShowSideBar();
           }}
         >
           List of&nbsp;
@@ -79,7 +82,10 @@ const SideBar = ({
           <React.Fragment>
             <NavLink
               to='#'
-              onClick={e => OnHandleToggle('100')}
+              onClick={e => {
+                OnHandleToggle('100');
+                OnHandleShowSideBar();
+              }}
               style={style.links}
               className='sideBarLink'
             >
@@ -87,7 +93,10 @@ const SideBar = ({
             </NavLink>
             <NavLink
               to='#'
-              onClick={e => OnHandleToggle('101')}
+              onClick={e => {
+                OnHandleToggle('101');
+                OnHandleShowSideBar();
+              }}
               style={style.links}
               className='sideBarLink'
             >

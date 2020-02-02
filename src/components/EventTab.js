@@ -378,7 +378,11 @@ class EventTab extends Component {
     this.props.getLatestEvents();
     try {
       document.getElementById(`tab-${this.state.activeItem}`).click();
-    } catch (error) {}
+    } catch (error) {
+      setTimeout(() => {
+        document.getElementById(`tab-${this.state.activeItem}`).click();
+      }, 50);
+    }
   };
 
   OnHandleOpenTime = id => {
