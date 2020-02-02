@@ -52,7 +52,11 @@ const TabLinks = ({ parent }) => {
       <MDBNavItem
         style={{
           display:
-            parent.state.activeItem === '1' || parent.state.activeItem === '2' ? 'block' : 'none'
+            parent.state.activeItem === '1' ||
+            parent.state.activeItem === '2' ||
+            parent.state.activeItem === '3'
+              ? 'block'
+              : 'none'
         }}
       >
         <NavLink
@@ -398,6 +402,7 @@ class HomeTab extends Component {
   };
 
   OnHandleToggle = tab => () => {
+    console.log(tab);
     if (this.toastId) toast.dismiss(this.toastId);
     window.scrollTo(0, 0);
     this.setState({ activeItem: tab });

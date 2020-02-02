@@ -368,7 +368,6 @@ class BookingProfile extends Component {
 
   OnHandleEditing = isEdit => {
     let { isEditing } = this.state;
-
     isEditing = isEdit != undefined ? isEdit : !isEditing;
     this.setState({ isEditing });
   };

@@ -107,6 +107,7 @@ const SideBar = ({
         <NavLink
           to='#'
           onClick={() => {
+            OnHandleShowSideBar();
             sessionStorage.clear();
             onLogout();
             window.location.replace('/');
