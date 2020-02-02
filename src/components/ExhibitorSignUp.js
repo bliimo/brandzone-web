@@ -80,7 +80,7 @@ const ExhibitorSignUp = ({ parent }) => {
         rows={5}
       />
       <TextInput
-        placeholder='Unique and Strong programs'
+        placeholder='Unique and Strong Programs'
         id='programs'
         onChange={parent.OnHandleChange}
         type='text'
@@ -183,7 +183,7 @@ const ExhibitorSignUp = ({ parent }) => {
           items={parent.state.events}
           action={parent.OnHandleEventType}
           isActive={true}
-          label='Choose an event you will be participating in:'
+          label='Choose an event you will participating in:'
         />
       )}
       {parent.state.events.length > 0 && (

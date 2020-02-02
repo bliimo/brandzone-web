@@ -11,6 +11,7 @@ import { loginUser, getLatestEvents, setNotes } from '../store/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getMonthName } from '../helper/date';
+import contents from '../constants/contents';
 
 const Link = ({ data, parent, index }) => {
   const { title } = data;
@@ -126,7 +127,7 @@ const Schedule = ({ data, parent, index }) => {
 
   return (
     <div
-      className={`mb-3 text-light fade-effect ${
+      className={`mb-3 text-light mt-3 fade-effect ${
         id === parent.state.isOpen || parent.state.isOpen === null
           ? 'd-block'
           : 'd-none margin-absolute'
@@ -242,6 +243,113 @@ const List = ({ parent }) => {
   );
 };
 
+const PrivacyPolicyTab = ({ parent }) => {
+  return (
+    <MDBTabPane tabId='100' role='tabpanel' className='fade-effect'>
+      <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('0')}>
+        <Text style={style.backBtn} className='back-button-text-signup'>
+          <div id='chevron'></div>
+          <span style={style.backText}>Back to events</span>
+        </Text>
+      </Button>
+      <Text className='text-center tab-title' style={style.tabTitleHeader}>
+        PRIVACY POLICY
+      </Text>
+      <hr style={style.tabTitleHeaderHr} />
+      <Text className='text-center' style={{ ...style.about, ...style.aboutFirst }}>
+        {contents.policy[0]}
+      </Text>
+      <Text className='text-center mt-2 ' style={{ ...style.about, ...style.about }}>
+        {contents.policy[1]}
+      </Text>
+      <Text className='text-center mt-2 ' style={{ ...style.about, ...style.about }}>
+        {contents.policy[2]}
+      </Text>
+    </MDBTabPane>
+  );
+};
+
+const TermsTab = ({ parent }) => {
+  return (
+    <MDBTabPane tabId='101' role='tabpanel' className='fade-effect'>
+      <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('0')}>
+        <Text style={style.backBtn} className='back-button-text-signup'>
+          <div id='chevron'></div>
+          <span style={style.backText}>Back to events</span>
+        </Text>
+      </Button>
+      <Text className='text-center tab-title mt-5' style={style.tabTitleHeader}>
+        TERMS & CONDITIONS
+      </Text>
+      <hr style={style.tabTitleHeaderHr} />
+      <Text className='text-center' style={{ ...style.about, ...style.aboutFirst }}>
+        {contents.policy[0]}
+      </Text>
+      <Text className='text-center mt-2 ' style={{ ...style.about, ...style.about }}>
+        {contents.policy[1]}
+      </Text>
+      <Text className='text-center mt-2 ' style={{ ...style.about, ...style.about }}>
+        {contents.policy[2]}
+      </Text>
+    </MDBTabPane>
+  );
+};
+
+const TabLinks = ({ parent }) => {
+  return (
+    <MDBNav tabs className='justify-content-center'>
+      <MDBNavItem
+        style={{
+          display:
+            parent.state.activeItem === '100' || parent.state.activeItem === '101'
+              ? 'block'
+              : 'none'
+        }}
+      >
+        <NavLink
+          to='#'
+          className={`nav-links ${parent.state.activeItem === '100' ? 'active-tab' : ''}`}
+          onClick={() => parent.OnHandleTogglePrivacy('100')}
+          role='tab'
+        >
+          <Text style={style.tabTitle}>PRIVACY POLICY</Text>
+          <hr />
+        </NavLink>
+      </MDBNavItem>
+      <MDBNavItem
+        style={{
+          display:
+            parent.state.activeItem === '100' || parent.state.activeItem === '101'
+              ? 'block'
+              : 'none'
+        }}
+      >
+        <NavLink
+          to='#'
+          className={`nav-links ${parent.state.activeItem === '101' ? 'active-tab' : ''}`}
+          onClick={() => parent.OnHandleTogglePrivacy('101')}
+          role='tab'
+        >
+          <Text style={style.tabTitle}>TERMS & CONDITIONS</Text>
+          <hr />
+        </NavLink>
+      </MDBNavItem>
+    </MDBNav>
+  );
+};
+
+const FooterTabs = ({ parent }) => {
+  return (
+    <React.Fragment>
+      <TabLinks parent={parent} />
+      <MDBTabContent className='card' activeItem={parent.state.activeItem} style={style.tabs}>
+        <PrivacyPolicyTab parent={parent} />
+        <TermsTab parent={parent} />
+      </MDBTabContent>
+    </React.Fragment>
+  );
+};
+
 class EventTab extends Component {
   state = {
     activeItem: '0',
@@ -258,6 +366,11 @@ class EventTab extends Component {
     const { events } = this.state;
     this.setState({ isOpen: null, schedules: events[tab].schedules, selectedProfile: null });
     if (this.state.activeItem !== tab) this.setState({ activeItem: tab });
+  };
+
+  OnHandleTogglePrivacy = tab => {
+    console.log(tab);
+    this.setState({ activeItem: tab });
   };
 
   OnHandleResetEvents = () => {
@@ -306,10 +419,12 @@ class EventTab extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { events, account } = nextProps;
-    if (account) this.setState({ account });
-    if (events.length > 0) {
-      this.setState({ isOpen: null, events, schedules: events[this.state.activeItem].schedules });
-    }
+    try {
+      if (account) this.setState({ account });
+      if (events.length > 0) {
+        this.setState({ isOpen: null, events, schedules: events[this.state.activeItem].schedules });
+      }
+    } catch (error) {}
   }
 
   componentWillMount() {
@@ -320,12 +435,30 @@ class EventTab extends Component {
   render() {
     return (
       <React.Fragment>
-        <div style={style.main} className='p-0' id='mainTab'>
+        <div
+          style={style.main}
+          className={`p-0 mb-5 ${
+            this.state.activeItem == '100' || this.state.activeItem == '101'
+              ? 'open-privacy-terms'
+              : ''
+          }`}
+          id='mainTab'
+        >
           {!this.props.auth.isAuthenticated && <Redirect to='/' />}
-          {this.state.schedules && <Tabs parent={this} />}
+          {this.state.schedules &&
+            this.state.activeItem != '100' &&
+            this.state.activeItem != '101' && <Tabs parent={this} />}
+
+          {(this.state.activeItem == '100' && <FooterTabs parent={this} />) ||
+            (this.state.activeItem == '101' && <FooterTabs parent={this} />)}
           <ToastContainer />
         </div>
-        <Footer isShow={this.OnHandleShowList} isAuthenticated={this.props.auth.isAuthenticated} />
+        <Footer
+          isShow={this.OnHandleShowList}
+          OnHandleToggle={this.OnHandleTogglePrivacy}
+          isEvent={true}
+          isAuthenticated={this.props.auth.isAuthenticated}
+        />
       </React.Fragment>
     );
   }
@@ -333,7 +466,6 @@ class EventTab extends Component {
 
 const style = {
   main: {
-    width: '100%',
     padding: '0 !important'
   },
   tabs: {
@@ -358,7 +490,6 @@ const style = {
     borderBottom: '3.2px solid #8ec63f',
     width: '5.6em',
     position: 'relative',
-    bottom: '1.3em',
     margin: 'auto'
   },
 
@@ -422,6 +553,25 @@ const style = {
     top: '.8em',
     color: '#fff',
     marginBottom: '0'
+  },
+  aboutFirst: {
+    marginTop: '2em'
+  },
+  about: {
+    color: '#fff',
+    lineHeight: '1.5em',
+    fontSize: 15.5,
+    fontFamily: 'Helvetica'
+  },
+  backBtn: {
+    color: '#fff'
+  },
+  backText: {
+    opacity: 0.4,
+    font: '10.5px Helvetica',
+    marginLeft: '30px !important',
+    position: 'relative',
+    bottom: '.1em'
   }
 };
 

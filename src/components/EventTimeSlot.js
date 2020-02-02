@@ -98,7 +98,7 @@ class EventTimeSlot extends Component {
       <div style={style.main}>
         <div className='text-center mt-4'>
           <Text style={style.text}>
-            <span style={style.selectTimeSlot}> Select Time Slots</span>
+            <span style={style.selectTimeSlot}> Select your available time slots</span>
             <span
               style={style.selectAll}
               onClick={this.OnHandleSelectAll}

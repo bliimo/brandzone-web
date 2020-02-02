@@ -840,6 +840,10 @@ textarea.signup-input {
   }
 }
 @media only screen and (min-width: 1024px) {
+  .open-privacy-terms {
+    margin: auto !important;
+    width: 63.7vw !important;
+  }
   .meeting-done {
     width: 75% !important;
     float: left !important;
@@ -847,6 +851,9 @@ textarea.signup-input {
 }
 
 @media only screen and (width: 1024px) {
+  p.text-center.tab-title {
+    font-size: 24px !important;
+  }
   .booking-profile {
     min-height: 72vh;
   }

@@ -179,7 +179,7 @@ const ParticipantSignUp = ({ parent, events }) => {
           items={parent.state.events}
           action={parent.OnHandleEventType}
           isActive={true}
-          label='Choose an event you will be participating in:'
+          label='Choose an event you will participating in:'
         />
       )}
       {parent.state.events.length > 0 && (

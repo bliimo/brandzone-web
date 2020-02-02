@@ -45,7 +45,7 @@ const Items = ({ parent }) => {
   );
   return (
     <MDBCollapse className='absolute-collapse' isOpen={isOpen}>
-      <div className='ml-3 mr-3 mb-4 mt-3'>{elem}</div>
+      <div className='ml-3 mr-3 mb-4 mt-1'>{elem}</div>
     </MDBCollapse>
   );
 };

@@ -3,7 +3,7 @@ import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
 import { NavLink } from 'react-router-dom';
 import Text from './Text';
 
-const Footer = ({ isShow, Clients, isAuthenticated, OnHandleToggle }) => {
+const Footer = ({ isShow, Clients, isAuthenticated, OnHandleToggle, isEvent }) => {
   return (
     <React.Fragment>
       {Clients && <Clients />}
@@ -63,18 +63,34 @@ const Footer = ({ isShow, Clients, isAuthenticated, OnHandleToggle }) => {
                 </ul>
               </MDBCol>
               <MDBCol lg='12' xl='12' sm='12' className='footer-last-link'>
-                <ul className='d-inline-block footer-link mb-0 mt-2'>
-                  <li className='d-inline-block'>
-                    <NavLink to='#' onClick={OnHandleToggle('4')}>
-                      <Text style={style.footerLink}>Privacy Policy</Text>
-                    </NavLink>
-                  </li>
-                  <li className='d-inline-block'>
-                    <NavLink to='#' onClick={OnHandleToggle('5')}>
-                      <Text style={style.footerLink}>Terms & Schedule</Text>
-                    </NavLink>
-                  </li>
-                </ul>
+                {isEvent && (
+                  <ul className='d-inline-block footer-link mb-0 mt-2'>
+                    <li className='d-inline-block'>
+                      <NavLink to='#' onClick={e => OnHandleToggle('100')}>
+                        <Text style={style.footerLink}>Privacy Policy</Text>
+                      </NavLink>
+                    </li>
+                    <li className='d-inline-block'>
+                      <NavLink to='#' onClick={e => OnHandleToggle('101')}>
+                        <Text style={style.footerLink}>Terms & Schedule</Text>
+                      </NavLink>
+                    </li>
+                  </ul>
+                )}
+                {!isEvent && (
+                  <ul className='d-inline-block footer-link mb-0 mt-2'>
+                    <li className='d-inline-block'>
+                      <NavLink to='#' onClick={OnHandleToggle('4')}>
+                        <Text style={style.footerLink}>Privacy Policy</Text>
+                      </NavLink>
+                    </li>
+                    <li className='d-inline-block'>
+                      <NavLink to='#' onClick={OnHandleToggle('5')}>
+                        <Text style={style.footerLink}>Terms & Schedule</Text>
+                      </NavLink>
+                    </li>
+                  </ul>
+                )}
               </MDBCol>
             </MDBRow>
           </MDBCol>

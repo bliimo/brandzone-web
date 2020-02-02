@@ -827,9 +827,10 @@ class HomeTab extends Component {
           <ToastContainer />
         </MDBContainer>
         <Footer
-          OnHandleToggle={this.OnHandleToggle}
           Clients={this.state.activeItem === '1' ? Clients : undefined}
           isAuthenticated={this.props.auth.isAuthenticated}
+          isEvent={false}
+          OnHandleToggle={this.OnHandleToggle}
         />
       </React.Fragment>
     );
@@ -838,6 +839,7 @@ class HomeTab extends Component {
 
 const style = {
   main: {
+    marginBottom: '2em',
     width: '63.7vw'
   },
   tabs: {
