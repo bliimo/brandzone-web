@@ -370,7 +370,6 @@ class EventTab extends Component {
   };
 
   OnHandleTogglePrivacy = tab => {
-    console.log(tab);
     this.setState({ activeItem: tab });
   };
 

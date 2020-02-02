@@ -24,6 +24,7 @@ const Counter = ({ parent }) => {
       intervalDelay={0}
       precision={3}
       zeroPadTime={2}
+      onComplete={parent.state.OnHandleResetProfile()}
       renderer={props => (
         <MDBRow>
           <MDBCol size={'12'}>
@@ -290,9 +291,9 @@ class BookingProfile extends Component {
     selectedSchedule: {},
     event: {},
     selectedSlot: null,
-    OnHandleResetEvents: () => {},
     slots: [],
     notes: '',
+    OnHandleResetEvents: () => {},
     OnHandleSetNotes: () => {}
   };
 
