@@ -469,7 +469,7 @@ ul.md-tabs > li hr {
 }
 
 div#mainTab {
-  min-height: 60vh;
+  min-height: 90vh;
 }
 
 input:focus {
@@ -669,7 +669,25 @@ textarea.signup-input {
   animation: fadeout-btn 1s;
   background-color: rgba(75, 87, 85, 0.2) !important;
 }
-
+.btn-booked {
+  position: absolute;
+  line-height: 35px;
+  top: 0;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  display: block;
+  transition: 0.2s;
+}
+.btn-booked.done {
+  opacity: 0.5 !important;
+}
+.btn-done {
+  border: solid 1px #4b5755;
+}
+.btn-inprogress {
+  border: solid 1px #ffffff5e;
+}
 .btn-animate-text-time {
   position: absolute;
   line-height: 35px;
@@ -803,6 +821,12 @@ textarea.signup-input {
     top: 1.2em;
   }
 }
+@media only screen and (min-width: 1024px) {
+  .meeting-done {
+    width: 75% !important;
+    float: left !important;
+  }
+}
 
 @media only screen and (width: 1024px) {
   .booking-profile {
@@ -891,6 +915,12 @@ div.slot-list-row:not(:first-of-type) {
 }
 
 @media only screen and (max-width: 767px) {
+  div#slots {
+    margin-top: 5em !important;
+  }
+  p.text-center.mb-0.avail-sched-text {
+    top: 3em !important;
+  }
   div#first-row-profile-btn {
     margin-top: 2em !important;
   }
@@ -1083,4 +1113,12 @@ div.slot-list-row:not(:first-of-type) {
 
 .invalid-field {
   border: solid 1px #e22b2b !important;
+}
+
+.font-bold {
+  font-weight: bolder !important;
+}
+
+.mh-300 {
+  min-height: 300px !important;
 }

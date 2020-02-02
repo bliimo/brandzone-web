@@ -260,6 +260,7 @@ class HomeTab extends Component {
 
   OnHandleGetTimeSlots = selectedSchedules => {
     this.setState({ selectedSchedules });
+    this.OnHandleSelectedSchedules(selectedSchedules);
   };
 
   OnHandleCheckTerms = () => {
@@ -370,9 +371,9 @@ class HomeTab extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { auth, events, institution, history, user, loginError, signUpError } = nextProps;
+    const { auth, events, institution, user, loginError, signUpError } = nextProps;
 
-    const { signUpEmail, signUpPassword, activeItem } = this.state;
+    const { activeItem } = this.state;
 
     if (loginError && activeItem === '2') {
       this.notify(loginError);
@@ -433,8 +434,8 @@ class HomeTab extends Component {
     }
   };
 
-  OnHandleSelectedSchedules = () => {
-    const { selectedEvent, selectedSchedules, events } = this.state;
+  OnHandleSelectedSchedules = selectedSchedules => {
+    const { selectedEvent, events } = this.state;
     let setBookings = [];
     if (selectedEvent.isAllEvent) {
       Object.values(selectedSchedules).map(scheds => {
@@ -453,7 +454,7 @@ class HomeTab extends Component {
         setBookings.push(scheds);
       });
     }
-    this.setState({ setBookings: [...new Set(setBookings)] });
+    this.setState({ setBookings: [...new Set(setBookings)], selectedSchedules });
   };
 
   OnHandleGetParticipants = () => {
@@ -601,7 +602,7 @@ class HomeTab extends Component {
               .replace('job', 'job ')
               .toLowerCase()}`
           );
-          return true;
+          return false;
         }
       }
     }
@@ -615,6 +616,8 @@ class HomeTab extends Component {
       this.notify('Please agree with the terms and conditions');
       return false;
     }
+
+    return true;
   };
 
   OnHandleSetBookings = () => {
@@ -624,15 +627,12 @@ class HomeTab extends Component {
   };
 
   OnHandleSignUp = () => {
+    console.log(this.state.setBookings);
     const { addUser } = this.props;
     const { userTypeSelected } = this.state;
-
-    this.OnHandleSelectedSchedules();
     const user =
       userTypeSelected == 0 ? this.OnHandleGetParticipants() : this.OnHandleGetExibitors();
-    this.OnHandleValidateSignUp(user);
-
-    addUser(user);
+    if (this.OnHandleValidateSignUp(user)) addUser(user);
   };
 
   OnHandleEventType = index => {

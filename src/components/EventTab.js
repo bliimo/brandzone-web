@@ -7,15 +7,17 @@ import BookingProfileList from './BookingProfileList';
 import BookingProfile from './BookingProfile';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { loginUser, getLatestEvents } from '../store/actions';
+import { loginUser, getLatestEvents, setNotes } from '../store/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import { getMonthName } from '../helper/date';
 
 const Link = ({ data, parent, index }) => {
   const { title, address, date } = data;
   return (
     <MDBNavItem>
       <NavLink
+        id={`tab-${index}`}
         to='#'
         className={`nav-links ${parent.state.activeItem === index ? 'active-tab' : ''}`}
         onClick={parent.OnHandleToggle(index)}
@@ -29,7 +31,9 @@ const Link = ({ data, parent, index }) => {
 };
 
 const Tab = ({ data, index }) => {
-  const { title, address, date, scheds, id } = data;
+  let { title, address, date, scheds, id } = data;
+  let dateArr = date.split('T')[0].split('-');
+  date = `${getMonthName(dateArr[1])} ${dateArr[2]}`;
   return (
     <MDBTabPane tabId={index} role='tabpanel' className='fade-effect' style={style.pane}>
       <Text className='text-center' style={style.tabTitleHeader}>
@@ -72,8 +76,46 @@ const Tabs = ({ parent }) => {
   );
 };
 
-const Schedule = ({ data, parent }) => {
-  const { id, startTime, endTime } = data;
+const Schedule = ({ data, parent, index }) => {
+  let { id, startTime, endTime, booking } = data;
+  const { account } = parent.props;
+  const { events, activeItem } = parent.state;
+  let isBooked = false;
+  let setBy = {};
+  let bookingId = null;
+  let dateTime = null;
+  let isDone = false;
+  let booked = {};
+
+  booking.map(e => {
+    if (e.bookedBy !== null && e.bookedBy.id == account.id) {
+      booked = e;
+      isBooked = true;
+      setBy = e.setBy;
+      bookingId = e.id;
+    }
+  });
+
+  booked['title'] =
+    localStorage.getItem('userType') === 'participant'
+      ? `Exhibitor ${index}`
+      : `Participant ${index}`;
+
+  if (isBooked) {
+    let currentDate = new Date();
+    let date = events[activeItem].date;
+    let hour = parseInt(startTime.split(':')[0]) + 12;
+    let min = startTime.split(':')[1];
+
+    date = date.split('T')[0].split('-');
+    dateTime = new Date(date[0], parseInt(date[1]) - 1, date[2], hour, min);
+    isDone = currentDate > dateTime;
+  }
+
+  startTime = startTime.substring(0, startTime.length - 3);
+  endTime = endTime.substring(0, endTime.length - 3);
+  startTime = startTime.substring(0, 1) === '0' ? startTime.substring(1) : startTime;
+  endTime = endTime.substring(0, 1) === '0' ? endTime.substring(1) : endTime;
   return (
     <div
       className={`mb-3 text-light fade-effect ${
@@ -83,15 +125,27 @@ const Schedule = ({ data, parent }) => {
       }`}
     >
       <Button
-        style={style.buttonTime}
-        className={`btn-animate-time ${parent.state.isOpen === null ? 'inactive' : ''}`}
-        onClick={() => parent.OnHandleOpenTime(id)}
+        style={isBooked ? style.buttonTimeBooked : style.buttonTime}
+        className={`${!isBooked ? 'btn-animate-time' : isDone ? 'btn-done' : 'btn-inprogress'} ${
+          parent.state.isOpen === null ? 'inactive' : ''
+        }`}
+        onClick={() =>
+          isBooked ? parent.OnHandleSelectProfile(booked, data) : parent.OnHandleOpenTime(id)
+        }
       >
         <Text
-          className={`btn-animate-text-time ${
-            id === parent.state.isOpen ? 'font-weight-bold text-light font-size-15' : ''
-          }`}
-        >{`${startTime} - ${endTime}`}</Text>
+          className={`text-capitalize font-bold ${
+            !isBooked ? 'btn-animate-text-time' : isDone ? 'btn-booked done' : 'btn-booked'
+          } ${id === parent.state.isOpen ? 'font-weight-bold text-light font-size-15' : ''}`}
+        >{`${startTime} - ${endTime}${
+          isBooked
+            ? ` | ${
+                localStorage.getItem('userType') === 'participant'
+                  ? `Exhibitor ${index}`
+                  : `Participant ${index}`
+              } | ${setBy.firstName} ${setBy.lastName.substr(0, 1)}.`
+            : ''
+        }`}</Text>
       </Button>
       <div
         className={`fade-effect .fade-out-effect mt-3 time-collapse ${
@@ -99,9 +153,16 @@ const Schedule = ({ data, parent }) => {
         }`}
       >
         <Text className='text-center' style={style.participantText}>
-          Available Participants:
+          Available&nbsp;
+          {localStorage.getItem('userType') == 'participant' ? 'Exhibitors' : 'Participants'}:
         </Text>
-        <BookingProfileList parent={parent} />
+        <BookingProfileList
+          parent={parent}
+          bookingScheduleId={id}
+          users={booking}
+          schedule={data}
+          account={parent.props.account}
+        />
       </div>
     </div>
   );
@@ -109,176 +170,38 @@ const Schedule = ({ data, parent }) => {
 
 const Schedules = ({ parent }) => {
   let scheds = [];
-  parent.state.schedules.map((e, i) => {
-    scheds.push(<Schedule key={i} parent={parent} data={e} />);
-  });
+  const { activeItem, events } = parent.state;
+  if (events.length > 0) {
+    events[activeItem].schedules.map((e, i) => {
+      if (e.booking.length > 0) {
+        scheds.push(<Schedule key={i} parent={parent} data={e} index={i + 1} />);
+      }
+    });
+  }
   return scheds;
 };
 
 class EventTab extends Component {
   state = {
     activeItem: '0',
-    events: [
-      {
-        id: 0,
-        title: 'Manila',
-        date: 'Feb 28',
-        address: 'New world Hotel Makati',
-        scheds: [
-          {
-            id: 1,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 2,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 3,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 4,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 5,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 6,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 7,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 8,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 9,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 10,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 11,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 12,
-            startTime: '2:30',
-            endTime: '2:50'
-          }
-        ]
-      },
-      {
-        id: 1,
-        date: 'Feb 28',
-        title: 'Cebu',
-        address: 'New world Hotel Makati',
-        scheds: [
-          {
-            id: 13,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 14,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 15,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 16,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 17,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 18,
-            startTime: '2:30',
-            endTime: '2:50'
-          }
-        ]
-      },
-      {
-        id: 2,
-        date: 'Feb 28',
-        title: 'Pasig',
-        address: 'Pasig',
-        scheds: [
-          {
-            id: 19,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 20,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 21,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 22,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 23,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 24,
-            startTime: '2:30',
-            endTime: '2:50'
-          }
-        ]
-      }
-    ],
+    events: [],
     isOpen: null,
     schedules: [],
-    selectedProfile: null
+    selectedProfile: null,
+    selectedSchedule: {},
+    account: {}
   };
 
   OnHandleToggle = tab => () => {
     const { events } = this.state;
-    this.setState({ isOpen: null, schedules: events[tab].scheds, selectedProfile: null });
+    this.setState({ isOpen: null, schedules: events[tab].schedules, selectedProfile: null });
     if (this.state.activeItem !== tab) this.setState({ activeItem: tab });
   };
 
-  componentDidMount() {
-    const { events } = this.state;
-    this.setState({ isOpen: null, schedules: events[0].scheds });
-  }
+  OnHandleResetEvents = () => {
+    this.props.getLatestEvents();
+    document.getElementById(`tab-${this.state.activeItem}`).click();
+  };
 
   OnHandleOpenTime = id => {
     let { isOpen } = this.state;
@@ -290,26 +213,48 @@ class EventTab extends Component {
     this.setState({ schedules });
   };
 
-  OnHandleSelectProfile = selectedProfile => {
-    this.setState({ selectedProfile });
+  OnHandleSelectProfile = (selectedProfile, selectedSchedule) => {
+    this.setState({ selectedProfile, selectedSchedule });
   };
 
   OnHandleResetProfile = () => {
     this.setState({ selectedProfile: null });
   };
 
+  OnHandleSetNotes = (id, notes) => {
+    const { events, activeItem } = this.state;
+    events[activeItem].schedules.map(sched => {
+      sched.booking.map(book => {
+        if (book.id == id) {
+          book.notes = notes;
+        }
+      });
+    });
+    if (notes.length > 0) {
+      this.props.setNotes(id, notes);
+    } else {
+      toast.error('Required notes');
+    }
+  };
+
   componentWillReceiveProps(nextProps) {
-    const { account } = nextProps;
-    console.log(account);
+    const { events, account, booking } = nextProps;
+    if (account) this.setState({ account });
+    if (events.length > 0) {
+      this.setState({ isOpen: null, events, schedules: events[this.state.activeItem].schedules });
+    }
   }
 
-  componentWillMount() {}
+  componentWillMount() {
+    const { getLatestEvents } = this.props;
+    getLatestEvents();
+  }
 
-  render() { 
+  render() {
     return (
       <div style={style.main} className='p-0' id='mainTab'>
         {!this.props.auth.isAuthenticated && <Redirect to='/' />}
-        <Tabs parent={this} />
+        {this.state.schedules && <Tabs parent={this} />}
         <ToastContainer />
       </div>
     );
@@ -381,6 +326,21 @@ const style = {
     top: '1em',
     height: 37
   },
+  buttonTimeBooked: {
+    color: '#fff',
+    backgroundColor: 'transparent',
+    width: '31.5em',
+    borderRadius: '5px',
+    padding: '.5em',
+    textAlign: 'center',
+    fontSize: '13.5px',
+    fontWeight: 'bolder',
+    cursor: 'pointer',
+    margin: 'auto',
+    position: 'relative',
+    top: '1em',
+    height: 37
+  },
   schedules: {
     position: 'relative',
     top: '.5em'
@@ -400,10 +360,12 @@ const mapStateToProps = state => ({
   account: state.auth.currentUser,
   error: state.auth.error,
   events: state.event.events,
-  user: state.user
+  user: state.user,
+  booking: state.booking.booking,
+  isLoading: state.booking.isLoading
 });
 
 export default connect(
   mapStateToProps,
-  { loginUser, getLatestEvents }
+  { loginUser, getLatestEvents, setNotes }
 )(withRouter(EventTab));

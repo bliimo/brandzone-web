@@ -35,7 +35,12 @@ const Footer = () => {
                   </li>
                   <li className='d-inline-block'>
                     <NavLink to='#'>
-                      <Text style={style.footerLink}>List of Participants</Text>
+                      <Text style={style.footerLink}>
+                        List of{' '}
+                        {localStorage.getItem('userType') == 'exhibitor'
+                          ? 'Participants'
+                          : 'Exhibitors'}
+                      </Text>
                     </NavLink>
                   </li>
                 </ul>

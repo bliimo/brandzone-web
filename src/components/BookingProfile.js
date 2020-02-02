@@ -2,236 +2,353 @@ import React, { Component } from 'react';
 import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
 import Button from './Button';
 import Text from './Text';
+import TextInput from './TextInput';
 import EllipsisText from 'react-ellipsis-text';
 import MediaQuery from 'react-responsive';
 import ModalBooking from './ModalBooking';
+import Countdown from 'react-countdown';
+import { setNotes } from '../store/actions';
+const Counter = ({ parent }) => {
+  const { event, selectedSchedule } = parent.state;
+  const { startTime } = selectedSchedule;
+  let date = event.date;
+  let hour = parseInt(startTime.split(':')[0]) + 12;
+  let min = startTime.split(':')[1];
 
-const Slots = () => {
+  date = date.split('T')[0].split('-');
+  let dateTime = new Date(date[0], parseInt(date[1]) - 1, date[2], hour, min);
+
+  return (
+    <Countdown
+      date={dateTime}
+      intervalDelay={0}
+      precision={3}
+      zeroPadTime={2}
+      renderer={props => (
+        <MDBRow>
+          <MDBCol size={'12'}>
+            <p style={style.counterRemaining}>Time Remaining</p>
+          </MDBCol>
+          <MDBCol size={'12'}>
+            <div style={{ display: 'inline-flex', width: '100%' }}>
+              <Text>
+                <p style={style.counterMin}>
+                  {props.minutes > 9 ? props.minutes : `0${props.minutes}`}
+                </p>
+                <p style={style.counterTitleMin}>Minutes</p>
+              </Text>
+              <Text style={style.counter}>:</Text>
+              <Text>
+                <p style={style.counter}>
+                  {props.seconds > 9 ? props.seconds : `0${props.seconds}`}
+                </p>
+                <p style={style.counterTitleSec}>Seconds</p>
+              </Text>
+            </div>
+          </MDBCol>
+        </MDBRow>
+      )}
+    />
+  );
+};
+const Slot = ({ slots, parent }) => {
+  const slot = [];
+  slots.map((booking, index) => {
+    let { startTime, endTime } = booking.schedule;
+    startTime = startTime.substring(0, startTime.length - 3);
+    endTime = endTime.substring(0, endTime.length - 3);
+    startTime = startTime.substring(0, 1) === '0' ? startTime.substring(1) : startTime;
+    endTime = endTime.substring(0, 1) === '0' ? endTime.substring(1) : endTime;
+    slot.push(
+      <MDBRow
+        className='slot-list-row mt-0'
+        key={index}
+        id={index == 0 ? 'first-row-profile-btn' : ''}
+      >
+        <MDBCol size={'9'} className='pr-0'>
+          <Button style={style.btnSlotList} className='btn-profile'>
+            <Text style={style.time}>
+              {startTime} - {endTime}
+            </Text>
+          </Button>
+        </MDBCol>
+        <MDBCol size={'3'} className='p-0'>
+          <Button
+            onClick={() => {
+              parent.OnHandleToogleModal(booking.booking.id);
+              parent.setState({ selectedSchedule: booking.schedule });
+            }}
+            style={style.btnBookList}
+            className='btn-animate-get-slot-list'
+          >
+            <Text style={style.time} className='btn-animate-get-slot-text'>
+              Get slot
+            </Text>
+          </Button>
+        </MDBCol>
+      </MDBRow>
+    );
+  });
+
+  return slot;
+};
+const Slots = ({ parent }) => {
+  const { slots } = parent.state;
   return (
     <React.Fragment>
-      <div id='slots'>
-        <MDBRow className='slot-list-row mt-0' id='first-row-profile-btn'>
-          <MDBCol size={'9'} className='pr-0'>
-            <Button style={style.btnSlotList} className='btn-profile'>
-              <Text style={style.time}>2:30 - 2:50</Text>
-            </Button>
-          </MDBCol>
-          <MDBCol size={'3'} className='p-0'>
-            <Button style={style.btnBookList} className='btn-animate-get-slot-list'>
-              <Text style={style.time} className='btn-animate-get-slot-text'>
-                Get slot
-              </Text>
-            </Button>
-          </MDBCol>
-        </MDBRow>
-        <MDBRow className='slot-list-row mt-0'>
-          <MDBCol size={'9'} className='pr-0'>
-            <Button style={style.btnSlotList} className='btn-profile'>
-              <Text style={style.time}>2:30 - 2:50</Text>
-            </Button>
-          </MDBCol>
-          <MDBCol size={'3'} className='p-0'>
-            <Button style={style.btnBookList} className='btn-animate-get-slot-list'>
-              <Text style={style.time} className='btn-animate-get-slot-text'>
-                Get slot
-              </Text>
-            </Button>
-          </MDBCol>
-        </MDBRow>
-        <MDBRow className='slot-list-row mt-0'>
-          <MDBCol size={'9'} className='pr-0'>
-            <Button style={style.btnSlotList} className='btn-profile'>
-              <Text style={style.time}>2:30 - 2:50</Text>
-            </Button>
-          </MDBCol>
-          <MDBCol size={'3'} className='p-0'>
-            <Button style={style.btnBookList} className='btn-animate-get-slot-list'>
-              <Text style={style.time} className='btn-animate-get-slot-text'>
-                Get slot
-              </Text>
-            </Button>
-          </MDBCol>
-        </MDBRow>
-        <MDBRow className='slot-list-row mt-0'>
-          <MDBCol size={'9'} className='pr-0'>
-            <Button style={style.btnSlotList} className='btn-profile'>
-              <Text style={style.time}>2:30 - 2:50</Text>
-            </Button>
-          </MDBCol>
-          <MDBCol size={'3'} className='p-0'>
-            <Button style={style.btnBookList} className='btn-animate-get-slot-list'>
-              <Text style={style.time} className='btn-animate-get-slot-text'>
-                Get slot
-              </Text>
-            </Button>
-          </MDBCol>
-        </MDBRow>
-      </div>
+      <div id='slots'>{slots.length > 0 && <Slot slots={slots} parent={parent} />}</div>
     </React.Fragment>
   );
 };
 
 const Informations = ({ parent }) => {
-  const { institutionName } = parent.state.profile;
+  let {
+    institutionName,
+    phoneNumber,
+    firstName,
+    lastName,
+    email,
+    jobTitle
+  } = parent.state.profile.setBy;
+  institutionName = institutionName
+    ? institutionName
+    : parent.state.profile.setBy.institutionType.name;
+  const { id, title } = parent.state.profile;
+  let { startTime, endTime } = parent.state.selectedSchedule;
+  startTime = startTime.substring(0, startTime.length - 3);
+  endTime = endTime.substring(0, endTime.length - 3);
+  startTime = startTime.substring(0, 1) === '0' ? startTime.substring(1) : startTime;
+  endTime = endTime.substring(0, 1) === '0' ? endTime.substring(1) : endTime;
+
+  let date = parent.state.event.date;
+  let hour = parseInt(startTime.split(':')[0]) + 12;
+  let min = startTime.split(':')[1];
+
+  date = date.split('T')[0].split('-');
+  let dateTime = new Date(date[0], parseInt(date[1]) - 1, date[2], hour, min);
+  const isDone = dateTime < new Date();
   return (
-    <MDBCol xl={'8'} lg={'6'} md={'6'} className='col-info profile-institution-info'>
-      <Text style={style.institutionName}>{institutionName}</Text>
+    <MDBCol xl='8' lg='6' md='6' className='col-info profile-institution-info'>
+      {!title && <Text style={style.institutionName}>{institutionName}</Text>}
       <MDBRow className='mr-0 ml-0'>
-        <MDBCol xl={'6'} md={'12'} className='p-0'>
+        {title && (
+          <MDBCol size='12' className='p-0'>
+            <Text className='booking-profile-info' style={style.profileInfoTitle}>
+              {title}
+            </Text>
+          </MDBCol>
+        )}
+        <MDBCol xl='6' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            Profile Description:&nbsp;&nbsp;
-            <MediaQuery maxDeviceWidth={768}>
+            Profile Description:&nbsp;&nbsp;N/A
+            {/* <MediaQuery maxDeviceWidth={768}>
               <EllipsisText
-                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
+                text={}
                 length={35}
               />
-            </MediaQuery>
-            <MediaQuery minDeviceWidth={768}>
+            </MediaQuery> */}
+            {/* <MediaQuery minDeviceWidth={768}>
               <EllipsisText
                 text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
                 length={18}
               />
-            </MediaQuery>
+            </MediaQuery> */}
           </Text>
         </MDBCol>
-        <MDBCol xl={'6'} md={'12'} className='p-0'>
+        <MDBCol xl='6' md='12' className='p-0'>
           <Text className='booking-profile-info pl-2' style={style.profileInfo}>
             Tel Number:&nbsp;&nbsp;
-            <MediaQuery maxDeviceWidth={768}>
-              <EllipsisText
-                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
-                length={40}
-              />
-            </MediaQuery>
-            <MediaQuery minDeviceWidth={768}>
-              <EllipsisText
-                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
-                length={18}
-              />
-            </MediaQuery>
+            {phoneNumber && (
+              <MediaQuery maxDeviceWidth={768}>
+                <EllipsisText text={phoneNumber} length={40} />
+              </MediaQuery>
+            )}
+            {phoneNumber && (
+              <MediaQuery minDeviceWidth={768}>
+                <EllipsisText text={phoneNumber} length={18} />
+              </MediaQuery>
+            )}
           </Text>
         </MDBCol>
-        <MDBCol xl={'6'} md={'12'} className='p-0'>
+        <MDBCol xl='6' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            Participant Name:&nbsp;&nbsp;
-            <MediaQuery maxDeviceWidth={768}>
-              <EllipsisText
-                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
-                length={39}
-              />
-            </MediaQuery>
-            <MediaQuery minDeviceWidth={768}>
-              <EllipsisText
-                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
-                length={19}
-              />
-            </MediaQuery>
+            {localStorage.getItem('userType') == 'exhibitor' ? 'Participant' : 'Exhibitor'}
+            &nbsp; Name:&nbsp;&nbsp;
+            {firstName && (
+              <MediaQuery maxDeviceWidth={768}>
+                <EllipsisText text={`${firstName} ${lastName}`} length={39} />
+              </MediaQuery>
+            )}
+            {firstName && (
+              <MediaQuery minDeviceWidth={768}>
+                <EllipsisText text={`${firstName} ${lastName}`} length={19} />
+              </MediaQuery>
+            )}
           </Text>
         </MDBCol>
-        <MDBCol xl={'6'} md={'12'} className='p-0'>
+        <MDBCol xl='6' md='12' className='p-0'>
           <Text className='booking-profile-info pl-2' style={style.profileInfo}>
             Email:&nbsp;&nbsp;
-            <MediaQuery maxDeviceWidth={768}>
-              <EllipsisText
-                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
-                length={45}
-              />
-            </MediaQuery>
-            <MediaQuery minDeviceWidth={768}>
-              <EllipsisText
-                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
-                length={23}
-              />
-            </MediaQuery>
+            {email && (
+              <MediaQuery maxDeviceWidth={768}>
+                <EllipsisText text={email} length={45} />
+              </MediaQuery>
+            )}
+            {email && (
+              <MediaQuery minDeviceWidth={768}>
+                <EllipsisText text={email} length={23} />
+              </MediaQuery>
+            )}
           </Text>
         </MDBCol>
-        <MDBCol xl={'6'} md={'12'} className='p-0'>
+        <MDBCol xl='6' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
             Job Title:&nbsp;&nbsp;
-            <MediaQuery maxDeviceWidth={768}>
-              <EllipsisText
-                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
-                length={45}
-              />
-            </MediaQuery>
-            <MediaQuery minDeviceWidth={768}>
-              <EllipsisText
-                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
-                length={27}
-              />
-            </MediaQuery>
+            {jobTitle && (
+              <MediaQuery maxDeviceWidth={768}>
+                <EllipsisText text={jobTitle} length={45} />
+              </MediaQuery>
+            )}
+            {jobTitle && (
+              <MediaQuery minDeviceWidth={768}>
+                <EllipsisText text={jobTitle} length={27} />
+              </MediaQuery>
+            )}
           </Text>
         </MDBCol>
-        <MDBCol xl={'6'} md={'12'} className='p-0'>
+        <MDBCol xl='6' md='12' className='p-0'>
           <Text className='booking-profile-info pl-2' style={style.profileInfo}>
-            Available Slots:&nbsp;&nbsp;
-            <MediaQuery maxDeviceWidth={768}>
-              <EllipsisText
-                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
-                length={40}
-              />
-            </MediaQuery>
-            <MediaQuery minDeviceWidth={768}>
-              <EllipsisText
-                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
-                length={15}
-              />
-            </MediaQuery>
+            Available Slots:&nbsp;&nbsp;{parent.state.slots.length}
           </Text>
         </MDBCol>
-        <MDBCol size={'12'} className='p-0 mt-2'>
-          <MDBRow>
-            <MDBCol size={'8'} className='pr-0'>
-              <Button style={style.btnSlot} className='btn-profile main-btn-profile'>
-                <Text style={style.time}>2:30 - 2:50</Text>
-              </Button>
-            </MDBCol>
-            <MDBCol size={'4'} className='p-0 '>
-              <Button
-                style={style.btnBook}
-                onClick={() => {
-                  parent.OnHandleToogleModal();
-                }}
-              >
-                <Text style={style.time} className='btn-animate-get-slot'>
-                  Get slot
-                </Text>
-              </Button>
-            </MDBCol>
-          </MDBRow>
-        </MDBCol>
+        {!title && (
+          <MDBCol size='12' className='p-0 mt-2'>
+            <MDBRow>
+              <MDBCol size='8' className='pr-0'>
+                <Button style={style.btnSlot} className='btn-profile main-btn-profile'>
+                  <Text style={style.time}>
+                    {startTime} - {endTime}
+                  </Text>
+                </Button>
+              </MDBCol>
+              <MDBCol size='4' className='p-0 '>
+                <Button
+                  style={style.btnBook}
+                  onClick={() => {
+                    parent.OnHandleToogleModal(id);
+                  }}
+                >
+                  <Text style={style.time} className='btn-animate-get-slot'>
+                    Get slot
+                  </Text>
+                </Button>
+              </MDBCol>
+            </MDBRow>
+          </MDBCol>
+        )}
+        {title && isDone && (
+          <Button style={style.buttonTimeBooked} className='btn-done inactive meeting-done'>
+            <Text className='text-capitalize btn-booked done'>Meeting Done</Text>
+          </Button>
+        )}
+        {title && parent.OnHandleType() && (
+          <MDBCol size='12' className='p-0 mt-2'>
+            <Counter parent={parent} />
+          </MDBCol>
+        )}
+        {title && !parent.OnHandleType() && (
+          <MDBCol size='12' className='p-0 mt-2'>
+            <Text style={style.bookedSlot}>
+              Booked Slot:&nbsp;{startTime}&nbsp;-&nbsp;{startTime}pm
+            </Text>
+          </MDBCol>
+        )}
       </MDBRow>
     </MDBCol>
   );
 };
 
-class BookingProfileList extends Component {
+class BookingProfile extends Component {
   state = {
-    profile: {
-      profilePic: 'https://i.pravatar.cc/300',
-      institutionName: '',
-      isOpenModal: false
-    },
-    OnHandleResetProfile: null
+    account: {},
+    profile: {},
+    OnHandleResetProfile: null,
+    selectedSchedule: {},
+    event: {},
+    selectedSlot: null,
+    OnHandleResetEvents: () => {},
+    slots: [],
+    notes: '',
+    OnHandleSetNotes: () => {}
   };
 
-  componentDidMount() {
-    const { OnHandleResetProfile } = this.props.parent;
-    this.setState({ OnHandleResetProfile });
-  }
-
   componentWillReceiveProps() {
-    const { selectedProfile } = this.props.parent.state;
-    if (selectedProfile) this.setState({ profile: selectedProfile });
+    const {
+      selectedProfile,
+      selectedSchedule,
+      events,
+      activeItem,
+      account
+    } = this.props.parent.state;
+    const { OnHandleResetProfile, OnHandleResetEvents, OnHandleSetNotes } = this.props.parent;
+    const event = events[activeItem];
+    let slots = [];
+    if (event != undefined && Object.keys(event).length > 0 && selectedProfile) {
+      event.schedules.map(schedule => {
+        schedule.booking.map(booking => {
+          if (booking.bookedBy == null && booking.setBy.id === selectedProfile.setBy.id) {
+            slots.push({ booking, schedule });
+          }
+        });
+      });
+    }
+    if (selectedProfile) {
+      this.setState({
+        profile: { ...selectedProfile, isOpenModal: false },
+        selectedSchedule,
+        event,
+        OnHandleResetProfile,
+        OnHandleResetEvents,
+        OnHandleSetNotes,
+        slots,
+        account,
+        notes: selectedProfile.notes
+      });
+    }
   }
 
-  OnHandleToogleModal() {
-    this.setState({ isOpenModal: true });
+  OnHandleToogleModal(id) {
+    this.setState({ isOpenModal: id != undefined, selectedSlot: id });
   }
+
+  OnHandleCloseModal() {
+    this.setState({ isOpenModal: false });
+    this.state.OnHandleResetEvents();
+  }
+
+  OnHandleChange = event => {
+    this.setState({ [event.target.id]: event.target.value });
+  };
+
+  OnHandleType = () => {
+    const { event, selectedSchedule } = this.state;
+    const { startTime, endTime } = selectedSchedule;
+    let date = event.date;
+    let hour = parseInt(startTime.split(':')[0]) + 12;
+    let min = startTime.split(':')[1];
+    date = date.split('T')[0].split('-');
+    let start = new Date(date[0], parseInt(date[1]) - 1, date[2], hour, min);
+    hour = parseInt(endTime.split(':')[0]) + 12;
+    min = endTime.split(':')[1];
+    let end = new Date(date[0], parseInt(date[1]) - 1, date[2], hour, min);
+
+    return new Date() >= start && new Date() < end;
+  };
 
   render() {
-    const { profile, isOpenModal } = this.state;
-    const { profilePic } = profile;
+    const { profile, isOpenModal, event, account, OnHandleSetNotes, notes } = this.state;
+    const { profilePic, title, bookedBy } = profile;
+
     return (
       <MDBContainer fluid className='booking-profile'>
         <Button
@@ -246,18 +363,58 @@ class BookingProfileList extends Component {
         <MDBContainer className='booking-profile-main'>
           <MDBRow id='booking-profile-row'>
             <MDBCol xl={'4'} lg={'6'} md={'6'} className='col-img'>
-              <img className='booking-profile-img w-100 h-100' src={profilePic} alt='profile' />
+              <img
+                className={`booking-profile-img w-100 mh-300`}
+                src={'https://i.pravatar.cc/300'}
+                alt='profile'
+              />
             </MDBCol>
-            <Informations parent={this} />
-            <MDBCol size={'12'} className='sched-text'>
-              <Text className='text-center mb-0 avail-sched-text' style={style.scheduleText}>
-                Available Schedules:
-              </Text>
-            </MDBCol>
+            {Object.keys(profile).length > 0 && <Informations parent={this} />}
+            {!title && this.state.slots.length > 1 && (
+              <MDBCol size={'12'} className='sched-text'>
+                <Text className='text-center mb-0 avail-sched-text' style={style.scheduleText}>
+                  Available Schedules:
+                </Text>
+              </MDBCol>
+            )}
+            {title && (
+              <MDBCol size={'12'}>
+                <Text>
+                  <p style={style.notes}>Notes:</p>
+                </Text>
+                <TextInput
+                  id='notes'
+                  onChange={this.OnHandleChange}
+                  type='textarea'
+                  value={this.state.notes}
+                  size='xl'
+                  disabled={account.id !== bookedBy.id}
+                  required={true}
+                  autocomplete='off'
+                  className='signup-input'
+                  style={style.inputs}
+                  rows={5}
+                />
+                {account.id === bookedBy.id && (
+                  <Button
+                    onClick={() =>
+                      this.props.parent.props.isLoading
+                        ? () => {}
+                        : OnHandleSetNotes(profile.id, notes)
+                    }
+                    style={style.btnSave}
+                  >
+                    <Text style={style.txtSave}>
+                      {this.props.parent.props.isLoading ? 'Please wait...' : 'Save'}
+                    </Text>
+                  </Button>
+                )}
+              </MDBCol>
+            )}
           </MDBRow>
-          <Slots />
+          {!title && this.state.slots.length > 1 && <Slots parent={this} />}
         </MDBContainer>
-        {isOpenModal && <ModalBooking isOpen={true} />}
+        {isOpenModal && <ModalBooking parent={this} />}
       </MDBContainer>
     );
   }
@@ -279,7 +436,7 @@ const style = {
   },
   institutionName: {
     color: '#fff',
-    font: '31px Harabara',
+    font: '30px Harabara',
     textTransform: 'uppercase',
     letterSpacing: 4,
     textAlign: 'left'
@@ -289,6 +446,14 @@ const style = {
     textAlign: 'left',
     font: '11.2px Helvetica',
     marginBottom: '.65em'
+  },
+  profileInfoTitle: {
+    color: 'rgb(255, 255, 255)',
+    textAlign: 'left',
+    font: '30px Harabara',
+    textTransform: 'uppercase',
+    letterSpacing: 8,
+    marginBottom: '0.65em'
   },
   btnSlot: {
     color: '#b1b1b1',
@@ -369,7 +534,110 @@ const style = {
     fontFamily: 'Helvetica',
     position: 'relative',
     color: '#fff',
-    paddingTop: '1em'
+    bottom: '2em'
+  },
+  counter: {
+    color: '#8ec63f',
+    fontSize: 45,
+    fontFamily: 'harabara',
+    letterSpacing: 7,
+    textAlign: 'center',
+    padding: '0 .1em'
+  },
+  counterMin: {
+    color: '#8ec63f',
+    fontSize: 45,
+    fontFamily: 'harabara',
+    letterSpacing: 7,
+    textAlign: 'center',
+    padding: '0 .1em 0 0'
+  },
+  counterTitle: {
+    color: '#fff',
+    fontFamily: 'harabara',
+    letterSpacing: 2,
+    paddingTop: '.2em'
+  },
+  counterTitleMin: {
+    color: '#fff',
+    fontFamily: 'harabara',
+    letterSpacing: 2,
+    paddingTop: '.2em',
+    textAlign: 'left',
+    fontSize: '.7em'
+  },
+  counterTitleSec: {
+    position: 'absolute',
+    marginLeft: '.3em',
+    color: '#fff',
+    fontFamily: 'harabara',
+    letterSpacing: 2,
+    paddingTop: '.2em',
+    fontSize: '.7em',
+    textAlign: 'left'
+  },
+  counterRemaining: {
+    color: '#fff',
+    fontFamily: 'harabara',
+    letterSpacing: 2,
+    fontSize: '.6em',
+    textAlign: 'left',
+    paddingTop: '2em'
+  },
+  notes: {
+    color: '#fff',
+    fontFamily: 'harabara',
+    letterSpacing: 2,
+    fontSize: '.9em',
+    textAlign: 'left',
+    marginTop: '1.7em'
+  },
+  inputs: {
+    margin: 0,
+    height: 250
+  },
+  btnSave: {
+    color: 'rgb(142, 198, 63)',
+    border: '1px solid rgb(142, 198, 63)',
+    backgroundColor: 'transparent',
+    borderRadius: '6px',
+    padding: '1.3em',
+    width: '150px',
+    textAlign: 'center',
+    fontSize: '13.5px',
+    fontWeight: 'bolder',
+    cursor: 'pointer',
+    margin: 'auto',
+    height: '27px',
+    letterSpacing: '0.7px'
+  },
+  txtSave: {
+    font: '11px helvetica',
+    position: 'relative',
+    bottom: '.5em'
+  },
+  bookedSlot: {
+    color: '#fff',
+    fontSize: 18,
+    fontFamily: 'Helvetica Neue',
+    fontWeight: '400',
+    textAlign: 'left'
+  },
+  buttonTimeBooked: {
+    color: '#fff',
+    backgroundColor: 'transparent',
+    width: '31.5em',
+    borderRadius: '5px',
+    padding: '.5em',
+    textAlign: 'center',
+    fontSize: '13.5px',
+    fontWeight: 'bolder',
+    cursor: 'pointer',
+    margin: 'auto',
+    position: 'relative',
+    top: '1em',
+    height: 37
   }
 };
-export default BookingProfileList;
+
+export default BookingProfile;

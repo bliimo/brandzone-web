@@ -174,19 +174,23 @@ const ParticipantSignUp = ({ parent, events }) => {
         style={style.inputs}
       />
       <PictureUpload OnHandlePicture={parent.OnHandlePicture} parent={parent} />
-      <Dropdown
-        items={parent.state.events}
-        action={parent.OnHandleEventType}
-        isActive={true}
-        label='Choose an event you will be participating in:'
-      />
-      <EventTimeSlot
-        OnHandleGetTimeSlots={parent.OnHandleGetTimeSlots}
-        isReset={parent.state.isReset}
-        schedules={parent.state.schedules}
-        onResetSelected={parent.OnHandleResetSelected}
-        parent={parent}
-      />
+      {parent.state.events.length > 0 && (
+        <Dropdown
+          items={parent.state.events}
+          action={parent.OnHandleEventType}
+          isActive={true}
+          label='Choose an event you will be participating in:'
+        />
+      )}
+      {parent.state.events.length > 0 && (
+        <EventTimeSlot
+          OnHandleGetTimeSlots={parent.OnHandleGetTimeSlots}
+          isReset={parent.state.isReset}
+          schedules={parent.state.schedules}
+          onResetSelected={parent.OnHandleResetSelected}
+          parent={parent}
+        />
+      )}
     </div>
   );
 };

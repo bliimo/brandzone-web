@@ -55,7 +55,7 @@ export const setLoggedInUser = id => dispatch => {
   dispatch({ type: LOGIN_REQUEST });
   axios
     .get(`${API}/${localStorage.getItem('userType')}/${id}`)
-    .then(res => {
+    .then(res => { 
       dispatch({
         type: LOGIN_SUCCESS,
         payload: res.data
