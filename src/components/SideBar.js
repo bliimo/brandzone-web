@@ -2,7 +2,15 @@ import { MDBIcon } from 'mdbreact';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
 
-const SideBar = ({ account, show, OnHandleShowSideBar, onLogout }) => {
+const SideBar = ({
+  account,
+  show,
+  OnHandleShowSideBar,
+  onLogout,
+  isShow,
+  isEvent,
+  OnHandleToggle
+}) => {
   const { firstName, lastName, profilePicture } = account;
   return (
     <div
@@ -45,18 +53,48 @@ const SideBar = ({ account, show, OnHandleShowSideBar, onLogout }) => {
         <NavLink to='#' style={style.links} className='sideBarLink'>
           Edit Profile
         </NavLink>
-        <NavLink to='#' style={style.links} className='sideBarLink'>
+        <NavLink
+          to='#'
+          style={style.links}
+          className='sideBarLink'
+          onClick={() => {
+            isShow(false);
+          }}
+        >
           My Schedule
         </NavLink>
-        <NavLink to='#' style={style.links} className='sideBarLink'>
-          List Of Participants
+        <NavLink
+          to='#'
+          style={style.links}
+          className='sideBarLink'
+          onClick={() => {
+            isShow(true);
+          }}
+        >
+          List of&nbsp;
+          {localStorage.getItem('userType') == 'exhibitor' ? 'Participants' : 'Exhibitors'}
         </NavLink>
-        <NavLink to='#' style={style.links} className='sideBarLink'>
-          Privacy Policy
-        </NavLink>
-        <NavLink to='#' style={style.links} className='sideBarLink'>
-          Terms & Conditions
-        </NavLink>
+
+        {isEvent && (
+          <React.Fragment>
+            <NavLink
+              to='#'
+              onClick={e => OnHandleToggle('100')}
+              style={style.links}
+              className='sideBarLink'
+            >
+              Privacy Policy
+            </NavLink>
+            <NavLink
+              to='#'
+              onClick={e => OnHandleToggle('101')}
+              style={style.links}
+              className='sideBarLink'
+            >
+              Terms & Conditions
+            </NavLink>
+          </React.Fragment>
+        )}
         <NavLink
           to='#'
           onClick={() => {

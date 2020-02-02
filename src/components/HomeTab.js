@@ -17,6 +17,7 @@ import validation from '../helper/validation';
 import Dropdown from './Dropdown';
 import ParticipantSignUp from './ParticipantSignUp';
 import ExhibitorSignUp from './ExhibitorSignUp';
+import Header from './Header';
 import Footer from './Footer';
 import { ToastContainer, toast } from 'react-toastify';
 import { isEmpty } from 'lodash';
@@ -814,6 +815,7 @@ class HomeTab extends Component {
   render() {
     return (
       <React.Fragment>
+        <Header />
         <MDBContainer style={style.main} id='mainTab'>
           <TabLinks parent={this} />
           {this.props.auth.isAuthenticated && <Redirect to='/events' />}

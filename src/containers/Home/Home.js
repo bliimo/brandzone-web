@@ -2,7 +2,6 @@ import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
 import styles from './Home.style';
 import { loginUser } from '../../store/actions';
-import Header from '../../components/Header';
 import HomeTab from '../../components/HomeTab';
 
 class Home extends PureComponent {
@@ -11,7 +10,6 @@ class Home extends PureComponent {
   render() {
     return (
       <div style={styles.main}>
-        <Header />
         <HomeTab />
       </div>
     );

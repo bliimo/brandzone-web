@@ -12,6 +12,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getMonthName } from '../helper/date';
 import contents from '../constants/contents';
+import Header from './Header';
 
 const Link = ({ data, parent, index }) => {
   const { title } = data;
@@ -375,7 +376,9 @@ class EventTab extends Component {
 
   OnHandleResetEvents = () => {
     this.props.getLatestEvents();
-    document.getElementById(`tab-${this.state.activeItem}`).click();
+    try {
+      document.getElementById(`tab-${this.state.activeItem}`).click();
+    } catch (error) {}
   };
 
   OnHandleOpenTime = id => {
@@ -413,7 +416,11 @@ class EventTab extends Component {
   };
 
   OnHandleShowList = isShow => {
-    this.setState({ isShowList: isShow });
+    let { activeItem } = this.state;
+    if (activeItem == '100' || activeItem == '101') {
+      activeItem = 0;
+    }
+    this.setState({ isShowList: isShow, activeItem });
     this.OnHandleResetEvents();
   };
 
@@ -435,6 +442,11 @@ class EventTab extends Component {
   render() {
     return (
       <React.Fragment>
+        <Header
+          isShow={this.OnHandleShowList}
+          OnHandleToggle={this.OnHandleTogglePrivacy}
+          isEvent={true}
+        />
         <div
           style={style.main}
           className={`p-0 mb-5 ${

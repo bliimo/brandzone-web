@@ -3,14 +3,12 @@ import { connect } from 'react-redux';
 import { Redirect, NavLink } from 'react-router-dom';
 import styles from './Event.style';
 import { loginUser } from '../../store/actions';
-import Header from '../../components/Header';
 import EventTab from '../../components/EventTab';
 
 class Event extends PureComponent {
   render() {
     return (
       <div style={styles.main}>
-        <Header />
         <EventTab />
       </div>
     );

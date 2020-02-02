@@ -76,6 +76,9 @@ class Header extends Component {
             show={this.state.show}
             OnHandleShowSideBar={this.OnHandleShowSideBar}
             onLogout={this.props.logoutUser}
+            isShow={this.props.isShow}
+            OnHandleToggle={this.props.OnHandleToggle}
+            isEvent={this.props.isEvent}
           />
         )}
       </div>
