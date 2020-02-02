@@ -407,7 +407,7 @@ class EventTab extends Component {
         }
       });
     });
-    if (notes.length > 0) {
+    if (notes && notes.length > 0) {
       this.props.setNotes(id, notes);
     } else {
       toast.error('Required notes');
