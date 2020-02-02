@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
 import { MDBNavbar, MDBNavbarBrand, MDBNavbarNav, MDBNavItem, MDBIcon } from 'mdbreact';
-import { NavLink, Redirect } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import SideBar from './SideBar';
 import Text from './Text';
 import logo from '../assets/images/logo.png';
 import { loginUser, logoutUser } from '../store/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+
 const Profile = ({ OnHandleShowSideBar, account }) => {
   const { firstName, lastName, profilePicture } = account;
   return (

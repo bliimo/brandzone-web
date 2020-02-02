@@ -1,14 +1,11 @@
 import React, { Component } from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import { connect } from 'react-redux';
-
 import Home from '../Home/Home';
 import Event from '../Event/Event';
 import styles from './App.style';
-import Footer from '../../components/Footer';
 class App extends Component {
   render() {
-    const { isLoggedIn } = this.props;
     return (
       <Router>
         <div style={styles.appContainer}>
@@ -16,10 +13,9 @@ class App extends Component {
           <Switch>
             {/* <Route exact path="/" component={About} /> */}
             <Route exact path='/' component={Home} />
-            <Route exact path='/events' component={Event} />
+            <Route exact path='/events' component={Event} parent={this} />
           </Switch>
         </div>
-        <Footer />
       </Router>
     );
   }

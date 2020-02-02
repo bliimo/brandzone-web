@@ -1,19 +1,19 @@
 import React, { Component } from 'react';
-import { MDBContainer, MDBTabPane, MDBTabContent, MDBNav, MDBNavItem, MDBCollapse } from 'mdbreact';
+import { MDBTabPane, MDBTabContent, MDBNav, MDBNavItem } from 'mdbreact';
 import { NavLink, Redirect } from 'react-router-dom';
 import Text from '../components/Text';
 import Button from './Button';
 import BookingProfileList from './BookingProfileList';
 import BookingProfile from './BookingProfile';
+import Footer from './Footer';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { loginUser, getLatestEvents, setNotes } from '../store/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getMonthName } from '../helper/date';
 
 const Link = ({ data, parent, index }) => {
-  const { title, address, date } = data;
+  const { title } = data;
   return (
     <MDBNavItem>
       <NavLink
@@ -30,19 +30,27 @@ const Link = ({ data, parent, index }) => {
   );
 };
 
-const Tab = ({ data, index }) => {
-  let { title, address, date, scheds, id } = data;
+const Tab = ({ data, index, isShowList }) => {
+  let { title, address, date } = data;
   let dateArr = date.split('T')[0].split('-');
   date = `${getMonthName(dateArr[1])} ${dateArr[2]}`;
   return (
     <MDBTabPane tabId={index} role='tabpanel' className='fade-effect' style={style.pane}>
       <Text className='text-center' style={style.tabTitleHeader}>
-        {title}
+        {!isShowList
+          ? title
+          : localStorage.getItem('userType') == 'exhibitor'
+          ? 'List of Participants'
+          : 'List of Exhibitors'}
       </Text>
-      <Text className='text-center' style={style.tabTitleSmall}>
-        {`${date} - ${address}`}
-      </Text>
-      <hr style={style.tabTitleHeaderHr} />
+      {!isShowList && (
+        <React.Fragment>
+          <Text className='text-center' style={style.tabTitleSmall}>
+            {`${date} - ${address}`}
+          </Text>
+          <hr style={style.tabTitleHeaderHr} />
+        </React.Fragment>
+      )}
     </MDBTabPane>
   );
 };
@@ -53,7 +61,7 @@ const Tabs = ({ parent }) => {
   let link = [];
   events.map((e, i) => {
     link.push(<Link data={e} key={i} index={i.toString()} parent={parent} />);
-    event.push(<Tab data={e} key={i} index={i.toString()} />);
+    event.push(<Tab data={e} key={i} isShowList={parent.state.isShowList} index={i.toString()} />);
   });
 
   return (
@@ -66,7 +74,8 @@ const Tabs = ({ parent }) => {
           {event}
         </MDBTabContent>
         <div style={style.schedules}>
-          <Schedules parent={parent} />
+          {!parent.state.isShowList && <Schedules parent={parent} />}
+          {parent.state.isShowList && <List parent={parent} />}
         </div>
       </div>
       <div className={`text-center ${parent.state.selectedProfile != null ? 'd-block' : 'd-none'}`}>
@@ -101,21 +110,20 @@ const Schedule = ({ data, parent, index }) => {
       ? `Exhibitor ${index}`
       : `Participant ${index}`;
 
-  if (isBooked) {
-    let currentDate = new Date();
-    let date = events[activeItem].date;
-    let hour = parseInt(startTime.split(':')[0]) + 12;
-    let min = startTime.split(':')[1];
+  let currentDate = new Date();
+  let date = events[activeItem].date;
+  let hour = parseInt(startTime.split(':')[0]) + 12;
+  let min = startTime.split(':')[1];
 
-    date = date.split('T')[0].split('-');
-    dateTime = new Date(date[0], parseInt(date[1]) - 1, date[2], hour, min);
-    isDone = currentDate > dateTime;
-  }
+  date = date.split('T')[0].split('-');
+  dateTime = new Date(date[0], parseInt(date[1]) - 1, date[2], hour, min);
+  isDone = currentDate > dateTime;
 
   startTime = startTime.substring(0, startTime.length - 3);
   endTime = endTime.substring(0, endTime.length - 3);
   startTime = startTime.substring(0, 1) === '0' ? startTime.substring(1) : startTime;
   endTime = endTime.substring(0, 1) === '0' ? endTime.substring(1) : endTime;
+
   return (
     <div
       className={`mb-3 text-light fade-effect ${
@@ -125,17 +133,27 @@ const Schedule = ({ data, parent, index }) => {
       }`}
     >
       <Button
-        style={isBooked ? style.buttonTimeBooked : style.buttonTime}
-        className={`${!isBooked ? 'btn-animate-time' : isDone ? 'btn-done' : 'btn-inprogress'} ${
-          parent.state.isOpen === null ? 'inactive' : ''
-        }`}
-        onClick={() =>
-          isBooked ? parent.OnHandleSelectProfile(booked, data) : parent.OnHandleOpenTime(id)
-        }
+        style={isBooked || isDone ? style.buttonTimeBooked : style.buttonTime}
+        className={`${
+          !isBooked && !isDone ? 'btn-animate-time' : isDone ? 'btn-done' : 'btn-inprogress'
+        } ${parent.state.isOpen === null ? 'inactive' : ''}`}
+        onClick={() => {
+          if (!isDone) {
+            isBooked ? parent.OnHandleSelectProfile(booked, data) : parent.OnHandleOpenTime(id);
+          } else {
+            isBooked
+              ? parent.OnHandleSelectProfile(booked, data)
+              : toast.error('This schedules are elapsed/done');
+          }
+        }}
       >
         <Text
           className={`text-capitalize font-bold ${
-            !isBooked ? 'btn-animate-text-time' : isDone ? 'btn-booked done' : 'btn-booked'
+            !isBooked && !isDone
+              ? 'btn-animate-text-time'
+              : isDone
+              ? 'btn-booked done'
+              : 'btn-booked'
           } ${id === parent.state.isOpen ? 'font-weight-bold text-light font-size-15' : ''}`}
         >{`${startTime} - ${endTime}${
           isBooked
@@ -162,7 +180,7 @@ const Schedule = ({ data, parent, index }) => {
           users={booking}
           schedule={data}
           account={parent.props.account}
-          isShowList={false}
+          isShowList={parent.state.isShowList}
         />
       </div>
     </div>
@@ -182,6 +200,48 @@ const Schedules = ({ parent }) => {
   return scheds;
 };
 
+const List = ({ parent }) => {
+  const { activeItem, events } = parent.state;
+  let users = {};
+  let schedule = {};
+  let usersArr = [];
+  if (events.length > 0) {
+    events[activeItem].schedules.map((sched, i) => {
+      const { startTime } = sched;
+      let currentDate = new Date();
+      let date = events[activeItem].date;
+      let hour = parseInt(startTime.split(':')[0]) + 12;
+      let min = startTime.split(':')[1];
+      date = date.split('T')[0].split('-');
+      const dateTime = new Date(date[0], parseInt(date[1]) - 1, date[2], hour, min);
+      if (currentDate <= dateTime) {
+        if (sched.booking.length > 0) {
+          sched.booking.map(booking => {
+            if (!users[booking.setBy.id] && booking.bookedBy == null) {
+              booking = { ...booking, schedule: sched };
+              users[booking.setBy.id] = booking;
+            }
+          });
+        }
+      }
+    });
+  }
+
+  Object.values(users).map(user => {
+    usersArr.push(user);
+  });
+  return (
+    <BookingProfileList
+      parent={parent}
+      bookingScheduleId={null}
+      users={usersArr}
+      schedule={schedule}
+      account={parent.props.account}
+      isShowList={parent.state.isShowList}
+    />
+  );
+};
+
 class EventTab extends Component {
   state = {
     activeItem: '0',
@@ -190,7 +250,8 @@ class EventTab extends Component {
     schedules: [],
     selectedProfile: null,
     selectedSchedule: {},
-    account: {}
+    account: {},
+    isShowList: false
   };
 
   OnHandleToggle = tab => () => {
@@ -238,8 +299,13 @@ class EventTab extends Component {
     }
   };
 
+  OnHandleShowList = isShow => {
+    this.setState({ isShowList: isShow });
+    this.OnHandleResetEvents();
+  };
+
   componentWillReceiveProps(nextProps) {
-    const { events, account, booking } = nextProps;
+    const { events, account } = nextProps;
     if (account) this.setState({ account });
     if (events.length > 0) {
       this.setState({ isOpen: null, events, schedules: events[this.state.activeItem].schedules });
@@ -253,11 +319,14 @@ class EventTab extends Component {
 
   render() {
     return (
-      <div style={style.main} className='p-0' id='mainTab'>
-        {!this.props.auth.isAuthenticated && <Redirect to='/' />}
-        {this.state.schedules && <Tabs parent={this} />}
-        <ToastContainer />
-      </div>
+      <React.Fragment>
+        <div style={style.main} className='p-0' id='mainTab'>
+          {!this.props.auth.isAuthenticated && <Redirect to='/' />}
+          {this.state.schedules && <Tabs parent={this} />}
+          <ToastContainer />
+        </div>
+        <Footer isShow={this.OnHandleShowList} isAuthenticated={this.props.auth.isAuthenticated} />
+      </React.Fragment>
     );
   }
 }

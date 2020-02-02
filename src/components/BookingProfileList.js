@@ -9,9 +9,6 @@ const Profile = ({ parent }) => {
   let profiles = [];
   parent.state.bookings.map((booking, i) => {
     const { id, setBy, bookedBy } = booking;
-    const currentRole =
-      localStorage.getItem('userType') == 'exhibitor' ? 'ROLE_PARTICIPANT' : 'ROLE_EXHIBITOR';
-
     if (bookedBy == null) {
       let institution;
       setBy.roles.map(role => {
@@ -82,7 +79,11 @@ const Profile = ({ parent }) => {
     }
   });
 
-  return profiles;
+  return profiles.length > 0 ? (
+    profiles
+  ) : (
+    <Text style={style.noAvailable}>No available schedules in this event.</Text>
+  );
 };
 
 class BookingProfileList extends Component {
@@ -107,6 +108,7 @@ class BookingProfileList extends Component {
     this.setState({ isOpenModal: false });
     this.state.OnHandleResetEvents();
   }
+
   componentWillReceiveProps(nextProps) {
     const { parent, bookingScheduleId, users, schedule, account, isShowList } = nextProps;
     const { events, activeItem } = parent.state;
@@ -165,12 +167,14 @@ const style = {
     fontSize: 16,
     position: 'relative',
     bottom: '.2em',
-    textAlign: 'left'
+    textAlign: 'left',
+    color: '#fff'
   },
   mainCol: {
     marginTop: '1.8em'
   },
   name: {
+    color: '#fff',
     fontFamily: 'Harabara',
     fontWeight: 'bolder',
     letterSpacing: 1.1,
@@ -178,6 +182,11 @@ const style = {
     fontSize: 13,
     marginTop: 4,
     textAlign: 'left'
+  },
+  noAvailable: {
+    fontFamily: 'helvetica',
+    fontSize: 17,
+    color: '#fff'
   },
   btnProfile: {
     border: '.5px solid rgba(255, 255, 255, 0.56)',

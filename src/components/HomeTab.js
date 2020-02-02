@@ -1,5 +1,13 @@
 import React, { Component } from 'react';
-import { MDBContainer, MDBTabPane, MDBTabContent, MDBNav, MDBNavItem } from 'mdbreact';
+import {
+  MDBContainer,
+  MDBTabPane,
+  MDBTabContent,
+  MDBNav,
+  MDBNavItem,
+  MDBRow,
+  MDBCol
+} from 'mdbreact';
 import { NavLink, Redirect } from 'react-router-dom';
 import Button from '../components/Button';
 import contents from '../constants/contents';
@@ -9,17 +17,43 @@ import validation from '../helper/validation';
 import Dropdown from './Dropdown';
 import ParticipantSignUp from './ParticipantSignUp';
 import ExhibitorSignUp from './ExhibitorSignUp';
+import Footer from './Footer';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
-import { isEmpty, isEqual } from 'lodash';
+import { isEmpty } from 'lodash';
 import { loginUser, getLatestEvents, getInstitution, addUser, setBookings } from '../store/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
+import client1 from '../assets/images/clients/partners1-educanada@2x.png';
+import client2 from '../assets/images/clients/partners1-Aus@2x.png';
+import client3 from '../assets/images/clients/partners1-enz@2x.png';
+import client4 from '../assets/images/clients/partners2-bc@2x.png';
+import client5 from '../assets/images/clients/partners2-cican@2x.png';
+import client6 from '../assets/images/clients/partners3-idp@2x.png';
+import client7 from '../assets/images/clients/partners3-fortrust@2x.png';
+import client8 from '../assets/images/clients/partners3-eca@2x.png';
+import client9 from '../assets/images/clients/partners3-ielts@2x.png';
+import client10 from '../assets/images/clients/partners4-scotiabank@2x.png';
+import client11 from '../assets/images/clients/partners4-alberta@2x.png';
+import client12 from '../assets/images/clients/partners4-brandwatch@2x.png';
+import client13 from '../assets/images/clients/partners4-aircanada@2x.png';
+import client14 from '../assets/images/clients/partners4-PAL@2x.png';
+import client15 from '../assets/images/clients/partners4-qantas@2x.png';
+import client16 from '../assets/images/clients/partners4-pldt@2x.png';
+import client17 from '../assets/images/clients/partners4-laybare@2x.png';
+import client18 from '../assets/images/clients/partners4-anz@2x.png';
+import client19 from '../assets/images/clients/partners2-studyperth@2x.png';
+import client20 from '../assets/images/clients/partners2-cbie@2x.png';
+import client21 from '../assets/images/clients/partners2-edunova@2x.png';
 
 const TabLinks = ({ parent }) => {
   return (
     <MDBNav tabs className='justify-content-center'>
-      <MDBNavItem>
+      <MDBNavItem
+        style={{
+          display:
+            parent.state.activeItem === '1' || parent.state.activeItem === '2' ? 'block' : 'none'
+        }}
+      >
         <NavLink
           to='#'
           className={`nav-links ${parent.state.activeItem === '1' ? 'active-tab' : ''}`}
@@ -52,6 +86,38 @@ const TabLinks = ({ parent }) => {
           <hr />
         </NavLink>
       </MDBNavItem>
+      <MDBNavItem
+        style={{
+          display:
+            parent.state.activeItem === '4' || parent.state.activeItem === '5' ? 'block' : 'none'
+        }}
+      >
+        <NavLink
+          to='#'
+          className={`nav-links ${parent.state.activeItem === '4' ? 'active-tab' : ''}`}
+          onClick={parent.OnHandleToggle('4')}
+          role='tab'
+        >
+          <Text style={style.tabTitle}>PRIVACY POLICY</Text>
+          <hr />
+        </NavLink>
+      </MDBNavItem>
+      <MDBNavItem
+        style={{
+          display:
+            parent.state.activeItem === '5' || parent.state.activeItem === '4' ? 'block' : 'none'
+        }}
+      >
+        <NavLink
+          to='#'
+          className={`nav-links ${parent.state.activeItem === '5' ? 'active-tab' : ''}`}
+          onClick={parent.OnHandleToggle('5')}
+          role='tab'
+        >
+          <Text style={style.tabTitle}>TERMS & CONDITIONS</Text>
+          <hr />
+        </NavLink>
+      </MDBNavItem>
     </MDBNav>
   );
 };
@@ -59,8 +125,8 @@ const TabLinks = ({ parent }) => {
 const AboutTab = ({ parent }) => {
   return (
     <MDBTabPane tabId='1' role='tabpanel' className='fade-effect'>
-      <Text className='text-center' style={style.tabTitleHeader}>
-        About
+      <Text className='text-center tab-title' style={style.tabTitleHeader}>
+        Welcome to Brandzone E-Scheduler
       </Text>
       <hr style={style.tabTitleHeaderHr} />
       <Text className='text-center' style={{ ...style.about, ...style.aboutFirst }}>
@@ -90,6 +156,58 @@ const AboutTab = ({ parent }) => {
   );
 };
 
+const PrivacyPolicyTab = ({ parent }) => {
+  return (
+    <MDBTabPane tabId='4' role='tabpanel' className='fade-effect'>
+      <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('1')}>
+        <Text style={style.backBtn} className='back-button-text-signup'>
+          <div id='chevron'></div>
+          <span style={style.backText}>Back to sign up</span>
+        </Text>
+      </Button>
+      <Text className='text-center tab-title' style={style.tabTitleHeader}>
+        PRIVACY POLICY
+      </Text>
+      <hr style={style.tabTitleHeaderHr} />
+      <Text className='text-center' style={{ ...style.about, ...style.aboutFirst }}>
+        {contents.policy[0]}
+      </Text>
+      <Text className='text-center mt-2 ' style={{ ...style.about, ...style.about }}>
+        {contents.policy[1]}
+      </Text>
+      <Text className='text-center mt-2 ' style={{ ...style.about, ...style.about }}>
+        {contents.policy[2]}
+      </Text>
+    </MDBTabPane>
+  );
+};
+
+const TermsTab = ({ parent }) => {
+  return (
+    <MDBTabPane tabId='5' role='tabpanel' className='fade-effect'>
+      <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('1')}>
+        <Text style={style.backBtn} className='back-button-text-signup'>
+          <div id='chevron'></div>
+          <span style={style.backText}>Back to sign up</span>
+        </Text>
+      </Button>
+      <Text className='text-center tab-title mt-5' style={style.tabTitleHeader}>
+        TERMS & CONDITIONS
+      </Text>
+      <hr style={style.tabTitleHeaderHr} />
+      <Text className='text-center' style={{ ...style.about, ...style.aboutFirst }}>
+        {contents.policy[0]}
+      </Text>
+      <Text className='text-center mt-2 ' style={{ ...style.about, ...style.about }}>
+        {contents.policy[1]}
+      </Text>
+      <Text className='text-center mt-2 ' style={{ ...style.about, ...style.about }}>
+        {contents.policy[2]}
+      </Text>
+    </MDBTabPane>
+  );
+};
+
 const LoginTab = ({ parent }) => {
   return (
     <MDBTabPane
@@ -98,7 +216,7 @@ const LoginTab = ({ parent }) => {
       className='fade-effect'
       style={{ display: parent.state.activeItem === '2' ? 'block' : 'none' }}
     >
-      <Text className='text-center' style={style.tabTitleHeader}>
+      <Text className='text-center tab-title' style={style.tabTitleHeader}>
         Login
       </Text>
       <hr style={style.tabTitleHeaderHr} />
@@ -143,7 +261,7 @@ const LoginTab = ({ parent }) => {
 const SingUpTab = ({ parent }) => {
   return (
     <MDBTabPane tabId='3' role='tabpanel' className='fade-effect'>
-      <Text className='text-center' style={style.tabTitleHeader}>
+      <Text className='text-center tab-title' style={style.tabTitleHeader}>
         Sign up
       </Text>
       <hr style={style.tabTitleHeaderHr} />
@@ -197,6 +315,44 @@ const SubmitSignUp = ({ parent }) => {
   );
 };
 
+const Clients = () => {
+  return (
+    <MDBContainer style={style.client} className='w-100 m-0 clients'>
+      <Text style={style.clientTitle} className='mb-2'>
+        OUR CLIENTS
+      </Text>
+      <hr style={style.tabTitleHeaderHr} />
+      <MDBContainer className='clients text-center mt-5'>
+        <img src={client1} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client2} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client3} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client21} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client4} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client5} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client6} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client7} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client8} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client9} style={style.clientImg} className='clientImg' alt='client' />
+      </MDBContainer>
+      <MDBContainer className='clients text-center'>
+        <img src={client10} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client11} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client12} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client13} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client14} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client15} style={style.clientImg} className='clientImg' alt='client' />
+      </MDBContainer>
+      <MDBContainer className='clients text-center'>
+        <img src={client16} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client17} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client18} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client19} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client20} style={style.clientImg} className='clientImg' alt='client' />
+      </MDBContainer>
+    </MDBContainer>
+  );
+};
+
 class HomeTab extends Component {
   constructor(props) {
     super(props);
@@ -241,6 +397,7 @@ class HomeTab extends Component {
   };
 
   OnHandleToggle = tab => () => {
+    console.log(tab);
     if (this.toastId) toast.dismiss(this.toastId);
     this.setState({ activeItem: tab });
   };
@@ -372,19 +529,15 @@ class HomeTab extends Component {
 
   componentWillReceiveProps(nextProps) {
     const { auth, events, institution, user, loginError, signUpError } = nextProps;
-
     const { activeItem } = this.state;
-
     if (loginError && activeItem === '2') {
       this.notify(loginError);
       return false;
     }
-
     if (signUpError && activeItem === '3') {
       this.notify(signUpError);
       return false;
     }
-
     if (user.user && Object.keys(user.user).length > 0 && this.state.activeItem === '3') {
       toast.success('Successfully registered please login');
       this.setState({
@@ -538,7 +691,6 @@ class HomeTab extends Component {
 
   OnHandleValidateSignUp = user => {
     const { userTypeSelected, isCheckedPrivacy, selectedSchedules } = this.state;
-
     for (const key of Object.keys(user)) {
       if (user[key] <= 0) {
         if (user[key] === null || user[key] === undefined || user[key] === '') {
@@ -627,7 +779,6 @@ class HomeTab extends Component {
   };
 
   OnHandleSignUp = () => {
-    console.log(this.state.setBookings);
     const { addUser } = this.props;
     const { userTypeSelected } = this.state;
     const user =
@@ -645,7 +796,6 @@ class HomeTab extends Component {
 
   OnHandlePicture = event => {
     const { onUpload } = this.props;
-
     // onUpload({ filePath: event.target.value });
     this.setState({ profilePic: URL.createObjectURL(event.target.files[0]) });
   };
@@ -663,16 +813,25 @@ class HomeTab extends Component {
 
   render() {
     return (
-      <MDBContainer style={style.main} id='mainTab'>
-        <TabLinks parent={this} />
-        {this.props.auth.isAuthenticated && <Redirect to='/events' />}
-        <MDBTabContent className='card' activeItem={this.state.activeItem} style={style.tabs}>
-          <AboutTab parent={this} />
-          <LoginTab parent={this} />
-          <SingUpTab parent={this} />
-        </MDBTabContent>
-        <ToastContainer />
-      </MDBContainer>
+      <React.Fragment>
+        <MDBContainer style={style.main} id='mainTab'>
+          <TabLinks parent={this} />
+          {this.props.auth.isAuthenticated && <Redirect to='/events' />}
+          <MDBTabContent className='card' activeItem={this.state.activeItem} style={style.tabs}>
+            <AboutTab parent={this} />
+            <LoginTab parent={this} />
+            <SingUpTab parent={this} />
+            <PrivacyPolicyTab parent={this} />
+            <TermsTab parent={this} />
+          </MDBTabContent>
+          <ToastContainer />
+        </MDBContainer>
+        <Footer
+          OnHandleToggle={this.OnHandleToggle}
+          Clients={this.state.activeItem === '1' ? Clients : undefined}
+          isAuthenticated={this.props.auth.isAuthenticated}
+        />
+      </React.Fragment>
     );
   }
 }
@@ -805,6 +964,40 @@ const style = {
     position: 'relative',
     right: '1em',
     width: '110%'
+  },
+  client: {
+    backgroundColor: '#37424B',
+    paddingTop: '4em',
+    paddingBottom: '4em'
+  },
+  clientTitle: {
+    fontSize: 39,
+    letterSpacing: 4,
+    fontWeight: 'bold',
+    color: '#fff',
+    fontFamily: 'Harabara',
+    textAlign: 'center',
+    height: 35
+  },
+  clientImg: {
+    height: 68,
+    width: 'auto'
+  },
+  rowClient: {
+    justifyContent: 'center'
+  },
+  backBtn: {
+    color: '#fff'
+  },
+  backText: {
+    opacity: 0.4,
+    font: '10.5px Helvetica',
+    marginLeft: '30px !important',
+    position: 'relative',
+    bottom: '.1em'
+  },
+  backIcon: {
+    fontSize: 13
   }
 };
 

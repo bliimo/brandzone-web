@@ -1,6 +1,5 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Redirect, NavLink } from 'react-router-dom';
 import styles from './Home.style';
 import { loginUser } from '../../store/actions';
 import Header from '../../components/Header';

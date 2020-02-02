@@ -122,7 +122,10 @@ const Informations = ({ parent }) => {
   }
 
   const { id, title } = parent.state.profile;
-  let { startTime, endTime } = parent.state.selectedSchedule;
+  let { startTime, endTime } =
+    Object.keys(parent.state.selectedSchedule).length > 0
+      ? parent.state.selectedSchedule
+      : parent.state.profile.schedule;
   startTime = startTime.substring(0, startTime.length - 3);
   endTime = endTime.substring(0, endTime.length - 3);
   startTime = startTime.substring(0, 1) === '0' ? startTime.substring(1) : startTime;
@@ -254,17 +257,20 @@ const Informations = ({ parent }) => {
             </MDBRow>
           </MDBCol>
         )}
+
         {title && isDone && (
-          <Button style={style.buttonTimeBooked} className='btn-done inactive meeting-done'>
-            <Text className='text-capitalize btn-booked done'>Meeting Done</Text>
-          </Button>
+          <MDBCol size='12' className='p-0 mt-2'>
+            <Button style={style.buttonTimeBooked} className='btn-done inactive meeting-done'>
+              <Text className='text-capitalize btn-booked done'>Meeting Done</Text>
+            </Button>
+          </MDBCol>
         )}
         {title && parent.OnHandleType() && (
           <MDBCol size='12' className='p-0 mt-2'>
             <Counter parent={parent} />
           </MDBCol>
         )}
-        {title && !parent.OnHandleType() && (
+        {title && !parent.OnHandleType() && !isDone && (
           <MDBCol size='12' className='p-0 mt-2'>
             <Text style={style.bookedSlot}>
               Booked Slot:&nbsp;{startTime}&nbsp;-&nbsp;{startTime}pm
@@ -313,7 +319,7 @@ class BookingProfile extends Component {
     if (selectedProfile) {
       this.setState({
         profile: { ...selectedProfile, isOpenModal: false },
-        selectedSchedule,
+        selectedSchedule: selectedProfile.schedule ? selectedProfile.schedule : selectedSchedule,
         event,
         OnHandleResetProfile,
         OnHandleResetEvents,

@@ -147,6 +147,12 @@ h6 {
 }
 
 @media only screen and (max-width: 767px) {
+  .container.w-100.m-0.clients {
+    margin-top: 4em !important;
+  }
+  img.clientImg {
+    height: 30px !important;
+  }
   .actionList {
     padding: 2em 1em !important;
   }
@@ -232,6 +238,9 @@ h6 {
 }
 
 @media only screen and (max-width: 768px) {
+  .tab-title {
+    font-size: 13px !important;
+  }
   div#signUpForm {
     min-width: 40vw !important;
   }
@@ -757,7 +766,10 @@ textarea.signup-input {
     display: inline-block;
     padding: 0 5.7em !important;
   }
-
+  .booking-signup-back {
+    position: relative;
+    right: 12em !important;
+  }
   .booking-profile-back {
     width: 150px;
     position: absolute;
@@ -811,6 +823,12 @@ textarea.signup-input {
     text-align: left;
   }
   p.back-button-text span {
+    margin-left: 2em !important;
+  }
+  p.back-button-text-signup {
+    text-align: left;
+  }
+  p.back-button-text-signup span {
     margin-left: 2em !important;
   }
   #first-row-profile-btn {
@@ -893,6 +911,14 @@ div.slot-list-row:not(:first-of-type) {
   opacity: 1 !important;
 }
 
+.back-button-text-signup span {
+  transition: 0.2s;
+}
+.back-button-text-signup span:hover {
+  font-size: 11px !important;
+  opacity: 1 !important;
+}
+
 .btn-animate-get-slot-text {
   top: 0 !important;
   height: 100% !important;
@@ -910,10 +936,10 @@ div.slot-list-row:not(:first-of-type) {
   left: 0.5em;
 }
 
-.back-button-text:hover #chevron {
+.back-button-text:hover #chevron,
+.back-button-text-signup:hover #chevron {
   background-image: url('./assets/images/chevron_left_border.png') !important;
 }
-
 @media only screen and (max-width: 767px) {
   div#slots {
     margin-top: 5em !important;
@@ -942,6 +968,9 @@ div.slot-list-row:not(:first-of-type) {
   }
 }
 @media only screen and (min-width: 768px) {
+  .back-button-text-signup span {
+    margin-left: 3em !important;
+  }
   .back-button-text span {
     margin-left: 1.8em !important;
   }
@@ -1129,4 +1158,16 @@ div.slot-list-row:not(:first-of-type) {
 
 .mt-1-3 {
   margin-top: 1.3em !important;
+}
+
+.clients {
+  max-width: 100% !important;
+}
+
+.mw-clients.col-1 {
+  max-width: none !important;
+  width: 5% !important;
+}
+.clients {
+  margin-bottom: 1em;
 }

@@ -7,8 +7,6 @@ import Header from '../../components/Header';
 import EventTab from '../../components/EventTab';
 
 class Event extends PureComponent {
-  componentDidUpdate(prevProps) {}
-
   render() {
     return (
       <div style={styles.main}>
