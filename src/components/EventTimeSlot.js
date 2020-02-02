@@ -128,7 +128,8 @@ const style = {
   text: {
     color: '#fff',
     font: 'bold 11px Helvetica',
-    letterSpacing: 0.5
+    letterSpacing: 0.5,
+    marginBottom: '1em'
   }
 };
 

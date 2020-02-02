@@ -398,8 +398,8 @@ class HomeTab extends Component {
   };
 
   OnHandleToggle = tab => () => {
-    console.log(tab);
     if (this.toastId) toast.dismiss(this.toastId);
+    window.scrollTo(0, 0);
     this.setState({ activeItem: tab });
   };
 
@@ -536,6 +536,7 @@ class HomeTab extends Component {
       return false;
     }
     if (signUpError && activeItem === '3') {
+      window.scrollTo(0, 0);
       this.notify(signUpError);
       return false;
     }
@@ -742,7 +743,7 @@ class HomeTab extends Component {
               }
             } catch (error) {}
           });
-
+          window.scrollTo(0, 0);
           this.notify(
             `Required ${key
               .replace('Id', '')
@@ -941,7 +942,8 @@ const style = {
     fontFamily: 'Helvetica',
     fontSize: 13.5,
     letterSpacing: 0.3,
-    textAlign: 'center'
+    textAlign: 'center',
+    marginBottom: '1em'
   },
   privacyPolicyLinks: {
     color: '#fff',

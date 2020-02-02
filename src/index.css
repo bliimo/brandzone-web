@@ -135,7 +135,7 @@ h6 {
 @media only screen and (min-width: 2500px) {
   #loginForm,
   #signUpForm {
-    max-width: 13vw;
+    max-width: 21vw;
   }
 }
 
@@ -214,6 +214,11 @@ h6 {
 @media only screen and (max-width: 1214px) and (min-width: 1025px) {
   #sideBar {
     width: 30vw !important;
+  }
+}
+@media only screen and (width: 1280px) {
+  .tab-title {
+    font-size: 25px !important;
   }
 }
 @media only screen and (min-width: 1280px) {

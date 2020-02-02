@@ -370,6 +370,7 @@ class EventTab extends Component {
   };
 
   OnHandleTogglePrivacy = tab => {
+    window.scrollTo(0, 0);
     this.setState({ activeItem: tab });
   };
 
@@ -419,6 +420,7 @@ class EventTab extends Component {
     if (activeItem == '100' || activeItem == '101') {
       activeItem = 0;
     }
+    window.scrollTo(0, 0);
     this.setState({ isShowList: isShow, activeItem });
     this.OnHandleResetEvents();
   };

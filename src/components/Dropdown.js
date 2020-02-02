@@ -132,7 +132,7 @@ const style = {
     opacity: 1,
     font: 'Bold 11px Helvetica',
     position: 'relative',
-    paddingTop: '1.1em',
+    paddingTop: '1.5em',
     letterSpacing: 0.5
   },
   open: {

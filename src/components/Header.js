@@ -58,7 +58,7 @@ class Header extends Component {
       <div>
         <MDBNavbar color='transparent' expand='md' className='header-nav'>
           <MDBNavbarBrand>
-            <NavLink to={auth.isAuthenticated ? '#' : '/6:6'}>
+            <NavLink to={auth.isAuthenticated ? '#' : '/'}>
               <img src={logo} alt='logo' className='logo' />
             </NavLink>
           </MDBNavbarBrand>
