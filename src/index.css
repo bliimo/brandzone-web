@@ -948,8 +948,10 @@ div.slot-list-row:not(:first-of-type) {
   left: 0.5em;
 }
 
-.back-button-text:hover #chevron,
 .back-button-text-signup:hover #chevron {
+  background-image: url('./assets/images/chevron_left_border.png') !important;
+}
+.back-button-text:hover #chevron {
   background-image: url('./assets/images/chevron_left_border.png') !important;
 }
 @media only screen and (max-width: 767px) {

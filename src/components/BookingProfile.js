@@ -274,7 +274,7 @@ const Informations = ({ parent }) => {
         {title && !parent.OnHandleType() && !isDone && (
           <MDBCol size='12' className='p-0 mt-2'>
             <Text style={style.bookedSlot}>
-              Booked Slot:&nbsp;{startTime}&nbsp;-&nbsp;{startTime}pm
+              Booked Slot:&nbsp;{startTime}&nbsp;-&nbsp;{endTime}pm
             </Text>
           </MDBCol>
         )}
@@ -392,7 +392,9 @@ class BookingProfile extends Component {
             <MDBCol xl={'4'} lg={'6'} md={'6'} className='col-img'>
               <img
                 className={`booking-profile-img w-100 mh-300`}
-                src={'https://i.pravatar.cc/300'}
+                src={
+                  'https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwih5p6w-rTnAhXPc94KHYsJBwIQjRx6BAgBEAQ&url=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Favatar&psig=AOvVaw2fD995hEdizGvBk7WqD4bN&ust=1580804651584965'
+                }
                 alt='profile'
               />
             </MDBCol>

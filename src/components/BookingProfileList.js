@@ -29,7 +29,9 @@ const Profile = ({ parent }) => {
             <MDBRow style={style.rowProfile} id='row-profile'>
               <MDBCol className='p-0' xl='5' lg={'6'} md={'6'} sm={'12'}>
                 <img
-                  src={'https://i.pravatar.cc/300'}
+                  src={
+                    'https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwih5p6w-rTnAhXPc94KHYsJBwIQjRx6BAgBEAQ&url=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Favatar&psig=AOvVaw2fD995hEdizGvBk7WqD4bN&ust=1580804651584965'
+                  }
                   alt='Profile'
                   className={`${parent.props.isShowList ? 'h-230' : 'h-100'} w-100 `}
                 />
