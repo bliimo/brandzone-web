@@ -42,8 +42,8 @@ const Tab = ({ data, index, isShowList }) => {
         {!isShowList
           ? title
           : localStorage.getItem('userType') == 'exhibitor'
-          ? 'List of Participants'
-          : 'List of Exhibitors'}
+            ? 'List of Participants'
+            : 'List of Exhibitors'}
       </Text>
       {!isShowList && (
         <React.Fragment>
@@ -96,6 +96,7 @@ const Schedule = ({ data, parent, index }) => {
   let bookingId = null;
   let dateTime = null;
   let isDone = false;
+  let isStart = false;
   let booked = {};
 
   booking.map(e => {
@@ -114,12 +115,16 @@ const Schedule = ({ data, parent, index }) => {
 
   let currentDate = new Date();
   let date = events[activeItem].date;
-  let hour = parseInt(startTime.split(':')[0]) + 12;
-  let min = startTime.split(':')[1];
+  let hour = parseInt(endTime.split(':')[0]) + 12;
+  let min = endTime.split(':')[1];
 
   date = date.split('T')[0].split('-');
   dateTime = new Date(date[0], parseInt(date[1]) - 1, date[2], hour, min);
   isDone = currentDate > dateTime;
+  hour = parseInt(startTime.split(':')[0]) + 12;
+  min = startTime.split(':')[1];
+  dateTime = new Date(date[0], parseInt(date[1]) - 1, date[2], hour, min);
+  isStart = dateTime
 
   startTime = startTime.substring(0, startTime.length - 3);
   endTime = endTime.substring(0, endTime.length - 3);
@@ -132,13 +137,13 @@ const Schedule = ({ data, parent, index }) => {
         id === parent.state.isOpen || parent.state.isOpen === null
           ? 'd-block'
           : 'd-none margin-absolute'
-      }`}
+        }`}
     >
       <Button
         style={isBooked || isDone ? style.buttonTimeBooked : style.buttonTime}
         className={`${
           !isBooked && !isDone ? 'btn-animate-time' : isDone ? 'btn-done' : 'btn-inprogress'
-        } ${parent.state.isOpen === null ? 'inactive' : ''}`}
+          } ${parent.state.isOpen === null ? 'inactive' : ''}`}
         onClick={() => {
           if (!isDone) {
             isBooked ? parent.OnHandleSelectProfile(booked, data) : parent.OnHandleOpenTime(id);
@@ -151,26 +156,26 @@ const Schedule = ({ data, parent, index }) => {
       >
         <Text
           className={`text-capitalize font-bold ${
-            !isBooked && !isDone
+            !isBooked && !isDone && !isStart
               ? 'btn-animate-text-time'
               : isDone
-              ? 'btn-booked done'
-              : 'btn-booked'
-          } ${id === parent.state.isOpen ? 'font-weight-bold text-light font-size-15' : ''}`}
+                ? 'btn-booked done'
+                : 'btn-booked'
+            } ${id === parent.state.isOpen ? 'font-weight-bold text-light font-size-15' : ''}`}
         >{`${startTime} - ${endTime}${
           isBooked
             ? ` | ${
-                localStorage.getItem('userType') === 'participant'
-                  ? `Exhibitor ${index}`
-                  : `Participant ${index}`
-              } | ${setBy.firstName} ${setBy.lastName.substr(0, 1)}.`
+            localStorage.getItem('userType') === 'participant'
+              ? `Exhibitor ${index}`
+              : `Participant ${index}`
+            } | ${setBy.firstName} ${setBy.lastName.substr(0, 1)}.`
             : ''
-        }`}</Text>
+          }`}</Text>
       </Button>
       <div
         className={`fade-effect .fade-out-effect mt-3 time-collapse ${
           id === parent.state.isOpen ? 'd-block' : 'd-none'
-        }`}
+          }`}
       >
         <Text className='text-center' style={style.participantText}>
           Available&nbsp;
@@ -443,7 +448,7 @@ class EventTab extends Component {
       if (events.length > 0) {
         this.setState({ isOpen: null, events, schedules: events[this.state.activeItem].schedules });
       }
-    } catch (error) {}
+    } catch (error) { }
   }
 
   componentWillMount() {
@@ -453,7 +458,7 @@ class EventTab extends Component {
   componentDidMount() {
     console.log(this.state.activeItem);
   }
-  OnHandleToggleHome(tab) {}
+  OnHandleToggleHome(tab) { }
 
   render() {
     return (
@@ -470,7 +475,7 @@ class EventTab extends Component {
             this.state.activeItem == '100' || this.state.activeItem == '101'
               ? 'open-privacy-terms'
               : ''
-          }`}
+            }`}
           id='mainTab'
         >
           {!this.props.auth.isAuthenticated && <Redirect to='/' />}
