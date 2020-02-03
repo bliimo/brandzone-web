@@ -288,11 +288,11 @@ const SubmitSignUp = ({ parent }) => {
     <div className='mt-5'>
       <Text style={style.privacyPolicy}>
         Read&nbsp;
-        <NavLink to='#' style={style.privacyPolicyLinks}>
+        <NavLink to='#' onClick={parent.OnHandleToggle('4')} style={style.privacyPolicyLinks}>
           <strong>Privacy Policy</strong>
         </NavLink>
         &nbsp;and&nbsp;
-        <NavLink to='#' style={style.privacyPolicyLinks}>
+        <NavLink to='#' onClick={parent.OnHandleToggle('5')} style={style.privacyPolicyLinks}>
           <strong>Terms and Conditions</strong>
         </NavLink>
       </Text>
@@ -821,7 +821,7 @@ class HomeTab extends Component {
   render() {
     return (
       <React.Fragment>
-        <Header />
+        <Header OnHandleToggle={this.OnHandleToggle} />
         <MDBContainer style={style.main} id='mainTab'>
           <TabLinks parent={this} />
           {this.props.auth.isAuthenticated && <Redirect to='/events' />}
