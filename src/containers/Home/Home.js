@@ -1,9 +1,7 @@
 import React, { PureComponent } from 'react';
 import { connect } from 'react-redux';
-import { Redirect, NavLink } from 'react-router-dom';
 import styles from './Home.style';
-import { login } from '../../store/actions';
-import Header from '../../components/Header';
+import { loginUser } from '../../store/actions';
 import HomeTab from '../../components/HomeTab';
 
 class Home extends PureComponent {
@@ -12,7 +10,6 @@ class Home extends PureComponent {
   render() {
     return (
       <div style={styles.main}>
-        <Header />
         <HomeTab />
       </div>
     );
@@ -25,7 +22,7 @@ const mapStateToProps = state => ({
 });
 
 const mapDispatchToProps = dispatch => ({
-  onLogin: data => dispatch(login(data))
+  onLogin: data => dispatch(loginUser(data))
 });
 
 export default connect(

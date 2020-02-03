@@ -1,21 +1,32 @@
 import React, { Component } from 'react';
 import { MDBContainer, MDBIcon, MDBCollapse } from 'mdbreact';
 import Text from '../components/Text';
+import { getMonthName } from '../helper/date';
 
 const Active = ({ parent }) => {
   const { active, items, isOpen } = parent.state;
   let index = null;
 
   if (active != null) {
-    items.map((v, i) => {
-      if (v.id === active) index = i;
-    });
+    index = active;
   }
+  let dateArr = [];
+  let date = '';
+  try {
+    if (items[index]['date']) {
+      dateArr = items[index]['date'].split('T')[0].split('-');
+      date = `${getMonthName(dateArr[1])} ${dateArr[2]}`;
+    }
+  } catch (error) {}
 
   return (
     <div className='cursor-pointer' onClick={() => parent.OnHandleOpen()}>
       <Text style={style.active} className={`${isOpen ? 'opacity-1' : 'opacity-.5'}`}>
-        {index != null ? items[index]['name'] : parent.state.label}
+        {index != null
+          ? items[index]['name']
+            ? items[index]['name']
+            : `${items[index]['isAllEvent'] ? '' : date + ' - '}${items[index]['title']}`
+          : parent.state.label}
         <MDBIcon
           icon={isOpen ? 'caret-up' : 'caret-down'}
           style={style.caret}
@@ -29,19 +40,29 @@ const Active = ({ parent }) => {
 const Items = ({ parent }) => {
   const { items, isOpen } = parent.state;
   let elem = [];
-  items.map(e => elem.push(<Item data={e} key={e.id} setActive={parent.OnHandleActive} />));
+  items.map((e, i) =>
+    elem.push(<Item data={e} index={i} key={`${i} ${e.id}`} setActive={parent.OnHandleActive} />)
+  );
   return (
     <MDBCollapse className='absolute-collapse' isOpen={isOpen}>
-      <div className='ml-3 mr-3 mb-4 mt-3'>{elem}</div>
+      <div className='ml-3 mr-3 mb-4 mt-1'>{elem}</div>
     </MDBCollapse>
   );
 };
 
-const Item = ({ data, setActive }) => {
+const Item = ({ data, index, setActive }) => {
+  let dateArr = [];
+  let date = '';
+  try {
+    if (data['date']) {
+      dateArr = data['date'].split('T')[0].split('-');
+      date = `${getMonthName(dateArr[1])} ${dateArr[2]}`;
+    }
+  } catch (error) {}
   return (
-    <div onClick={() => setActive(data['id'])}>
+    <div onClick={() => setActive(index)}>
       <Text style={style.notActive} className={`cursor-pointer`}>
-        {data['name']}
+        {data['name'] ? data['name'] : `${data['isAllEvent'] ? '' : date + ' - '} ${data['title']}`}
       </Text>
     </div>
   );
@@ -53,14 +74,22 @@ class Dropdown extends Component {
     items: [],
     isOpen: false,
     label: '',
+    id: '',
     action: () => {}
   };
 
   componentWillMount() {
-    const { items, action, label } = this.props;
-    this.setState({ items, action, label });
+    const { items, action, label, id, isActive } = this.props;
+    if (isActive) {
+      this.setState({ items, action, label, id, active: items.length - 1 });
+    } else {
+      this.setState({ items, action, label, id });
+    }
   }
   OnHandleActive = active => {
+    if (this.state.id) {
+      document.getElementById(this.state.id).classList.remove('invalid-field');
+    }
     this.state.action(active);
     this.setState({ active, isOpen: false });
   };
@@ -72,7 +101,7 @@ class Dropdown extends Component {
 
   render() {
     return (
-      <MDBContainer style={style.main} className='drop-down'>
+      <MDBContainer id={this.state.id} style={style.main} className='drop-down'>
         <Active parent={this} />
         <Items parent={this} />
       </MDBContainer>
@@ -103,7 +132,7 @@ const style = {
     opacity: 1,
     font: 'Bold 11px Helvetica',
     position: 'relative',
-    paddingTop: '1.1em',
+    paddingTop: '1.5em',
     letterSpacing: 0.5
   },
   open: {
