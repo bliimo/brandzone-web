@@ -14,7 +14,11 @@ const Profile = ({ OnHandleShowSideBar, account }) => {
     <div className='d-flex' style={style.profile}>
       <div className='d-flex' id='profile-lg'>
         <img
-          src={profilePicture ? profilePicture : 'https://i.pravatar.cc/28'}
+          src={
+            profilePicture
+              ? profilePicture
+              : 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS0_gZD_H8wL6nscnpyVpae-6HuJSWdgS39T02p_Vd9CigJiUGu'
+          }
           style={style.avatar}
           alt='profile'
         />

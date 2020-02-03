@@ -940,7 +940,8 @@ const style = {
     top: '1em'
   },
   signUpForm: {
-    width: '22.9vw',
+    width: '25vw',
+    minWidth: '25vw !important',
     position: 'relative',
     marginTop: '1.8em'
   },

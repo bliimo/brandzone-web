@@ -33,7 +33,11 @@ const SideBar = ({
         <div style={style.sidebarProfile}>
           <div style={style.profileInfo}>
             <img
-              src={profilePicture ? profilePicture : 'https://i.pravatar.cc/300'}
+              src={
+                profilePicture
+                  ? profilePicture
+                  : 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS0_gZD_H8wL6nscnpyVpae-6HuJSWdgS39T02p_Vd9CigJiUGu'
+              }
               style={style.avatar}
               alt='profile'
             />
