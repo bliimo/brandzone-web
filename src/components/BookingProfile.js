@@ -10,21 +10,21 @@ import Countdown from 'react-countdown';
 import { setNotes } from '../store/actions';
 const Counter = ({ parent }) => {
   const { event, selectedSchedule } = parent.state;
-  const { startTime } = selectedSchedule;
+  const { endTime } = selectedSchedule;
   let date = event.date;
-  let hour = parseInt(startTime.split(':')[0]) + 12;
-  let min = startTime.split(':')[1];
+  let hour = parseInt(endTime.split(':')[0]) + 12;
+  let min = endTime.split(':')[1];
 
   date = date.split('T')[0].split('-');
   let dateTime = new Date(date[0], parseInt(date[1]) - 1, date[2], hour, min);
-
+  console.log(dateTime)
   return (
     <Countdown
       date={dateTime}
       intervalDelay={0}
       precision={3}
       zeroPadTime={2}
-      onComplete={parent.state.OnHandleResetProfile()}
+      onComplete={() => parent.state.OnHandleResetProfile()}
       renderer={props => (
         <MDBRow>
           <MDBCol size={'12'}>
@@ -133,8 +133,8 @@ const Informations = ({ parent }) => {
   endTime = endTime.substring(0, 1) === '0' ? endTime.substring(1) : endTime;
 
   let date = parent.state.event.date;
-  let hour = parseInt(startTime.split(':')[0]) + 12;
-  let min = startTime.split(':')[1];
+  let hour = parseInt(endTime.split(':')[0]) + 12;
+  let min = endTime.split(':')[1];
 
   date = date.split('T')[0].split('-');
   let dateTime = new Date(date[0], parseInt(date[1]) - 1, date[2], hour, min);
@@ -294,8 +294,8 @@ class BookingProfile extends Component {
     slots: [],
     notes: '',
     isEditing: false,
-    OnHandleResetEvents: () => {},
-    OnHandleSetNotes: () => {}
+    OnHandleResetEvents: () => { },
+    OnHandleSetNotes: () => { }
   };
 
   componentWillReceiveProps(nextProps) {
@@ -426,10 +426,10 @@ class BookingProfile extends Component {
                   <Button
                     onClick={() =>
                       this.props.parent.props.isLoading
-                        ? () => {}
+                        ? () => { }
                         : !this.state.isEditing
-                        ? this.OnHandleEditing()
-                        : OnHandleSetNotes(profile.id, notes)
+                          ? this.OnHandleEditing()
+                          : OnHandleSetNotes(profile.id, notes)
                     }
                     style={style.btnSave}
                   >
@@ -437,8 +437,8 @@ class BookingProfile extends Component {
                       {this.props.parent.props.isLoading
                         ? 'Please wait...'
                         : !this.state.isEditing
-                        ? 'Edit'
-                        : 'Save'}
+                          ? 'Edit'
+                          : 'Save'}
                     </Text>
                   </Button>
                 )}
@@ -595,7 +595,7 @@ const style = {
     color: '#fff',
     fontFamily: 'harabara',
     letterSpacing: 2,
-    paddingTop: '.2em',
+    paddingTop: '.8em',
     textAlign: 'left',
     fontSize: '.7em'
   },
@@ -605,7 +605,7 @@ const style = {
     color: '#fff',
     fontFamily: 'harabara',
     letterSpacing: 2,
-    paddingTop: '.2em',
+    paddingTop: '.8em',
     fontSize: '.7em',
     textAlign: 'left'
   },
@@ -615,7 +615,7 @@ const style = {
     letterSpacing: 2,
     fontSize: '.6em',
     textAlign: 'left',
-    paddingTop: '2em'
+    paddingBottom: '2em'
   },
   notes: {
     color: '#fff',
