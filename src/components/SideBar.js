@@ -36,7 +36,7 @@ const SideBar = ({
               src={
                 profilePicture
                   ? profilePicture
-                  : 'https://encrypted-tbn0.gstatic.com/images?q=tbn%3AANd9GcS0_gZD_H8wL6nscnpyVpae-6HuJSWdgS39T02p_Vd9CigJiUGu'
+                  : 'https://www.google.com/url?sa=i&source=images&cd=&ved=2ahUKEwih5p6w-rTnAhXPc94KHYsJBwIQjRx6BAgBEAQ&url=https%3A%2F%2Fwww.istockphoto.com%2Fphotos%2Favatar&psig=AOvVaw2fD995hEdizGvBk7WqD4bN&ust=1580804651584965'
               }
               style={style.avatar}
               alt='profile'
