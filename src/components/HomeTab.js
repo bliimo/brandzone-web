@@ -288,11 +288,11 @@ const SubmitSignUp = ({ parent }) => {
     <div className='mt-5'>
       <Text style={style.privacyPolicy}>
         Read&nbsp;
-        <NavLink to='#' style={style.privacyPolicyLinks}>
+        <NavLink to='#' style={style.privacyPolicyLinks} onClick={parent.OnHandleToggle('4')}>
           <strong>Privacy Policy</strong>
         </NavLink>
         &nbsp;and&nbsp;
-        <NavLink to='#' style={style.privacyPolicyLinks}>
+        <NavLink to='#' style={style.privacyPolicyLinks} onClick={parent.OnHandleToggle('5')}>
           <strong>Terms and Conditions</strong>
         </NavLink>
       </Text>
@@ -402,6 +402,7 @@ class HomeTab extends Component {
   };
 
   OnHandleToggle = tab => () => {
+    console.log(tab);
     let { email, password } = this.state;
     if (tab === '1') {
       email = '';
