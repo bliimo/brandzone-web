@@ -453,6 +453,7 @@ class EventTab extends Component {
   componentDidMount() {
     console.log(this.state.activeItem);
   }
+  OnHandleToggleHome(tab) {}
 
   render() {
     return (
@@ -461,6 +462,7 @@ class EventTab extends Component {
           isShow={this.OnHandleShowList}
           OnHandleToggle={this.OnHandleTogglePrivacy}
           isEvent={true}
+          OnHandleToggleHome={this.OnHandleToggleHome}
         />
         <div
           style={style.main}

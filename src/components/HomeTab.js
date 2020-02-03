@@ -825,7 +825,7 @@ class HomeTab extends Component {
   render() {
     return (
       <React.Fragment>
-        <Header OnHandleToggle={this.OnHandleToggle} />
+        <Header OnHandleToggleHome={this.OnHandleToggle} />
         <MDBContainer style={style.main} id='mainTab'>
           <TabLinks parent={this} />
           {this.props.auth.isAuthenticated && <Redirect to='/events' />}
