@@ -113,7 +113,7 @@ const Schedule = ({ data, parent, index }) => {
       : `Participant ${index}`;
 
   let currentDate = new Date();
-  let date = events[activeItem].date;
+  let date = events[activeItem] ? events[activeItem].date : events[0].date;
   let hour = parseInt(startTime.split(':')[0]) + 12;
   let min = startTime.split(':')[1];
 
@@ -193,11 +193,19 @@ const Schedules = ({ parent }) => {
   let scheds = [];
   const { activeItem, events } = parent.state;
   if (events.length > 0) {
-    events[activeItem].schedules.map((e, i) => {
-      if (e.booking.length > 0) {
-        scheds.push(<Schedule key={i} parent={parent} data={e} index={i + 1} />);
-      }
-    });
+    if (events[activeItem]) {
+      events[activeItem].schedules.map((e, i) => {
+        if (e.booking.length > 0) {
+          scheds.push(<Schedule key={i} parent={parent} data={e} index={i + 1} />);
+        }
+      });
+    } else {
+      events[0].schedules.map((e, i) => {
+        if (e.booking.length > 0) {
+          scheds.push(<Schedule key={i} parent={parent} data={e} index={i + 1} />);
+        }
+      });
+    }
   }
   return scheds;
 };
@@ -432,11 +440,20 @@ class EventTab extends Component {
   componentWillReceiveProps(nextProps) {
     const { events, account } = nextProps;
     try {
+      console.log(this.state.activeItem);
       if (account) this.setState({ account });
       if (events.length > 0) {
-        this.setState({ isOpen: null, events, schedules: events[this.state.activeItem].schedules });
+        this.setState({
+          isOpen: null,
+          events,
+          schedules: events[parseInt(this.state.activeItem)]
+            ? events[parseInt(this.state.activeItem)].schedules
+            : events[0].schedules
+        });
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   }
 
   componentWillMount() {
