@@ -5,7 +5,6 @@ import PictureUpload from './PictureUpload';
 import EventTimeSlot from './EventTimeSlot';
 
 const ExhibitorSignUp = ({ parent }) => {
-  console.log(parent);
   return (
     <div>
       <TextInput
@@ -81,7 +80,7 @@ const ExhibitorSignUp = ({ parent }) => {
         rows={5}
       />
       <TextInput
-        placeholder='Unique and Strong programs'
+        placeholder='Unique and Strong Programs'
         id='programs'
         onChange={parent.OnHandleChange}
         type='text'
@@ -95,11 +94,23 @@ const ExhibitorSignUp = ({ parent }) => {
       />
       <hr style={style.divider} />
       <TextInput
-        placeholder='Name of Representative: First Name | Last Name'
-        id='repName'
+        placeholder='Representative First name'
+        id='firstName'
         onChange={parent.OnHandleChange}
         type='text'
-        value={parent.state.repName}
+        value={parent.state.firstName}
+        size='sm'
+        required={true}
+        autocomplete='off'
+        className='signup-input'
+        style={style.inputs}
+      />
+      <TextInput
+        placeholder='Representative Last name'
+        id='lastName'
+        onChange={parent.OnHandleChange}
+        type='text'
+        value={parent.state.lastName}
         size='sm'
         required={true}
         autocomplete='off'
@@ -131,6 +142,30 @@ const ExhibitorSignUp = ({ parent }) => {
         style={style.inputs}
       />
       <TextInput
+        placeholder='Password'
+        id='signUpPassword'
+        onChange={parent.OnHandleChange}
+        type='password'
+        value={parent.state.signUpPassword}
+        size='sm'
+        required={true}
+        autocomplete='off'
+        className='signup-input'
+        style={style.inputs}
+      />
+      <TextInput
+        placeholder='Confirm Password'
+        id='confirmPassword'
+        onChange={parent.OnHandleChange}
+        type='password'
+        value={parent.state.confirmPassword}
+        size='sm'
+        required={true}
+        autocomplete='off'
+        className='signup-input'
+        style={style.inputs}
+      />
+      <TextInput
         placeholder='Telephone Number'
         id='phoneNumber'
         onChange={parent.OnHandleChange}
@@ -143,12 +178,22 @@ const ExhibitorSignUp = ({ parent }) => {
         style={style.inputs}
       />
       <PictureUpload OnHandlePicture={parent.OnHandlePicture} parent={parent} />
-      <Dropdown
-        items={parent.state.events}
-        action={parent.OnHandleEventType}
-        label='Choose an event you will be participating in:'
-      />
-      <EventTimeSlot OnHandleGetTimeSlots={parent.OnHandleGetTimeSlots} parent={parent} />
+      {parent.state.events.length > 0 && (
+        <Dropdown
+          items={parent.state.events}
+          action={parent.OnHandleEventType}
+          isActive={true}
+          label='Choose an event you will participating in:'
+        />
+      )}
+      {parent.state.events.length > 0 && (
+        <EventTimeSlot
+          OnHandleGetTimeSlots={parent.OnHandleGetTimeSlots}
+          isReset={parent.state.isReset}
+          schedules={parent.state.schedules}
+          parent={parent}
+        />
+      )}
     </div>
   );
 };

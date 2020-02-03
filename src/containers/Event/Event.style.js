@@ -1,7 +1,6 @@
 const styles = {
   main: {
-    padding: 0,
-    marginBottom: '4em'
+    padding: 0
   }
 };
 

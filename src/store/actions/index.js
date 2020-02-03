@@ -1,2 +1,5 @@
-export { login, logout } from './auth';
-export { getCurrentUser, getUsers, getUserInfo, addUser, inviteUsers, updateAccountStatus, editUserInfo } from './user';
+export { loginUser, logoutUser } from './auth';
+export { getInstitution } from './institution';
+export { addUser } from './user';
+export { getLatestEvents } from './event';
+export { setBookings, book, setNotes } from './booking';

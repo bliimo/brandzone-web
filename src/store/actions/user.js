@@ -1,44 +1,24 @@
-import {
-  GET_CURRENTUSER_REQUEST,
-  GET_USERS_REQUEST,
-  GET_USERINFO_REQUEST,
-  ADD_USER_REQUEST,
-  INVITE_USERS_REQUEST,
-  UPDATE_ACCOUNTSTATUS_REQUEST,
-  EDIT_USERINFO_REQUEST,
-} from './actionTypes';
+import axios from 'axios';
+import { API } from '../../constants/api';
 
-export const getCurrentUser = data => ({
-  type: GET_CURRENTUSER_REQUEST,
-  data,
-});
+import { ADD_USER_REQUEST, ADD_USER_SUCCESS, ADD_USER_FAILURE } from './actionTypes';
 
-export const getUsers = data => ({
-  type: GET_USERS_REQUEST,
-  data,
-});
-
-export const getUserInfo = data => ({
-  type: GET_USERINFO_REQUEST,
-  data,
-});
-
-export const addUser = data => ({
-  type: ADD_USER_REQUEST,
-  data,
-});
-
-export const inviteUsers = data => ({
-  type: INVITE_USERS_REQUEST,
-  data,
-});
-
-export const updateAccountStatus = data => ({
-  type: UPDATE_ACCOUNTSTATUS_REQUEST,
-  data,
-});
-
-export const editUserInfo = data => ({
-  type: EDIT_USERINFO_REQUEST,
-  data,
-});
+export const addUser = data => dispatch => {
+  dispatch({
+    type: ADD_USER_REQUEST
+  });
+  axios
+    .post(`${API}/${data.userType}/register`, data)
+    .then(res => {
+      dispatch({
+        type: ADD_USER_SUCCESS,
+        payload: res.data
+      });
+    })
+    .catch(err => {
+      dispatch({
+        type: ADD_USER_FAILURE,
+        payload: err.response.data.message
+      });
+    });
+};

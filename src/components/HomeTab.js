@@ -1,6 +1,14 @@
 import React, { Component } from 'react';
-import { MDBContainer, MDBTabPane, MDBTabContent, MDBNav, MDBNavItem } from 'mdbreact';
-import { NavLink } from 'react-router-dom';
+import {
+  MDBContainer,
+  MDBTabPane,
+  MDBTabContent,
+  MDBNav,
+  MDBNavItem,
+  MDBRow,
+  MDBCol
+} from 'mdbreact';
+import { NavLink, Redirect } from 'react-router-dom';
 import Button from '../components/Button';
 import contents from '../constants/contents';
 import Text from '../components/Text';
@@ -9,14 +17,48 @@ import validation from '../helper/validation';
 import Dropdown from './Dropdown';
 import ParticipantSignUp from './ParticipantSignUp';
 import ExhibitorSignUp from './ExhibitorSignUp';
-
+import Header from './Header';
+import Footer from './Footer';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
+import { isEmpty } from 'lodash';
+import { loginUser, getLatestEvents, getInstitution, addUser, setBookings } from '../store/actions';
+import { connect } from 'react-redux';
+import { withRouter } from 'react-router-dom';
+import client1 from '../assets/images/clients/partners1-educanada@2x.png';
+import client2 from '../assets/images/clients/partners1-Aus@2x.png';
+import client3 from '../assets/images/clients/partners1-enz@2x.png';
+import client4 from '../assets/images/clients/partners2-bc@2x.png';
+import client5 from '../assets/images/clients/partners2-cican@2x.png';
+import client6 from '../assets/images/clients/partners3-idp@2x.png';
+import client7 from '../assets/images/clients/partners3-fortrust@2x.png';
+import client8 from '../assets/images/clients/partners3-eca@2x.png';
+import client9 from '../assets/images/clients/partners3-ielts@2x.png';
+import client10 from '../assets/images/clients/partners4-scotiabank@2x.png';
+import client11 from '../assets/images/clients/partners4-alberta@2x.png';
+import client12 from '../assets/images/clients/partners4-brandwatch@2x.png';
+import client13 from '../assets/images/clients/partners4-aircanada@2x.png';
+import client14 from '../assets/images/clients/partners4-PAL@2x.png';
+import client15 from '../assets/images/clients/partners4-qantas@2x.png';
+import client16 from '../assets/images/clients/partners4-pldt@2x.png';
+import client17 from '../assets/images/clients/partners4-laybare@2x.png';
+import client18 from '../assets/images/clients/partners4-anz@2x.png';
+import client19 from '../assets/images/clients/partners2-studyperth@2x.png';
+import client20 from '../assets/images/clients/partners2-cbie@2x.png';
+import client21 from '../assets/images/clients/partners2-edunova@2x.png';
 
 const TabLinks = ({ parent }) => {
   return (
     <MDBNav tabs className='justify-content-center'>
-      <MDBNavItem>
+      <MDBNavItem
+        style={{
+          display:
+            parent.state.activeItem === '1' ||
+            parent.state.activeItem === '2' ||
+            parent.state.activeItem === '3'
+              ? 'block'
+              : 'none'
+        }}
+      >
         <NavLink
           to='#'
           className={`nav-links ${parent.state.activeItem === '1' ? 'active-tab' : ''}`}
@@ -49,6 +91,38 @@ const TabLinks = ({ parent }) => {
           <hr />
         </NavLink>
       </MDBNavItem>
+      <MDBNavItem
+        style={{
+          display:
+            parent.state.activeItem === '4' || parent.state.activeItem === '5' ? 'block' : 'none'
+        }}
+      >
+        <NavLink
+          to='#'
+          className={`nav-links ${parent.state.activeItem === '4' ? 'active-tab' : ''}`}
+          onClick={parent.OnHandleToggle('4')}
+          role='tab'
+        >
+          <Text style={style.tabTitle}>PRIVACY POLICY</Text>
+          <hr />
+        </NavLink>
+      </MDBNavItem>
+      <MDBNavItem
+        style={{
+          display:
+            parent.state.activeItem === '5' || parent.state.activeItem === '4' ? 'block' : 'none'
+        }}
+      >
+        <NavLink
+          to='#'
+          className={`nav-links ${parent.state.activeItem === '5' ? 'active-tab' : ''}`}
+          onClick={parent.OnHandleToggle('5')}
+          role='tab'
+        >
+          <Text style={style.tabTitle}>TERMS & CONDITIONS</Text>
+          <hr />
+        </NavLink>
+      </MDBNavItem>
     </MDBNav>
   );
 };
@@ -56,8 +130,8 @@ const TabLinks = ({ parent }) => {
 const AboutTab = ({ parent }) => {
   return (
     <MDBTabPane tabId='1' role='tabpanel' className='fade-effect'>
-      <Text className='text-center' style={style.tabTitleHeader}>
-        About
+      <Text className='text-center tab-title' style={style.tabTitleHeader}>
+        Welcome to Brandzone E-Scheduler
       </Text>
       <hr style={style.tabTitleHeaderHr} />
       <Text className='text-center' style={{ ...style.about, ...style.aboutFirst }}>
@@ -87,6 +161,58 @@ const AboutTab = ({ parent }) => {
   );
 };
 
+const PrivacyPolicyTab = ({ parent }) => {
+  return (
+    <MDBTabPane tabId='4' role='tabpanel' className='fade-effect'>
+      <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('1')}>
+        <Text style={style.backBtn} className='back-button-text-signup'>
+          <div id='chevron'></div>
+          <span style={style.backText}>Back to sign up</span>
+        </Text>
+      </Button>
+      <Text className='text-center tab-title' style={style.tabTitleHeader}>
+        PRIVACY POLICY
+      </Text>
+      <hr style={style.tabTitleHeaderHr} />
+      <Text className='text-center' style={{ ...style.about, ...style.aboutFirst }}>
+        {contents.policy[0]}
+      </Text>
+      <Text className='text-center mt-2 ' style={{ ...style.about, ...style.about }}>
+        {contents.policy[1]}
+      </Text>
+      <Text className='text-center mt-2 ' style={{ ...style.about, ...style.about }}>
+        {contents.policy[2]}
+      </Text>
+    </MDBTabPane>
+  );
+};
+
+const TermsTab = ({ parent }) => {
+  return (
+    <MDBTabPane tabId='5' role='tabpanel' className='fade-effect'>
+      <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('1')}>
+        <Text style={style.backBtn} className='back-button-text-signup'>
+          <div id='chevron'></div>
+          <span style={style.backText}>Back to sign up</span>
+        </Text>
+      </Button>
+      <Text className='text-center tab-title mt-5' style={style.tabTitleHeader}>
+        TERMS & CONDITIONS
+      </Text>
+      <hr style={style.tabTitleHeaderHr} />
+      <Text className='text-center' style={{ ...style.about, ...style.aboutFirst }}>
+        {contents.policy[0]}
+      </Text>
+      <Text className='text-center mt-2 ' style={{ ...style.about, ...style.about }}>
+        {contents.policy[1]}
+      </Text>
+      <Text className='text-center mt-2 ' style={{ ...style.about, ...style.about }}>
+        {contents.policy[2]}
+      </Text>
+    </MDBTabPane>
+  );
+};
+
 const LoginTab = ({ parent }) => {
   return (
     <MDBTabPane
@@ -95,7 +221,7 @@ const LoginTab = ({ parent }) => {
       className='fade-effect'
       style={{ display: parent.state.activeItem === '2' ? 'block' : 'none' }}
     >
-      <Text className='text-center' style={style.tabTitleHeader}>
+      <Text className='text-center tab-title' style={style.tabTitleHeader}>
         Login
       </Text>
       <hr style={style.tabTitleHeaderHr} />
@@ -126,9 +252,11 @@ const LoginTab = ({ parent }) => {
           style={style.buttonLogin}
           id='btnLoginTab'
           className='btn-animate-login main-btn-login'
-          onClick={() => parent.OnHandleLogin()}
+          onClick={parent.props.auth.isLoading ? () => {} : parent.OnHandleLogin}
         >
-          <Text className='btn-animate-text-login'>Login</Text>
+          <Text className='btn-animate-text-login'>
+            {parent.props.auth.isLoading ? 'Please wait...' : 'Login'}
+          </Text>
         </Button>
       </MDBContainer>
     </MDBTabPane>
@@ -138,7 +266,7 @@ const LoginTab = ({ parent }) => {
 const SingUpTab = ({ parent }) => {
   return (
     <MDBTabPane tabId='3' role='tabpanel' className='fade-effect'>
-      <Text className='text-center' style={style.tabTitleHeader}>
+      <Text className='text-center tab-title' style={style.tabTitleHeader}>
         Sign up
       </Text>
       <hr style={style.tabTitleHeaderHr} />
@@ -181,204 +309,121 @@ const SubmitSignUp = ({ parent }) => {
           style={style.buttonSignUp}
           className='btn-animate-signup'
           id='btnSignup'
-          onClick={parent.OnHandleSignUp}
+          onClick={parent.props.user.isLoading ? () => {} : parent.OnHandleSignUp}
         >
-          <Text className='btn-animate-text-signup'>Sign Up</Text>
+          <Text className='btn-animate-text-signup'>
+            {parent.props.user.isLoading ? 'Please wait...' : 'Sign Up'}
+          </Text>
         </Button>
       </div>
     </div>
   );
 };
 
+const Clients = () => {
+  return (
+    <MDBContainer style={style.client} className='w-100 m-0 clients'>
+      <Text style={style.clientTitle} className='mb-2'>
+        OUR CLIENTS
+      </Text>
+      <hr style={style.tabTitleHeaderHr} />
+      <MDBContainer className='clients text-center mt-5'>
+        <img src={client1} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client2} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client3} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client21} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client4} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client5} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client6} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client7} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client8} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client9} style={style.clientImg} className='clientImg' alt='client' />
+      </MDBContainer>
+      <MDBContainer className='clients text-center'>
+        <img src={client10} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client11} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client12} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client13} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client14} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client15} style={style.clientImg} className='clientImg' alt='client' />
+      </MDBContainer>
+      <MDBContainer className='clients text-center'>
+        <img src={client16} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client17} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client18} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client19} style={style.clientImg} className='clientImg' alt='client' />
+        <img src={client20} style={style.clientImg} className='clientImg' alt='client' />
+      </MDBContainer>
+    </MDBContainer>
+  );
+};
+
 class HomeTab extends Component {
-  state = {
-    activeItem: '3',
-    email: '',
-    password: '',
-    companyName: '',
-    companyCountry: '',
-    companyProvince: '',
-    companyProfile: '',
-    companyCity: '',
-    repName: '',
-    jobTitle: '',
-    phoneNumber: '',
-    signUpEmail: '',
-    institutionName: '',
-    programs: '',
-    profilePic: null,
-    isCheckedPrivacy: false,
-    events: [
-      {
-        id: 0,
-        date: 'Feb 28',
-        address: 'New world Hotel Makati',
-        scheds: [
-          {
-            id: 1,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 2,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 3,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 4,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 5,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 6,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 7,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 8,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 9,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 10,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 11,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 12,
-            startTime: '2:30',
-            endTime: '2:50'
-          }
-        ]
-      },
-      {
-        id: 1,
-        date: 'Feb 28',
-        address: 'New world Hotel Makati',
-        scheds: [
-          {
-            id: 13,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 14,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 15,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 16,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 17,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 18,
-            startTime: '2:30',
-            endTime: '2:50'
-          }
-        ]
-      },
-      {
-        id: 2,
-        date: 'Feb 28',
-        address: 'All',
-        scheds: [
-          {
-            id: 19,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 20,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 21,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 22,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 23,
-            startTime: '2:30',
-            endTime: '2:50'
-          },
-          {
-            id: 24,
-            startTime: '2:30',
-            endTime: '2:50'
-          }
-        ]
-      }
-    ],
-    schedules: {},
-    userTypeSelected: null,
-    institutionTypes: [
-      {
-        id: 0,
-        name: 'Organization'
-      },
-      {
-        id: 1,
-        name: 'University'
-      }
-    ]
+  constructor(props) {
+    super(props);
+    this.toastId = null;
+    this.state = {
+      activeItem: '1',
+      email: '',
+      password: '',
+      companyName: '',
+      companyCountry: '',
+      companyProvince: '',
+      companyProfile: '',
+      companyCity: '',
+      jobTitle: '',
+      phoneNumber: '',
+      signUpEmail: '',
+      signUpPassword: '',
+      institutionName: '',
+      firstName: '',
+      lastName: '',
+      programs: '',
+      profilePic: null,
+      isCheckedPrivacy: false,
+      events: [],
+      schedules: [],
+      userTypeSelected: null,
+      institutionTypes: [],
+      institutionType: null,
+      companyWebsite: '',
+      confirmPassword: '',
+      selectedSchedules: {},
+      selectedEvent: null,
+      allEvents: {},
+      setBookings: []
+    };
+  }
+
+  notify = txt => {
+    if (!toast.isActive(this.toastId)) {
+      this.toastId = toast.error(txt);
+    }
   };
 
   OnHandleToggle = tab => () => {
-    if (this.state.activeItem !== tab) this.setState({ activeItem: tab });
+    console.log(tab);
+    if (this.toastId) toast.dismiss(this.toastId);
+    window.scrollTo(0, 0);
+    this.setState({ activeItem: tab });
   };
 
   OnHandleChange = event => {
     let { emailError, passwordError } = this.state;
+    if (event.target.value !== '') {
+      document.getElementById(event.target.id).classList.remove('invalid-field');
+    } else {
+      document.getElementById(event.target.id).classList.add('invalid-field');
+    }
     if (event.target.id === 'email') emailError = !validation.isEmail(event.target.value);
     if (event.target.id === 'password')
       passwordError = !validation.isValidPassword(event.target.value);
     this.setState({ [event.target.id]: event.target.value, emailError, passwordError });
   };
 
-  OnHandleGetTimeSlots = schedules => {
-    this.setState({ schedules });
+  OnHandleGetTimeSlots = selectedSchedules => {
+    this.setState({ selectedSchedules });
+    this.OnHandleSelectedSchedules(selectedSchedules);
   };
 
   OnHandleCheckTerms = () => {
@@ -386,8 +431,13 @@ class HomeTab extends Component {
     this.setState({ isCheckedPrivacy: !isCheckedPrivacy });
   };
 
-  OnHandleSignUpType = id => {
-    this.setState({ userTypeSelected: id });
+  OnHandleSignUpType = index => {
+    this.setState({ userTypeSelected: index });
+  };
+
+  OnHandleInstitutionType = index => {
+    const { institutionTypes } = this.state;
+    this.setState({ institutionType: institutionTypes[index].id });
   };
 
   OnHandleSignUpForm = () => {
@@ -398,32 +448,362 @@ class HomeTab extends Component {
     }
   };
 
+  OnHandleSetEvents = events => {
+    if (this.state.events.length == 0 && events.length > 0) {
+      const allEvents = {
+        id: events[events.length - 1].id + 1,
+        date: new Date(),
+        title: 'All',
+        address: '',
+        isAllEvent: true,
+        schedules: [
+          {
+            id: 1,
+            startTime: '02:00:00',
+            endTime: '02:20:00'
+          },
+          {
+            id: 2,
+            startTime: '02:20:00',
+            endTime: '02:40:00'
+          },
+          {
+            id: 3,
+            startTime: '02:40:00',
+            endTime: '03:00:00'
+          },
+          {
+            id: 4,
+            startTime: '03:00:00',
+            endTime: '03:20:00'
+          },
+          {
+            id: 5,
+            startTime: '03:20:00',
+            endTime: '03:40:00'
+          },
+          {
+            id: 6,
+            startTime: '03:40:00',
+            endTime: '04:00:00'
+          },
+          {
+            id: 7,
+            startTime: '04:00:00',
+            endTime: '04:20:00'
+          },
+          {
+            id: 8,
+            startTime: '04:20:00',
+            endTime: '04:40:00'
+          },
+          {
+            id: 9,
+            startTime: '04:40:00',
+            endTime: '05:00:00'
+          },
+          {
+            id: 10,
+            startTime: '05:00:00',
+            endTime: '05:20:00'
+          },
+          {
+            id: 11,
+            startTime: '05:20:00',
+            endTime: '05:40:00'
+          },
+          {
+            id: 12,
+            startTime: '05:40:00',
+            endTime: '06:00:00'
+          }
+        ]
+      };
+      events.push(allEvents);
+      this.setState({
+        events,
+        allEvents,
+        schedules: allEvents.schedules,
+        selectedEvent: allEvents
+      });
+    }
+  };
+
+  OnHandleSetInstitution = institutionTypes => {
+    this.setState({ institutionTypes });
+  };
+
+  componentWillReceiveProps(nextProps) {
+    const { auth, events, institution, user, loginError, signUpError } = nextProps;
+    const { activeItem } = this.state;
+    if (loginError && activeItem === '2') {
+      this.notify(loginError);
+      return false;
+    }
+    if (signUpError && activeItem === '3') {
+      window.scrollTo(0, 0);
+      this.notify(signUpError);
+      return false;
+    }
+    if (user.user && Object.keys(user.user).length > 0 && this.state.activeItem === '3') {
+      toast.success('Successfully registered please login');
+      this.setState({
+        activeItem: '2',
+        email: '',
+        password: '',
+        companyName: '',
+        companyCountry: '',
+        companyProvince: '',
+        companyProfile: '',
+        companyCity: '',
+        jobTitle: '',
+        phoneNumber: '',
+        signUpEmail: '',
+        signUpPassword: '',
+        institutionName: '',
+        firstName: '',
+        lastName: '',
+        programs: '',
+        profilePic: null,
+        isCheckedPrivacy: false,
+        companyWebsite: '',
+        confirmPassword: ''
+      });
+    }
+
+    if (auth.isAuthenticated) window.location.reload();
+
+    if (events && !auth.isLoading) {
+      this.OnHandleSetEvents(events);
+      this.OnHandleSetInstitution(institution);
+    }
+  }
+
   OnHandleLogin = () => {
-    let { email, password } = this.state;
-    toast.error('Wow so easy !');
+    const { email, password } = this.state;
+    const { loginUser } = this.props;
+    if (isEmpty(email)) {
+      this.notify('Please enter your email address');
+    } else if (isEmpty(password)) {
+      this.notify('Please enter your password');
+    } else {
+      loginUser({
+        email,
+        password
+      });
+    }
+  };
+
+  OnHandleSelectedSchedules = selectedSchedules => {
+    const { selectedEvent, events } = this.state;
+    let setBookings = [];
+    if (selectedEvent.isAllEvent) {
+      Object.values(selectedSchedules).map(scheds => {
+        events.map(e => {
+          if (e.id != selectedEvent.id) {
+            e.schedules.map(sched => {
+              if (sched.startTime == scheds.startTime) {
+                setBookings.push(sched.id);
+              }
+            });
+          }
+        });
+      });
+    } else {
+      Object.keys(selectedSchedules).map(scheds => {
+        setBookings.push(scheds);
+      });
+    }
+    this.setState({ setBookings: [...new Set(setBookings)], selectedSchedules });
+  };
+
+  OnHandleGetParticipants = () => {
+    const {
+      institutionType,
+      companyName,
+      companyCountry,
+      companyProvince,
+      companyCity,
+      companyWebsite,
+      companyProfile,
+      firstName,
+      lastName,
+      jobTitle,
+      phoneNumber,
+      signUpEmail,
+      signUpPassword,
+      confirmPassword,
+      setBookings
+    } = this.state;
+
+    return {
+      institutionTypeId: institutionType,
+      companyName,
+      companyCountry,
+      companyProvince,
+      companyCity,
+      companyWebsite,
+      companyProfile,
+      firstName,
+      lastName,
+      jobTitle,
+      phoneNumber,
+      email: signUpEmail,
+      password: signUpPassword,
+      confirmPassword,
+      bookingScheduleId: { scheduleId: setBookings },
+      userType: 'participant'
+    };
+  };
+
+  OnHandleGetExibitors = () => {
+    const {
+      institutionName,
+      companyProfile,
+      companyProvince,
+      companyCity,
+      companyCountry,
+      companyWebsite,
+      phoneNumber,
+      programs,
+      firstName,
+      lastName,
+      jobTitle,
+      signUpEmail,
+      signUpPassword,
+      confirmPassword,
+      setBookings
+    } = this.state;
+
+    return {
+      institutionName,
+      institutionProfile: companyProfile,
+      institutionProvince: companyProvince,
+      institutionCity: companyCity,
+      institutionCountry: companyCountry,
+      institutionWebsite: companyWebsite,
+      institutionTelephone: phoneNumber,
+      programs: programs,
+      firstName,
+      lastName,
+      jobTitle,
+      phoneNumber,
+      email: signUpEmail,
+      password: signUpPassword,
+      confirmPassword: confirmPassword,
+      bookingScheduleId: { scheduleId: setBookings },
+      userType: 'exhibitor'
+    };
+  };
+
+  OnHandleValidateSignUp = user => {
+    const { userTypeSelected, isCheckedPrivacy, selectedSchedules } = this.state;
+    for (const key of Object.keys(user)) {
+      if (user[key] <= 0) {
+        if (user[key] === null || user[key] === undefined || user[key] === '') {
+          let fields = {};
+          if (userTypeSelected == 0) {
+            fields = {
+              institutionTypeId: 'institutionType',
+              companyName: 'companyName',
+              companyCountry: 'companyCountry',
+              companyProvince: 'companyProvince',
+              companyCity: 'companyCity',
+              companyWebsite: 'companyWebsite',
+              companyProfile: 'companyProfile',
+              firstName: 'firstName',
+              lastName: 'lastName',
+              jobTitle: 'jobTitle',
+              phoneNumber: 'phoneNumber',
+              email: 'signUpEmail',
+              password: 'signUpPassword',
+              confirmPassword: 'confirmPassword'
+            };
+          } else {
+            fields = {
+              institutionName: 'institutionName',
+              institutionProfile: 'companyProfile',
+              institutionProvince: 'companyProvince',
+              institutionCity: 'companyCity',
+              institutionCountry: 'companyCountry',
+              institutionWebsite: 'companyWebsite',
+              institutionTelephone: 'phoneNumber',
+              programs: 'programs',
+              firstName: 'firstName',
+              lastName: 'lastName',
+              jobTitle: 'jobTitle',
+              phoneNumber: 'phoneNumber',
+              email: 'signUpEmail',
+              password: 'signUpPassword',
+              confirmPassword: 'confirmPassword'
+            };
+          }
+
+          Object.keys(fields).map((v, k) => {
+            try {
+              if (key === v) {
+                document.getElementById(key).classList.add('invalid-field');
+              } else {
+                document.getElementById(k).classList.remove('invalid-field');
+              }
+            } catch (error) {}
+          });
+          window.scrollTo(0, 0);
+          this.notify(
+            `Required ${key
+              .replace('Id', '')
+              .replace('company', 'company ')
+              .replace('institution', 'institution ')
+              .replace('institutionName', 'institution name')
+              .replace('firstName', 'first name')
+              .replace('lastName', 'last name')
+              .replace('confirm', 'confirm ')
+              .replace('job', 'job ')
+              .toLowerCase()}`
+          );
+          return false;
+        }
+      }
+    }
+
+    if (Object.keys(selectedSchedules).length <= 0) {
+      this.notify('Please select time slot');
+      return false;
+    }
+
+    if (!isCheckedPrivacy) {
+      this.notify('Please agree with the terms and conditions');
+      return false;
+    }
+
+    return true;
+  };
+
+  OnHandleSetBookings = () => {
+    const bookingScheds = this.state.setBookings;
+    const { setBookings } = this.props;
+    setBookings({ scheduleId: bookingScheds });
   };
 
   OnHandleSignUp = () => {
-    toast.error('Wow so easy !');
+    const { addUser } = this.props;
+    const { userTypeSelected } = this.state;
+    const user =
+      userTypeSelected == 0 ? this.OnHandleGetParticipants() : this.OnHandleGetExibitors();
+    if (this.OnHandleValidateSignUp(user)) addUser(user);
   };
 
-  OnHandleEventType = id => {
-    let { events, scheds } = this.state;
-
-    events.map(e => {
-      if (e['id'] == id) {
-        scheds = e.scheds;
-      }
+  OnHandleEventType = index => {
+    let { events } = this.state;
+    this.setState({
+      schedules: events[index].schedules,
+      selectedEvent: events[index]
     });
-
-    this.setState({ scheds });
-  };
-
-  OnHandleInstitutionType = id => {
-    console.log('test 2', id);
   };
 
   OnHandlePicture = event => {
+    const { onUpload } = this.props;
+    // onUpload({ filePath: event.target.value });
     this.setState({ profilePic: URL.createObjectURL(event.target.files[0]) });
   };
 
@@ -433,31 +813,41 @@ class HomeTab extends Component {
   };
 
   componentWillMount() {
-    const { events } = this.state;
-    for (let i = 0; i < events.length; i++) {
-      events[i]['name'] = `${events[i]['date']} - ${events[i]['address']}`;
-    }
-
-    this.setState({ events });
+    const { getLatestEvents, getInstitution } = this.props;
+    getLatestEvents();
+    getInstitution();
   }
 
   render() {
     return (
-      <MDBContainer style={style.main} id='mainTab'>
-        <TabLinks parent={this} />
-        <MDBTabContent className='card' activeItem={this.state.activeItem} style={style.tabs}>
-          <AboutTab parent={this} />
-          <LoginTab parent={this} />
-          <SingUpTab parent={this} />
-        </MDBTabContent>
-        <ToastContainer />
-      </MDBContainer>
+      <React.Fragment>
+        <Header />
+        <MDBContainer style={style.main} id='mainTab'>
+          <TabLinks parent={this} />
+          {this.props.auth.isAuthenticated && <Redirect to='/events' />}
+          <MDBTabContent className='card' activeItem={this.state.activeItem} style={style.tabs}>
+            <AboutTab parent={this} />
+            <LoginTab parent={this} />
+            <SingUpTab parent={this} />
+            <PrivacyPolicyTab parent={this} />
+            <TermsTab parent={this} />
+          </MDBTabContent>
+          <ToastContainer />
+        </MDBContainer>
+        <Footer
+          Clients={this.state.activeItem === '1' ? Clients : undefined}
+          isAuthenticated={this.props.auth.isAuthenticated}
+          isEvent={false}
+          OnHandleToggle={this.OnHandleToggle}
+        />
+      </React.Fragment>
     );
   }
 }
 
 const style = {
   main: {
+    marginBottom: '2em',
     width: '63.7vw'
   },
   tabs: {
@@ -557,7 +947,8 @@ const style = {
     fontFamily: 'Helvetica',
     fontSize: 13.5,
     letterSpacing: 0.3,
-    textAlign: 'center'
+    textAlign: 'center',
+    marginBottom: '1em'
   },
   privacyPolicyLinks: {
     color: '#fff',
@@ -584,6 +975,54 @@ const style = {
     position: 'relative',
     right: '1em',
     width: '110%'
+  },
+  client: {
+    backgroundColor: '#37424B',
+    paddingTop: '4em',
+    paddingBottom: '4em'
+  },
+  clientTitle: {
+    fontSize: 39,
+    letterSpacing: 4,
+    fontWeight: 'bold',
+    color: '#fff',
+    fontFamily: 'Harabara',
+    textAlign: 'center',
+    height: 35
+  },
+  clientImg: {
+    height: 68,
+    width: 'auto'
+  },
+  rowClient: {
+    justifyContent: 'center'
+  },
+  backBtn: {
+    color: '#fff'
+  },
+  backText: {
+    opacity: 0.4,
+    font: '10.5px Helvetica',
+    marginLeft: '30px !important',
+    position: 'relative',
+    bottom: '.1em'
+  },
+  backIcon: {
+    fontSize: 13
   }
 };
-export default HomeTab;
+
+const mapStateToProps = state => ({
+  auth: state.auth,
+  loginError: state.auth.error,
+  events: state.event.events,
+  institution: state.institution.institution,
+  user: state.user,
+  signUpError: state.user.error,
+  booking: state.booking
+});
+
+export default connect(
+  mapStateToProps,
+  { loginUser, getLatestEvents, getInstitution, addUser, setBookings }
+)(withRouter(HomeTab));

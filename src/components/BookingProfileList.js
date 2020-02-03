@@ -3,133 +3,148 @@ import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
 import Text from './Text';
 import Button from './Button';
 import EllipsisText from 'react-ellipsis-text';
+import ModalBooking from './ModalBooking';
 
 const Profile = ({ parent }) => {
   let profiles = [];
-  parent.state.users.map((e, i) => {
-    profiles.push(
-      <MDBCol
-        key={i}
-        xl={'4'}
-        lg={'6'}
-        md={'6'}
-        sm={'12'}
-        className='profile-list-booking'
-        style={style.mainCol}
-      >
-        <MDBContainer>
-          <MDBRow style={style.rowProfile} id='row-profile'>
-            <MDBCol className='p-0' xl='5' lg={'6'} md={'6'} sm={'12'}>
-              <img src={e.profilePic} alt='Profile' className='w-100 h-100' />
-            </MDBCol>
-            <MDBCol
-              style={style.actionList}
-              xl='7'
-              lg={'6'}
-              md={'6'}
-              sm={'12'}
-              className='actionList'
-            >
-              <Text style={style.institutionName}>
-                <EllipsisText text={e.institutionName} length={13} />
-              </Text>
-              <Text style={style.name}>
-                <EllipsisText text={`${e.firstName} ${e.lastName}`} length={19} />
-              </Text>
-              <Button
-                className='profileBtnList'
-                onClick={() => {
-                  parent.state.OnHandleSelectProfile(e);
-                }}
-                style={style.btnProfile}
+  parent.state.bookings.map((booking, i) => {
+    const { id, setBy, bookedBy } = booking;
+    if (bookedBy == null) {
+      let institution;
+      setBy.roles.map(role => {
+        if (role.authority === 'ROLE_EXHIBITOR') institution = setBy.institution.name;
+        if (role.authority === 'ROLE_PARTICIPANT') institution = setBy.company.name;
+      });
+      profiles.push(
+        <MDBCol
+          key={i}
+          xl={'4'}
+          lg={'6'}
+          md={'6'}
+          sm={'12'}
+          className='profile-list-booking'
+          style={style.mainCol}
+        >
+          <MDBContainer>
+            <MDBRow style={style.rowProfile} id='row-profile'>
+              <MDBCol className='p-0' xl='5' lg={'6'} md={'6'} sm={'12'}>
+                <img
+                  src={'https://i.pravatar.cc/300'}
+                  alt='Profile'
+                  className={`${parent.props.isShowList ? 'h-230' : 'h-100'} w-100 `}
+                />
+              </MDBCol>
+              <MDBCol
+                style={style.actionList}
+                xl='7'
+                lg={'6'}
+                md={'6'}
+                sm={'12'}
+                className='actionList'
               >
-                <Text>{'View Profile'}</Text>
-              </Button>
-              <Button className='profileBtnList' style={style.btnSlot}>
-                <Text>{'Book this slot'}</Text>
-              </Button>
-            </MDBCol>
-          </MDBRow>
-        </MDBContainer>
-      </MDBCol>
-    );
+                <Text
+                  style={style.institutionName}
+                  className={`${parent.props.isShowList ? 'mt-1-3' : ''}`}
+                >
+                  <EllipsisText text={institution} length={13} />
+                </Text>
+                <Text style={style.name}>
+                  <EllipsisText text={`${setBy.firstName} ${setBy.lastName}`} length={19} />
+                </Text>
+                <Button
+                  className='profileBtnList'
+                  onClick={() => {
+                    parent.state.OnHandleSelectProfile(booking, parent.state.schedule);
+                  }}
+                  style={style.btnProfile}
+                >
+                  <Text>View Profile</Text>
+                </Button>
+                {!parent.props.isShowList && (
+                  <Button
+                    className='profileBtnList'
+                    style={style.btnSlot}
+                    onClick={() => {
+                      parent.OnHandleToogleModal(id);
+                    }}
+                  >
+                    <Text>Book this slot</Text>
+                  </Button>
+                )}
+              </MDBCol>
+            </MDBRow>
+          </MDBContainer>
+        </MDBCol>
+      );
+    }
   });
 
-  return profiles;
+  return profiles.length > 0 ? (
+    profiles
+  ) : (
+    <Text style={style.noAvailable}>No available schedules in this event.</Text>
+  );
 };
 
 class BookingProfileList extends Component {
   state = {
-    users: [
-      {
-        id: 1,
-        firstName: 'Participant',
-        lastName: 'Name',
-        institutionName: 'Institution',
-        bookingId: 1,
-        profilePic: 'https://i.pravatar.cc/300',
-        eventId: 1
-      },
-      {
-        id: 2,
-        firstName: 'Participant',
-        lastName: 'Name',
-        institutionName: 'Institution',
-        bookingId: 1,
-        profilePic: 'https://i.pravatar.cc/300',
-        eventId: 1
-      },
-      {
-        id: 1,
-        firstName: 'Participant',
-        lastName: 'Name',
-        institutionName: 'Institution',
-        bookingId: 1,
-        profilePic: 'https://i.pravatar.cc/300',
-        eventId: 1
-      },
-      {
-        id: 1,
-        firstName: 'Participant',
-        lastName: 'Name',
-        institutionName: 'Institution',
-        bookingId: 1,
-        profilePic: 'https://i.pravatar.cc/300',
-        eventId: 1
-      },
-      {
-        id: 1,
-        firstName: 'firstname',
-        lastName: 'Name',
-        institutionName: 'Institution',
-        bookingId: 1,
-        profilePic: 'https://i.pravatar.cc/300',
-        eventId: 1
-      },
-      {
-        id: 1,
-        firstName: 'Participant',
-        lastName: 'Name',
-        institutionName: 'Institution',
-        bookingId: 1,
-        profilePic: 'https://i.pravatar.cc/300',
-        eventId: 1
-      }
-    ],
-    OnHandleSelectProfile: null
+    bookings: [],
+    OnHandleSelectProfile: null,
+    bookingScheduleId: null,
+    schedule: {},
+    account: {},
+    isOpenModal: false,
+    selectedSlot: null,
+    selectedSchedule: {},
+    event: {},
+    OnHandleResetEvents: () => {}
   };
 
-  componentWillMount() {
-    const { OnHandleSelectProfile } = this.props.parent;
-    this.setState({ OnHandleSelectProfile });
+  OnHandleToogleModal(id) {
+    this.setState({ isOpenModal: id != undefined, selectedSlot: id });
+  }
+
+  OnHandleCloseModal() {
+    this.setState({ isOpenModal: false });
+    this.state.OnHandleResetEvents();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { parent, bookingScheduleId, users, schedule, account, isShowList } = nextProps;
+    const { events, activeItem } = parent.state;
+    let bookings = [];
+    users.map(user => {
+      user.setBy.roles.map(role => {
+        const currentRole =
+          localStorage.getItem('userType') == 'exhibitor' ? 'ROLE_PARTICIPANT' : 'ROLE_EXHIBITOR';
+        if (currentRole === role.authority) {
+          bookings.push(user);
+        }
+      });
+    });
+
+    if (events && events.length > 0) {
+      this.setState({
+        OnHandleSelectProfile: parent.OnHandleSelectProfile,
+        bookingScheduleId,
+        bookings,
+        schedule,
+        account,
+        selectedSchedule: schedule,
+        event: events[activeItem],
+        OnHandleResetEvents: parent.OnHandleResetEvents
+      });
+    }
   }
 
   render() {
+    const { isOpenModal } = this.state;
     return (
       <MDBContainer style={style.main}>
         <MDBRow>
           <Profile parent={this} />
         </MDBRow>
+        {isOpenModal && <ModalBooking parent={this} />}
       </MDBContainer>
     );
   }
@@ -148,16 +163,18 @@ const style = {
     margin: 0,
     fontFamily: 'Harabara',
     letterSpacing: 2,
-    textTransform: 'uppercase',
+    textTransform: 'capitalize',
     fontSize: 16,
     position: 'relative',
     bottom: '.2em',
-    textAlign: 'left'
+    textAlign: 'left',
+    color: '#fff'
   },
   mainCol: {
     marginTop: '1.8em'
   },
   name: {
+    color: '#fff',
     fontFamily: 'Harabara',
     fontWeight: 'bolder',
     letterSpacing: 1.1,
@@ -165,6 +182,11 @@ const style = {
     fontSize: 13,
     marginTop: 4,
     textAlign: 'left'
+  },
+  noAvailable: {
+    fontFamily: 'helvetica',
+    fontSize: 17,
+    color: '#fff'
   },
   btnProfile: {
     border: '.5px solid rgba(255, 255, 255, 0.56)',
