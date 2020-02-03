@@ -51,21 +51,22 @@ class Header extends Component {
   componentDidMount() {}
 
   render() {
-    const { auth } = this.props;
+    const { auth, OnHandleToggleHome } = this.props;
     const { account } = this.state;
-
     return (
       <div>
         <MDBNavbar color='transparent' expand='md' className='header-nav'>
           <MDBNavbarBrand>
-            <NavLink to={auth.isAuthenticated ? '#' : '/'}>
+            <NavLink to={auth.isAuthenticated ? '#' : '/'} onClick={OnHandleToggleHome('1')}>
               <img src={logo} alt='logo' className='logo' />
             </NavLink>
           </MDBNavbarBrand>
           {auth.isAuthenticated && (
             <MDBNavbarNav right>
               <MDBNavItem>
-                <Profile account={account} OnHandleShowSideBar={this.OnHandleShowSideBar} />
+                {account && (
+                  <Profile account={account} OnHandleShowSideBar={this.OnHandleShowSideBar} />
+                )}
               </MDBNavItem>
             </MDBNavbarNav>
           )}

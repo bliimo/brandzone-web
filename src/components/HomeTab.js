@@ -288,11 +288,11 @@ const SubmitSignUp = ({ parent }) => {
     <div className='mt-5'>
       <Text style={style.privacyPolicy}>
         Read&nbsp;
-        <NavLink to='#' style={style.privacyPolicyLinks}>
+        <NavLink to='#' style={style.privacyPolicyLinks} onClick={parent.OnHandleToggle('4')}>
           <strong>Privacy Policy</strong>
         </NavLink>
         &nbsp;and&nbsp;
-        <NavLink to='#' style={style.privacyPolicyLinks}>
+        <NavLink to='#' style={style.privacyPolicyLinks} onClick={parent.OnHandleToggle('5')}>
           <strong>Terms and Conditions</strong>
         </NavLink>
       </Text>
@@ -403,9 +403,14 @@ class HomeTab extends Component {
 
   OnHandleToggle = tab => () => {
     console.log(tab);
+    let { email, password } = this.state;
+    if (tab === '1') {
+      email = '';
+      password = '';
+    }
     if (this.toastId) toast.dismiss(this.toastId);
     window.scrollTo(0, 0);
-    this.setState({ activeItem: tab });
+    this.setState({ activeItem: tab, email, password });
   };
 
   OnHandleChange = event => {
@@ -536,7 +541,7 @@ class HomeTab extends Component {
   componentWillReceiveProps(nextProps) {
     const { auth, events, institution, user, loginError, signUpError } = nextProps;
     const { activeItem } = this.state;
-    if (loginError && activeItem === '2') {
+    if (loginError && activeItem === '2' && this.state.email != '' && this.state.password != '') {
       this.notify(loginError);
       return false;
     }
@@ -821,7 +826,7 @@ class HomeTab extends Component {
   render() {
     return (
       <React.Fragment>
-        <Header />
+        <Header OnHandleToggleHome={this.OnHandleToggle} />
         <MDBContainer style={style.main} id='mainTab'>
           <TabLinks parent={this} />
           {this.props.auth.isAuthenticated && <Redirect to='/events' />}

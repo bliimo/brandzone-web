@@ -37,7 +37,7 @@ const Tab = ({ data, index, isShowList }) => {
   let dateArr = date.split('T')[0].split('-');
   date = `${getMonthName(dateArr[1])} ${dateArr[2]}`;
   return (
-    <MDBTabPane tabId={index} role='tabpanel' className='fade-effect' style={style.pane}>
+    <MDBTabPane tabId={`${index}`} role='tabpanel' className='fade-effect' style={style.pane}>
       <Text className='text-center' style={style.tabTitleHeader}>
         {!isShowList
           ? title
@@ -247,7 +247,10 @@ const List = ({ parent }) => {
 const PrivacyPolicyTab = ({ parent }) => {
   return (
     <MDBTabPane tabId='100' role='tabpanel' className='fade-effect'>
-      <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('0')}>
+      <Button
+        className='cursor-pointer booking-signup-back'
+        onClick={() => parent.OnHandleToggle('0')}
+      >
         <Text style={style.backBtn} className='back-button-text-signup'>
           <div id='chevron'></div>
           <span style={style.backText}>Back to events</span>
@@ -273,7 +276,10 @@ const PrivacyPolicyTab = ({ parent }) => {
 const TermsTab = ({ parent }) => {
   return (
     <MDBTabPane tabId='101' role='tabpanel' className='fade-effect'>
-      <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('0')}>
+      <Button
+        className='cursor-pointer booking-signup-back'
+        onClick={() => parent.OnHandleToggle('0')}
+      >
         <Text style={style.backBtn} className='back-button-text-signup'>
           <div id='chevron'></div>
           <span style={style.backText}>Back to events</span>
@@ -370,6 +376,7 @@ class EventTab extends Component {
   };
 
   OnHandleTogglePrivacy = tab => {
+    console.log(tab);
     window.scrollTo(0, 0);
     this.setState({ activeItem: tab });
   };
@@ -443,6 +450,10 @@ class EventTab extends Component {
     const { getLatestEvents } = this.props;
     getLatestEvents();
   }
+  componentDidMount() {
+    console.log(this.state.activeItem);
+  }
+  OnHandleToggleHome(tab) {}
 
   render() {
     return (
@@ -451,6 +462,7 @@ class EventTab extends Component {
           isShow={this.OnHandleShowList}
           OnHandleToggle={this.OnHandleTogglePrivacy}
           isEvent={true}
+          OnHandleToggleHome={this.OnHandleToggleHome}
         />
         <div
           style={style.main}
