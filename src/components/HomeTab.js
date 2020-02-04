@@ -57,12 +57,7 @@ const TabLinks = ({ parent }) => {
     >
       <MDBNavItem
         style={{
-          display:
-            parent.state.activeItem === '1' ||
-            parent.state.activeItem === '2' ||
-            parent.state.activeItem === '3'
-              ? 'block'
-              : 'none'
+          display: 'none'
         }}
       >
         <NavLink
@@ -71,7 +66,7 @@ const TabLinks = ({ parent }) => {
           onClick={parent.OnHandleToggle('1')}
           role='tab'
         >
-          <Text style={style.tabTitle}>About the event</Text>
+          <Text style={style.tabTitle}>About us</Text>
           <hr />
         </NavLink>
       </MDBNavItem>
@@ -167,16 +162,22 @@ const TabLinks = ({ parent }) => {
 const AboutTab = ({ parent }) => {
   return (
     <MDBTabPane tabId='1' role='tabpanel' className='fade-effect'>
-      <Text className='text-center tab-title' style={style.tabTitleHeader}>
+      <Text
+        className='text-center tab-title'
+        style={{ ...style.tabTitleHeader, padding: '80px 0 0 0' }}
+      >
         Welcome to Brandzone E-Scheduler
       </Text>
       <hr style={style.tabTitleHeaderHr} />
       <h4 className='text-center mt-5' style={style.abouth4}>
-        Find the right partner for your institution
+        Find the right partner for your institution.
       </h4>
-      <Text className='text-center m-0' style={{ ...style.about, ...style.aboutFirst }}>
+      <Text
+        className='text-center m-0'
+        style={{ ...style.about, ...style.aboutFirst, fontSize: '18px' }}
+      >
         This business matching platform is made exclusively for exhibitors and participants at
-        Brandzone's organized events. (small font)
+        Brandzone's organized events.
       </Text>
       <div className='mt-5'>
         <Button
@@ -203,7 +204,7 @@ const AboutUsTab = ({ parent }) => {
       <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('1')}>
         <Text style={style.backBtn} className='back-button-text-signup'>
           <div id='chevron'></div>
-          <span style={style.backText}>Back to signup</span>
+          <span style={style.backText}>Back to Home</span>
         </Text>
       </Button>
       <Text className='text-center tab-title' style={style.tabTitleHeader}>
@@ -223,7 +224,7 @@ const ContactUsTab = ({ parent }) => {
       <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('1')}>
         <Text style={style.backBtn} className='back-button-text-signup'>
           <div id='chevron'></div>
-          <span style={style.backText}>Back to signup</span>
+          <span style={style.backText}>Back to Home</span>
         </Text>
       </Button>
       <Text className='text-center tab-title' style={style.tabTitleHeader}>
@@ -261,7 +262,7 @@ const PrivacyPolicyTab = ({ parent }) => {
       <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('1')}>
         <Text style={style.backBtn} className='back-button-text-signup'>
           <div id='chevron'></div>
-          <span style={style.backText}>Back to sign up</span>
+          <span style={style.backText}>Back to Home</span>
         </Text>
       </Button>
       <Text className='text-center tab-title' style={style.tabTitleHeader}>
@@ -281,7 +282,7 @@ const TermsTab = ({ parent }) => {
       <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('1')}>
         <Text style={style.backBtn} className='back-button-text-signup'>
           <div id='chevron'></div>
-          <span style={style.backText}>Back to sign up</span>
+          <span style={style.backText}>Back to Home</span>
         </Text>
       </Button>
       <Text className='text-center tab-title' style={style.tabTitleHeader}>
@@ -303,6 +304,12 @@ const LoginTab = ({ parent }) => {
       className='fade-effect'
       style={{ display: parent.state.activeItem === '2' ? 'block' : 'none' }}
     >
+      <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('1')}>
+        <Text style={style.backBtn} className='back-button-text-signup'>
+          <div id='chevron'></div>
+          <span style={style.backText}>Back to Home</span>
+        </Text>
+      </Button>
       <Text className='text-center tab-title' style={style.tabTitleHeader}>
         Login
       </Text>
@@ -348,6 +355,12 @@ const LoginTab = ({ parent }) => {
 const SingUpTab = ({ parent }) => {
   return (
     <MDBTabPane tabId='3' role='tabpanel' className='fade-effect'>
+      <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('1')}>
+        <Text style={style.backBtn} className='back-button-text-signup'>
+          <div id='chevron'></div>
+          <span style={style.backText}>Back to Home</span>
+        </Text>
+      </Button>
       <Text className='text-center tab-title' style={style.tabTitleHeader}>
         Sign up
       </Text>
@@ -955,7 +968,9 @@ const style = {
   abouth4: {
     color: '#fff',
     lineHeight: '1.5em',
-    fontFamily: 'Helvetica'
+    fontFamily: 'Helvetica',
+    margin: '40px 0 30px',
+    fontSize: '25px'
   },
 
   tabTitleHeader: {

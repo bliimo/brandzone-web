@@ -87,28 +87,6 @@ const SideBar = ({
             <NavLink
               to='#'
               onClick={e => {
-                OnHandleToggle('100');
-                OnHandleShowSideBar();
-              }}
-              style={style.links}
-              className='sideBarLink'
-            >
-              Privacy Policy
-            </NavLink>
-            <NavLink
-              to='#'
-              onClick={e => {
-                OnHandleToggle('101');
-                OnHandleShowSideBar();
-              }}
-              style={style.links}
-              className='sideBarLink'
-            >
-              Terms & Conditions
-            </NavLink>
-            <NavLink
-              to='#'
-              onClick={e => {
                 OnHandleToggle('102');
                 OnHandleShowSideBar();
               }}
@@ -127,6 +105,28 @@ const SideBar = ({
               className='sideBarLink'
             >
               Contact us
+            </NavLink>
+            <NavLink
+              to='#'
+              onClick={e => {
+                OnHandleToggle('100');
+                OnHandleShowSideBar();
+              }}
+              style={style.links}
+              className='sideBarLink'
+            >
+              Privacy Policy
+            </NavLink>
+            <NavLink
+              to='#'
+              onClick={e => {
+                OnHandleToggle('101');
+                OnHandleShowSideBar();
+              }}
+              style={style.links}
+              className='sideBarLink'
+            >
+              Terms & Conditions
             </NavLink>
           </React.Fragment>
         )}

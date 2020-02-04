@@ -1186,6 +1186,13 @@ div.slot-list-row:not(:first-of-type) {
   margin-bottom: 1em;
 }
 
-#footer-event {
-  margin-top: 5em;
+.mt-10 {
+  margin-top: 10em !important;
+}
+.content p {
+  font-family: Helvetica;
+  line-height: 25px;
+}
+.back-button-text-signup {
+  position: absolute;
 }

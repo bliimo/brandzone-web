@@ -2,12 +2,11 @@ import React from 'react';
 
 export default () => {
   return (
-    <div>
+    <div class='content'>
       <p>
         <strong>ABOUT BRANDZONE</strong>
       </p>
       <br />
-
       <p>
         Being the premier education fair organizer in the Philippines is a feat that does not happen
         overnight. Brandzone started in 2012 with the desire to help international education

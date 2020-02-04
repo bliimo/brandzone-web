@@ -404,7 +404,7 @@ const ContactUsTab = ({ parent }) => {
         CONTACT US
       </Text>
       <hr style={style.tabTitleHeaderHr} />
-      <div className='text-center mt-3'>
+      <div className='text-center mt-3 content'>
         <Text className='m-0'>
           <h5 style={style.brand}>Brandzone Inc.</h5>
         </Text>
@@ -550,7 +550,7 @@ class EventTab extends Component {
         <div
           style={style.main}
           className={`p-0 mb-5 ${
-            this.state.activeItem == '100' || this.state.activeItem == '101'
+            this.state.activeItem === '100' || this.state.activeItem == '101'
               ? 'open-privacy-terms'
               : ''
           }`}
@@ -558,20 +558,19 @@ class EventTab extends Component {
         >
           {!this.props.auth.isAuthenticated && <Redirect to='/' />}
           {this.state.schedules &&
-            this.state.activeItem != '100' &&
-            this.state.activeItem != '101' &&
-            this.state.activeItem != '102' &&
-            this.state.activeItem != '103' && <Tabs parent={this} />}
+            this.state.activeItem !== '100' &&
+            this.state.activeItem !== '101' &&
+            this.state.activeItem !== '102' &&
+            this.state.activeItem !== '103' && <Tabs parent={this} />}
 
-          {(this.state.activeItem == '100' && <FooterTabs parent={this} />) ||
-            (this.state.activeItem == '101' && <FooterTabs parent={this} />)}
+          {(this.state.activeItem === '100' && <FooterTabs parent={this} />) ||
+            (this.state.activeItem === '101' && <FooterTabs parent={this} />)}
 
-          {this.state.activeItem == '102' && <AboutUsTab parent={this} />}
-          {this.state.activeItem == '103' && <ContactUsTab parent={this} />}
+          {this.state.activeItem === '102' && <AboutUsTab parent={this} />}
+          {this.state.activeItem === '103' && <ContactUsTab parent={this} />}
           <ToastContainer />
         </div>
         <Footer
-          id='footer-event'
           isShow={this.OnHandleShowList}
           OnHandleToggle={this.OnHandleTogglePrivacy}
           isEvent={true}
