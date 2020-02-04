@@ -10,72 +10,87 @@ const Profile = ({ parent }) => {
   parent.state.bookings.map((booking, i) => {
     const { id, setBy, bookedBy } = booking;
     if (bookedBy == null) {
+      let isValid = true;
+      parent.state.event.schedules.map(scheds => {
+        const { startTime } = parent.state.selectedSchedule;
+        const schedsStartTime = scheds.startTime;
+        if (startTime == schedsStartTime) {
+          scheds.booking.map(books => {
+            if (books.bookedBy != null && books.bookedBy.id == booking.setBy.id) isValid = false;
+          });
+        }
+      });
+
       let institution;
       setBy.roles.map(role => {
         if (role.authority === 'ROLE_EXHIBITOR') institution = setBy.institution.name;
         if (role.authority === 'ROLE_PARTICIPANT') institution = setBy.company.name;
       });
-      profiles.push(
-        <MDBCol
-          key={i}
-          xl={'4'}
-          lg={'6'}
-          md={'6'}
-          sm={'12'}
-          className='profile-list-booking'
-          style={style.mainCol}
-        >
-          <MDBContainer>
-            <MDBRow style={style.rowProfile} id='row-profile'>
-              <MDBCol className='p-0' xl='5' lg={'6'} md={'6'} sm={'12'}>
-                <img
-                  src={'http://www.hotavatars.com/wp-content/uploads/2019/01/I80W1Q0.png'}
-                  alt='Profile'
-                  className={`${parent.props.isShowList ? 'h-230' : 'h-100'} w-100 `}
-                />
-              </MDBCol>
-              <MDBCol
-                style={style.actionList}
-                xl='7'
-                lg={'6'}
-                md={'6'}
-                sm={'12'}
-                className='actionList'
-              >
-                <Text
-                  style={style.institutionName}
-                  className={`${parent.props.isShowList ? 'mt-1-3' : ''}`}
+      if (isValid) {
+        profiles.push(
+          <MDBCol
+            key={i}
+            xl={'4'}
+            lg={'6'}
+            md={'6'}
+            sm={'12'}
+            className='profile-list-booking'
+            style={style.mainCol}
+          >
+            <MDBContainer>
+              <MDBRow style={style.rowProfile} id='row-profile'>
+                <MDBCol className='p-0' xl='5' lg={'6'} md={'6'} sm={'12'}>
+                  <img
+                    src={'http://www.hotavatars.com/wp-content/uploads/2019/01/I80W1Q0.png'}
+                    alt='Profile'
+                    className={`${parent.props.isShowList ? 'h-230' : 'h-100'} w-100 `}
+                  />
+                </MDBCol>
+                <MDBCol
+                  style={style.actionList}
+                  xl='7'
+                  lg={'6'}
+                  md={'6'}
+                  sm={'12'}
+                  className='actionList'
                 >
-                  <EllipsisText text={institution} length={13} />
-                </Text>
-                <Text style={style.name}>
-                  <EllipsisText text={`${setBy.firstName} ${setBy.lastName}`} length={19} />
-                </Text>
-                <Button
-                  className='profileBtnList'
-                  onClick={() => {
-                    parent.state.OnHandleSelectProfile(booking, parent.state.schedule);
-                  }}
-                  style={style.btnProfile}
-                >
-                  <Text>View Profile</Text>
-                </Button>
-                {!parent.props.isShowList && (
-                  <Button
-                    className='profileBtnList'
-                    style={style.btnSlot}
-                    onClick={() => {
-                      parent.OnHandleToogleModal(id);
-                    }}
+                  <Text
+                    style={style.institutionName}
+                    className={`${parent.props.isShowList ? 'mt-1-3' : ''}`}
                   >
-                    <Text>Book this slot</Text>
-                  </Button>
-                )}
-              </MDBCol>
-            </MDBRow>
-          </MDBContainer>
-        </MDBCol>
-      );
+                    <EllipsisText text={institution} length={13} />
+                  </Text>
+                  <Text style={style.name}>
+                    <EllipsisText text={`${setBy.firstName} ${setBy.lastName}`} length={19} />
+                  </Text>
+                  <div className='mt-2'>
+                    <Button
+                      className='profileBtnList'
+                      onClick={() => {
+                        parent.state.OnHandleSelectProfile(booking, parent.state.schedule);
+                      }}
+                      style={style.btnProfile}
+                    >
+                      <Text>View Profile</Text>
+                    </Button>
+                    {!parent.props.isShowList && (
+                      <Button
+                        className='profileBtnList'
+                        style={style.btnSlot}
+                        onClick={() => {
+                          parent.OnHandleToogleModal(id);
+                        }}
+                      >
+                        <Text>Book this slot</Text>
+                      </Button>
+                    )}
+                  </div>
+                </MDBCol>
+              </MDBRow>
+            </MDBContainer>
+          </MDBCol>
+        );
+      }
     }
   });
 
@@ -180,7 +195,8 @@ const style = {
     letterSpacing: 1.1,
     textTransform: 'capitalize',
     fontSize: 13,
-    marginTop: 4,
+    marginTop: 0,
+    position: 'relative',
     textAlign: 'left'
   },
   noAvailable: {
@@ -201,7 +217,7 @@ const style = {
     cursor: 'pointer',
     margin: 'auto',
     position: 'relative',
-    top: '.5em'
+    top: '1.2em'
   },
   btnSlot: {
     border: 'solid .5px rgba(142, 198, 63, 0.75)',
@@ -216,7 +232,7 @@ const style = {
     cursor: 'pointer',
     margin: 'auto',
     position: 'relative',
-    top: '1.5em',
+    top: '1.8em',
     letterSpacing: 1
   }
 };
