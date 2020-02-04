@@ -94,11 +94,11 @@ class Header extends Component {
 const style = {
   userName: {
     position: 'relative',
-    top: 6,
+    top: 13,
     paddingLeft: '1.1em',
     paddingRight: '1.2em',
     fontWeight: 'bold',
-    fontSize: 14,
+    fontSize: 17,
     fontFamily: 'Helvetica',
     color: '#fff',
     letterSpacing: 1,
@@ -106,7 +106,7 @@ const style = {
   },
   bars: {
     position: 'relative',
-    top: 4
+    top: 7
   },
   brand: {
     color: '#fff'
@@ -118,11 +118,11 @@ const style = {
     width: 1,
     border: '0.1px solid rgba(255, 255, 255, 0.28)',
     position: 'relative',
-    top: 7
+    top: 13
   },
   avatar: {
-    height: 28,
-    width: 28,
+    height: 40,
+    width: 40,
     borderRadius: 4
   },
   profile: {

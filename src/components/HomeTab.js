@@ -174,15 +174,9 @@ const PrivacyPolicyTab = ({ parent }) => {
         PRIVACY POLICY
       </Text>
       <hr style={style.tabTitleHeaderHr} />
-      <Text className='text-center' style={{ ...style.about, ...style.aboutFirst }}>
-        {contents.policy[0]}
-      </Text>
-      <Text className='text-center mt-2 ' style={{ ...style.about, ...style.about }}>
-        {contents.policy[1]}
-      </Text>
-      <Text className='text-center mt-2 ' style={{ ...style.about, ...style.about }}>
-        {contents.policy[2]}
-      </Text>
+      <pre className='text-justify' style={{ ...style.about, ...style.aboutFirst }}>
+        {contents.policy}
+      </pre>
     </MDBTabPane>
   );
 };
@@ -196,19 +190,25 @@ const TermsTab = ({ parent }) => {
           <span style={style.backText}>Back to sign up</span>
         </Text>
       </Button>
-      <Text className='text-center tab-title mt-5' style={style.tabTitleHeader}>
+      <Text className='text-center tab-title' style={style.tabTitleHeader}>
         TERMS & CONDITIONS
       </Text>
       <hr style={style.tabTitleHeaderHr} />
-      <Text className='text-center' style={{ ...style.about, ...style.aboutFirst }}>
-        {contents.policy[0]}
+      <pre style={{ ...style.about, ...style.aboutFirst }}>{contents.terms}</pre>
+    </MDBTabPane>
+  );
+};
+
+const AboutUsTab = ({ parent }) => {
+  return (
+    <MDBTabPane tabId='6' role='tabpanel' className='fade-effect'>
+      <Text className='text-center tab-title' style={style.tabTitleHeader}>
+        About Brandzone
       </Text>
-      <Text className='text-center mt-2 ' style={{ ...style.about, ...style.about }}>
-        {contents.policy[1]}
-      </Text>
-      <Text className='text-center mt-2 ' style={{ ...style.about, ...style.about }}>
-        {contents.policy[2]}
-      </Text>
+      <hr style={style.tabTitleHeaderHr} />
+      <pre className='text-center' style={{ ...style.about, ...style.aboutFirst }}>
+        {contents.aboutUs}
+      </pre>
     </MDBTabPane>
   );
 };
@@ -877,7 +877,8 @@ const style = {
     position: 'relative',
     top: '.5em',
     fontFamily: 'Harabara',
-    marginBottom: '1.25em'
+    marginBottom: '1.25em',
+    lineHeight: '.8em'
   },
   tabTitleHeaderHr: {
     borderBottom: '3.2px solid #8ec63f',
@@ -940,7 +941,7 @@ const style = {
     top: '1em'
   },
   signUpForm: {
-    width: '25vw',
+    width: '27vw',
     minWidth: '25vw !important',
     position: 'relative',
     marginTop: '1.8em'

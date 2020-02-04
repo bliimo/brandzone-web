@@ -17,7 +17,6 @@ const Counter = ({ parent }) => {
 
   date = date.split('T')[0].split('-');
   let dateTime = new Date(date[0], parseInt(date[1]) - 1, date[2], hour, min);
-  console.log(dateTime)
   return (
     <Countdown
       date={dateTime}
@@ -122,6 +121,20 @@ const Informations = ({ parent }) => {
     institutionName = parent.state.profile.setBy.company.name;
   }
 
+  if (parent.state.profile.setBy.id == parent.state.account.id) {
+    const booked = parent.state.profile.bookedBy;
+    phoneNumber = booked.phoneNumber;
+    firstName = booked.firstName;
+    lastName = booked.lastName;
+    email = booked.email;
+    jobTitle = booked.jobTitle;
+    try {
+      institutionName = booked.institution.name;
+    } catch (error) {
+      institutionName = booked.company.name;
+    }
+  }
+
   const { id, title } = parent.state.profile;
   let { startTime, endTime } =
     Object.keys(parent.state.selectedSchedule).length > 0
@@ -201,16 +214,7 @@ const Informations = ({ parent }) => {
         <MDBCol xl='6' md='12' className='p-0'>
           <Text className='booking-profile-info pl-2' style={style.profileInfo}>
             Email:&nbsp;&nbsp;
-            {email && (
-              <MediaQuery maxDeviceWidth={768}>
-                <EllipsisText text={email} length={45} />
-              </MediaQuery>
-            )}
-            {email && (
-              <MediaQuery minDeviceWidth={768}>
-                <EllipsisText text={email} length={23} />
-              </MediaQuery>
-            )}
+            {email}
           </Text>
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>
@@ -294,8 +298,8 @@ class BookingProfile extends Component {
     slots: [],
     notes: '',
     isEditing: false,
-    OnHandleResetEvents: () => { },
-    OnHandleSetNotes: () => { }
+    OnHandleResetEvents: () => {},
+    OnHandleSetNotes: () => {}
   };
 
   componentWillReceiveProps(nextProps) {
@@ -374,8 +378,7 @@ class BookingProfile extends Component {
 
   render() {
     const { profile, isOpenModal, event, account, OnHandleSetNotes, notes } = this.state;
-    const { profilePic, title, bookedBy } = profile;
-
+    const { profilePic, title, bookedBy, setBy } = profile;
     return (
       <MDBContainer fluid className='booking-profile'>
         <Button
@@ -415,33 +418,31 @@ class BookingProfile extends Component {
                   type='textarea'
                   value={this.state.notes}
                   size='xl'
-                  disabled={!this.state.isEditing || account.id !== bookedBy.id}
+                  disabled={!this.state.isEditing}
                   required={true}
                   autocomplete='off'
                   className='signup-input'
                   style={style.inputs}
                   rows={5}
                 />
-                {account.id === bookedBy.id && (
-                  <Button
-                    onClick={() =>
-                      this.props.parent.props.isLoading
-                        ? () => { }
-                        : !this.state.isEditing
-                          ? this.OnHandleEditing()
-                          : OnHandleSetNotes(profile.id, notes)
-                    }
-                    style={style.btnSave}
-                  >
-                    <Text style={style.txtSave}>
-                      {this.props.parent.props.isLoading
-                        ? 'Please wait...'
-                        : !this.state.isEditing
-                          ? 'Edit'
-                          : 'Save'}
-                    </Text>
-                  </Button>
-                )}
+                <Button
+                  onClick={() =>
+                    this.props.parent.props.isLoading
+                      ? () => {}
+                      : !this.state.isEditing
+                      ? this.OnHandleEditing()
+                      : OnHandleSetNotes(profile.id, notes)
+                  }
+                  style={style.btnSave}
+                >
+                  <Text style={style.txtSave}>
+                    {this.props.parent.props.isLoading
+                      ? 'Please wait...'
+                      : !this.state.isEditing
+                      ? 'Edit'
+                      : 'Save'}
+                  </Text>
+                </Button>
               </MDBCol>
             )}
           </MDBRow>
@@ -477,7 +478,7 @@ const style = {
   profileInfo: {
     color: '#fff',
     textAlign: 'left',
-    font: '11.2px Helvetica',
+    font: '12px Helvetica',
     marginBottom: '.65em'
   },
   profileInfoTitle: {

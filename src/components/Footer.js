@@ -19,6 +19,16 @@ const Footer = ({ isShow, Clients, isAuthenticated, OnHandleToggle, isEvent }) =
             <Text className='m-0 mt-2' style={style.address}>
               Tel. +632 8296 9044
             </Text>
+            <a href='https://www.facebook.com/brandzoneinc'>
+              <Text className='m-0 mt-2' style={style.address}>
+                https://www.facebook.com/brandzoneinc
+              </Text>
+            </a>
+            <a href='mailto:jjsaez@brandzone.ph'>
+              <Text className='m-0 mt-2' style={style.address}>
+                jjsaez@brandzone.ph
+              </Text>
+            </a>
           </MDBCol>
           <MDBCol lg='4' xl='4' sm='12' className='justify-content-center col-footer'>
             <MDBRow>
@@ -86,7 +96,7 @@ const Footer = ({ isShow, Clients, isAuthenticated, OnHandleToggle, isEvent }) =
                     </li>
                     <li className='d-inline-block'>
                       <NavLink to='#' onClick={OnHandleToggle('5')}>
-                        <Text style={style.footerLink}>Terms & Schedule</Text>
+                        <Text style={style.footerLink}>Terms & Conditions</Text>
                       </NavLink>
                     </li>
                   </ul>
