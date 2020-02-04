@@ -45,10 +45,16 @@ import client18 from '../assets/images/clients/partners4-anz@2x.png';
 import client19 from '../assets/images/clients/partners2-studyperth@2x.png';
 import client20 from '../assets/images/clients/partners2-cbie@2x.png';
 import client21 from '../assets/images/clients/partners2-edunova@2x.png';
+import PrivacyContent from './PrivacyContent';
+import AboutContent from './AboutContent';
+import TermsContent from './TermsContent';
 
 const TabLinks = ({ parent }) => {
   return (
-    <MDBNav tabs className='justify-content-center'>
+    <MDBNav
+      tabs
+      className={`justify-content-center ${parent.state.activeItem == 1 ? 'd-none' : ''}`}
+    >
       <MDBNavItem
         style={{
           display:
@@ -123,6 +129,37 @@ const TabLinks = ({ parent }) => {
           <hr />
         </NavLink>
       </MDBNavItem>
+
+      <MDBNavItem
+        style={{
+          display: parent.state.activeItem === '6' ? 'block' : 'none'
+        }}
+      >
+        <NavLink
+          to='#'
+          className={`nav-links ${parent.state.activeItem === '6' ? 'active-tab' : ''}`}
+          onClick={parent.OnHandleToggle('6')}
+          role='tab'
+        >
+          <Text style={style.tabTitle}>About Us</Text>
+          <hr />
+        </NavLink>
+      </MDBNavItem>
+      <MDBNavItem
+        style={{
+          display: parent.state.activeItem === '7' ? 'block' : 'none'
+        }}
+      >
+        <NavLink
+          to='#'
+          className={`nav-links ${parent.state.activeItem === '7' ? 'active-tab' : ''}`}
+          onClick={parent.OnHandleToggle('7')}
+          role='tab'
+        >
+          <Text style={style.tabTitle}>Contact Us</Text>
+          <hr />
+        </NavLink>
+      </MDBNavItem>
     </MDBNav>
   );
 };
@@ -134,29 +171,86 @@ const AboutTab = ({ parent }) => {
         Welcome to Brandzone E-Scheduler
       </Text>
       <hr style={style.tabTitleHeaderHr} />
-      <Text className='text-center' style={{ ...style.about, ...style.aboutFirst }}>
-        {contents.about[0]}
+      <h4 className='text-center mt-5' style={style.abouth4}>
+        Find the right partner for your institution
+      </h4>
+      <Text className='text-center m-0' style={{ ...style.about, ...style.aboutFirst }}>
+        This business matching platform is made exclusively for exhibitors and participants at
+        Brandzone's organized events. (small font)
       </Text>
-      <Text className='text-center mt-2 ' style={{ ...style.about, ...style.about }}>
-        {contents.about[1]}
-      </Text>
-      <Text className='text-center mt-2 ' style={{ ...style.about, ...style.about }}>
-        {contents.about[2]}
-      </Text>
-      <Button
-        style={style.buttonSignUp}
-        className='btn-animate-signup'
-        onClick={parent.OnHandleToggle('3')}
-      >
-        <Text className='btn-animate-text-signup'>Sign Up</Text>
+      <div className='mt-5'>
+        <Button
+          style={style.buttonSignUp}
+          className='btn-animate-signup'
+          onClick={parent.OnHandleToggle('3')}
+        >
+          <Text className='btn-animate-text-signup'>Sign Up</Text>
+        </Button>
+        <Button
+          style={style.buttonLogin}
+          className='btn-animate-login'
+          onClick={parent.OnHandleToggle('2')}
+        >
+          <Text className='btn-animate-text-login'>Login</Text>
+        </Button>
+      </div>
+    </MDBTabPane>
+  );
+};
+const AboutUsTab = ({ parent }) => {
+  return (
+    <MDBTabPane tabId='6' role='tabpanel' className='fade-effect'>
+      <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('1')}>
+        <Text style={style.backBtn} className='back-button-text-signup'>
+          <div id='chevron'></div>
+          <span style={style.backText}>Back to signup</span>
+        </Text>
       </Button>
-      <Button
-        style={style.buttonLogin}
-        className='btn-animate-login'
-        onClick={parent.OnHandleToggle('2')}
-      >
-        <Text className='btn-animate-text-login'>Login</Text>
+      <Text className='text-center tab-title' style={style.tabTitleHeader}>
+        ABOUT US
+      </Text>
+      <hr style={style.tabTitleHeaderHr} />
+      <div className='text-justify' style={{ ...style.about, ...style.aboutFirst }}>
+        <AboutContent />
+      </div>
+    </MDBTabPane>
+  );
+};
+
+const ContactUsTab = ({ parent }) => {
+  return (
+    <MDBTabPane tabId='7' role='tabpanel' className='fade-effect'>
+      <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('1')}>
+        <Text style={style.backBtn} className='back-button-text-signup'>
+          <div id='chevron'></div>
+          <span style={style.backText}>Back to signup</span>
+        </Text>
       </Button>
+      <Text className='text-center tab-title' style={style.tabTitleHeader}>
+        CONTACT US
+      </Text>
+      <hr style={style.tabTitleHeaderHr} />
+      <div className='text-center mt-3'>
+        <Text className='m-0'>
+          <h5 style={style.brand}>Brandzone Inc.</h5>
+        </Text>
+        <Text className='m-0 mt-2' style={style.address}>
+          5388 Curie St., Brgy. Palanan, Makati City, Philippines
+        </Text>
+        <Text className='m-0 mt-2' style={style.address}>
+          Tel. +632 8296 9044
+        </Text>
+        <a href='https://www.facebook.com/brandzoneinc'>
+          <Text className='m-0 mt-2' style={style.address}>
+            https://www.facebook.com/brandzoneinc
+          </Text>
+        </a>
+        <a href='mailto:jjsaez@brandzone.ph'>
+          <Text className='m-0 mt-2' style={style.address}>
+            jjsaez@brandzone.ph
+          </Text>
+        </a>
+      </div>
     </MDBTabPane>
   );
 };
@@ -174,9 +268,9 @@ const PrivacyPolicyTab = ({ parent }) => {
         PRIVACY POLICY
       </Text>
       <hr style={style.tabTitleHeaderHr} />
-      <pre className='text-justify' style={{ ...style.about, ...style.aboutFirst }}>
-        {contents.policy}
-      </pre>
+      <div className='text-justify' style={{ ...style.about, ...style.aboutFirst }}>
+        <PrivacyContent />
+      </div>
     </MDBTabPane>
   );
 };
@@ -194,21 +288,9 @@ const TermsTab = ({ parent }) => {
         TERMS & CONDITIONS
       </Text>
       <hr style={style.tabTitleHeaderHr} />
-      <pre style={{ ...style.about, ...style.aboutFirst }}>{contents.terms}</pre>
-    </MDBTabPane>
-  );
-};
-
-const AboutUsTab = ({ parent }) => {
-  return (
-    <MDBTabPane tabId='6' role='tabpanel' className='fade-effect'>
-      <Text className='text-center tab-title' style={style.tabTitleHeader}>
-        About Brandzone
-      </Text>
-      <hr style={style.tabTitleHeaderHr} />
-      <pre className='text-center' style={{ ...style.about, ...style.aboutFirst }}>
-        {contents.aboutUs}
-      </pre>
+      <div className='text-justify' style={{ ...style.about, ...style.aboutFirst }}>
+        <TermsContent />
+      </div>
     </MDBTabPane>
   );
 };
@@ -834,8 +916,10 @@ class HomeTab extends Component {
             <AboutTab parent={this} />
             <LoginTab parent={this} />
             <SingUpTab parent={this} />
+            <AboutUsTab parent={this} />
             <PrivacyPolicyTab parent={this} />
             <TermsTab parent={this} />
+            <ContactUsTab parent={this} />
           </MDBTabContent>
           <ToastContainer />
         </MDBContainer>
@@ -868,6 +952,12 @@ const style = {
     fontSize: 15.5,
     fontFamily: 'Helvetica'
   },
+  abouth4: {
+    color: '#fff',
+    lineHeight: '1.5em',
+    fontFamily: 'Helvetica'
+  },
+
   tabTitleHeader: {
     color: '#fff',
     textTransform: 'uppercase',
@@ -1016,6 +1106,16 @@ const style = {
   },
   backIcon: {
     fontSize: 13
+  },
+  brand: {
+    color: '#fff',
+    fontFamily: 'Helvetica',
+    fontWeight: 'bold'
+  },
+  address: {
+    color: '#fff',
+    fontFamily: 'Helvetica',
+    fontSize: 12
   }
 };
 

@@ -106,6 +106,28 @@ const SideBar = ({
             >
               Terms & Conditions
             </NavLink>
+            <NavLink
+              to='#'
+              onClick={e => {
+                OnHandleToggle('102');
+                OnHandleShowSideBar();
+              }}
+              style={style.links}
+              className='sideBarLink'
+            >
+              About us
+            </NavLink>
+            <NavLink
+              to='#'
+              onClick={e => {
+                OnHandleToggle('103');
+                OnHandleShowSideBar();
+              }}
+              style={style.links}
+              className='sideBarLink'
+            >
+              Contact us
+            </NavLink>
           </React.Fragment>
         )}
         <NavLink

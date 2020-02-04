@@ -4,81 +4,6 @@ const text = {
     `Vestibulum finibus ultricies risus non aliquam. Nulla eget venenatis quam, in accumsan ligula. Cras a sagittis massa. Ut quis mollis neque, non sollicitudin risus. Suspendisse blandit ultricies mi, et volutpat dui varius quis. Fusce accumsan, nisi eget rutrum bibendum, felis libero malesuada felis, non luctus mauris augue nec dui. Nunc a enim in ligula lobortis tincidunt. Donec ut semper neque.`,
     `Vestibulum finibus ultricies risus non aliquam. Nulla eget venenatis quam, in accumsan ligula. Cras a sagittis massa. Ut quis mollis neque, non sollicitudin risus. Suspendisse blandit ultricies mi, et volutpat dui varius quis.`
   ],
-  aboutUs:`
-  ABOUT BRANDZONE
-
-  Being the premier education fair organizer in the Philippines is a feat that does not happen overnight. Brandzone started in 2012 with the desire to help international education agencies recruit qualified students through various programs and events.
-  
-  From a humble aspiration headquartered in the heart of the country’s business district, Brandzone’s reach has gradually but surely grown to encompass key cities in the Philippines – from the bustling cosmopolitan of Metro Manila to the mainland of Cebu, the urbanity of Davao – and in time, the rest of the world.  
-  
-  This combination of stable growth and eye for futuristic ideals is our tried and tested equation for success, which we guarantee to each of our clients, nothing less, ever more.
-  
-  •	We Communicate
-  
-  Our marketing and communication channels are always open to identify and respond to the demands and inquiries of the industry.
-  
-  •	We Commit
-  
-  Brandzone’s attention is always on the needs of our clientele, accurately trained to provide solutions even before a problem arises.
-  
-  •	We Contribute
-  
-  Our clients are assured to receive the most of our time and the best of our efforts to meet all goals and hit all targets within the specified schedule.
-  
-  •	We Complete
-  
-  Every project under Brandzone’s belt is a successful collaboration with each of our clients that culminate into a constantly innovating industry, one education fair after another.
-  
-  OUR SERVICES
-  
-  INTERNATIONAL STUDENT RECRUITMENT SOLUTIONS
-  Connecting promising students with the best universities, colleges and institutions
-  
-  Our education fairs bank on a holistic approach, thus providing a vantage point to connect eligible students with top universities, colleges and institutions in major cities across the globe. 
-  
-  The logistics that control the intricate operation of our events is grounded on a principle of meticulous planning that takes every detail, miniscule or otherwise, into consideration. We take the observations and comments in the surveys of our clientele and participants seriously as well as provide them with facilities and collaterals that meet the needs of their respective fairs.
-  
-  The venues of our education fairs are not shots in the dark; rather, they are the beacon of accessibility and feasibility. Be it in a hotel function room or mall activity center, our venues are well chosen and crafted sites that are conducive to seminars, consultations, and presentations for our clients and guests alike. We are committed to locating strong spots in Manila, Cebu and Davao – 3 major cities in the Philippines, spread across the main islands of the archipelago – to maximize the chances of potential students nationwide.
-  
-  Over the years, the continued growth of our connections has remained palpable. We welcome anywhere from 20 to 40 institutions from Australia, New Zealand and Canada for every education fair held. Together with this number is our partnership with several more local and international education agents. 
-  
-  On the same topic of growth, our post-event statistics allude to the attendees generally doubling in number, with a 40% attendance rate from [INSERT ??? number of] online registrants, which is tantamount to almost 3,500 students in recent years. [NOTE: statistics subject to further clarification.]
-  
-  There is no denying that behind every event, a major contributing factor to its success is the efficacy of the marketing strategy we employ. In this quest, we leave no stone unturned and make sure that all channels are utilized for seamless promotion. We tap digital publicity through sponsored advertisements on social media, company website, search engine platforms, and e-mail and e-newsletter invitations. By the same token, we inculcate SMS and broadcast or radio promotions, and bring into bargain print advertisements in national and local newspapers. We take this a notch higher by incorporating on-ground promotion by means of leafleting and distribution of flyers to schools and universities, travel agencies, education agents, hospitals, and much more.
-  
-  Collating these focal points together, our student recruitment events give rise to a triumvirate of good ambience, great service, and excellent company.
-  
-  •	Student Quality
-  
-  From online registration to pre-screening students, our process is tailored to bring out the full potential of individuals who possess both the resources and the inclination by identifying the leading courses and areas of study.
-  
-  •	Innovation
-  
-  We are currently in the process of developing a more efficient and technologically savvy system that will continually meet the demands of a lucrative industry.
-  
-  •	Easy Follow Up
-  •	Points
-  
-  ADVERTISING
-  Promote your business and create awareness
-  
-  •	Social Media Marketing
-  
-  Brandzone’s social media marketing services are focused on putting your company in a better position to tap into the two-way conversation naturally happening between you and your customers. Our services are designed to show you where people are talking about you, the areas where you can best get involved, and the tactics you should employ to help increase brand awareness.
-  
-  •	Printing Services
-  
-  Whether you require brochures, pocket folders, book printing services, posters, flyers, magazines, banners, business cards, postcards, letterheads or envelopes, you will always receive the best quality for the best prices with the quickest turnaround times.
-  
-  •	Other Advertising Options
-  
-  Brandzone is a one-stop-shop for all of your marketing and advertising needs. We offer a complete range of services including marketing research, media planning, creative design of packaging and advertisements, video production, graphic design, direct mail, and so forth, while also handling other aspects of marketing communication, such as public relations, sales promotion, internet and direct marketing, and website design.
-  
-  OTHER EVENTS
-  Marketing for more than meets the eye
-  
-  
-  `,
   userType: [
     {
       id: 0,
@@ -89,7 +14,7 @@ const text = {
       name: 'Exhibitor'
     }
   ],
-  terms:`
+  terms: `
   Terms and Conditions
 
   Welcome to Brandzone Inc!
@@ -184,7 +109,7 @@ const text = {
   As long as the website and the information and services on the website are provided free of charge, we will not be liable for any loss or damage of any nature.
   
   `,
-  policy:`
+  policy: `
   Privacy Policy
 
   Last updated: January DAY, 2020
@@ -305,8 +230,7 @@ const text = {
   Contact Us
   If you have any questions about this Privacy Policy, You can contact us:
   By visiting this page on our website: (http://www.brandzone.ph/CONTACTUS)
-  `,
-
+  `
 };
 
 export default text;

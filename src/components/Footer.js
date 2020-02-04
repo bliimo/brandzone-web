@@ -74,18 +74,32 @@ const Footer = ({ isShow, Clients, isAuthenticated, OnHandleToggle, isEvent }) =
               </MDBCol>
               <MDBCol lg='12' xl='12' sm='12' className='footer-last-link'>
                 {isEvent && (
-                  <ul className='d-inline-block footer-link mb-0 mt-2'>
-                    <li className='d-inline-block'>
-                      <NavLink to='#' onClick={e => OnHandleToggle('100')}>
-                        <Text style={style.footerLink}>Privacy Policy</Text>
-                      </NavLink>
-                    </li>
-                    <li className='d-inline-block'>
-                      <NavLink to='#' onClick={e => OnHandleToggle('101')}>
-                        <Text style={style.footerLink}>Terms & Schedule</Text>
-                      </NavLink>
-                    </li>
-                  </ul>
+                  <React.Fragment>
+                    <ul className='d-inline-block footer-link mb-0 mt-2'>
+                      <li className='d-inline-block'>
+                        <NavLink to='#' onClick={e => OnHandleToggle('100')}>
+                          <Text style={style.footerLink}>Privacy Policy</Text>
+                        </NavLink>
+                      </li>
+                      <li className='d-inline-block'>
+                        <NavLink to='#' onClick={e => OnHandleToggle('101')}>
+                          <Text style={style.footerLink}>Terms & Schedule</Text>
+                        </NavLink>
+                      </li>
+                    </ul>
+                    <ul className='d-inline-block footer-link mb-0'>
+                      <li className='d-inline-block'>
+                        <NavLink to='#' onClick={e => OnHandleToggle('102')}>
+                          <Text style={style.footerLink}>About us</Text>
+                        </NavLink>
+                      </li>
+                      <li className='d-inline-block'>
+                        <NavLink to='#' onClick={e => OnHandleToggle('103')}>
+                          <Text style={style.footerLink}>Contact us</Text>
+                        </NavLink>
+                      </li>
+                    </ul>
+                  </React.Fragment>
                 )}
                 {!isEvent && (
                   <ul className='d-inline-block footer-link mb-0 mt-2'>
@@ -97,6 +111,16 @@ const Footer = ({ isShow, Clients, isAuthenticated, OnHandleToggle, isEvent }) =
                     <li className='d-inline-block'>
                       <NavLink to='#' onClick={OnHandleToggle('5')}>
                         <Text style={style.footerLink}>Terms & Conditions</Text>
+                      </NavLink>
+                    </li>
+                    <li className='d-inline-block'>
+                      <NavLink to='#' onClick={OnHandleToggle('6')}>
+                        <Text style={style.footerLink}>About us</Text>
+                      </NavLink>
+                    </li>
+                    <li className='d-inline-block'>
+                      <NavLink to='#' onClick={OnHandleToggle('7')}>
+                        <Text style={style.footerLink}>Contact us</Text>
                       </NavLink>
                     </li>
                   </ul>
