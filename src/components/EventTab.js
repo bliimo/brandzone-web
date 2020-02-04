@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MDBTabPane, MDBTabContent, MDBNav, MDBNavItem } from 'mdbreact';
+import { MDBTabPane, MDBTabContent, MDBNav, MDBNavItem, MDBRow, MDBCol } from 'mdbreact';
 import { NavLink, Redirect } from 'react-router-dom';
 import Text from '../components/Text';
 import Button from './Button';
@@ -13,6 +13,9 @@ import { withRouter } from 'react-router-dom';
 import { getMonthName } from '../helper/date';
 import contents from '../constants/contents';
 import Header from './Header';
+import AboutContent from './AboutContent';
+import PrivacyContent from './PrivacyContent';
+import TermsContent from './TermsContent';
 
 const Link = ({ data, parent, index }) => {
   const { title } = data;
@@ -265,7 +268,7 @@ const PrivacyPolicyTab = ({ parent }) => {
     <MDBTabPane tabId='100' role='tabpanel' className='fade-effect'>
       <Button
         className='cursor-pointer booking-signup-back'
-        onClick={() => parent.OnHandleToggle('0')}
+        onClick={() => window.location.reload()}
       >
         <Text style={style.backBtn} className='back-button-text-signup'>
           <div id='chevron'></div>
@@ -276,15 +279,9 @@ const PrivacyPolicyTab = ({ parent }) => {
         PRIVACY POLICY
       </Text>
       <hr style={style.tabTitleHeaderHr} />
-      <Text className='text-center' style={{ ...style.about, ...style.aboutFirst }}>
-        {contents.policy[0]}
-      </Text>
-      <Text className='text-center mt-2 ' style={{ ...style.about, ...style.about }}>
-        {contents.policy[1]}
-      </Text>
-      <Text className='text-center mt-2 ' style={{ ...style.about, ...style.about }}>
-        {contents.policy[2]}
-      </Text>
+      <div style={{ ...style.about, ...style.aboutFirst }}>
+        <PrivacyContent />
+      </div>
     </MDBTabPane>
   );
 };
@@ -294,7 +291,7 @@ const TermsTab = ({ parent }) => {
     <MDBTabPane tabId='101' role='tabpanel' className='fade-effect'>
       <Button
         className='cursor-pointer booking-signup-back'
-        onClick={() => parent.OnHandleToggle('0')}
+        onClick={() => window.location.reload()}
       >
         <Text style={style.backBtn} className='back-button-text-signup'>
           <div id='chevron'></div>
@@ -305,15 +302,9 @@ const TermsTab = ({ parent }) => {
         TERMS & CONDITIONS
       </Text>
       <hr style={style.tabTitleHeaderHr} />
-      <Text className='text-center' style={{ ...style.about, ...style.aboutFirst }}>
-        {contents.policy[0]}
-      </Text>
-      <Text className='text-center mt-2 ' style={{ ...style.about, ...style.about }}>
-        {contents.policy[1]}
-      </Text>
-      <Text className='text-center mt-2 ' style={{ ...style.about, ...style.about }}>
-        {contents.policy[2]}
-      </Text>
+      <div style={{ ...style.about, ...style.aboutFirst }}>
+        <TermsContent />
+      </div>
     </MDBTabPane>
   );
 };
@@ -373,6 +364,71 @@ const FooterTabs = ({ parent }) => {
   );
 };
 
+const AboutUsTab = ({ parent }) => {
+  return (
+    <MDBTabPane tabId='6' role='tabpanel' className='fade-effect'>
+      <Button
+        className='cursor-pointer booking-signup-back'
+        onClick={() => window.location.reload()}
+      >
+        <Text style={style.backBtn} className='back-button-text-signup'>
+          <div id='chevron'></div>
+          <span style={style.backText}>Back to events</span>
+        </Text>
+      </Button>
+      <Text className='text-center tab-title' style={style.tabTitleHeader}>
+        ABOUT US
+      </Text>
+      <hr style={style.tabTitleHeaderHr} />
+      <MDBRow className='justify-content-center'>
+        <MDBCol size='7'>
+          <div className='text-justify' style={{ ...style.about, ...style.aboutFirst }}>
+            <AboutContent />
+          </div>
+        </MDBCol>
+      </MDBRow>
+    </MDBTabPane>
+  );
+};
+
+const ContactUsTab = ({ parent }) => {
+  return (
+    <MDBTabPane tabId='7' role='tabpanel' className='fade-effect'>
+      <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('1')}>
+        <Text style={style.backBtn} className='back-button-text-signup'>
+          <div id='chevron'></div>
+          <span style={style.backText}>Back to signup</span>
+        </Text>
+      </Button>
+      <Text className='text-center tab-title' style={style.tabTitleHeader}>
+        CONTACT US
+      </Text>
+      <hr style={style.tabTitleHeaderHr} />
+      <div className='text-center mt-3'>
+        <Text className='m-0'>
+          <h5 style={style.brand}>Brandzone Inc.</h5>
+        </Text>
+        <Text className='m-0 mt-2' style={style.address}>
+          5388 Curie St., Brgy. Palanan, Makati City, Philippines
+        </Text>
+        <Text className='m-0 mt-2' style={style.address}>
+          Tel. +632 8296 9044
+        </Text>
+        <a href='https://www.facebook.com/brandzoneinc'>
+          <Text className='m-0 mt-2' style={style.address}>
+            https://www.facebook.com/brandzoneinc
+          </Text>
+        </a>
+        <a href='mailto:jjsaez@brandzone.ph'>
+          <Text className='m-0 mt-2' style={style.address}>
+            jjsaez@brandzone.ph
+          </Text>
+        </a>
+      </div>
+    </MDBTabPane>
+  );
+};
+
 class EventTab extends Component {
   state = {
     activeItem: '0',
@@ -392,7 +448,6 @@ class EventTab extends Component {
   };
 
   OnHandleTogglePrivacy = tab => {
-    console.log(tab);
     window.scrollTo(0, 0);
     this.setState({ activeItem: tab });
   };
@@ -403,7 +458,11 @@ class EventTab extends Component {
       document.getElementById(`tab-${this.state.activeItem}`).click();
     } catch (error) {
       setTimeout(() => {
-        document.getElementById(`tab-${this.state.activeItem}`).click();
+        try {
+          document.getElementById(`tab-${this.state.activeItem}`).click();
+        } catch (error) {
+          window.location.reload();
+        }
       }, 50);
     }
   };
@@ -500,13 +559,19 @@ class EventTab extends Component {
           {!this.props.auth.isAuthenticated && <Redirect to='/' />}
           {this.state.schedules &&
             this.state.activeItem != '100' &&
-            this.state.activeItem != '101' && <Tabs parent={this} />}
+            this.state.activeItem != '101' &&
+            this.state.activeItem != '102' &&
+            this.state.activeItem != '103' && <Tabs parent={this} />}
 
           {(this.state.activeItem == '100' && <FooterTabs parent={this} />) ||
             (this.state.activeItem == '101' && <FooterTabs parent={this} />)}
+
+          {this.state.activeItem == '102' && <AboutUsTab parent={this} />}
+          {this.state.activeItem == '103' && <ContactUsTab parent={this} />}
           <ToastContainer />
         </div>
         <Footer
+          id='footer-event'
           isShow={this.OnHandleShowList}
           OnHandleToggle={this.OnHandleTogglePrivacy}
           isEvent={true}
@@ -625,6 +690,16 @@ const style = {
     marginLeft: '30px !important',
     position: 'relative',
     bottom: '.1em'
+  },
+  brand: {
+    color: '#fff',
+    fontFamily: 'Helvetica',
+    fontWeight: 'bold'
+  },
+  address: {
+    color: '#fff',
+    fontFamily: 'Helvetica',
+    fontSize: 12
   }
 };
 

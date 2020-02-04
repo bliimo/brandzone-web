@@ -1185,3 +1185,7 @@ div.slot-list-row:not(:first-of-type) {
 .clients {
   margin-bottom: 1em;
 }
+
+#footer-event {
+  margin-top: 5em;
+}
