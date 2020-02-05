@@ -485,6 +485,7 @@ class HomeTab extends Component {
       confirmPassword: '',
       selectedSchedules: {},
       selectedEvent: null,
+
       allEvents: {},
       setBookings: []
     };
