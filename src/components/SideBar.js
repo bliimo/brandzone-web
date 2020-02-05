@@ -37,7 +37,7 @@ const SideBar = ({
               src={
                 profilePicture
                   ? profilePicture
-                  : 'http://www.hotavatars.com/wp-content/uploads/2019/01/I80W1Q0.png'
+                  : 'https://bpxk748cf4n2yzlvi1rkrh61-wpengine.netdna-ssl.com/wp-content/uploads/sites/17/2018/06/Avatar-Unisex-Default.jpg'
               }
               style={style.avatar}
               alt='profile'
