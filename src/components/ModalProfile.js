@@ -125,7 +125,6 @@ class ModalProfile extends Component {
         jobTitle,
         phoneNumber,
         programs: programsState,
-        institutionType: institutionType ? institutionType.id : null,
         institutionName: nameState,
         email
       });
