@@ -53,7 +53,9 @@ const TabLinks = ({ parent }) => {
   return (
     <MDBNav
       tabs
-      className={`justify-content-center ${parent.state.activeItem == 1 ? 'd-none' : ''}`}
+      className={`justify-content-center ${parent.state.activeItem === '7' ? 'mt-4' : ''} ${
+        parent.state.activeItem == 1 ? 'd-none' : ''
+      }`}
     >
       <MDBNavItem
         style={{
@@ -231,7 +233,7 @@ const ContactUsTab = ({ parent }) => {
         CONTACT US
       </Text>
       <hr style={style.tabTitleHeaderHr} />
-      <div className='text-center mt-3'>
+      <div className='text-center mt-7 contact-us'>
         <Text className='m-0'>
           <h5 style={style.brand}>Brandzone Inc.</h5>
         </Text>

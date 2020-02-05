@@ -4,12 +4,12 @@ import TextInput from './TextInput';
 import PictureUpload from './PictureUpload';
 import EventTimeSlot from './EventTimeSlot';
 
-const ParticipantSignUp = ({ parent, events, isUpdate, id, isActive }) => {
+const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive }) => {
   return (
     <div>
       <div style={style.participant}>
         <Dropdown
-          Activeid={id}
+          Activeid={Activeid}
           isActive={isActive}
           id='institutionTypeId'
           items={parent.state.institutionTypes}

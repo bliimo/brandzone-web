@@ -1196,3 +1196,12 @@ div.slot-list-row:not(:first-of-type) {
 .back-button-text-signup {
   position: absolute;
 }
+
+.contact-us p {
+  font-size: 18px !important;
+  line-height: 30px;
+}
+
+.mt-7 {
+  margin-top: 7em;
+}

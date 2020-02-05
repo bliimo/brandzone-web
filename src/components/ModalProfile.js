@@ -16,7 +16,7 @@ class ModalProfile extends Component {
     id: null,
     isOpenModal: false,
     institutionTypes: [],
-    finstitutionType: null,
+    institutionType: null,
     institutionName: '',
     companyName: '',
     companyCountry: '',
@@ -29,7 +29,8 @@ class ModalProfile extends Component {
     jobTitle: '',
     phoneNumber: '',
     programs: '',
-    email: ''
+    email: '',
+    institutionTypeId: undefined
   };
   notify = txt => {
     if (!toast.isActive(this.toastId)) {
@@ -41,12 +42,15 @@ class ModalProfile extends Component {
   };
 
   OnHandleInstitutionType = index => {
+    console.log(index);
     const { institutionTypes } = this.state;
     this.setState({ institutionType: institutionTypes[index].id });
   };
   componentDidUpdate() {
     console.log(this.props.updateUser);
   }
+
+  componentDidMount() {}
 
   componentWillReceiveProps(nextProps) {
     let nameState,
@@ -57,6 +61,7 @@ class ModalProfile extends Component {
       profileState,
       programsState = '';
     const { isOpenModal, account, institution, updateErr, userUpdated } = nextProps;
+    let institutionTypeId = 0;
     if (updateErr) {
       toast.error(updateErr);
     }
@@ -67,7 +72,15 @@ class ModalProfile extends Component {
     if (institution) {
       this.OnHandleSetInstitution(institution);
     }
-
+    if (institution && account && account.institutionType) {
+      institution.map((e, i) => {
+        if (e.id == account.institutionType.id) {
+          console.log(e.id, account.institutionType.id);
+          this.setState({ institutionType: e.id });
+        }
+      });
+    }
+    console.log(account);
     this.setState({ isOpenModal });
     if (account) {
       const {
@@ -78,12 +91,10 @@ class ModalProfile extends Component {
         phoneNumber,
         company,
         institutionType,
-        email,
-        institution
+        email
       } = account;
-      console.log(account);
       if (institutionType) {
-        const { name, country, province, city, website, profile, programs } = institutionType;
+        const { id, name, country, province, city, website, profile, programs } = institutionType;
         nameState = name;
         countryState = country;
         provinceState = province;
@@ -91,16 +102,7 @@ class ModalProfile extends Component {
         websiteState = website;
         profileState = profile;
         programsState = programs;
-      }
-      if (institution) {
-        const { name, country, province, city, website, profile, programs } = institution;
-        nameState = name;
-        countryState = country;
-        provinceState = province;
-        cityState = city;
-        websiteState = website;
-        profileState = profile;
-        programsState = programs;
+        institutionTypeId = id;
       }
       if (company) {
         const { name, country, province, city, website, profile } = company;
@@ -110,6 +112,17 @@ class ModalProfile extends Component {
         cityState = city;
         websiteState = website;
         profileState = profile;
+      }
+
+      if (account && account.institution) {
+        const { name, country, province, city, website, profile, programs } = account.institution;
+        nameState = name;
+        countryState = country;
+        provinceState = province;
+        cityState = city;
+        websiteState = website;
+        profileState = profile;
+        programsState = programs;
       }
 
       this.setState({
@@ -126,7 +139,8 @@ class ModalProfile extends Component {
         phoneNumber,
         programs: programsState,
         institutionName: nameState,
-        email
+        email,
+        institutionTypeId
       });
     }
   }
