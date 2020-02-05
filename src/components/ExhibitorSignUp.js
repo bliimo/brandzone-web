@@ -4,7 +4,7 @@ import TextInput from './TextInput';
 import PictureUpload from './PictureUpload';
 import EventTimeSlot from './EventTimeSlot';
 
-const ExhibitorSignUp = ({ parent }) => {
+const ExhibitorSignUp = ({ parent, isUpdate }) => {
   return (
     <div>
       <TextInput
@@ -129,42 +129,48 @@ const ExhibitorSignUp = ({ parent }) => {
         className='signup-input'
         style={style.inputs}
       />
-      <TextInput
-        placeholder='Email'
-        id='signUpEmail'
-        onChange={parent.OnHandleChange}
-        type='email'
-        value={parent.state.signUpEmail}
-        size='sm'
-        required={true}
-        autocomplete='off'
-        className='signup-input'
-        style={style.inputs}
-      />
-      <TextInput
-        placeholder='Password'
-        id='signUpPassword'
-        onChange={parent.OnHandleChange}
-        type='password'
-        value={parent.state.signUpPassword}
-        size='sm'
-        required={true}
-        autocomplete='off'
-        className='signup-input'
-        style={style.inputs}
-      />
-      <TextInput
-        placeholder='Confirm Password'
-        id='confirmPassword'
-        onChange={parent.OnHandleChange}
-        type='password'
-        value={parent.state.confirmPassword}
-        size='sm'
-        required={true}
-        autocomplete='off'
-        className='signup-input'
-        style={style.inputs}
-      />
+      {!isUpdate && (
+        <TextInput
+          placeholder='Email'
+          id='signUpEmail'
+          onChange={parent.OnHandleChange}
+          type='email'
+          value={parent.state.signUpEmail}
+          size='sm'
+          required={true}
+          autocomplete='off'
+          className='signup-input'
+          style={style.inputs}
+        />
+      )}
+      {!isUpdate && (
+        <TextInput
+          placeholder='Password'
+          id='signUpPassword'
+          onChange={parent.OnHandleChange}
+          type='password'
+          value={parent.state.signUpPassword}
+          size='sm'
+          required={true}
+          autocomplete='off'
+          className='signup-input'
+          style={style.inputs}
+        />
+      )}
+      {!isUpdate && (
+        <TextInput
+          placeholder='Confirm Password'
+          id='confirmPassword'
+          onChange={parent.OnHandleChange}
+          type='password'
+          value={parent.state.confirmPassword}
+          size='sm'
+          required={true}
+          autocomplete='off'
+          className='signup-input'
+          style={style.inputs}
+        />
+      )}
       <TextInput
         placeholder='Telephone Number'
         id='phoneNumber'
@@ -178,7 +184,7 @@ const ExhibitorSignUp = ({ parent }) => {
         style={style.inputs}
       />
       <PictureUpload OnHandlePicture={parent.OnHandlePicture} parent={parent} />
-      {parent.state.events.length > 0 && (
+      {!isUpdate && parent.state.events.length > 0 && (
         <Dropdown
           items={parent.state.events}
           action={parent.OnHandleEventType}
@@ -186,7 +192,7 @@ const ExhibitorSignUp = ({ parent }) => {
           label='Choose an event you will participating in:'
         />
       )}
-      {parent.state.events.length > 0 && (
+      {!isUpdate && parent.state.events.length > 0 && (
         <EventTimeSlot
           OnHandleGetTimeSlots={parent.OnHandleGetTimeSlots}
           isReset={parent.state.isReset}

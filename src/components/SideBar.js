@@ -1,7 +1,7 @@
 import { MDBIcon } from 'mdbreact';
 import React from 'react';
 import { NavLink } from 'react-router-dom';
-
+import ModalProfile from './ModalProfile';
 const SideBar = ({
   account,
   show,
@@ -10,7 +10,8 @@ const SideBar = ({
   isShow,
   isEvent,
   OnHandleToggle,
-  parent
+  parent,
+  OnHandleOpenProfile
 }) => {
   const { firstName, lastName, profilePicture } = account;
   return (
@@ -55,7 +56,15 @@ const SideBar = ({
       </div>
       <div style={style.divider}></div>
       <div style={style.navLinks}>
-        <NavLink to='#' style={style.links} className='sideBarLink'>
+        <NavLink
+          to='#'
+          style={style.links}
+          className='sideBarLink'
+          onClick={() => {
+            OnHandleOpenProfile();
+            OnHandleShowSideBar();
+          }}
+        >
           Edit Profile
         </NavLink>
         <NavLink
@@ -87,28 +96,6 @@ const SideBar = ({
             <NavLink
               to='#'
               onClick={e => {
-                OnHandleToggle('100');
-                OnHandleShowSideBar();
-              }}
-              style={style.links}
-              className='sideBarLink'
-            >
-              Privacy Policy
-            </NavLink>
-            <NavLink
-              to='#'
-              onClick={e => {
-                OnHandleToggle('101');
-                OnHandleShowSideBar();
-              }}
-              style={style.links}
-              className='sideBarLink'
-            >
-              Terms & Conditions
-            </NavLink>
-            <NavLink
-              to='#'
-              onClick={e => {
                 OnHandleToggle('102');
                 OnHandleShowSideBar();
               }}
@@ -127,6 +114,28 @@ const SideBar = ({
               className='sideBarLink'
             >
               Contact us
+            </NavLink>
+            <NavLink
+              to='#'
+              onClick={e => {
+                OnHandleToggle('100');
+                OnHandleShowSideBar();
+              }}
+              style={style.links}
+              className='sideBarLink'
+            >
+              Privacy Policy
+            </NavLink>
+            <NavLink
+              to='#'
+              onClick={e => {
+                OnHandleToggle('101');
+                OnHandleShowSideBar();
+              }}
+              style={style.links}
+              className='sideBarLink'
+            >
+              Terms & Conditions
             </NavLink>
           </React.Fragment>
         )}

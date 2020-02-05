@@ -84,6 +84,7 @@ class Header extends Component {
             isShow={this.props.isShow}
             OnHandleToggle={this.props.OnHandleToggle}
             isEvent={this.props.isEvent}
+            OnHandleOpenProfile={this.props.OnHandleOpenProfile}
           />
         )}
       </div>

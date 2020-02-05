@@ -2,7 +2,7 @@ import React from 'react';
 
 export default () => {
   return (
-    <div>
+    <div className='content'>
       <p>
         <strong>Terms and Conditions</strong>
       </p>

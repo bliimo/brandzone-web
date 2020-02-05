@@ -79,9 +79,9 @@ class Dropdown extends Component {
   };
 
   componentWillMount() {
-    const { items, action, label, id, isActive } = this.props;
+    const { items, action, label, id, isActive, Activeid } = this.props;
     if (isActive) {
-      this.setState({ items, action, label, id, active: items.length - 1 });
+      this.setState({ items, action, label, id, active: Activeid ? Activeid : items.length - 1 });
     } else {
       this.setState({ items, action, label, id });
     }

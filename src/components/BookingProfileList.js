@@ -58,7 +58,7 @@ const Profile = ({ parent }) => {
                     style={style.institutionName}
                     className={`${parent.props.isShowList ? 'mt-1-3' : ''}`}
                   >
-                    <EllipsisText text={institution} length={13} />
+                    {institution}
                   </Text>
                   <Text style={style.name}>
                     <EllipsisText text={`${setBy.firstName} ${setBy.lastName}`} length={19} />

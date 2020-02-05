@@ -318,14 +318,50 @@ class BookingProfile extends Component {
     const { OnHandleResetProfile, OnHandleResetEvents, OnHandleSetNotes } = this.props.parent;
     const event = events[activeItem];
     let slots = [];
+    let booked = [];
     if (event != undefined && Object.keys(event).length > 0 && selectedProfile) {
-      event.schedules.map(schedule => {
-        schedule.booking.map(booking => {
-          if (booking.bookedBy == null && booking.setBy.id === selectedProfile.setBy.id) {
-            slots.push({ booking, schedule });
-          }
+      if (selectedProfile.setBy.id == account.id) {
+        event.schedules.map(schedule => {
+          schedule.booking.map(booking => {
+            if (
+              booking.setBy != null &&
+              booking.bookedBy != null &&
+              booking.bookedBy.id == selectedProfile.bookedBy.id
+            ) {
+              booked.push({ booking, schedule });
+            } else if (
+              booking.bookedBy == null &&
+              booking.setBy.id == selectedProfile.bookedBy.id
+            ) {
+              slots.push({ booking, schedule });
+            }
+          });
         });
+      } else {
+        event.schedules.map(schedule => {
+          schedule.booking.map(booking => {
+            if (
+              booking.setBy != null &&
+              booking.bookedBy != null &&
+              booking.bookedBy.id == selectedProfile.setBy.id
+            ) {
+              booked.push({ booking, schedule });
+            } else if (booking.bookedBy == null && booking.setBy.id == selectedProfile.setBy.id) {
+              slots.push({ booking, schedule });
+            }
+          });
+        });
+      }
+      slots.map((slot, index) => {
+        for (let i = 0; i < booked.length; i++) {
+          if (booked[i].schedule.startTime == slot.schedule.startTime) {
+            console.log(booked[i].schedule.startTime, slot.schedule.startTime);
+            slots.splice(0, index + 1);
+            break;
+          }
+        }
       });
+      console.log(slots.length);
     }
     if (selectedProfile) {
       this.setState({
