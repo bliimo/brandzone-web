@@ -131,5 +131,5 @@ const mapStateToProps = state => ({
 
 export default connect(
   mapStateToProps,
-  { book }
+  { book, getInstitution }
 )(withRouter(ModalBooking));
