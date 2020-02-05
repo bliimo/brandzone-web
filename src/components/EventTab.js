@@ -16,7 +16,7 @@ import Header from './Header';
 import AboutContent from './AboutContent';
 import PrivacyContent from './PrivacyContent';
 import TermsContent from './TermsContent';
-
+import ModalProfile from './ModalProfile';
 const Link = ({ data, parent, index }) => {
   const { title } = data;
   return (
@@ -438,7 +438,8 @@ class EventTab extends Component {
     selectedProfile: null,
     selectedSchedule: {},
     account: {},
-    isShowList: false
+    isShowList: false,
+    isOpenProfile: false
   };
 
   OnHandleToggle = tab => () => {
@@ -536,6 +537,12 @@ class EventTab extends Component {
   componentDidMount() {
     console.log(this.state.activeItem);
   }
+
+  OnHandleOpenProfile = () => {
+    const { isOpenProfile } = this.state;
+    this.setState({ isOpenProfile: !isOpenProfile });
+  };
+
   OnHandleToggleHome(tab) {}
 
   render() {
@@ -546,6 +553,7 @@ class EventTab extends Component {
           OnHandleToggle={this.OnHandleTogglePrivacy}
           isEvent={true}
           OnHandleToggleHome={this.OnHandleToggleHome}
+          OnHandleOpenProfile={this.OnHandleOpenProfile}
         />
         <div
           style={style.main}
@@ -570,6 +578,10 @@ class EventTab extends Component {
           {this.state.activeItem === '103' && <ContactUsTab parent={this} />}
           <ToastContainer />
         </div>
+        <ModalProfile
+          OnHandleOpenProfile={this.OnHandleOpenProfile}
+          isOpenModal={this.state.isOpenProfile}
+        />
         <Footer
           isShow={this.OnHandleShowList}
           OnHandleToggle={this.OnHandleTogglePrivacy}

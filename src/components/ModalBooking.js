@@ -8,6 +8,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
+import { getInstitution } from '../store/actions';
 class ModalBooking extends Component {
   componentDidUpdate() {
     if (this.props.error) {
@@ -19,6 +20,10 @@ class ModalBooking extends Component {
     if (!isLoading && Object.keys(booking).length > 0 && Object.keys(error).length == 0) {
       this.props.parent.OnHandleCloseModal();
     }
+  }
+
+  componentWillMount() {
+    this.props.getInstitution();
   }
 
   onHandleBooking = () => {
