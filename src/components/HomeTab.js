@@ -927,6 +927,9 @@ class HomeTab extends Component {
       </React.Fragment>
     );
   }
+  componentDidMount() {
+    localStorage.removeItem('institutionType');
+  }
 }
 
 const style = {
