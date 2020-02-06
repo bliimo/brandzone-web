@@ -72,8 +72,7 @@ export const setLoggedInUser = id => dispatch => {
 
 export const logoutUser = () => dispatch => {
   dispatch({ type: LOGOUT_REQUEST });
-  localStorage.removeItem('jwtToken');
-  localStorage.removeItem('userType');
+  localStorage.clear();
   setAuthToken(false);
   dispatch(setCurrentUser({}));
   dispatch({

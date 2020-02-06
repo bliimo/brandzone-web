@@ -199,7 +199,6 @@ export default function(state = initialState, action) {
     case ADD_USER_SUCCESS:
       return { ...state, isLoading: false, user: action.payload };
     case ADD_USER_FAILURE:
-      console.log(action.payload);
       return {
         ...state,
         isLoading: false,

@@ -1,5 +1,4 @@
 import { INSTITUTION_REQUEST, INSTITUTION_FAILURE, INSTITUTION_SUCCESS } from './actionTypes';
-
 import axios from 'axios';
 import { API } from '../../constants/api';
 

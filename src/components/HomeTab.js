@@ -1,13 +1,6 @@
 import React, { Component } from 'react';
-import {
-  MDBContainer,
-  MDBTabPane,
-  MDBTabContent,
-  MDBNav,
-  MDBNavItem,
-  MDBRow,
-  MDBCol
-} from 'mdbreact';
+import { MDBContainer, MDBTabPane, MDBTabContent, MDBNav, MDBNavItem } from 'mdbreact';
+
 import { NavLink, Redirect } from 'react-router-dom';
 import Button from '../components/Button';
 import contents from '../constants/contents';
@@ -17,6 +10,7 @@ import validation from '../helper/validation';
 import Dropdown from './Dropdown';
 import ParticipantSignUp from './ParticipantSignUp';
 import ExhibitorSignUp from './ExhibitorSignUp';
+import Clients from './Clients';
 import Header from './Header';
 import Footer from './Footer';
 import { ToastContainer, toast } from 'react-toastify';
@@ -24,27 +18,6 @@ import { isEmpty } from 'lodash';
 import { loginUser, getLatestEvents, getInstitution, addUser, setBookings } from '../store/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
-import client1 from '../assets/images/clients/partners1-educanada@2x.png';
-import client2 from '../assets/images/clients/partners1-Aus@2x.png';
-import client3 from '../assets/images/clients/partners1-enz@2x.png';
-import client4 from '../assets/images/clients/partners2-bc@2x.png';
-import client5 from '../assets/images/clients/partners2-cican@2x.png';
-import client6 from '../assets/images/clients/partners3-idp@2x.png';
-import client7 from '../assets/images/clients/partners3-fortrust@2x.png';
-import client8 from '../assets/images/clients/partners3-eca@2x.png';
-import client9 from '../assets/images/clients/partners3-ielts@2x.png';
-import client10 from '../assets/images/clients/partners4-scotiabank@2x.png';
-import client11 from '../assets/images/clients/partners4-alberta@2x.png';
-import client12 from '../assets/images/clients/partners4-brandwatch@2x.png';
-import client13 from '../assets/images/clients/partners4-aircanada@2x.png';
-import client14 from '../assets/images/clients/partners4-PAL@2x.png';
-import client15 from '../assets/images/clients/partners4-qantas@2x.png';
-import client16 from '../assets/images/clients/partners4-pldt@2x.png';
-import client17 from '../assets/images/clients/partners4-laybare@2x.png';
-import client18 from '../assets/images/clients/partners4-anz@2x.png';
-import client19 from '../assets/images/clients/partners2-studyperth@2x.png';
-import client20 from '../assets/images/clients/partners2-cbie@2x.png';
-import client21 from '../assets/images/clients/partners2-edunova@2x.png';
 import PrivacyContent from './PrivacyContent';
 import AboutContent from './AboutContent';
 import TermsContent from './TermsContent';
@@ -343,10 +316,16 @@ const LoginTab = ({ parent }) => {
           style={style.buttonLogin}
           id='btnLoginTab'
           className='btn-animate-login main-btn-login'
-          onClick={parent.props.auth.isLoading ? () => {} : parent.OnHandleLogin}
+          onClick={
+            parent.props.auth.isLoading || parent.props.isLoadingAddInstitution
+              ? () => {}
+              : parent.OnHandleLogin
+          }
         >
           <Text className='btn-animate-text-login'>
-            {parent.props.auth.isLoading ? 'Please wait...' : 'Login'}
+            {parent.props.auth.isLoading || parent.props.isLoadingAddInstitution
+              ? 'Please wait...'
+              : 'Login'}
           </Text>
         </Button>
       </MDBContainer>
@@ -417,44 +396,6 @@ const SubmitSignUp = ({ parent }) => {
   );
 };
 
-const Clients = () => {
-  return (
-    <MDBContainer style={style.client} className='w-100 m-0 clients'>
-      <Text style={style.clientTitle} className='mb-2'>
-        OUR CLIENTS
-      </Text>
-      <hr style={style.tabTitleHeaderHr} />
-      <MDBContainer className='clients text-center mt-5'>
-        <img src={client1} style={style.clientImg} className='clientImg' alt='client' />
-        <img src={client2} style={style.clientImg} className='clientImg' alt='client' />
-        <img src={client3} style={style.clientImg} className='clientImg' alt='client' />
-        <img src={client21} style={style.clientImg} className='clientImg' alt='client' />
-        <img src={client4} style={style.clientImg} className='clientImg' alt='client' />
-        <img src={client5} style={style.clientImg} className='clientImg' alt='client' />
-        <img src={client6} style={style.clientImg} className='clientImg' alt='client' />
-        <img src={client7} style={style.clientImg} className='clientImg' alt='client' />
-        <img src={client8} style={style.clientImg} className='clientImg' alt='client' />
-        <img src={client9} style={style.clientImg} className='clientImg' alt='client' />
-      </MDBContainer>
-      <MDBContainer className='clients text-center'>
-        <img src={client10} style={style.clientImg} className='clientImg' alt='client' />
-        <img src={client11} style={style.clientImg} className='clientImg' alt='client' />
-        <img src={client12} style={style.clientImg} className='clientImg' alt='client' />
-        <img src={client13} style={style.clientImg} className='clientImg' alt='client' />
-        <img src={client14} style={style.clientImg} className='clientImg' alt='client' />
-        <img src={client15} style={style.clientImg} className='clientImg' alt='client' />
-      </MDBContainer>
-      <MDBContainer className='clients text-center'>
-        <img src={client16} style={style.clientImg} className='clientImg' alt='client' />
-        <img src={client17} style={style.clientImg} className='clientImg' alt='client' />
-        <img src={client18} style={style.clientImg} className='clientImg' alt='client' />
-        <img src={client19} style={style.clientImg} className='clientImg' alt='client' />
-        <img src={client20} style={style.clientImg} className='clientImg' alt='client' />
-      </MDBContainer>
-    </MDBContainer>
-  );
-};
-
 class HomeTab extends Component {
   constructor(props) {
     super(props);
@@ -483,13 +424,15 @@ class HomeTab extends Component {
       userTypeSelected: null,
       institutionTypes: [],
       institutionType: null,
+      institutionTypeIndex: 0,
       companyWebsite: '',
       confirmPassword: '',
       selectedSchedules: {},
       selectedEvent: null,
-
       allEvents: {},
-      setBookings: []
+      setBookings: [],
+      isNewInstitution: false,
+      otherInstitution: ''
     };
   }
 
@@ -499,8 +442,18 @@ class HomeTab extends Component {
     }
   };
 
+  OnHandleNewInstitutions = () => {
+    const { isNewInstitution, institutionTypes, institutionTypeIndex } = this.state;
+    if (!isNewInstitution) {
+      this.setState({ institutionType: institutionTypes[institutionTypeIndex] });
+    }
+    try {
+      document.getElementById('institutionTypeId').classList.remove('invalid-field');
+    } catch (error) {}
+    this.setState({ isNewInstitution: !isNewInstitution });
+  };
+
   OnHandleToggle = tab => () => {
-    console.log(tab);
     let { email, password } = this.state;
     if (tab === '1') {
       email = '';
@@ -539,8 +492,9 @@ class HomeTab extends Component {
   };
 
   OnHandleInstitutionType = index => {
-    const { institutionTypes } = this.state;
-    this.setState({ institutionType: institutionTypes[index].id });
+    const { institutionTypes, isNewInstitution } = this.state;
+    this.setState({ institutionTypeIndex: index });
+    if (!isNewInstitution) this.setState({ institutionType: institutionTypes[index].id });
   };
 
   OnHandleSignUpForm = () => {
@@ -635,52 +589,6 @@ class HomeTab extends Component {
   OnHandleSetInstitution = institutionTypes => {
     this.setState({ institutionTypes });
   };
-
-  componentWillReceiveProps(nextProps) {
-    const { auth, events, institution, user, loginError, signUpError } = nextProps;
-    const { activeItem } = this.state;
-    if (loginError && activeItem === '2' && this.state.email != '' && this.state.password != '') {
-      this.notify(loginError);
-      return false;
-    }
-    if (signUpError && activeItem === '3') {
-      window.scrollTo(0, 0);
-      this.notify(signUpError);
-      return false;
-    }
-    if (user.user && Object.keys(user.user).length > 0 && this.state.activeItem === '3') {
-      toast.success('Successfully registered please login');
-      this.setState({
-        activeItem: '2',
-        email: '',
-        password: '',
-        companyName: '',
-        companyCountry: '',
-        companyProvince: '',
-        companyProfile: '',
-        companyCity: '',
-        jobTitle: '',
-        phoneNumber: '',
-        signUpEmail: '',
-        signUpPassword: '',
-        institutionName: '',
-        firstName: '',
-        lastName: '',
-        programs: '',
-        profilePic: null,
-        isCheckedPrivacy: false,
-        companyWebsite: '',
-        confirmPassword: ''
-      });
-    }
-
-    if (auth.isAuthenticated) window.location.reload();
-
-    if (events && !auth.isLoading) {
-      this.OnHandleSetEvents(events);
-      this.OnHandleSetInstitution(institution);
-    }
-  }
 
   OnHandleLogin = () => {
     const { email, password } = this.state;
@@ -802,7 +710,7 @@ class HomeTab extends Component {
   OnHandleValidateSignUp = user => {
     const { userTypeSelected, isCheckedPrivacy, selectedSchedules } = this.state;
     for (const key of Object.keys(user)) {
-      if (user[key] <= 0) {
+      if (user[key] <= 0 || user[key] === undefined) {
         if (user[key] === null || user[key] === undefined || user[key] === '') {
           let fields = {};
           if (userTypeSelected == 0) {
@@ -890,10 +798,24 @@ class HomeTab extends Component {
 
   OnHandleSignUp = () => {
     const { addUser } = this.props;
-    const { userTypeSelected } = this.state;
+    const { userTypeSelected, otherInstitution, isNewInstitution } = this.state;
     const user =
       userTypeSelected == 0 ? this.OnHandleGetParticipants() : this.OnHandleGetExibitors();
-    if (this.OnHandleValidateSignUp(user)) addUser(user);
+    if (!this.OnHandleValidateAddInstitution()) {
+      this.notify('Required institution name');
+      document.getElementById('otherInstitution').classList.add('invalid-field');
+      window.scrollTo(0, 0);
+    } else {
+      try {
+        document.getElementById('otherInstitution').classList.remove('invalid-field');
+      } catch (error) {}
+      const isValid = this.OnHandleValidateSignUp(user);
+      if (isValid) {
+        user.institutionType = isNewInstitution ? otherInstitution : '';
+        user.institutionTypeId = this.state.institutionType ? this.state.institutionType : 0;
+        addUser(user);
+      }
+    }
   };
 
   OnHandleEventType = index => {
@@ -906,7 +828,6 @@ class HomeTab extends Component {
 
   OnHandlePicture = event => {
     const { onUpload } = this.props;
-    // onUpload({ filePath: event.target.value });
     this.setState({ profilePic: URL.createObjectURL(event.target.files[0]) });
   };
 
@@ -915,10 +836,68 @@ class HomeTab extends Component {
     this.setState({ isCheckedPrivacy: !isCheckedPrivacy });
   };
 
+  OnHandleAddInstitution = () => {
+    const { isNewInstitution, otherInstitution } = this.state;
+    if (isNewInstitution && otherInstitution) this.props.addInstitution(otherInstitution);
+  };
+
+  OnHandleValidateAddInstitution = () => {
+    const { isNewInstitution, otherInstitution } = this.state;
+    return isNewInstitution ? otherInstitution.trim().length > 0 : true;
+  };
+
   componentWillMount() {
     const { getLatestEvents, getInstitution } = this.props;
     getLatestEvents();
     getInstitution();
+  }
+
+  componentWillReceiveProps(nextProps) {
+    const { auth, events, institution, user, loginError, signUpError } = nextProps;
+
+    const { activeItem } = this.state;
+
+    if (loginError && activeItem === '2' && this.state.email != '' && this.state.password != '') {
+      this.notify(loginError);
+      return false;
+    }
+    if (signUpError && activeItem === '3') {
+      window.scrollTo(0, 0);
+      this.notify(signUpError);
+      return false;
+    }
+    if (user.user && Object.keys(user.user).length > 0 && this.state.activeItem === '3') {
+      toast.success('Successfully registered please login');
+      this.setState({
+        activeItem: '2',
+        email: '',
+        password: '',
+        companyName: '',
+        companyCountry: '',
+        companyProvince: '',
+        companyProfile: '',
+        companyCity: '',
+        jobTitle: '',
+        phoneNumber: '',
+        signUpEmail: '',
+        signUpPassword: '',
+        institutionName: '',
+        firstName: '',
+        lastName: '',
+        programs: '',
+        profilePic: null,
+        isCheckedPrivacy: false,
+        companyWebsite: '',
+        confirmPassword: ''
+      });
+    }
+
+    if (auth.isAuthenticated) window.location.reload();
+
+    if (events && !auth.isLoading) {
+      this.OnHandleSetEvents(events);
+      this.OnHandleSetInstitution(institution);
+    }
   }
 
   render() {
@@ -947,6 +926,9 @@ class HomeTab extends Component {
         />
       </React.Fragment>
     );
+  }
+  componentDidMount() {
+    localStorage.removeItem('institutionType');
   }
 }
 
@@ -1090,27 +1072,6 @@ const style = {
     position: 'relative',
     right: '1em',
     width: '110%'
-  },
-  client: {
-    backgroundColor: '#37424B',
-    paddingTop: '4em',
-    paddingBottom: '4em'
-  },
-  clientTitle: {
-    fontSize: 39,
-    letterSpacing: 4,
-    fontWeight: 'bold',
-    color: '#fff',
-    fontFamily: 'Harabara',
-    textAlign: 'center',
-    height: 35
-  },
-  clientImg: {
-    height: 68,
-    width: 'auto'
-  },
-  rowClient: {
-    justifyContent: 'center'
   },
   backBtn: {
     color: '#fff'

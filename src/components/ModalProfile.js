@@ -30,7 +30,10 @@ class ModalProfile extends Component {
     phoneNumber: '',
     programs: '',
     email: '',
-    institutionTypeId: undefined
+    institutionTypeId: undefined,
+    isNewInstitution: false,
+    otherInstitution: '',
+    institutionTypeIndex: 0
   };
   notify = txt => {
     if (!toast.isActive(this.toastId)) {
@@ -42,9 +45,9 @@ class ModalProfile extends Component {
   };
 
   OnHandleInstitutionType = index => {
-    console.log(index);
     const { institutionTypes } = this.state;
-    this.setState({ institutionType: institutionTypes[index].id });
+    console.log(institutionTypes[index].id);
+    this.setState({ institutionType: institutionTypes[index].id, institutionTypeIndex: index });
   };
   componentDidUpdate() {
     console.log(this.props.updateUser);
@@ -66,7 +69,12 @@ class ModalProfile extends Component {
       toast.error(updateErr);
     }
     if (!updateErr && !updateErr && userUpdated.user) {
-      toast.success('Successfully updated account');
+      institution.map((e, i) => {
+        if (e.id == userUpdated.user.institutionType.id) {
+          localStorage.setItem('institutionType', i);
+          this.setState({ institutionType: e.id });
+        }
+      });
       window.location.reload();
     }
     if (institution) {
@@ -75,12 +83,12 @@ class ModalProfile extends Component {
     if (institution && account && account.institutionType) {
       institution.map((e, i) => {
         if (e.id == account.institutionType.id) {
-          console.log(e.id, account.institutionType.id);
+          localStorage.setItem('institutionType', i);
           this.setState({ institutionType: e.id });
         }
       });
     }
-    console.log(account);
+
     this.setState({ isOpenModal });
     if (account) {
       const {
@@ -95,6 +103,10 @@ class ModalProfile extends Component {
       } = account;
       if (institutionType) {
         const { id, name, country, province, city, website, profile, programs } = institutionType;
+
+        if (!localStorage.getItem('institutionType')) {
+          localStorage.setItem('institutionType', id);
+        }
         nameState = name;
         countryState = country;
         provinceState = province;
@@ -102,7 +114,9 @@ class ModalProfile extends Component {
         websiteState = website;
         profileState = profile;
         programsState = programs;
-        institutionTypeId = id;
+        institutionTypeId = localStorage.getItem('institutionType')
+          ? localStorage.getItem('institutionType')
+          : id;
       }
       if (company) {
         const { name, country, province, city, website, profile } = company;
@@ -165,14 +179,26 @@ class ModalProfile extends Component {
     this.setState({ profilePic: URL.createObjectURL(event.target.files[0]) });
   };
 
+  OnHandleNewInstitutions = () => {
+    const { isNewInstitution, institutionTypes, institutionTypeIndex } = this.state;
+    if (!isNewInstitution) {
+      this.setState({ institutionType: institutionTypes[institutionTypeIndex] });
+    }
+    try {
+      document.getElementById('institutionTypeId').classList.remove('invalid-field');
+    } catch (error) {}
+    this.setState({ isNewInstitution: !isNewInstitution });
+  };
+
   OnHandleSignUpForm = userType => {
     if (userType === 'participant') {
+      console.log(localStorage.getItem('institutionType'));
       return (
         <ParticipantSignUp
           parent={this}
           isUpdate={true}
           isActive={true}
-          id={this.state.institutionType ? this.state.institutionType : undefined}
+          Activeid={localStorage.getItem('institutionType')}
         />
       );
     } else if (userType === 'exhibitor') {
@@ -341,13 +367,38 @@ class ModalProfile extends Component {
     setBookings({ scheduleId: bookingScheds });
   };
 
+  OnHandleValidateAddInstitution = () => {
+    const { isNewInstitution, otherInstitution } = this.state;
+    return isNewInstitution ? otherInstitution.trim().length > 0 : true;
+  };
+
   OnHandleUpdate = () => {
     const { updateUser } = this.props;
+    const { otherInstitution, isNewInstitution } = this.state;
     const user =
       localStorage.getItem('userType') == 'participant'
         ? this.OnHandleGetParticipants()
         : this.OnHandleGetExibitors();
-    if (this.OnHandleValidateSignUp(user)) updateUser(user);
+
+    if (!this.OnHandleValidateAddInstitution()) {
+      this.notify('Required institution name');
+      document.getElementById('otherInstitution').classList.add('invalid-field');
+      window.scrollTo(0, 0);
+    } else {
+      try {
+        document.getElementById('otherInstitution').classList.remove('invalid-field');
+      } catch (error) {}
+      const isValid = this.OnHandleValidateSignUp(user);
+      if (isValid) {
+        user.institutionType = isNewInstitution ? otherInstitution : '';
+        user.institutionTypeId = this.state.institutionType
+          ? typeof this.state.institutionType == 'object'
+            ? this.state.institutionType.id
+            : this.state.institutionType
+          : 0;
+        updateUser(user);
+      }
+    }
   };
 
   render() {
@@ -425,7 +476,7 @@ const mapStateToProps = state => ({
   account: state.auth.currentUser,
   institution: state.institution.institution,
   userUpdated: state.updateUser,
-  user: state.updateUser.payload,
+  user: state.updateUser,
   isLoading: state.updateUser.isLoading,
   updateErr: state.updateUser.error
 });
