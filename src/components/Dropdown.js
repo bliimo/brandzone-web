@@ -21,7 +21,7 @@ const Active = ({ parent }) => {
 
   return (
     <div className='cursor-pointer' onClick={() => parent.OnHandleOpen()}>
-      <Text style={style.active} className={`${isOpen ? 'opacity-1' : 'opacity-.5'}`}>
+      <Text style={style.active} className={`drop-text ${isOpen ? 'opacity-1' : 'opacity-.5'}`}>
         {index != null
           ? items[index]['name']
             ? items[index]['name']
@@ -44,7 +44,7 @@ const Items = ({ parent }) => {
     elem.push(<Item data={e} index={i} key={`${i} ${e.id}`} setActive={parent.OnHandleActive} />)
   );
   return (
-    <MDBCollapse className='absolute-collapse' isOpen={isOpen}>
+    <MDBCollapse className='absolute-collapse' style={style.collapse} isOpen={isOpen}>
       <div className='ml-3 mr-3 mb-4 mt-1'>{elem}</div>
     </MDBCollapse>
   );
@@ -142,6 +142,10 @@ const style = {
     position: 'relative',
     left: '.2em',
     fontSize: 14
+  },
+  collapse: {
+    maxHeight: 205,
+    overflow: 'auto'
   }
 };
 

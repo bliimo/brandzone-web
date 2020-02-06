@@ -1205,3 +1205,41 @@ div.slot-list-row:not(:first-of-type) {
 .mt-7 {
   margin-top: 7em;
 }
+
+.other-institution {
+  width: 73% !important;
+  margin-bottom: 0.3em;
+  border-radius: 3px !important;
+}
+
+#check-others {
+  width: 27%;
+}
+.d-flex.institution-type-wrapper {
+  height: 55px;
+  position: relative;
+}
+.institution-type-wrapper .time-slots {
+  margin-left: auto;
+  margin-top: 1.1em;
+}
+.institution-type-wrapper .md-form.form-sm.md-outline {
+  width: 73%;
+  top: 0.3em;
+}
+div#institutionTypeId {
+  margin-top: 0 !important;
+  padding-top: 0 !important;
+}
+div#institutionTypeId p.drop-text {
+  top: 0 !important;
+  margin: auto;
+  height: auto !important;
+  margin-bottom: 0.8em !important;
+  padding: 0;
+  padding-top: 1em;
+}
+input#otherInstitution {
+  padding-top: 1em !important;
+  padding-bottom: 1em !important;
+}

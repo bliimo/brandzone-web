@@ -31,6 +31,7 @@ class EventTimeSlot extends Component {
   };
 
   OnHandleSelect = event => {
+    console.log('test');
     let { selected, isSelectedAll } = this.state;
     const { OnHandleGetTimeSlots, schedules } = this.props;
 

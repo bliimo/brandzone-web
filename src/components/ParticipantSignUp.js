@@ -3,20 +3,46 @@ import Dropdown from './Dropdown';
 import TextInput from './TextInput';
 import PictureUpload from './PictureUpload';
 import EventTimeSlot from './EventTimeSlot';
+import Checkbox from './Checkbox';
 
 const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive }) => {
   return (
     <div>
-      <div style={style.participant}>
-        <Dropdown
-          Activeid={Activeid}
-          isActive={isActive}
-          id='institutionTypeId'
-          items={parent.state.institutionTypes}
-          action={parent.OnHandleInstitutionType}
-          label='Type of Institution'
+      <div className='d-flex institution-type-wrapper'>
+        {!parent.state.isNewInstitution && (
+          <div style={style.participant} className='other-institution'>
+            <Dropdown
+              Activeid={Activeid}
+              isActive={isActive}
+              id='institutionTypeId'
+              items={parent.state.institutionTypes}
+              action={parent.OnHandleInstitutionType}
+              label='Type of Institution'
+            />
+          </div>
+        )}
+        {parent.state.isNewInstitution && (
+          <TextInput
+            placeholder='Institution name'
+            id='otherInstitution'
+            onChange={parent.OnHandleChange}
+            type='text'
+            value={parent.state.otherInstitution}
+            size='sm'
+            required={true}
+            autocomplete='off'
+            className='signup-input w-100'
+            style={style.inputs}
+          />
+        )}
+        <Checkbox
+          text='Others'
+          checked={parent.state.isNewInstitution}
+          onSelect={parent.OnHandleNewInstitutions}
+          id='check-others'
         />
       </div>
+
       <TextInput
         placeholder='Name of Company'
         id='companyName'

@@ -74,6 +74,7 @@ export const logoutUser = () => dispatch => {
   dispatch({ type: LOGOUT_REQUEST });
   localStorage.removeItem('jwtToken');
   localStorage.removeItem('userType');
+  localStorage.removeItem('institutionType');
   setAuthToken(false);
   dispatch(setCurrentUser({}));
   dispatch({
