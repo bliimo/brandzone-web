@@ -4,7 +4,6 @@ const Time = ({ props }) => {
   const { data, index, selected, onSelect, isSelectedAll, text } = props;
   const count = index + 1;
   let isChecked = isSelectedAll || selected[data.id] != undefined;
-  console.log(typeof onSelect);
   return (
     <Checkbox
       id={data.id}

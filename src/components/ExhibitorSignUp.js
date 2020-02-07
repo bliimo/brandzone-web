@@ -8,7 +8,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
   return (
     <div>
       <TextInput
-        placeholder='Institution Name'
+        placeHolder='Institution Name'
         id='institutionName'
         onChange={parent.OnHandleChange}
         type='text'
@@ -19,7 +19,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         className='signup-input'
       />
       <TextInput
-        placeholder='Country'
+        placeHolder='Country'
         id='companyCountry'
         onChange={parent.OnHandleChange}
         type='text'
@@ -31,7 +31,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         style={style.inputs}
       />
       <TextInput
-        placeholder='Province'
+        placeHolder='Province'
         id='companyProvince'
         onChange={parent.OnHandleChange}
         type='text'
@@ -43,7 +43,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         style={style.inputs}
       />
       <TextInput
-        placeholder='City'
+        placeHolder='City'
         id='companyCity'
         onChange={parent.OnHandleChange}
         type='text'
@@ -55,7 +55,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         style={style.inputs}
       />
       <TextInput
-        placeholder='Website'
+        placeHolder='Website'
         id='companyWebsite'
         onChange={parent.OnHandleChange}
         type='text'
@@ -67,7 +67,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         style={style.inputs}
       />
       <TextInput
-        placeholder='Institution Profile'
+        placeHolder='Institution Profile'
         id='companyProfile'
         onChange={parent.OnHandleChange}
         type='text'
@@ -80,7 +80,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         rows={5}
       />
       <TextInput
-        placeholder='Unique and Strong Programs'
+        placeHolder='Unique and Strong Programs'
         id='programs'
         onChange={parent.OnHandleChange}
         type='text'
@@ -94,7 +94,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
       />
       <hr style={style.divider} />
       <TextInput
-        placeholder='Representative First name'
+        placeHolder='Representative First name'
         id='firstName'
         onChange={parent.OnHandleChange}
         type='text'
@@ -106,7 +106,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         style={style.inputs}
       />
       <TextInput
-        placeholder='Representative Last name'
+        placeHolder='Representative Last name'
         id='lastName'
         onChange={parent.OnHandleChange}
         type='text'
@@ -118,7 +118,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         style={style.inputs}
       />
       <TextInput
-        placeholder='Job Title'
+        placeHolder='Job Title'
         id='jobTitle'
         onChange={parent.OnHandleChange}
         type='text'
@@ -131,7 +131,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
       />
       {!isUpdate && (
         <TextInput
-          placeholder='Email'
+          placeHolder='Email'
           id='signUpEmail'
           onChange={parent.OnHandleChange}
           type='email'
@@ -145,7 +145,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
       )}
       {!isUpdate && (
         <TextInput
-          placeholder='Password'
+          placeHolder='Password'
           id='signUpPassword'
           onChange={parent.OnHandleChange}
           type='password'
@@ -159,7 +159,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
       )}
       {!isUpdate && (
         <TextInput
-          placeholder='Confirm Password'
+          placeHolder='Confirm Password'
           id='confirmPassword'
           onChange={parent.OnHandleChange}
           type='password'
@@ -172,7 +172,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         />
       )}
       <TextInput
-        placeholder='Telephone Number'
+        placeHolder='Telephone Number'
         id='phoneNumber'
         onChange={parent.OnHandleChange}
         type='email'

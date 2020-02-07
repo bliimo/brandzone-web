@@ -160,7 +160,9 @@ const AboutTab = ({ parent }) => {
           className='btn-animate-signup'
           onClick={parent.OnHandleToggle('3')}
         >
-          <Text className='btn-animate-text-signup'>Sign Up</Text>
+          <Text className='btn-animate-text-signup'>
+            Sign Up
+          </Text>
         </Button>
         <Button
           style={style.buttonLogin}
@@ -291,7 +293,7 @@ const LoginTab = ({ parent }) => {
       <hr style={style.tabTitleHeaderHr} />
       <MDBContainer style={style.loginForm} id='loginForm'>
         <TextInput
-          placeholder='Email address'
+          placeHolder='Email address'
           id='email'
           onChange={parent.OnHandleChange}
           type='email'
@@ -302,7 +304,7 @@ const LoginTab = ({ parent }) => {
           autocomplete='off'
         />
         <TextInput
-          placeholder='Password'
+          placeHolder='Password'
           id='password'
           onChange={parent.OnHandleChange}
           type='password'
@@ -387,7 +389,7 @@ const SubmitSignUp = ({ parent }) => {
           id='btnSignup'
           onClick={parent.props.user.isLoading ? () => {} : parent.OnHandleSignUp}
         >
-          <Text className='btn-animate-text-signup'>
+          <Text className='btn-animate-text-signup' style={{ color: '#fff' }}>
             {parent.props.user.isLoading ? 'Please wait...' : 'Sign Up'}
           </Text>
         </Button>

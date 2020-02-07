@@ -24,9 +24,9 @@ const Footer = ({ isShow, Clients, isAuthenticated, OnHandleToggle, isEvent }) =
                 https://www.facebook.com/brandzoneinc
               </Text>
             </a>
-            <a href='mailto:jjsaez@brandzone.ph'>
+            <a href='mailto:admin@brandzone.ph'>
               <Text className='m-0 mt-2' style={style.address}>
-                jjsaez@brandzone.ph
+                admin@brandzone.ph
               </Text>
             </a>
           </MDBCol>
@@ -145,17 +145,17 @@ const style = {
     fontWeight: 'bold'
   },
   bottomText: {
-    color: '#fff',
+    color: '#222',
     fontFamily: 'Helvetica',
     fontSize: 11,
     position: 'relative',
     margin: 0
   },
   main: {
-    background: '#8EC63F'
+    background: '#fff'
   },
   mainBottom: {
-    background: '#37424B'
+    background: '#fff'
   },
   brand: {
     color: '#37424B',
@@ -164,7 +164,8 @@ const style = {
   },
   address: {
     fontFamily: 'Helvetica',
-    fontSize: 12
+    fontSize: 14,
+    color: '#222'
   },
   footerLink: {
     fontFamily: 'Helvetica',

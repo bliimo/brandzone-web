@@ -46,12 +46,9 @@ class ModalProfile extends Component {
 
   OnHandleInstitutionType = index => {
     const { institutionTypes } = this.state;
-    console.log(institutionTypes[index].id);
     this.setState({ institutionType: institutionTypes[index].id, institutionTypeIndex: index });
   };
-  componentDidUpdate() {
-    console.log(this.props.updateUser);
-  }
+  componentDidUpdate() {}
 
   componentDidMount() {}
 
@@ -192,7 +189,6 @@ class ModalProfile extends Component {
 
   OnHandleSignUpForm = userType => {
     if (userType === 'participant') {
-      console.log(localStorage.getItem('institutionType'));
       return (
         <ParticipantSignUp
           parent={this}

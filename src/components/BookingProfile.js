@@ -355,13 +355,11 @@ class BookingProfile extends Component {
       slots.map((slot, index) => {
         for (let i = 0; i < booked.length; i++) {
           if (booked[i].schedule.startTime == slot.schedule.startTime) {
-            console.log(booked[i].schedule.startTime, slot.schedule.startTime);
             slots.splice(0, index + 1);
             break;
           }
         }
       });
-      console.log(slots.length);
     }
     if (selectedProfile) {
       this.setState({

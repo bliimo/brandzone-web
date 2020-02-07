@@ -2,7 +2,7 @@ import React from 'react';
 
 export default () => {
   return (
-    <div class='content'>
+    <div className='content'>
       <p>
         <strong>ABOUT BRANDZONE</strong>
       </p>

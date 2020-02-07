@@ -4,7 +4,7 @@ import { MDBInput } from 'mdbreact';
 
 const TextInput = ({
   id,
-  placeholder,
+  placeHolder,
   label,
   value,
   onChange,
@@ -23,7 +23,7 @@ const TextInput = ({
       outline
       className={className}
       id={id}
-      placeHolder={placeholder}
+      placeHolder={placeHolder}
       label={label}
       value={value}
       onChange={onChange}

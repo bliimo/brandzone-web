@@ -518,25 +518,17 @@ class EventTab extends Component {
     try {
       if (account) this.setState({ account });
       if (events.length > 0 || Object.keys(this.props.events).length > 0) {
-        events[this.state.activeItem].schedules.map(e => {
-          if (e.id == 4) {
-            console.log(e);
-          }
-        });
+        events[this.state.activeItem].schedules.map(e => {});
         this.setState({ isOpen: null, events, schedules: events[this.state.activeItem].schedules });
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   }
 
   componentWillMount() {
     const { getLatestEvents } = this.props;
     getLatestEvents();
   }
-  componentDidMount() {
-    console.log(this.state.activeItem);
-  }
+  componentDidMount() {}
 
   OnHandleOpenProfile = () => {
     const { isOpenProfile } = this.state;

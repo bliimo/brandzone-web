@@ -23,7 +23,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
         )}
         {parent.state.isNewInstitution && (
           <TextInput
-            placeholder='Institution name'
+            placeHolder='Institution name'
             id='otherInstitution'
             onChange={parent.OnHandleChange}
             type='text'
@@ -44,7 +44,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
       </div>
 
       <TextInput
-        placeholder='Name of Company'
+        placeHolder='Name of Company'
         id='companyName'
         onChange={parent.OnHandleChange}
         type='text'
@@ -56,7 +56,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
         style={style.inputs}
       />
       <TextInput
-        placeholder='Country'
+        placeHolder='Country'
         id='companyCountry'
         onChange={parent.OnHandleChange}
         type='text'
@@ -68,7 +68,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
         style={style.inputs}
       />
       <TextInput
-        placeholder='Province'
+        placeHolder='Province'
         id='companyProvince'
         onChange={parent.OnHandleChange}
         type='text'
@@ -80,7 +80,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
         style={style.inputs}
       />
       <TextInput
-        placeholder='City'
+        placeHolder='City'
         id='companyCity'
         onChange={parent.OnHandleChange}
         type='text'
@@ -92,7 +92,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
         style={style.inputs}
       />
       <TextInput
-        placeholder='Website'
+        placeHolder='Website'
         id='companyWebsite'
         onChange={parent.OnHandleChange}
         type='text'
@@ -104,7 +104,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
         style={style.inputs}
       />
       <TextInput
-        placeholder='Short profile of the Company'
+        placeHolder='Short profile of the Company'
         id='companyProfile'
         onChange={parent.OnHandleChange}
         type='textarea'
@@ -118,7 +118,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
       />
       <hr style={style.divider} />
       <TextInput
-        placeholder='Representative First name'
+        placeHolder='Representative First name'
         id='firstName'
         onChange={parent.OnHandleChange}
         type='text'
@@ -130,7 +130,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
         style={style.inputs}
       />
       <TextInput
-        placeholder='Representative Last name'
+        placeHolder='Representative Last name'
         id='lastName'
         onChange={parent.OnHandleChange}
         type='text'
@@ -142,7 +142,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
         style={style.inputs}
       />
       <TextInput
-        placeholder='Job Title'
+        placeHolder='Job Title'
         id='jobTitle'
         onChange={parent.OnHandleChange}
         type='text'
@@ -155,7 +155,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
       />
       {!isUpdate && (
         <TextInput
-          placeholder='Email'
+          placeHolder='Email'
           id='signUpEmail'
           onChange={parent.OnHandleChange}
           type='email'
@@ -169,7 +169,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
       )}
       {!isUpdate && (
         <TextInput
-          placeholder='Password'
+          placeHolder='Password'
           id='signUpPassword'
           onChange={parent.OnHandleChange}
           type='password'
@@ -183,7 +183,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
       )}
       {!isUpdate && (
         <TextInput
-          placeholder='Confirm Password'
+          placeHolder='Confirm Password'
           id='confirmPassword'
           onChange={parent.OnHandleChange}
           type='password'
@@ -196,7 +196,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
         />
       )}
       <TextInput
-        placeholder='Telephone Number'
+        placeHolder='Telephone Number'
         id='phoneNumber'
         onChange={parent.OnHandleChange}
         type='email'

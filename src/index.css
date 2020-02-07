@@ -458,6 +458,7 @@ ul.md-tabs > li hr {
 .btn-animate-text-signup:hover {
   font-size: 15px;
   font-weight: normal;
+  color: rgb(142, 198, 63) !important;
 }
 
 .btn-animate-login:hover {
@@ -1229,7 +1230,7 @@ div.slot-list-row:not(:first-of-type) {
 }
 div#institutionTypeId {
   margin-top: 0 !important;
-  padding-top: 0 !important;
+  padding-top: 0.3em !important;
 }
 div#institutionTypeId p.drop-text {
   top: 0 !important;
