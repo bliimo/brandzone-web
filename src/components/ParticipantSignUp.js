@@ -4,8 +4,63 @@ import TextInput from './TextInput';
 import PictureUpload from './PictureUpload';
 import EventTimeSlot from './EventTimeSlot';
 import Checkbox from './Checkbox';
+import Text from './Text';
 
+const Slots = ({ parent, schedules, title }) => {
+  console.log(parent.state.selectedSchedules);
+  return (
+    <div>
+      <EventTimeSlot
+        OnHandleGetTimeSlots={parent.OnHandleGetTimeSlots}
+        isReset={parent.state.isReset}
+        schedules={schedules}
+        onResetSelected={parent.OnHandleResetSelected}
+        parent={parent}
+        selectedSchedules={parent.state.selectedSchedules}
+        title={title}
+      />
+    </div>
+  );
+};
 const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive }) => {
+  let { multipleEvent, schedules } = parent.state;
+  const items = parent.state.events;
+  let slots = [];
+  if (schedules.isAllEvent && schedules.scheds) {
+    schedules.scheds.map(s => {
+      s.events.map((e, i) => {
+        let scheds = e.schedules;
+        let eventId = e.id;
+        schedules = { scheds, eventId };
+        slots.push(<Slots key={i} parent={parent} schedules={schedules} title={e.title} />);
+      });
+    });
+  } else {
+    slots.push(
+      <Slots
+        key={1}
+        parent={parent}
+        schedules={schedules}
+        title={'Select your available time slots'}
+      />
+    );
+  }
+
+  items.map((e, i) => {
+    if (e) {
+      if (e.title != 'All') {
+        for (let index = 0; index < multipleEvent.length; index++) {
+          for (let index2 = 0; index2 < multipleEvent[index].events.length; index2++) {
+            if (items[i].id == multipleEvent[index].events[index2].id) {
+              items[i]['multiple'] = multipleEvent[index];
+              break;
+            }
+          }
+        }
+      }
+    }
+  });
+
   return (
     <div>
       <div className='d-flex institution-type-wrapper'>
@@ -208,23 +263,17 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
         style={style.inputs}
       />
       <PictureUpload OnHandlePicture={parent.OnHandlePicture} parent={parent} />
+      <Text style={style.txt}>Choose an event you will participating in:</Text>
       {!isUpdate && parent.state.events.length > 0 && (
         <Dropdown
-          items={parent.state.events}
+          items={items}
+          isEvent={true}
           action={parent.OnHandleEventType}
           isActive={true}
           label='Choose an event you will participating in:'
         />
       )}
-      {!isUpdate && parent.state.events.length > 0 && (
-        <EventTimeSlot
-          OnHandleGetTimeSlots={parent.OnHandleGetTimeSlots}
-          isReset={parent.state.isReset}
-          schedules={parent.state.schedules}
-          onResetSelected={parent.OnHandleResetSelected}
-          parent={parent}
-        />
-      )}
+      {!isUpdate && parent.state.events.length > 0 && slots}
     </div>
   );
 };
@@ -246,5 +295,10 @@ const style = {
     width: 150,
     marginBottom: '2.5em',
     marginTop: '1.8em'
+  },
+  txt: {
+    font: '14px helvetica',
+    color: '#fff',
+    marginBottom: '1em'
   }
 };

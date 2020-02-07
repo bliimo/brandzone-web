@@ -145,32 +145,32 @@ const style = {
     fontWeight: 'bold'
   },
   bottomText: {
-    color: '#222',
+    color: '#fff',
     fontFamily: 'Helvetica',
     fontSize: 11,
     position: 'relative',
     margin: 0
   },
   main: {
-    background: '#fff'
+    background: '#8ec63f'
   },
   mainBottom: {
-    background: '#fff'
+    background: '#8ec63f'
   },
   brand: {
-    color: '#37424B',
+    color: '#fff',
     fontFamily: 'Helvetica',
     fontWeight: 'bold'
   },
   address: {
     fontFamily: 'Helvetica',
     fontSize: 14,
-    color: '#222'
+    color: '#fff'
   },
   footerLink: {
     fontFamily: 'Helvetica',
     fontSize: 14,
-    color: '#37424B',
+    color: '#fff',
     margin: 0
   },
   myschedLink: {

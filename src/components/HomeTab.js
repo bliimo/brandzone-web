@@ -15,7 +15,14 @@ import Header from './Header';
 import Footer from './Footer';
 import { ToastContainer, toast } from 'react-toastify';
 import { isEmpty } from 'lodash';
-import { loginUser, getLatestEvents, getInstitution, addUser, setBookings } from '../store/actions';
+import {
+  loginUser,
+  getLatestEvents,
+  getInstitution,
+  addUser,
+  setBookings,
+  getMultipleLatestEvents
+} from '../store/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PrivacyContent from './PrivacyContent';
@@ -160,9 +167,7 @@ const AboutTab = ({ parent }) => {
           className='btn-animate-signup'
           onClick={parent.OnHandleToggle('3')}
         >
-          <Text className='btn-animate-text-signup'>
-            Sign Up
-          </Text>
+          <Text className='btn-animate-text-signup'>Sign Up</Text>
         </Button>
         <Button
           style={style.buttonLogin}
@@ -434,7 +439,8 @@ class HomeTab extends Component {
       allEvents: {},
       setBookings: [],
       isNewInstitution: false,
-      otherInstitution: ''
+      otherInstitution: '',
+      multipleEvent: []
     };
   }
 
@@ -479,9 +485,18 @@ class HomeTab extends Component {
     this.setState({ [event.target.id]: event.target.value, emailError, passwordError });
   };
 
-  OnHandleGetTimeSlots = selectedSchedules => {
+  OnHandleGetTimeSlots = selectedSchedule => {
+    console.log(selectedSchedule);
+    const { selectedEvent, selectedSchedules } = this.state;
+    Object.keys(selectedSchedule).map(e => {
+      if (selectedSchedule[e] != undefined) {
+        selectedSchedules[e] = selectedSchedule[e];
+      } else {
+        delete selectedSchedules[e];
+      }
+    });
     this.setState({ selectedSchedules });
-    this.OnHandleSelectedSchedules(selectedSchedules);
+    //this.OnHandleSelectedSchedules(selectedSchedules);
   };
 
   OnHandleCheckTerms = () => {
@@ -507,83 +522,41 @@ class HomeTab extends Component {
     }
   };
 
-  OnHandleSetEvents = events => {
-    if (this.state.events.length == 0 && events.length > 0) {
+  OnHandleSetEvents = (events, multipleEvent) => {
+    if (events.length > 0 && multipleEvent.length > 0 && this.state.events.length == 0) {
       const allEvents = {
         id: events[events.length - 1].id + 1,
         date: new Date(),
         title: 'All',
         address: '',
         isAllEvent: true,
-        schedules: [
-          {
-            id: 1,
-            startTime: '02:00:00',
-            endTime: '02:20:00'
-          },
-          {
-            id: 2,
-            startTime: '02:20:00',
-            endTime: '02:40:00'
-          },
-          {
-            id: 3,
-            startTime: '02:40:00',
-            endTime: '03:00:00'
-          },
-          {
-            id: 4,
-            startTime: '03:00:00',
-            endTime: '03:20:00'
-          },
-          {
-            id: 5,
-            startTime: '03:20:00',
-            endTime: '03:40:00'
-          },
-          {
-            id: 6,
-            startTime: '03:40:00',
-            endTime: '04:00:00'
-          },
-          {
-            id: 7,
-            startTime: '04:00:00',
-            endTime: '04:20:00'
-          },
-          {
-            id: 8,
-            startTime: '04:20:00',
-            endTime: '04:40:00'
-          },
-          {
-            id: 9,
-            startTime: '04:40:00',
-            endTime: '05:00:00'
-          },
-          {
-            id: 10,
-            startTime: '05:00:00',
-            endTime: '05:20:00'
-          },
-          {
-            id: 11,
-            startTime: '05:20:00',
-            endTime: '05:40:00'
-          },
-          {
-            id: 12,
-            startTime: '05:40:00',
-            endTime: '06:00:00'
-          }
-        ]
+        schedules: {
+          scheds: multipleEvent,
+          eventId: events[events.length - 1].id + 1,
+          isAllEvent: true
+        }
       };
       events.push(allEvents);
       this.setState({
         events,
         allEvents,
-        schedules: allEvents.schedules,
+        schedules: {
+          scheds: multipleEvent.length > 0 ? multipleEvent : allEvents.schedules,
+          eventId: events[events.length - 1].id + 1,
+          isAllEvent: true
+        },
         selectedEvent: allEvents
+      });
+    } else if (events.length > 0 && multipleEvent.length == 0 && this.state.events.length == 0) {
+      this.setState({
+        events,
+        allEvents: {},
+        schedules: {
+          scheds: events[0].schedules,
+          eventId: events[0].id,
+          isAllEvent: false
+        },
+        selectedEvent: events[0]
       });
     }
   };
@@ -821,11 +794,21 @@ class HomeTab extends Component {
   };
 
   OnHandleEventType = index => {
-    let { events } = this.state;
-    this.setState({
-      schedules: events[index].schedules,
-      selectedEvent: events[index]
-    });
+    let { events, multipleEvent, selectedSchedules, selectedEvent } = this.state;
+    if (events.length > 0) {
+      if (events[index].isAllEvent) {
+        this.setState({
+          schedules: { scheds: multipleEvent, eventId: events[index].id, isAllEvent: true },
+          selectedEvent: events[index]
+        });
+      } else {
+        this.setState({
+          schedules: { scheds: events[index].schedules, eventId: events[index].id },
+          selectedEvent: events[index]
+        });
+      }
+    }
+    this.setState({ selectedSchedules: {} });
   };
 
   OnHandlePicture = event => {
@@ -849,13 +832,36 @@ class HomeTab extends Component {
   };
 
   componentWillMount() {
-    const { getLatestEvents, getInstitution } = this.props;
+    const { getLatestEvents, getInstitution, getMultipleLatestEvents } = this.props;
     getLatestEvents();
+    getMultipleLatestEvents();
     getInstitution();
   }
 
   componentWillReceiveProps(nextProps) {
-    const { auth, events, institution, user, loginError, signUpError } = nextProps;
+    const {
+      auth,
+      events,
+      institution,
+      user,
+      loginError,
+      signUpError,
+      multipleEvent,
+      isLoadingMulti
+    } = nextProps;
+    let multiArray = [];
+    if (multipleEvent.multiplEvents.length > 0) {
+      let multi = {};
+      multipleEvent.multiplEvents.map((e, i) => {
+        if (multi[e.id] === undefined) {
+          multi[e.id] = e;
+        }
+      });
+      Object.keys(multi).map(e => {
+        multiArray.push(multi[e]);
+      });
+      this.setState({ multipleEvent: multiArray });
+    }
 
     const { activeItem } = this.state;
 
@@ -897,7 +903,22 @@ class HomeTab extends Component {
     if (auth.isAuthenticated) window.location.reload();
 
     if (events && !auth.isLoading) {
-      this.OnHandleSetEvents(events);
+      console.log(multipleEvent.multipleEvents);
+      // if (multipleEvent && multipleEvent.multipleEvents.length > 0) {
+      //   multipleEvent.multipleEvents.map(m => {
+      //     m.events.map(e => {
+      //       events.map(event => {
+      //         if (event.id == e.id) {
+      //           event['isAllEvent'] = true;
+      //         }
+      //       });
+      //     });
+      //   });
+      // }
+
+      if (!isLoadingMulti) {
+        this.OnHandleSetEvents(events, multiArray);
+      }
       this.OnHandleSetInstitution(institution);
     }
   }
@@ -1083,7 +1104,7 @@ const style = {
     font: '10.5px Helvetica',
     marginLeft: '30px !important',
     position: 'relative',
-    bottom: '.1em'
+    bottom: '.6em'
   },
   backIcon: {
     fontSize: 13
@@ -1107,10 +1128,12 @@ const mapStateToProps = state => ({
   institution: state.institution.institution,
   user: state.user,
   signUpError: state.user.error,
-  booking: state.booking
+  booking: state.booking,
+  multipleEvent: state.multipleEvent,
+  isLoadingMulti: state.multipleEvent.isLoading
 });
 
 export default connect(
   mapStateToProps,
-  { loginUser, getLatestEvents, getInstitution, addUser, setBookings }
+  { loginUser, getLatestEvents, getInstitution, addUser, setBookings, getMultipleLatestEvents }
 )(withRouter(HomeTab));

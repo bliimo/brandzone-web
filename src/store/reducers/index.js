@@ -6,6 +6,7 @@ import userReducer from './user';
 import bookingReducer from './booking';
 import updateUserReducer from './updateUser';
 import addInstitutionReducer from './addInstitution';
+import multipleEventReducer from './multipleEvent';
 
 export default combineReducers({
   auth: authReducer,
@@ -14,5 +15,6 @@ export default combineReducers({
   user: userReducer,
   booking: bookingReducer,
   updateUser: updateUserReducer,
-  addInstitution: addInstitutionReducer
+  addInstitution: addInstitutionReducer,
+  multipleEvent: multipleEventReducer
 });

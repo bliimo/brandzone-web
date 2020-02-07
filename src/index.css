@@ -197,7 +197,7 @@ h6 {
 
 @media only screen and (max-width: 1024px) and (min-width: 769px) {
   .time-slots {
-    margin-right: 1em !important;
+    margin-right: 0.5em !important;
   }
   #row-profile {
     height: auto !important;
@@ -951,6 +951,9 @@ div.slot-list-row:not(:first-of-type) {
 
 .back-button-text-signup:hover #chevron {
   background-image: url('./assets/images/chevron_left_border.png') !important;
+}
+.back-button-text-signup span:hover {
+  bottom: 0.5em !important;
 }
 .back-button-text:hover #chevron {
   background-image: url('./assets/images/chevron_left_border.png') !important;

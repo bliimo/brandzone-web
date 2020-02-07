@@ -4,8 +4,8 @@ import Time from './Time';
 
 const Schedules = ({ parent, schedules }) => {
   let timeSlots = [];
-  if (schedules) {
-    schedules.map((e, i) => {
+  if (schedules && schedules.scheds) {
+    schedules.scheds.map((e, i) => {
       let startTime = e.startTime.substring(0, e.startTime.length - 3);
       let endTime = e.endTime.substring(0, e.endTime.length - 3);
       startTime = startTime.substring(0, 1) == '0' ? startTime.substring(1) : startTime;
@@ -16,7 +16,8 @@ const Schedules = ({ parent, schedules }) => {
         index: i,
         selected: parent.state.selected,
         onSelect: parent.OnHandleSelect,
-        isSelectedAll: parent.state.isSelectedAll
+        isSelectedAll: parent.state.isSelectedAll,
+        eventId: schedules.eventId
       };
       timeSlots.push(<Time key={i} props={props} />);
     });
@@ -25,42 +26,53 @@ const Schedules = ({ parent, schedules }) => {
 };
 class EventTimeSlot extends Component {
   state = {
-    selected: {},
     isSelectedAll: false,
-    isMounted: false
+    isMounted: false,
+    selected: {}
   };
 
   OnHandleSelect = event => {
-    let { selected, isSelectedAll } = this.state;
-    const { OnHandleGetTimeSlots, schedules } = this.props;
-
-    if (selected[event.target.getAttribute('id')] === undefined) {
-      selected[event.target.getAttribute('id')] = {
-        startTime: event.target.getAttribute('starttime'),
-        endtime: event.target.getAttribute('endtime')
+    let { selectedSchedules, isSelectedAll } = this.props;
+    const { OnHandleGetTimeSlots, schedules, parent } = this.props;
+    const eventId = event.target.getAttribute('eventid');
+    const id = event.target.getAttribute('id');
+    if (selectedSchedules[eventId] !== undefined) {
+      if (selectedSchedules[eventId][id] === undefined) {
+        selectedSchedules[eventId][id] = {
+          startTime: event.target.getAttribute('starttime'),
+          endtime: event.target.getAttribute('endtime')
+        };
+      } else if (selectedSchedules[eventId][id] != undefined) {
+        delete selectedSchedules[eventId][id];
+      }
+    } else if (selectedSchedules[eventId] == undefined) {
+      selectedSchedules[eventId] = {
+        [id]: {
+          startTime: event.target.getAttribute('starttime'),
+          endtime: event.target.getAttribute('endtime')
+        }
       };
-    } else {
-      delete selected[event.target.getAttribute('id')];
     }
-    isSelectedAll = Object.keys(schedules).length == Object.keys(selected).length;
-
-    this.setState({ selected, isSelectedAll });
+    parent.setState({ selectedSchedules });
+    isSelectedAll =
+      Object.keys(schedules.scheds).length == Object.keys(selectedSchedules[eventId]).length;
+    this.setState({ selected: selectedSchedules, isSelectedAll });
     OnHandleGetTimeSlots(this.OnHandleGetSelected());
   };
 
   OnHandleGetSelected = () => this.state.selected;
 
-  componentWillReceiveProps(prevProps) {
-    let { OnHandleGetTimeSlots, schedules } = this.props;
-    if (prevProps.schedules != schedules) this.OnHandleResetSelected();
-
-    this.setState({ OnHandleGetTimeSlots });
+  componentWillReceiveProps(nextProps, prevProps) {
+    let { OnHandleGetTimeSlots, schedules, selectedSchedules } = nextProps;
+    if (Object.keys(selectedSchedules).length == 0) this.OnHandleResetSelected();
+    this.setState({ OnHandleGetTimeSlots, selected: selectedSchedules });
   }
 
   OnHandleResetSelected = () => {
     let { isSelectedAll, selected } = this.state;
+    let { schedules } = this.props;
     for (const prop of Object.getOwnPropertyNames(selected)) {
-      delete selected[prop];
+      delete selected[schedules.eventId];
     }
     isSelectedAll = false;
     this.setState({ isSelectedAll, selected });
@@ -68,23 +80,30 @@ class EventTimeSlot extends Component {
 
   OnHandleSelectAll = () => {
     let { isSelectedAll, selected } = this.state;
-    let { schedules } = this.props;
+    let { schedules, parent } = this.props;
     const { OnHandleGetTimeSlots } = this.props;
 
     isSelectedAll = !isSelectedAll;
 
     if (isSelectedAll) {
-      schedules.map(e => {
-        if (selected[e.id] == undefined)
-          selected[e.id] = { startTime: e.startTime, endTime: e.endTime };
+      schedules.scheds.map(e => {
+        if (!selected[schedules.eventId]) {
+          selected[schedules.eventId] = {
+            [e.id]: { startTime: e.startTime, endTime: e.endTime }
+          };
+        } else {
+          selected[schedules.eventId][e.id] = {
+            startTime: e.startTime,
+            endTime: e.endTime
+          };
+        }
       });
-    } else {
-      for (const prop of Object.getOwnPropertyNames(selected)) {
-        delete selected[prop];
-      }
+    } else if (selected[schedules.eventId]) {
+      delete selected[schedules.eventId];
     }
 
-    this.setState({ isSelectedAll, selected });
+    parent.setState({ selected });
+    this.setState({ isSelectedAll, selected: selected });
     OnHandleGetTimeSlots(this.OnHandleGetSelected());
   };
 
@@ -93,12 +112,12 @@ class EventTimeSlot extends Component {
   }
 
   render() {
-    const { schedules } = this.props;
+    const { schedules, title } = this.props;
     return (
       <div style={style.main}>
         <div className='text-center mt-4'>
           <Text style={style.text}>
-            <span style={style.selectTimeSlot}> Select your available time slots</span>
+            <span style={style.selectTimeSlot}> {title}</span>
             <span
               style={style.selectAll}
               onClick={this.OnHandleSelectAll}
