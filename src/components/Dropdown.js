@@ -109,7 +109,11 @@ class Dropdown extends Component {
 
   render() {
     return (
-      <MDBContainer id={this.state.id} style={style.main} className='drop-down'>
+      <MDBContainer
+        id={this.state.id}
+        style={style.main}
+        className={`drop-down ${this.props.customClass}`}
+      >
         <Active parent={this} />
         <Items parent={this} />
       </MDBContainer>

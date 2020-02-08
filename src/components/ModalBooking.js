@@ -17,7 +17,7 @@ class ModalBooking extends Component {
   }
   componentWillReceiveProps(nextProps) {
     const { booking, error, isLoading } = nextProps;
-    if (!isLoading && Object.keys(booking).length > 0 && Object.keys(error).length == 0) {
+    if (!isLoading && booking != null && Object.keys(error).length == 0) {
       this.props.parent.OnHandleCloseModal();
     }
   }
@@ -44,7 +44,7 @@ class ModalBooking extends Component {
       <MDBContainer>
         <MDBModal
           isOpen={this.props.parent.state.isOpenModal}
-          toggle={() => this.props.parent.OnHandleToogleModal(undefined)}
+          toggle={() => {}}
           style={style.modal}
           centered
         >
@@ -67,14 +67,16 @@ class ModalBooking extends Component {
                 {this.props.isLoading ? 'Please wait...' : 'Confirm slot'}
               </Text>
             </Button>
-            <Button
-              style={style.buttonCancel}
-              onClick={() => this.props.parent.OnHandleToogleModal(undefined)}
-            >
-              <Text className='font-weight-bold' style={style.btnText}>
-                Cancel
-              </Text>
-            </Button>
+            {!this.props.isLoading && (
+              <Button
+                style={style.buttonCancel}
+                onClick={() => this.props.parent.OnHandleToogleModal(undefined)}
+              >
+                <Text className='font-weight-bold' style={style.btnText}>
+                  Cancel
+                </Text>
+              </Button>
+            )}
           </MDBModalBody>
         </MDBModal>
       </MDBContainer>
@@ -118,7 +120,7 @@ const style = {
     height: 40
   },
   btnText: {
-    bottom: '.12em',
+    bottom: '.5em',
     position: 'relative'
   }
 };

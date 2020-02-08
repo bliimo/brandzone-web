@@ -66,12 +66,14 @@ class ModalProfile extends Component {
       toast.error(updateErr);
     }
     if (!updateErr && !updateErr && userUpdated.user) {
-      institution.map((e, i) => {
-        if (e.id == userUpdated.user.institutionType.id) {
-          localStorage.setItem('institutionType', i);
-          this.setState({ institutionType: e.id });
-        }
-      });
+      if (institution && localStorage.getItem('userType') === 'participant') {
+        institution.map((e, i) => {
+          if (e.id == userUpdated.user.institutionType.id) {
+            localStorage.setItem('institutionType', i);
+            this.setState({ institutionType: e.id });
+          }
+        });
+      }
       window.location.reload();
     }
     if (institution) {
@@ -463,7 +465,7 @@ const style = {
     height: 40
   },
   btnText: {
-    bottom: '.12em',
+    bottom: '.5em',
     position: 'relative'
   }
 };

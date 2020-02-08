@@ -102,24 +102,34 @@ const Schedule = ({ data, parent, index }) => {
   let isDone = false;
   let isStart = false;
   let booked = {};
-  booking.map(e => {
-    if (e.bookedBy !== null && e.bookedBy.id == account.id) {
-      booked = e;
-      isBooked = true;
-      setBy = e.setBy;
-      bookingId = e.id;
-    } else if (e.bookedBy !== null && e.setBy.id == account.id) {
-      booked = e;
-      isBooked = true;
-      bookedBy = e.bookedBy;
-      bookingId = e.id;
-    }
-  });
+  if (booking && account) {
+    booking.map(e => {
+      if (e.bookedBy !== null && e.bookedBy.id == account.id) {
+        booked = e;
+        isBooked = true;
+        setBy = e.setBy;
+        bookingId = e.id;
+      } else if (e.bookedBy !== null && e.setBy.id == account.id) {
+        booked = e;
+        isBooked = true;
+        bookedBy = e.bookedBy;
+        bookingId = e.id;
+      }
+    });
+  }
 
-  booked['title'] =
-    localStorage.getItem('userType') === 'participant'
-      ? `Exhibitor ${index}`
-      : `Participant ${index}`;
+  let user = setBy ? setBy : bookedBy;
+  let institutionName = '';
+
+  if (user) {
+    if (user.institutionType) {
+      institutionName = user.institutionType.name;
+    } else if (user.institution) {
+      institutionName = user.institution.name;
+    }
+  }
+
+  booked['title'] = institutionName;
 
   let currentDate = new Date();
   let date = events[activeItem].date;
@@ -173,11 +183,9 @@ const Schedule = ({ data, parent, index }) => {
         >
           {`${startTime} - ${endTime}${
             isBooked
-              ? ` | ${
-                  localStorage.getItem('userType') === 'participant'
-                    ? `Exhibitor ${index}`
-                    : `Participant ${index}`
-                } | ${Object.keys(bookedBy).length > 0 ? bookedBy.firstName : setBy.firstName} ${
+              ? ` | ${institutionName} | ${
+                  Object.keys(bookedBy).length > 0 ? bookedBy.firstName : setBy.firstName
+                } ${
                   Object.keys(bookedBy).length > 0
                     ? bookedBy.lastName.substr(0, 1)
                     : setBy.lastName.substr(0, 1)
@@ -515,7 +523,7 @@ class EventTab extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const { events, account } = nextProps;
+    const { events, account, booking } = nextProps;
     try {
       if (account) this.setState({ account });
       if (events.length > 0 || Object.keys(this.props.events).length > 0) {

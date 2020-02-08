@@ -136,10 +136,12 @@ const Informations = ({ parent }) => {
   }
 
   const { id, title } = parent.state.profile;
+  console.log(parent.state.profile.schedule);
   let { startTime, endTime } =
     Object.keys(parent.state.selectedSchedule).length > 0
       ? parent.state.selectedSchedule
       : parent.state.profile.schedule;
+
   startTime = startTime.substring(0, startTime.length - 3);
   endTime = endTime.substring(0, endTime.length - 3);
   startTime = startTime.substring(0, 1) === '0' ? startTime.substring(1) : startTime;
@@ -237,7 +239,7 @@ const Informations = ({ parent }) => {
             Available Slots:&nbsp;&nbsp;{parent.state.slots.length}
           </Text>
         </MDBCol>
-        {!title && (
+        {!title && parent.state.slots.length > 0 && (
           <MDBCol size='12' className='p-0 mt-2'>
             <MDBRow>
               <MDBCol size='8' className='pr-0'>
@@ -303,19 +305,14 @@ class BookingProfile extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const {
-      selectedProfile,
-      selectedSchedule,
-      events,
-      activeItem,
-      account
-    } = this.props.parent.state;
+    const { events, activeItem, account, selectedSchedule } = nextProps.parent.state;
+    let selectedProfile = nextProps.parent.state.selectedProfile;
 
-    if (!this.props.parent.props.isLoading && this.props.parent.props.booking) {
+    if (!nextProps.parent.props.isLoading && nextProps.parent.props.booking) {
       this.OnHandleEditing(false);
     }
 
-    const { OnHandleResetProfile, OnHandleResetEvents, OnHandleSetNotes } = this.props.parent;
+    const { OnHandleResetProfile, OnHandleResetEvents, OnHandleSetNotes } = nextProps.parent;
     const event = events[activeItem];
     let slots = [];
     let booked = [];
@@ -323,43 +320,52 @@ class BookingProfile extends Component {
       if (selectedProfile.setBy.id == account.id) {
         event.schedules.map(schedule => {
           schedule.booking.map(booking => {
+            if (booking.bookedBy === null && booking.setBy.id === selectedProfile.bookedBy.id) {
+              slots.push({ booking, schedule });
+            }
             if (
-              booking.setBy != null &&
+              booking.bookedBy &&
               booking.bookedBy != null &&
               booking.bookedBy.id == selectedProfile.bookedBy.id
             ) {
               booked.push({ booking, schedule });
-            } else if (
-              booking.bookedBy == null &&
-              booking.setBy.id == selectedProfile.bookedBy.id
-            ) {
-              slots.push({ booking, schedule });
             }
           });
         });
       } else {
         event.schedules.map(schedule => {
           schedule.booking.map(booking => {
+            if (booking.bookedBy == null && booking.setBy.id == selectedProfile.setBy.id) {
+              slots.push({ booking, schedule });
+            }
             if (
-              booking.setBy != null &&
+              booking.bookedBy &&
               booking.bookedBy != null &&
               booking.bookedBy.id == selectedProfile.setBy.id
             ) {
               booked.push({ booking, schedule });
-            } else if (booking.bookedBy == null && booking.setBy.id == selectedProfile.setBy.id) {
-              slots.push({ booking, schedule });
             }
           });
         });
       }
-      slots.map((slot, index) => {
-        for (let i = 0; i < booked.length; i++) {
-          if (booked[i].schedule.startTime == slot.schedule.startTime) {
-            slots.splice(0, index + 1);
-            break;
+
+      booked.map((b, i) => {
+        slots.map((s, index) => {
+          if (b.schedule.id === s.schedule.id) {
+            slots.splice(index, 1);
           }
-        }
+        });
       });
+    }
+
+    if (selectedProfile && selectedProfile.schedule) {
+      let isAvailable = false;
+      slots.map(s => {
+        if (s.schedule.id == selectedProfile.schedule.id) isAvailable = true;
+      });
+      if (!isAvailable && slots.length > 0) {
+        selectedProfile = { ...slots[0].booking, schedule: slots[0].schedule };
+      }
     }
     if (selectedProfile) {
       this.setState({

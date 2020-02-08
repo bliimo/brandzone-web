@@ -115,7 +115,7 @@ class EventTimeSlot extends Component {
     const { schedules, title } = this.props;
     return (
       <div style={style.main}>
-        <div className='text-center mt-4'>
+        <div className='text-center mt-1'>
           <Text style={style.text}>
             <span style={style.selectTimeSlot}> {title}</span>
             <span

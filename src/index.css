@@ -140,6 +140,10 @@ h6 {
 }
 
 @media only screen and (max-width: 768px) {
+  .col-sm-12.col-md-6.col-lg-6.col-xl-7.actionList {
+    padding-left: 0.8em !important;
+    padding-right: 0.8em !important;
+  }
   #sideBar {
     width: 100vw !important;
     left: 0 !important;
@@ -238,7 +242,7 @@ h6 {
 
 @media only screen and (min-width: 1441px) {
   .time-slots {
-    margin-right: 5em !important;
+    margin-right: 2em !important;
   }
 }
 
@@ -788,9 +792,10 @@ textarea.signup-input {
   }
 
   #booking-profile-row {
-    height: 390px !important;
+    height: auto !important;
     margin-right: 0 !important;
     margin-left: 0 !important;
+    margin-bottom: 2em;
   }
   #booking-profile-row .col-img {
     padding-left: 10px !important;
@@ -809,6 +814,12 @@ textarea.signup-input {
 }
 
 @media only screen and (max-width: 767px) {
+  .btn-inprogress.inactive {
+    width: 90% !important;
+  }
+  .text-center.mb-0.avail-sched-text {
+    bottom: 0 !important;
+  }
   #booking-profile-row p.booking-profile-info.pl-2 {
     padding: 0 !important;
   }
@@ -1089,15 +1100,10 @@ div.slot-list-row:not(:first-of-type) {
 @media only screen and (min-width: 1607px) {
   div#slots {
     position: relative !important;
-    top: 3em !important;
   }
 }
 
 @media only screen and (min-width: 2560px) {
-  div#slots {
-    position: relative !important;
-    top: 5em !important;
-  }
 }
 
 @media only screen and (min-width: 1025px) {
@@ -1249,4 +1255,12 @@ div#institutionTypeId p.drop-text {
 input#otherInstitution {
   padding-top: 1em !important;
   padding-bottom: 1em !important;
+}
+.label-input {
+  color: #fff;
+  font-family: 'helvetica';
+  font-weight: bold;
+  font-size: 10px;
+  letter-spacing: 1px;
+  margin-left: 2px;
 }
