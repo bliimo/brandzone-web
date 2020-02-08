@@ -2,26 +2,10 @@ import React from 'react';
 import Dropdown from './Dropdown';
 import TextInput from './TextInput';
 import PictureUpload from './PictureUpload';
-import EventTimeSlot from './EventTimeSlot';
 import Checkbox from './Checkbox';
 import Text from './Text';
+import Slots from './Slots';
 
-const Slots = ({ parent, schedules, title }) => {
-  console.log(parent.state.selectedSchedules);
-  return (
-    <div>
-      <EventTimeSlot
-        OnHandleGetTimeSlots={parent.OnHandleGetTimeSlots}
-        isReset={parent.state.isReset}
-        schedules={schedules}
-        onResetSelected={parent.OnHandleResetSelected}
-        parent={parent}
-        selectedSchedules={parent.state.selectedSchedules}
-        title={title}
-      />
-    </div>
-  );
-};
 const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive }) => {
   let { multipleEvent, schedules } = parent.state;
   const items = parent.state.events;

@@ -454,7 +454,8 @@ class EventTab extends Component {
   };
 
   OnHandleResetEvents = () => {
-    this.props.getLatestEvents();
+    const { id } = this.state.account;
+    this.props.getLatestEvents(id);
     try {
       document.getElementById(`tab-${this.state.activeItem}`).click();
     } catch (error) {
@@ -525,8 +526,7 @@ class EventTab extends Component {
   }
 
   componentWillMount() {
-    const { getLatestEvents } = this.props;
-    getLatestEvents();
+    this.props.getLatestEvents(localStorage.getItem('id'));
   }
   componentDidMount() {}
 

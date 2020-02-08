@@ -495,8 +495,7 @@ class HomeTab extends Component {
         delete selectedSchedules[e];
       }
     });
-    this.setState({ selectedSchedules });
-    //this.OnHandleSelectedSchedules(selectedSchedules);
+    this.OnHandleSelectedSchedules(selectedSchedules);
   };
 
   OnHandleCheckTerms = () => {
@@ -581,25 +580,13 @@ class HomeTab extends Component {
   };
 
   OnHandleSelectedSchedules = selectedSchedules => {
-    const { selectedEvent, events } = this.state;
     let setBookings = [];
-    if (selectedEvent.isAllEvent) {
-      Object.values(selectedSchedules).map(scheds => {
-        events.map(e => {
-          if (e.id != selectedEvent.id) {
-            e.schedules.map(sched => {
-              if (sched.startTime == scheds.startTime) {
-                setBookings.push(sched.id);
-              }
-            });
-          }
-        });
+    Object.keys(selectedSchedules).map(multiEventId => {
+      Object.keys(selectedSchedules[multiEventId]).map(id => {
+        setBookings.push(id);
       });
-    } else {
-      Object.keys(selectedSchedules).map(scheds => {
-        setBookings.push(scheds);
-      });
-    }
+    });
+    console.log(setBookings);
     this.setState({ setBookings: [...new Set(setBookings)], selectedSchedules });
   };
 
@@ -766,9 +753,10 @@ class HomeTab extends Component {
   };
 
   OnHandleSetBookings = () => {
-    const bookingScheds = this.state.setBookings;
-    const { setBookings } = this.props;
-    setBookings({ scheduleId: bookingScheds });
+    // const bookingScheds = this.state.setBookings;
+    // const { setBookings } = this.props;
+    // console.log()
+    // setBookings({ scheduleId: bookingScheds });
   };
 
   OnHandleSignUp = () => {
@@ -903,19 +891,6 @@ class HomeTab extends Component {
     if (auth.isAuthenticated) window.location.reload();
 
     if (events && !auth.isLoading) {
-      console.log(multipleEvent.multipleEvents);
-      // if (multipleEvent && multipleEvent.multipleEvents.length > 0) {
-      //   multipleEvent.multipleEvents.map(m => {
-      //     m.events.map(e => {
-      //       events.map(event => {
-      //         if (event.id == e.id) {
-      //           event['isAllEvent'] = true;
-      //         }
-      //       });
-      //     });
-      //   });
-      // }
-
       if (!isLoadingMulti) {
         this.OnHandleSetEvents(events, multiArray);
       }
@@ -950,6 +925,7 @@ class HomeTab extends Component {
       </React.Fragment>
     );
   }
+
   componentDidMount() {
     localStorage.removeItem('institutionType');
   }

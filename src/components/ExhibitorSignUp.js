@@ -2,9 +2,47 @@ import React from 'react';
 import Dropdown from './Dropdown';
 import TextInput from './TextInput';
 import PictureUpload from './PictureUpload';
-import EventTimeSlot from './EventTimeSlot';
+import Slots from './Slots';
 
 const ExhibitorSignUp = ({ parent, isUpdate }) => {
+  let { multipleEvent, schedules } = parent.state;
+  const items = parent.state.events;
+  let slots = [];
+  if (schedules.isAllEvent && schedules.scheds) {
+    schedules.scheds.map(s => {
+      s.events.map((e, i) => {
+        let scheds = e.schedules;
+        let eventId = e.id;
+        schedules = { scheds, eventId };
+        slots.push(<Slots key={i} parent={parent} schedules={schedules} title={e.title} />);
+      });
+    });
+  } else {
+    slots.push(
+      <Slots
+        key={1}
+        parent={parent}
+        schedules={schedules}
+        title={'Select your available time slots'}
+      />
+    );
+  }
+
+  items.map((e, i) => {
+    if (e) {
+      if (e.title != 'All') {
+        for (let index = 0; index < multipleEvent.length; index++) {
+          for (let index2 = 0; index2 < multipleEvent[index].events.length; index2++) {
+            if (items[i].id == multipleEvent[index].events[index2].id) {
+              items[i]['multiple'] = multipleEvent[index];
+              break;
+            }
+          }
+        }
+      }
+    }
+  });
+
   return (
     <div>
       <TextInput
@@ -186,20 +224,13 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
       <PictureUpload OnHandlePicture={parent.OnHandlePicture} parent={parent} />
       {!isUpdate && parent.state.events.length > 0 && (
         <Dropdown
-          items={parent.state.events}
+          items={items}
           action={parent.OnHandleEventType}
           isActive={true}
           label='Choose an event you will participating in:'
         />
       )}
-      {!isUpdate && parent.state.events.length > 0 && (
-        <EventTimeSlot
-          OnHandleGetTimeSlots={parent.OnHandleGetTimeSlots}
-          isReset={parent.state.isReset}
-          schedules={parent.state.schedules}
-          parent={parent}
-        />
-      )}
+      {!isUpdate && parent.state.events.length > 0 && slots}
     </div>
   );
 };
