@@ -21,7 +21,8 @@ import {
   getInstitution,
   addUser,
   setBookings,
-  getMultipleLatestEvents
+  getMultipleLatestEvents,
+  upload
 } from '../store/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -408,6 +409,7 @@ class HomeTab extends Component {
     super(props);
     this.toastId = null;
     this.state = {
+      id: undefined,
       activeItem: '1',
       email: '',
       password: '',
@@ -440,7 +442,8 @@ class HomeTab extends Component {
       setBookings: [],
       isNewInstitution: false,
       otherInstitution: '',
-      multipleEvent: []
+      multipleEvent: [],
+      pic: null
     };
   }
 
@@ -737,6 +740,11 @@ class HomeTab extends Component {
       }
     }
 
+    if (!this.state.pic) {
+      this.notify('Required profile picture');
+      return false;
+    }
+
     if (Object.keys(selectedSchedules).length <= 0) {
       this.notify('Please select time slot');
       return false;
@@ -791,8 +799,10 @@ class HomeTab extends Component {
   };
 
   OnHandlePicture = event => {
-    const { onUpload } = this.props;
-    this.setState({ profilePic: URL.createObjectURL(event.target.files[0]) });
+    this.setState({
+      profilePic: URL.createObjectURL(event.target.files[0]),
+      pic: event.target
+    });
   };
 
   OnHandleCheckPrivacy = () => {
@@ -816,6 +826,12 @@ class HomeTab extends Component {
     getMultipleLatestEvents();
     getInstitution();
   }
+
+  OnHandleUpload = (pic, id) => {
+    const formData = new FormData();
+    formData.append('file', pic);
+    this.props.upload(formData, id);
+  };
 
   componentWillReceiveProps(nextProps) {
     const {
@@ -854,8 +870,9 @@ class HomeTab extends Component {
       return false;
     }
     if (user.user && Object.keys(user.user).length > 0 && this.state.activeItem === '3') {
-      toast.success('Successfully registered please login');
+      this.OnHandleUpload(this.state.pic.files[0], user.user.id);
       this.setState({
+        id: undefined,
         activeItem: '2',
         email: '',
         password: '',
@@ -877,6 +894,7 @@ class HomeTab extends Component {
         companyWebsite: '',
         confirmPassword: ''
       });
+      toast.success('Successfully registered please login');
     }
 
     if (auth.isAuthenticated) window.location.reload();
@@ -1097,10 +1115,20 @@ const mapStateToProps = state => ({
   signUpError: state.user.error,
   booking: state.booking,
   multipleEvent: state.multipleEvent,
-  isLoadingMulti: state.multipleEvent.isLoading
+  isLoadingMulti: state.multipleEvent.isLoading,
+  upload: state.upload.upload,
+  isloadingUpload: state.upload.isLoading
 });
 
 export default connect(
   mapStateToProps,
-  { loginUser, getLatestEvents, getInstitution, addUser, setBookings, getMultipleLatestEvents }
+  {
+    loginUser,
+    getLatestEvents,
+    getInstitution,
+    addUser,
+    setBookings,
+    getMultipleLatestEvents,
+    upload
+  }
 )(withRouter(HomeTab));

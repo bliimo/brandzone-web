@@ -7,12 +7,13 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import ParticipantSignUp from './ParticipantSignUp';
 import ExhibitorSignUp from './ExhibitorSignUp';
-import { getInstitution, updateUser, logoutUser } from '../store/actions';
+import { getInstitution, updateUser, logoutUser, upload } from '../store/actions';
 import { toast } from 'react-toastify';
 
 class ModalProfile extends Component {
   toastId = null;
   state = {
+    pic: null,
     id: null,
     isOpenModal: false,
     institutionTypes: [],
@@ -62,12 +63,16 @@ class ModalProfile extends Component {
       websiteState,
       profileState,
       programsState = '';
-    const { isOpenModal, account, institution, updateErr, userUpdated } = nextProps;
+    const { isOpenModal, account, institution, updateErr, userUpdated, upload } = nextProps;
     let institutionTypeId = 0;
     if (!this.props.updateErr && updateErr && isOpenModal) {
       toast.error(updateErr);
     }
-    if (!updateErr && !updateErr && userUpdated.user) {
+    if (!this.props.updateErr && !updateErr && userUpdated.user && this.state.pic) {
+      const { pic } = this.state;
+      if (pic) {
+        this.OnHandleUpload(pic.files[0], this.state.id);
+      }
       if (institution && localStorage.getItem('userType') === 'participant') {
         institution.map((e, i) => {
           if (e.id == userUpdated.user.institutionType.id) {
@@ -76,7 +81,9 @@ class ModalProfile extends Component {
           }
         });
       }
-      window.location.reload();
+      setTimeout(() => {
+        window.location.reload();
+      }, 3000);
     }
     if (institution) {
       this.OnHandleSetInstitution(institution);
@@ -172,12 +179,6 @@ class ModalProfile extends Component {
       document.getElementById(event.target.id).classList.add('invalid-field');
     }
     this.setState({ [event.target.id]: event.target.value });
-  };
-
-  OnHandlePicture = event => {
-    const { onUpload } = this.props;
-    // onUpload({ filePath: event.target.value });
-    this.setState({ profilePic: URL.createObjectURL(event.target.files[0]) });
   };
 
   OnHandleNewInstitutions = () => {
@@ -405,6 +406,26 @@ class ModalProfile extends Component {
     }
   };
 
+  OnHandlePicture = event => {
+    this.setState({
+      profilePic: URL.createObjectURL(event.target.files[0]),
+      pic: event.target
+    });
+  };
+
+  OnHandleUpload = (pic, id) => {
+    if (pic) {
+      const formData = new FormData();
+      formData.append('file', pic);
+      try {
+        this.props.upload(formData, id);
+        this.setState({ pic: undefined });
+      } catch (error) {
+        console.log(error);
+      }
+    }
+  };
+
   render() {
     return (
       <MDBContainer>
@@ -418,12 +439,20 @@ class ModalProfile extends Component {
           <MDBModalBody>
             <h3 className='mb-3'>Edit Profile</h3>
             {this.OnHandleSignUpForm(localStorage.getItem('userType'))}
-            <Button style={style.buttonConfirm} onClick={() => this.OnHandleUpdate()}>
+            <Button
+              className='btn-edit'
+              style={style.buttonConfirm}
+              onClick={() => this.OnHandleUpdate()}
+            >
               <Text className='font-weight-bold' style={style.btnText}>
                 {this.props.isLoading ? 'Please wait' : 'Update'}
               </Text>
             </Button>
-            <Button style={style.buttonCancel} onClick={this.props.OnHandleOpenProfile}>
+            <Button
+              className='btn-edit'
+              style={style.buttonCancel}
+              onClick={this.props.OnHandleOpenProfile}
+            >
               <Text className='font-weight-bold' style={style.btnText}>
                 Cancel
               </Text>
@@ -482,10 +511,11 @@ const mapStateToProps = state => ({
   userUpdated: state.updateUser,
   user: state.updateUser,
   isLoading: state.updateUser.isLoading,
-  updateErr: state.updateUser.error
+  updateErr: state.updateUser.error,
+  upload: state.upload
 });
 
 export default connect(
   mapStateToProps,
-  { book, getInstitution, updateUser, logoutUser }
+  { book, getInstitution, updateUser, logoutUser, upload }
 )(withRouter(ModalProfile));

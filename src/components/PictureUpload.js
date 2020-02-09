@@ -42,6 +42,8 @@ class PictureUpload extends Component {
           )}
         </div>
         <MDBInput
+          name='file'
+          accept='image/*'
           type='file'
           inputRef={fileInput => (this.fileInput = fileInput)}
           className='d-none'

@@ -111,7 +111,8 @@ const Informations = ({ parent }) => {
     lastName,
     email,
     jobTitle,
-    institution
+    institution,
+    profilePicture
   } = parent.state.profile.setBy;
   let institutionName = '';
 
@@ -136,7 +137,6 @@ const Informations = ({ parent }) => {
   }
 
   const { id, title } = parent.state.profile;
-  console.log(parent.state.profile.schedule);
   let { startTime, endTime } =
     Object.keys(parent.state.selectedSchedule).length > 0
       ? parent.state.selectedSchedule
@@ -418,7 +418,17 @@ class BookingProfile extends Component {
 
   render() {
     const { profile, isOpenModal, event, account, OnHandleSetNotes, notes } = this.state;
-    const { profilePic, title, bookedBy, setBy } = profile;
+    const { title, bookedBy, setBy } = profile;
+    let profilePicture = '';
+    if (setBy && account) {
+      if (setBy.id == account.id) {
+        profilePicture = bookedBy.profilePicture;
+      } else {
+        profilePicture = setBy.profilePicture;
+      }
+      console.log(setBy.profilePicture);
+    }
+    console.log(profilePicture);
     return (
       <MDBContainer fluid className='booking-profile'>
         <Button
@@ -436,7 +446,9 @@ class BookingProfile extends Component {
               <img
                 className={`booking-profile-img w-100 mh-300`}
                 src={
-                  'https://bpxk748cf4n2yzlvi1rkrh61-wpengine.netdna-ssl.com/wp-content/uploads/sites/17/2018/06/Avatar-Unisex-Default.jpg'
+                  profilePicture
+                    ? profilePicture
+                    : 'https://bpxk748cf4n2yzlvi1rkrh61-wpengine.netdna-ssl.com/wp-content/uploads/sites/17/2018/06/Avatar-Unisex-Default.jpg'
                 }
                 alt='profile'
               />

@@ -7,7 +7,6 @@ import Button from './Button';
 
 const Informations = ({ account, OnHandleOpenProfile }) => {
   let { phoneNumber, firstName, lastName, email, jobTitle, institution, company } = account;
-  console.log(account);
   let nameInfo,
     countryInfo,
     provinceInfo,
@@ -127,6 +126,7 @@ const Informations = ({ account, OnHandleOpenProfile }) => {
         <MDBCol size='12' className='justify-content-center'>
           <Button
             className='w-75'
+            id='btn-edit-profile'
             onClick={() => {
               OnHandleOpenProfile();
             }}

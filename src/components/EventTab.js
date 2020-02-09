@@ -583,9 +583,7 @@ class EventTab extends Component {
   componentWillMount() {
     this.props.getLatestEvents(localStorage.getItem('id'));
   }
-  componentDidUpdate() {
-    console.log(this.state.activeItem);
-  }
+  componentDidUpdate() {}
 
   OnHandleOpenProfile = () => {
     const { isOpenProfile } = this.state;

@@ -83,6 +83,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
           />
         )}
         <Checkbox
+          className='check-others'
           text='Others'
           checked={parent.state.isNewInstitution}
           onSelect={parent.OnHandleNewInstitutions}
