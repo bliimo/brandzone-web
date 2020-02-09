@@ -33,7 +33,9 @@ class ModalProfile extends Component {
     institutionTypeId: undefined,
     isNewInstitution: false,
     otherInstitution: '',
-    institutionTypeIndex: 0
+    institutionTypeIndex: 0,
+    confirmPassword: '',
+    signUpPassword: ''
   };
   notify = txt => {
     if (!toast.isActive(this.toastId)) {
@@ -62,7 +64,7 @@ class ModalProfile extends Component {
       programsState = '';
     const { isOpenModal, account, institution, updateErr, userUpdated } = nextProps;
     let institutionTypeId = 0;
-    if (updateErr) {
+    if (!this.props.updateErr && updateErr && isOpenModal) {
       toast.error(updateErr);
     }
     if (!updateErr && !updateErr && userUpdated.user) {
@@ -224,7 +226,9 @@ class ModalProfile extends Component {
       lastName,
       jobTitle,
       phoneNumber,
-      email
+      email,
+      confirmPassword,
+      signUpPassword
     } = this.state;
 
     return {
@@ -241,6 +245,8 @@ class ModalProfile extends Component {
       lastName,
       jobTitle,
       phoneNumber,
+      password: signUpPassword,
+      confirmPassword,
       userType: 'participant'
     };
   };
@@ -281,7 +287,7 @@ class ModalProfile extends Component {
       jobTitle,
       phoneNumber,
       password: signUpPassword,
-      confirmPassword: confirmPassword,
+      confirmPassword,
       bookingScheduleId: { scheduleId: setBookings },
       userType: 'exhibitor'
     };

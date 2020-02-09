@@ -3,12 +3,28 @@ import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
 import { NavLink } from 'react-router-dom';
 import Text from './Text';
 
-const Footer = ({ isShow, Clients, isAuthenticated, OnHandleToggle, isEvent }) => {
+import footer from '../assets/images/footer.jpg';
+
+const Footer = ({
+  isShow,
+  Clients,
+  isAuthenticated,
+  OnHandleToggle,
+  isEvent,
+  OnHandleOpenProfile
+}) => {
   return (
     <React.Fragment>
       {Clients && <Clients />}
-      <MDBContainer style={style.main} className={`w-100 footer p-5 ${isEvent ? 'mt-10' : ''}`}>
-        <MDBRow>
+      <MDBContainer
+        style={style.main}
+        id='footer'
+        className={`w-100 footer pl-0 m-0 d-inline-flex ${isEvent ? 'mt-10' : ''}`}
+      >
+        <div style={style.imgWrapper} id='footer-img'>
+          <img src={footer} alt='footer' style={style.img} />
+        </div>
+        <MDBRow className='pt-5'>
           <MDBCol lg='6' xl='6' sm='12' className='col-footer'>
             <Text className='m-0'>
               <span style={style.brand}>Brandzone Inc.</span>
@@ -36,7 +52,7 @@ const Footer = ({ isShow, Clients, isAuthenticated, OnHandleToggle, isEvent }) =
                 <ul className='d-inline-block footer-link mb-0'>
                   {isAuthenticated && (
                     <li className='d-inline-block'>
-                      <NavLink to='#'>
+                      <NavLink to='#' onClick={() => OnHandleOpenProfile()}>
                         <Text style={style.footerLink}>Edit Profile</Text>
                       </NavLink>
                     </li>
@@ -155,7 +171,7 @@ const style = {
     background: '#8ec63f'
   },
   mainBottom: {
-    background: '#8ec63f'
+    background: '#37424B'
   },
   brand: {
     color: '#fff',
@@ -175,6 +191,13 @@ const style = {
   },
   myschedLink: {
     marginLeft: '1.3em'
+  },
+  img: {
+    height: 200
+  },
+  imgWrapper: {
+    padding: '2em 1em',
+    background: '#fff'
   }
 };
 export default Footer;

@@ -11,12 +11,14 @@ import { loginUser, getLatestEvents, setNotes } from '../store/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getMonthName } from '../helper/date';
-import contents from '../constants/contents';
 import Header from './Header';
 import AboutContent from './AboutContent';
 import PrivacyContent from './PrivacyContent';
 import TermsContent from './TermsContent';
 import ModalProfile from './ModalProfile';
+import Profile from './Profile';
+import EllipsisText from 'react-ellipsis-text/lib/components/EllipsisText';
+
 const Link = ({ data, parent, index }) => {
   const { title } = data;
   return (
@@ -180,12 +182,25 @@ const Schedule = ({ data, parent, index }) => {
               ? 'btn-booked done'
               : 'btn-booked'
           } ${id === parent.state.isOpen ? 'font-weight-bold text-light font-size-15' : ''}`}
-        >
-          {`${startTime} - ${endTime}${
+          title={`${startTime} - ${endTime}${
             isBooked
               ? ` | ${institutionName} | ${
                   Object.keys(bookedBy).length > 0 ? bookedBy.firstName : setBy.firstName
                 } ${
+                  Object.keys(bookedBy).length > 0
+                    ? bookedBy.lastName.substr(0, 1)
+                    : setBy.lastName.substr(0, 1)
+                }.`
+              : ''
+          }`}
+        >
+          {`${startTime} - ${endTime}${
+            isBooked
+              ? ` | ${
+                  institutionName.length > 20
+                    ? `${institutionName.substr(0, 20)}...`
+                    : institutionName
+                } | ${Object.keys(bookedBy).length > 0 ? bookedBy.firstName : setBy.firstName} ${
                   Object.keys(bookedBy).length > 0
                     ? bookedBy.lastName.substr(0, 1)
                     : setBy.lastName.substr(0, 1)
@@ -219,7 +234,7 @@ const Schedule = ({ data, parent, index }) => {
 const Schedules = ({ parent }) => {
   let scheds = [];
   const { activeItem, events } = parent.state;
-  if (events.length > 0) {
+  if (events.length > 0 && events[activeItem]) {
     events[activeItem].schedules.map((e, i) => {
       if (e.booking.length > 0) {
         scheds.push(<Schedule key={i} parent={parent} data={e} index={i + 1} />);
@@ -374,9 +389,9 @@ const FooterTabs = ({ parent }) => {
 
 const AboutUsTab = ({ parent }) => {
   return (
-    <MDBTabPane tabId='6' role='tabpanel' className='fade-effect'>
+    <MDBTabPane tabId='102' role='tabpanel' className='fade-effect'>
       <Button
-        className='cursor-pointer booking-signup-back'
+        className='cursor-pointer booking-signup-back mt-5 mb-5'
         onClick={() => window.location.reload()}
       >
         <Text style={style.backBtn} className='back-button-text-signup'>
@@ -384,24 +399,20 @@ const AboutUsTab = ({ parent }) => {
           <span style={style.backText}>Back to events</span>
         </Text>
       </Button>
-      <Text className='text-center tab-title' style={style.tabTitleHeader}>
+      <Text className='text-center tab-title mt-5' style={style.tabTitleHeader}>
         ABOUT US
       </Text>
       <hr style={style.tabTitleHeaderHr} />
-      <MDBRow className='justify-content-center'>
-        <MDBCol size='7'>
-          <div className='text-justify' style={{ ...style.about, ...style.aboutFirst }}>
-            <AboutContent />
-          </div>
-        </MDBCol>
-      </MDBRow>
+      <div style={{ ...style.about, ...style.aboutFirst }}>
+        <AboutContent />
+      </div>
     </MDBTabPane>
   );
 };
 
 const ContactUsTab = ({ parent }) => {
   return (
-    <MDBTabPane tabId='7' role='tabpanel' className='fade-effect'>
+    <MDBTabPane tabId='103' role='tabpanel' className='fade-effect'>
       <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('1')}>
         <Text style={style.backBtn} className='back-button-text-signup'>
           <div id='chevron'></div>
@@ -412,7 +423,7 @@ const ContactUsTab = ({ parent }) => {
         CONTACT US
       </Text>
       <hr style={style.tabTitleHeaderHr} />
-      <div className='text-center mt-3 content'>
+      <div className='text-center mt-3 content contact-us'>
         <Text className='m-0'>
           <h5 style={style.brand}>Brandzone Inc.</h5>
         </Text>
@@ -420,18 +431,47 @@ const ContactUsTab = ({ parent }) => {
           5388 Curie St., Brgy. Palanan, Makati City, Philippines
         </Text>
         <Text className='m-0 mt-2' style={style.address}>
-          Tel. +632 8296 9044
+          Landline (02) 7618 3979
+          <br />
+          Mobile (0917) 165 2805
         </Text>
         <a href='https://www.facebook.com/brandzoneinc'>
           <Text className='m-0 mt-2' style={style.address}>
             https://www.facebook.com/brandzoneinc
           </Text>
         </a>
-        <a href='mailto:jjsaez@brandzone.ph'>
+        <a href='mailto:admin@brandzone.ph'>
           <Text className='m-0 mt-2' style={style.address}>
-            jjsaez@brandzone.ph
+            admin@brandzone.ph
           </Text>
         </a>
+      </div>
+    </MDBTabPane>
+  );
+};
+
+const ProfileTab = ({ parent }) => {
+  return (
+    <MDBTabPane tabId='104' role='tabpanel' className='fade-effect'>
+      <Button
+        className='cursor-pointer booking-signup-back mt-5'
+        onClick={() => window.location.reload()}
+      >
+        <Text style={style.backBtn} className='back-button-text-signup'>
+          <div id='chevron'></div>
+          <span style={style.backText} className='ml-4'>
+            Back to events
+          </span>
+        </Text>
+      </Button>
+      <br />
+      <div style={{ ...style.about, ...style.aboutFirst }}>
+        {parent.state.activeItem === '104' && (
+          <Profile
+            account={parent.state.account}
+            OnHandleOpenProfile={parent.OnHandleOpenProfile}
+          />
+        )}
       </div>
     </MDBTabPane>
   );
@@ -452,7 +492,8 @@ class EventTab extends Component {
 
   OnHandleToggle = tab => () => {
     const { events } = this.state;
-    this.setState({ isOpen: null, schedules: events[tab].schedules, selectedProfile: null });
+    if (events[tab])
+      this.setState({ isOpen: null, schedules: events[tab].schedules, selectedProfile: null });
     if (this.state.activeItem !== tab) this.setState({ activeItem: tab });
   };
 
@@ -514,7 +555,13 @@ class EventTab extends Component {
 
   OnHandleShowList = isShow => {
     let { activeItem } = this.state;
-    if (activeItem == '100' || activeItem == '101') {
+    if (
+      activeItem === '100' ||
+      activeItem === '101' ||
+      activeItem === '102' ||
+      activeItem === '103' ||
+      activeItem === '104'
+    ) {
       activeItem = 0;
     }
     window.scrollTo(0, 0);
@@ -536,7 +583,9 @@ class EventTab extends Component {
   componentWillMount() {
     this.props.getLatestEvents(localStorage.getItem('id'));
   }
-  componentDidMount() {}
+  componentDidUpdate() {
+    console.log(this.state.activeItem);
+  }
 
   OnHandleOpenProfile = () => {
     const { isOpenProfile } = this.state;
@@ -558,7 +607,11 @@ class EventTab extends Component {
         <div
           style={style.main}
           className={`p-0 mb-5 ${
-            this.state.activeItem === '100' || this.state.activeItem == '101'
+            this.state.activeItem === '100' ||
+            this.state.activeItem === '101' ||
+            this.state.activeItem === '102' ||
+            this.state.activeItem === '103' ||
+            this.state.activeItem === '104'
               ? 'open-privacy-terms'
               : ''
           }`}
@@ -569,13 +622,16 @@ class EventTab extends Component {
             this.state.activeItem !== '100' &&
             this.state.activeItem !== '101' &&
             this.state.activeItem !== '102' &&
-            this.state.activeItem !== '103' && <Tabs parent={this} />}
+            this.state.activeItem !== '103' &&
+            this.state.activeItem !== '104' && <Tabs parent={this} />}
 
           {(this.state.activeItem === '100' && <FooterTabs parent={this} />) ||
             (this.state.activeItem === '101' && <FooterTabs parent={this} />)}
 
           {this.state.activeItem === '102' && <AboutUsTab parent={this} />}
           {this.state.activeItem === '103' && <ContactUsTab parent={this} />}
+
+          {this.state.activeItem === '104' && <ProfileTab parent={this} />}
           <ToastContainer />
         </div>
         <ModalProfile
@@ -587,6 +643,7 @@ class EventTab extends Component {
           OnHandleToggle={this.OnHandleTogglePrivacy}
           isEvent={true}
           isAuthenticated={this.props.auth.isAuthenticated}
+          OnHandleOpenProfile={this.OnHandleOpenProfile}
         />
       </React.Fragment>
     );
@@ -693,6 +750,7 @@ const style = {
     fontFamily: 'Helvetica'
   },
   backBtn: {
+    zIndex: 2,
     color: '#fff'
   },
   backText: {
@@ -700,7 +758,7 @@ const style = {
     font: '10.5px Helvetica',
     marginLeft: '30px !important',
     position: 'relative',
-    bottom: '.1em'
+    bottom: '.6em'
   },
   brand: {
     color: '#fff',

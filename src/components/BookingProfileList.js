@@ -130,6 +130,8 @@ class BookingProfileList extends Component {
     const { parent, bookingScheduleId, users, schedule, account, isShowList } = nextProps;
     const { events, activeItem } = parent.state;
     let bookings = [];
+    users.sort((a, b) => a.setBy.firstName.localeCompare(b.setBy.firstName));
+
     users.map(user => {
       user.setBy.roles.map(role => {
         const currentRole =

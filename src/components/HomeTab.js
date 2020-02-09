@@ -486,7 +486,6 @@ class HomeTab extends Component {
   };
 
   OnHandleGetTimeSlots = selectedSchedule => {
-    console.log(selectedSchedule);
     const { selectedEvent, selectedSchedules } = this.state;
     Object.keys(selectedSchedule).map(e => {
       if (selectedSchedule[e] != undefined) {
@@ -586,7 +585,6 @@ class HomeTab extends Component {
         setBookings.push(id);
       });
     });
-    console.log(setBookings);
     this.setState({ setBookings: [...new Set(setBookings)], selectedSchedules });
   };
 
@@ -750,13 +748,6 @@ class HomeTab extends Component {
     }
 
     return true;
-  };
-
-  OnHandleSetBookings = () => {
-    // const bookingScheds = this.state.setBookings;
-    // const { setBookings } = this.props;
-    // console.log()
-    // setBookings({ scheduleId: bookingScheds });
   };
 
   OnHandleSignUp = () => {

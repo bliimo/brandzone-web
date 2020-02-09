@@ -140,6 +140,20 @@ h6 {
 }
 
 @media only screen and (max-width: 768px) {
+  #footer {
+    display: block !important;
+    padding-right: 0 !important;
+  }
+  #footer .row,
+  .col-footer {
+    padding: 1em !important;
+    text-align: center !important;
+  }
+  #footer-img {
+    padding: 1em !important;
+    text-align: center !important;
+    width: 100% !important;
+  }
   .col-sm-12.col-md-6.col-lg-6.col-xl-7.actionList {
     padding-left: 0.8em !important;
     padding-right: 0.8em !important;
@@ -200,6 +214,9 @@ h6 {
 }
 
 @media only screen and (max-width: 1024px) and (min-width: 769px) {
+  .booking-profile-main {
+    width: 70% !important;
+  }
   .time-slots {
     margin-right: 0.5em !important;
   }
@@ -212,6 +229,11 @@ h6 {
   #loginForm,
   #signUpForm {
     width: 34vw !important;
+  }
+}
+@media only screen and (max-width: 1024px) {
+  img.booking-profile-img.w-100.mh-300 {
+    margin-bottom: 1em;
   }
 }
 
@@ -247,6 +269,16 @@ h6 {
 }
 
 @media only screen and (max-width: 768px) {
+  .booking-profile-info {
+    text-align: center !important;
+  }
+  .booking-profile-info.pl-2 {
+    padding-left: 0 !important;
+  }
+  .container-fluid.booking-profile {
+    width: 90% !important;
+    margin: auto !important;
+  }
   .tab-title {
     font-size: 13px !important;
   }
@@ -787,9 +819,6 @@ textarea.signup-input {
     width: 150px;
     position: absolute;
   }
-  .booking-profile-main {
-    width: 60% !important;
-  }
 
   #booking-profile-row {
     height: auto !important;
@@ -878,17 +907,10 @@ textarea.signup-input {
     min-height: 72vh;
   }
   .container.booking-profile-main {
-    max-width: 540px !important;
+    max-width: 100% !important;
   }
   .col-md-6.col-lg-6.col-xl-8.col-info.profile-institution-info {
     padding: 1em 1.4em !important;
-  }
-}
-
-@media only screen and (width: 768px) {
-  .container-fluid.booking-profile {
-    width: 75% !important;
-    margin: auto !important;
   }
 }
 
@@ -896,6 +918,9 @@ textarea.signup-input {
   .slot-list-row {
     padding: 0 6em 0 5.5em;
     margin: auto !important;
+  }
+  .booking-profile-main {
+    width: 60% !important;
   }
 }
 
@@ -1263,4 +1288,17 @@ input#otherInstitution {
   font-size: 10px;
   letter-spacing: 1px;
   margin-left: 2px;
+}
+
+.back-button-text {
+  width: 140px;
+}
+
+.contact-us * {
+  line-height: 1.5em !important;
+  font-size: 18px !important;
+  font-family: Helvetica !important;
+}
+.contact-us {
+  margin-top: 5em !important;
 }

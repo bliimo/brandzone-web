@@ -80,20 +80,33 @@ const SideBar = ({
           List of&nbsp;
           {localStorage.getItem('userType') == 'exhibitor' ? 'Participants' : 'Exhibitors'}
         </NavLink>
-        <NavLink to='#' style={style.links} className='sideBarLink'>
-          My Profile
-        </NavLink>
-        <NavLink
-          to='#'
-          style={style.links}
-          className='sideBarLink'
-          onClick={() => {
-            OnHandleOpenProfile();
-            OnHandleShowSideBar();
-          }}
-        >
-          Edit Profile
-        </NavLink>
+
+        {isEvent && (
+          <NavLink
+            to='#'
+            onClick={e => {
+              OnHandleToggle('104');
+              OnHandleShowSideBar();
+            }}
+            style={style.links}
+            className='sideBarLink'
+          >
+            My Profile
+          </NavLink>
+        )}
+        {isEvent && (
+          <NavLink
+            to='#'
+            style={style.links}
+            className='sideBarLink'
+            onClick={() => {
+              OnHandleOpenProfile();
+              OnHandleShowSideBar();
+            }}
+          >
+            Edit Profile
+          </NavLink>
+        )}
         {isEvent && (
           <React.Fragment>
             <NavLink

@@ -244,7 +244,7 @@ const Informations = ({ parent }) => {
             <MDBRow>
               <MDBCol size='8' className='pr-0'>
                 <Button style={style.btnSlot} className='btn-profile main-btn-profile'>
-                  <Text style={style.time}>
+                  <Text style={style.timeText}>
                     {startTime} - {endTime}
                   </Text>
                 </Button>
@@ -520,7 +520,7 @@ const style = {
   profileInfo: {
     color: '#fff',
     textAlign: 'left',
-    font: '12px Helvetica',
+    font: '14px Helvetica',
     marginBottom: '.65em'
   },
   profileInfoTitle: {
@@ -604,6 +604,11 @@ const style = {
     font: '11px helvetica',
     position: 'relative',
     top: '.5em'
+  },
+  timeText: {
+    font: '11px helvetica',
+    position: 'relative',
+    top: '.2em'
   },
   scheduleText: {
     fontSize: 11.5,
