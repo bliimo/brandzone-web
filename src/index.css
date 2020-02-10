@@ -1323,3 +1323,7 @@ input#otherInstitution {
 .booking-profile-info {
   text-transform: capitalize;
 }
+
+.text-lowercase {
+  text-transform: lowercase !important;
+}
