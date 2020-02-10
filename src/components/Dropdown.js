@@ -40,9 +40,15 @@ const Active = ({ parent }) => {
 const Items = ({ parent }) => {
   const { items, isOpen } = parent.state;
   let elem = [];
-  items.map((e, i) =>
-    elem.push(<Item data={e} index={i} key={`${i} ${e.id}`} setActive={parent.OnHandleActive} />)
-  );
+  items.map((e, i) => {
+    if (parent.state.isEvent && e.isSingleSelection == true && e.title !== 'All') {
+      elem.push(<Item data={e} index={i} key={`${i} ${e.id}`} setActive={parent.OnHandleActive} />);
+    } else if (e.title == 'All') {
+      elem.push(<Item data={e} index={i} key={`${i} ${e.id}`} setActive={parent.OnHandleActive} />);
+    } else if (!parent.state.isEvent) {
+      elem.push(<Item data={e} index={i} key={`${i} ${e.id}`} setActive={parent.OnHandleActive} />);
+    }
+  });
   return (
     <MDBCollapse className='absolute-collapse' style={style.collapse} isOpen={isOpen}>
       <div className='ml-3 mr-3 mb-4 mt-1'>{elem}</div>
@@ -75,16 +81,18 @@ class Dropdown extends Component {
     isOpen: false,
     label: '',
     id: '',
-    action: () => {}
+    action: () => {},
+    isEvent: false
   };
 
   componentWillMount() {
-    const { items, action, label, id, isActive, Activeid } = this.props;
+    const { items, action, label, id, isActive, Activeid, isEvent } = this.props;
     if (isActive) {
       this.setState({ items, action, label, id, active: Activeid ? Activeid : items.length - 1 });
     } else {
       this.setState({ items, action, label, id });
     }
+    this.setState({ isEvent });
   }
   OnHandleActive = active => {
     if (this.state.id) {
@@ -101,7 +109,11 @@ class Dropdown extends Component {
 
   render() {
     return (
-      <MDBContainer id={this.state.id} style={style.main} className='drop-down'>
+      <MDBContainer
+        id={this.state.id}
+        style={style.main}
+        className={`drop-down ${this.props.customClass}`}
+      >
         <Active parent={this} />
         <Items parent={this} />
       </MDBContainer>

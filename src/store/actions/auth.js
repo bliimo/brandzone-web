@@ -52,6 +52,7 @@ export const setCurrentUser = decoded => dispatch => {
 };
 
 export const setLoggedInUser = id => dispatch => {
+  localStorage.setItem('id', id);
   dispatch({ type: LOGIN_REQUEST });
   axios
     .get(`${API}/${localStorage.getItem('userType')}/${id}`)
@@ -62,7 +63,6 @@ export const setLoggedInUser = id => dispatch => {
       });
     })
     .catch(err => {
-      console.log(err);
       dispatch({
         type: LOGIN_FAILURE,
         payload: err.response.data.message

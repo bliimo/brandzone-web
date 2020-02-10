@@ -111,7 +111,8 @@ const Informations = ({ parent }) => {
     lastName,
     email,
     jobTitle,
-    institution
+    institution,
+    profilePicture
   } = parent.state.profile.setBy;
   let institutionName = '';
 
@@ -140,6 +141,7 @@ const Informations = ({ parent }) => {
     Object.keys(parent.state.selectedSchedule).length > 0
       ? parent.state.selectedSchedule
       : parent.state.profile.schedule;
+
   startTime = startTime.substring(0, startTime.length - 3);
   endTime = endTime.substring(0, endTime.length - 3);
   startTime = startTime.substring(0, 1) === '0' ? startTime.substring(1) : startTime;
@@ -237,12 +239,12 @@ const Informations = ({ parent }) => {
             Available Slots:&nbsp;&nbsp;{parent.state.slots.length}
           </Text>
         </MDBCol>
-        {!title && (
+        {!title && parent.state.slots.length > 0 && (
           <MDBCol size='12' className='p-0 mt-2'>
             <MDBRow>
               <MDBCol size='8' className='pr-0'>
                 <Button style={style.btnSlot} className='btn-profile main-btn-profile'>
-                  <Text style={style.time}>
+                  <Text style={style.timeText}>
                     {startTime} - {endTime}
                   </Text>
                 </Button>
@@ -303,19 +305,14 @@ class BookingProfile extends Component {
   };
 
   componentWillReceiveProps(nextProps) {
-    const {
-      selectedProfile,
-      selectedSchedule,
-      events,
-      activeItem,
-      account
-    } = this.props.parent.state;
+    const { events, activeItem, account, selectedSchedule } = nextProps.parent.state;
+    let selectedProfile = nextProps.parent.state.selectedProfile;
 
-    if (!this.props.parent.props.isLoading && this.props.parent.props.booking) {
+    if (!nextProps.parent.props.isLoading && nextProps.parent.props.booking) {
       this.OnHandleEditing(false);
     }
 
-    const { OnHandleResetProfile, OnHandleResetEvents, OnHandleSetNotes } = this.props.parent;
+    const { OnHandleResetProfile, OnHandleResetEvents, OnHandleSetNotes } = nextProps.parent;
     const event = events[activeItem];
     let slots = [];
     let booked = [];
@@ -323,45 +320,52 @@ class BookingProfile extends Component {
       if (selectedProfile.setBy.id == account.id) {
         event.schedules.map(schedule => {
           schedule.booking.map(booking => {
+            if (booking.bookedBy === null && booking.setBy.id === selectedProfile.bookedBy.id) {
+              slots.push({ booking, schedule });
+            }
             if (
-              booking.setBy != null &&
+              booking.bookedBy &&
               booking.bookedBy != null &&
               booking.bookedBy.id == selectedProfile.bookedBy.id
             ) {
               booked.push({ booking, schedule });
-            } else if (
-              booking.bookedBy == null &&
-              booking.setBy.id == selectedProfile.bookedBy.id
-            ) {
-              slots.push({ booking, schedule });
             }
           });
         });
       } else {
         event.schedules.map(schedule => {
           schedule.booking.map(booking => {
+            if (booking.bookedBy == null && booking.setBy.id == selectedProfile.setBy.id) {
+              slots.push({ booking, schedule });
+            }
             if (
-              booking.setBy != null &&
+              booking.bookedBy &&
               booking.bookedBy != null &&
               booking.bookedBy.id == selectedProfile.setBy.id
             ) {
               booked.push({ booking, schedule });
-            } else if (booking.bookedBy == null && booking.setBy.id == selectedProfile.setBy.id) {
-              slots.push({ booking, schedule });
             }
           });
         });
       }
-      slots.map((slot, index) => {
-        for (let i = 0; i < booked.length; i++) {
-          if (booked[i].schedule.startTime == slot.schedule.startTime) {
-            console.log(booked[i].schedule.startTime, slot.schedule.startTime);
-            slots.splice(0, index + 1);
-            break;
+
+      booked.map((b, i) => {
+        slots.map((s, index) => {
+          if (b.schedule.id === s.schedule.id) {
+            slots.splice(index, 1);
           }
-        }
+        });
       });
-      console.log(slots.length);
+    }
+
+    if (selectedProfile && selectedProfile.schedule) {
+      let isAvailable = false;
+      slots.map(s => {
+        if (s.schedule.id == selectedProfile.schedule.id) isAvailable = true;
+      });
+      if (!isAvailable && slots.length > 0) {
+        selectedProfile = { ...slots[0].booking, schedule: slots[0].schedule };
+      }
     }
     if (selectedProfile) {
       this.setState({
@@ -414,7 +418,17 @@ class BookingProfile extends Component {
 
   render() {
     const { profile, isOpenModal, event, account, OnHandleSetNotes, notes } = this.state;
-    const { profilePic, title, bookedBy, setBy } = profile;
+    const { title, bookedBy, setBy } = profile;
+    let profilePicture = '';
+    if (setBy && account) {
+      if (setBy.id == account.id) {
+        profilePicture = bookedBy.profilePicture;
+      } else {
+        profilePicture = setBy.profilePicture;
+      }
+      console.log(setBy.profilePicture);
+    }
+    console.log(profilePicture);
     return (
       <MDBContainer fluid className='booking-profile'>
         <Button
@@ -432,7 +446,9 @@ class BookingProfile extends Component {
               <img
                 className={`booking-profile-img w-100 mh-300`}
                 src={
-                  'https://bpxk748cf4n2yzlvi1rkrh61-wpengine.netdna-ssl.com/wp-content/uploads/sites/17/2018/06/Avatar-Unisex-Default.jpg'
+                  profilePicture
+                    ? profilePicture
+                    : 'https://bpxk748cf4n2yzlvi1rkrh61-wpengine.netdna-ssl.com/wp-content/uploads/sites/17/2018/06/Avatar-Unisex-Default.jpg'
                 }
                 alt='profile'
               />
@@ -516,7 +532,7 @@ const style = {
   profileInfo: {
     color: '#fff',
     textAlign: 'left',
-    font: '12px Helvetica',
+    font: '14px Helvetica',
     marginBottom: '.65em'
   },
   profileInfoTitle: {
@@ -600,6 +616,11 @@ const style = {
     font: '11px helvetica',
     position: 'relative',
     top: '.5em'
+  },
+  timeText: {
+    font: '11px helvetica',
+    position: 'relative',
+    top: '.2em'
   },
   scheduleText: {
     fontSize: 11.5,

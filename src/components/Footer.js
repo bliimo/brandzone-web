@@ -3,12 +3,28 @@ import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
 import { NavLink } from 'react-router-dom';
 import Text from './Text';
 
-const Footer = ({ isShow, Clients, isAuthenticated, OnHandleToggle, isEvent }) => {
+import footer from '../assets/images/footer.jpg';
+
+const Footer = ({
+  isShow,
+  Clients,
+  isAuthenticated,
+  OnHandleToggle,
+  isEvent,
+  OnHandleOpenProfile
+}) => {
   return (
     <React.Fragment>
       {Clients && <Clients />}
-      <MDBContainer style={style.main} className={`w-100 footer p-5 ${isEvent ? 'mt-10' : ''}`}>
-        <MDBRow>
+      <MDBContainer
+        style={style.main}
+        id='footer'
+        className={`w-100 footer pl-0 m-0 d-inline-flex ${isEvent ? 'mt-10' : ''}`}
+      >
+        <div style={style.imgWrapper} id='footer-img'>
+          <img src={footer} alt='footer' style={style.img} />
+        </div>
+        <MDBRow className='pt-5'>
           <MDBCol lg='6' xl='6' sm='12' className='col-footer'>
             <Text className='m-0'>
               <span style={style.brand}>Brandzone Inc.</span>
@@ -24,9 +40,9 @@ const Footer = ({ isShow, Clients, isAuthenticated, OnHandleToggle, isEvent }) =
                 https://www.facebook.com/brandzoneinc
               </Text>
             </a>
-            <a href='mailto:jjsaez@brandzone.ph'>
+            <a href='mailto:admin@brandzone.ph'>
               <Text className='m-0 mt-2' style={style.address}>
-                jjsaez@brandzone.ph
+                admin@brandzone.ph
               </Text>
             </a>
           </MDBCol>
@@ -36,7 +52,7 @@ const Footer = ({ isShow, Clients, isAuthenticated, OnHandleToggle, isEvent }) =
                 <ul className='d-inline-block footer-link mb-0'>
                   {isAuthenticated && (
                     <li className='d-inline-block'>
-                      <NavLink to='#'>
+                      <NavLink to='#' onClick={() => OnHandleOpenProfile()}>
                         <Text style={style.footerLink}>Edit Profile</Text>
                       </NavLink>
                     </li>
@@ -152,28 +168,36 @@ const style = {
     margin: 0
   },
   main: {
-    background: '#8EC63F'
+    background: '#8ec63f'
   },
   mainBottom: {
     background: '#37424B'
   },
   brand: {
-    color: '#37424B',
+    color: '#fff',
     fontFamily: 'Helvetica',
     fontWeight: 'bold'
   },
   address: {
     fontFamily: 'Helvetica',
-    fontSize: 12
+    fontSize: 14,
+    color: '#fff'
   },
   footerLink: {
     fontFamily: 'Helvetica',
     fontSize: 14,
-    color: '#37424B',
+    color: '#fff',
     margin: 0
   },
   myschedLink: {
     marginLeft: '1.3em'
+  },
+  img: {
+    height: 200
+  },
+  imgWrapper: {
+    padding: '2em 1em',
+    background: '#fff'
   }
 };
 export default Footer;

@@ -1,9 +1,7 @@
 import React, { Component } from 'react';
 
 class Error extends Component {
-  componentDidMount() {
-    console.log(this.props);
-  }
+  componentDidMount() {}
   render() {
     return <p className='text-light'>Error pages</p>;
   }

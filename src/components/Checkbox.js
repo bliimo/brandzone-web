@@ -1,6 +1,17 @@
 import React from 'react';
 
-const Checkbox = ({ count, id, startTime, endTime, index, onSelect, checked, text, className }) => {
+const Checkbox = ({
+  count,
+  id,
+  startTime,
+  endTime,
+  index,
+  onSelect,
+  checked,
+  text,
+  className,
+  eventId
+}) => {
   return (
     <div style={style.slots} className={`time-slots ${className} ${count % 3 == 0 ? 'mr-0' : ''}`}>
       <input
@@ -12,6 +23,7 @@ const Checkbox = ({ count, id, startTime, endTime, index, onSelect, checked, tex
         index={index}
         onChange={onSelect}
         checked={checked}
+        eventid={eventId}
       />
       <label className='checkbox-label' htmlFor={id} />
       <label className='checkbox-text' htmlFor={id}>

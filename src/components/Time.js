@@ -1,10 +1,14 @@
 import React from 'react';
 import Checkbox from './Checkbox';
 const Time = ({ props }) => {
-  const { data, index, selected, onSelect, isSelectedAll, text } = props;
+  const { data, index, selected, onSelect, isSelectedAll, text, eventId } = props;
   const count = index + 1;
-  let isChecked = isSelectedAll || selected[data.id] != undefined;
-  console.log(typeof onSelect);
+  let isChecked =
+    (selected &&
+      Object.keys(selected).length > 0 &&
+      selected[eventId] &&
+      selected[eventId][data.id]) ||
+    isSelectedAll;
   return (
     <Checkbox
       id={data.id}
@@ -15,6 +19,7 @@ const Time = ({ props }) => {
       onSelect={onSelect}
       checked={isChecked}
       text={text}
+      eventId={eventId}
     />
   );
 };

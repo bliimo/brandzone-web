@@ -84,5 +84,12 @@ const style = {
   },
   rowClient: {
     justifyContent: 'center'
+  },
+  tabTitleHeaderHr: {
+    borderBottom: '3.2px solid #8ec63f',
+    width: '5.5em',
+    position: 'relative',
+    margin: 'auto',
+    top: '1em'
   }
 };

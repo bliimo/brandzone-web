@@ -15,7 +15,15 @@ import Header from './Header';
 import Footer from './Footer';
 import { ToastContainer, toast } from 'react-toastify';
 import { isEmpty } from 'lodash';
-import { loginUser, getLatestEvents, getInstitution, addUser, setBookings } from '../store/actions';
+import {
+  loginUser,
+  getLatestEvents,
+  getInstitution,
+  addUser,
+  setBookings,
+  getMultipleLatestEvents,
+  upload
+} from '../store/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import PrivacyContent from './PrivacyContent';
@@ -291,7 +299,7 @@ const LoginTab = ({ parent }) => {
       <hr style={style.tabTitleHeaderHr} />
       <MDBContainer style={style.loginForm} id='loginForm'>
         <TextInput
-          placeholder='Email address'
+          placeHolder='Email address'
           id='email'
           onChange={parent.OnHandleChange}
           type='email'
@@ -302,7 +310,7 @@ const LoginTab = ({ parent }) => {
           autocomplete='off'
         />
         <TextInput
-          placeholder='Password'
+          placeHolder='Password'
           id='password'
           onChange={parent.OnHandleChange}
           type='password'
@@ -387,7 +395,7 @@ const SubmitSignUp = ({ parent }) => {
           id='btnSignup'
           onClick={parent.props.user.isLoading ? () => {} : parent.OnHandleSignUp}
         >
-          <Text className='btn-animate-text-signup'>
+          <Text className='btn-animate-text-signup' style={{ color: '#fff' }}>
             {parent.props.user.isLoading ? 'Please wait...' : 'Sign Up'}
           </Text>
         </Button>
@@ -401,6 +409,7 @@ class HomeTab extends Component {
     super(props);
     this.toastId = null;
     this.state = {
+      id: undefined,
       activeItem: '1',
       email: '',
       password: '',
@@ -432,7 +441,9 @@ class HomeTab extends Component {
       allEvents: {},
       setBookings: [],
       isNewInstitution: false,
-      otherInstitution: ''
+      otherInstitution: '',
+      multipleEvent: [],
+      pic: null
     };
   }
 
@@ -477,8 +488,15 @@ class HomeTab extends Component {
     this.setState({ [event.target.id]: event.target.value, emailError, passwordError });
   };
 
-  OnHandleGetTimeSlots = selectedSchedules => {
-    this.setState({ selectedSchedules });
+  OnHandleGetTimeSlots = selectedSchedule => {
+    const { selectedEvent, selectedSchedules } = this.state;
+    Object.keys(selectedSchedule).map(e => {
+      if (selectedSchedule[e] != undefined) {
+        selectedSchedules[e] = selectedSchedule[e];
+      } else {
+        delete selectedSchedules[e];
+      }
+    });
     this.OnHandleSelectedSchedules(selectedSchedules);
   };
 
@@ -505,83 +523,41 @@ class HomeTab extends Component {
     }
   };
 
-  OnHandleSetEvents = events => {
-    if (this.state.events.length == 0 && events.length > 0) {
+  OnHandleSetEvents = (events, multipleEvent) => {
+    if (events.length > 0 && multipleEvent.length > 0 && this.state.events.length == 0) {
       const allEvents = {
         id: events[events.length - 1].id + 1,
         date: new Date(),
         title: 'All',
         address: '',
         isAllEvent: true,
-        schedules: [
-          {
-            id: 1,
-            startTime: '02:00:00',
-            endTime: '02:20:00'
-          },
-          {
-            id: 2,
-            startTime: '02:20:00',
-            endTime: '02:40:00'
-          },
-          {
-            id: 3,
-            startTime: '02:40:00',
-            endTime: '03:00:00'
-          },
-          {
-            id: 4,
-            startTime: '03:00:00',
-            endTime: '03:20:00'
-          },
-          {
-            id: 5,
-            startTime: '03:20:00',
-            endTime: '03:40:00'
-          },
-          {
-            id: 6,
-            startTime: '03:40:00',
-            endTime: '04:00:00'
-          },
-          {
-            id: 7,
-            startTime: '04:00:00',
-            endTime: '04:20:00'
-          },
-          {
-            id: 8,
-            startTime: '04:20:00',
-            endTime: '04:40:00'
-          },
-          {
-            id: 9,
-            startTime: '04:40:00',
-            endTime: '05:00:00'
-          },
-          {
-            id: 10,
-            startTime: '05:00:00',
-            endTime: '05:20:00'
-          },
-          {
-            id: 11,
-            startTime: '05:20:00',
-            endTime: '05:40:00'
-          },
-          {
-            id: 12,
-            startTime: '05:40:00',
-            endTime: '06:00:00'
-          }
-        ]
+        schedules: {
+          scheds: multipleEvent,
+          eventId: events[events.length - 1].id + 1,
+          isAllEvent: true
+        }
       };
       events.push(allEvents);
       this.setState({
         events,
         allEvents,
-        schedules: allEvents.schedules,
+        schedules: {
+          scheds: multipleEvent.length > 0 ? multipleEvent : allEvents.schedules,
+          eventId: events[events.length - 1].id + 1,
+          isAllEvent: true
+        },
         selectedEvent: allEvents
+      });
+    } else if (events.length > 0 && multipleEvent.length == 0 && this.state.events.length == 0) {
+      this.setState({
+        events,
+        allEvents: {},
+        schedules: {
+          scheds: events[0].schedules,
+          eventId: events[0].id,
+          isAllEvent: false
+        },
+        selectedEvent: events[0]
       });
     }
   };
@@ -606,25 +582,12 @@ class HomeTab extends Component {
   };
 
   OnHandleSelectedSchedules = selectedSchedules => {
-    const { selectedEvent, events } = this.state;
     let setBookings = [];
-    if (selectedEvent.isAllEvent) {
-      Object.values(selectedSchedules).map(scheds => {
-        events.map(e => {
-          if (e.id != selectedEvent.id) {
-            e.schedules.map(sched => {
-              if (sched.startTime == scheds.startTime) {
-                setBookings.push(sched.id);
-              }
-            });
-          }
-        });
+    Object.keys(selectedSchedules).map(multiEventId => {
+      Object.keys(selectedSchedules[multiEventId]).map(id => {
+        setBookings.push(id);
       });
-    } else {
-      Object.keys(selectedSchedules).map(scheds => {
-        setBookings.push(scheds);
-      });
-    }
+    });
     this.setState({ setBookings: [...new Set(setBookings)], selectedSchedules });
   };
 
@@ -777,6 +740,11 @@ class HomeTab extends Component {
       }
     }
 
+    if (!this.state.pic) {
+      this.notify('Required profile picture');
+      return false;
+    }
+
     if (Object.keys(selectedSchedules).length <= 0) {
       this.notify('Please select time slot');
       return false;
@@ -788,12 +756,6 @@ class HomeTab extends Component {
     }
 
     return true;
-  };
-
-  OnHandleSetBookings = () => {
-    const bookingScheds = this.state.setBookings;
-    const { setBookings } = this.props;
-    setBookings({ scheduleId: bookingScheds });
   };
 
   OnHandleSignUp = () => {
@@ -819,16 +781,28 @@ class HomeTab extends Component {
   };
 
   OnHandleEventType = index => {
-    let { events } = this.state;
-    this.setState({
-      schedules: events[index].schedules,
-      selectedEvent: events[index]
-    });
+    let { events, multipleEvent, selectedSchedules, selectedEvent } = this.state;
+    if (events.length > 0) {
+      if (events[index].isAllEvent) {
+        this.setState({
+          schedules: { scheds: multipleEvent, eventId: events[index].id, isAllEvent: true },
+          selectedEvent: events[index]
+        });
+      } else {
+        this.setState({
+          schedules: { scheds: events[index].schedules, eventId: events[index].id },
+          selectedEvent: events[index]
+        });
+      }
+    }
+    this.setState({ selectedSchedules: {} });
   };
 
   OnHandlePicture = event => {
-    const { onUpload } = this.props;
-    this.setState({ profilePic: URL.createObjectURL(event.target.files[0]) });
+    this.setState({
+      profilePic: URL.createObjectURL(event.target.files[0]),
+      pic: event.target
+    });
   };
 
   OnHandleCheckPrivacy = () => {
@@ -847,13 +821,42 @@ class HomeTab extends Component {
   };
 
   componentWillMount() {
-    const { getLatestEvents, getInstitution } = this.props;
+    const { getLatestEvents, getInstitution, getMultipleLatestEvents } = this.props;
     getLatestEvents();
+    getMultipleLatestEvents();
     getInstitution();
   }
 
+  OnHandleUpload = (pic, id) => {
+    const formData = new FormData();
+    formData.append('file', pic);
+    this.props.upload(formData, id);
+  };
+
   componentWillReceiveProps(nextProps) {
-    const { auth, events, institution, user, loginError, signUpError } = nextProps;
+    const {
+      auth,
+      events,
+      institution,
+      user,
+      loginError,
+      signUpError,
+      multipleEvent,
+      isLoadingMulti
+    } = nextProps;
+    let multiArray = [];
+    if (multipleEvent.multiplEvents.length > 0) {
+      let multi = {};
+      multipleEvent.multiplEvents.map((e, i) => {
+        if (multi[e.id] === undefined) {
+          multi[e.id] = e;
+        }
+      });
+      Object.keys(multi).map(e => {
+        multiArray.push(multi[e]);
+      });
+      this.setState({ multipleEvent: multiArray });
+    }
 
     const { activeItem } = this.state;
 
@@ -867,8 +870,9 @@ class HomeTab extends Component {
       return false;
     }
     if (user.user && Object.keys(user.user).length > 0 && this.state.activeItem === '3') {
-      toast.success('Successfully registered please login');
+      this.OnHandleUpload(this.state.pic.files[0], user.user.id);
       this.setState({
+        id: undefined,
         activeItem: '2',
         email: '',
         password: '',
@@ -890,12 +894,15 @@ class HomeTab extends Component {
         companyWebsite: '',
         confirmPassword: ''
       });
+      toast.success('Successfully registered please login');
     }
 
     if (auth.isAuthenticated) window.location.reload();
 
     if (events && !auth.isLoading) {
-      this.OnHandleSetEvents(events);
+      if (!isLoadingMulti) {
+        this.OnHandleSetEvents(events, multiArray);
+      }
       this.OnHandleSetInstitution(institution);
     }
   }
@@ -927,6 +934,7 @@ class HomeTab extends Component {
       </React.Fragment>
     );
   }
+
   componentDidMount() {
     localStorage.removeItem('institutionType');
   }
@@ -1081,7 +1089,7 @@ const style = {
     font: '10.5px Helvetica',
     marginLeft: '30px !important',
     position: 'relative',
-    bottom: '.1em'
+    bottom: '.6em'
   },
   backIcon: {
     fontSize: 13
@@ -1105,10 +1113,22 @@ const mapStateToProps = state => ({
   institution: state.institution.institution,
   user: state.user,
   signUpError: state.user.error,
-  booking: state.booking
+  booking: state.booking,
+  multipleEvent: state.multipleEvent,
+  isLoadingMulti: state.multipleEvent.isLoading,
+  upload: state.upload.upload,
+  isloadingUpload: state.upload.isLoading
 });
 
 export default connect(
   mapStateToProps,
-  { loginUser, getLatestEvents, getInstitution, addUser, setBookings }
+  {
+    loginUser,
+    getLatestEvents,
+    getInstitution,
+    addUser,
+    setBookings,
+    getMultipleLatestEvents,
+    upload
+  }
 )(withRouter(HomeTab));

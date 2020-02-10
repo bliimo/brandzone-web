@@ -9,6 +9,11 @@ const Profile = ({ parent }) => {
   let profiles = [];
   parent.state.bookings.map((booking, i) => {
     const { id, setBy, bookedBy } = booking;
+
+    let profilePicture = '';
+    if (setBy) {
+      profilePicture = setBy.profilePicture;
+    }
     if (bookedBy == null) {
       let isValid = true;
       parent.state.event.schedules.map(scheds => {
@@ -42,7 +47,9 @@ const Profile = ({ parent }) => {
                 <MDBCol className='p-0' xl='5' lg={'6'} md={'6'} sm={'12'}>
                   <img
                     src={
-                      'https://bpxk748cf4n2yzlvi1rkrh61-wpengine.netdna-ssl.com/wp-content/uploads/sites/17/2018/06/Avatar-Unisex-Default.jpg'
+                      profilePicture
+                        ? profilePicture
+                        : 'https://bpxk748cf4n2yzlvi1rkrh61-wpengine.netdna-ssl.com/wp-content/uploads/sites/17/2018/06/Avatar-Unisex-Default.jpg'
                     }
                     alt='Profile'
                     className={`${parent.props.isShowList ? 'h-230' : 'h-100'} w-100 `}
@@ -99,7 +106,9 @@ const Profile = ({ parent }) => {
   return profiles.length > 0 ? (
     profiles
   ) : (
-    <Text style={style.noAvailable}>No available schedules in this event.</Text>
+    <Text className='mt-2' style={style.noAvailable}>
+      No available schedules in this event.
+    </Text>
   );
 };
 
@@ -130,6 +139,8 @@ class BookingProfileList extends Component {
     const { parent, bookingScheduleId, users, schedule, account, isShowList } = nextProps;
     const { events, activeItem } = parent.state;
     let bookings = [];
+    users.sort((a, b) => a.setBy.firstName.localeCompare(b.setBy.firstName));
+
     users.map(user => {
       user.setBy.roles.map(role => {
         const currentRole =
