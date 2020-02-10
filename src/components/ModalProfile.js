@@ -70,16 +70,17 @@ class ModalProfile extends Component {
       updateErr,
       userUpdated,
       uploadErr,
-      upload,
+      uploadData,
       isLoadingUpload
     } = nextProps;
 
-    if (!this.props.upload && upload && !isLoadingUpload && uploadErr) {
+    if (!this.props.uploadData && !upload && !isLoadingUpload && uploadErr) {
       toast.error(uploadErr);
     }
 
-    if (!this.props.upload && upload && !isLoadingUpload && !uploadErr) {
-      window.location.reload();
+    if (typeof this.props.uploadData == 'object' && uploadData.length > 0 && !isLoadingUpload) {
+      this.props.logoutUser();
+      window.location.replace('/');
     }
 
     let institutionTypeId = 0;
@@ -536,7 +537,7 @@ const mapStateToProps = state => ({
   user: state.updateUser,
   isLoading: state.updateUser.isLoading,
   updateErr: state.updateUser.error,
-  upload: state.upload,
+  uploadData: state.upload.upload,
   uploadErr: state.upload.error,
   isLoadingUpload: state.upload.isLoading
 });
