@@ -75,7 +75,7 @@ const Informations = ({ account, OnHandleOpenProfile }) => {
           </Text>
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>
-          <Text className='booking-profile-info pl-2 text-lowercase' style={style.profileInfo}>
+          <Text className='booking-profile-info pl-2 text-lowercase ' style={style.profileInfo}>
             Email:&nbsp;&nbsp;
             {email}
           </Text>
