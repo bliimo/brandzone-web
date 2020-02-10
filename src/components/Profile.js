@@ -39,14 +39,14 @@ const Informations = ({ account, OnHandleOpenProfile }) => {
       <Text style={style.institutionName}>{nameInfo}</Text>
       <br />
       <MDBRow className='mr-0 ml-0'>
-        <MDBCol xl='6' md='12' className='p-0'>
+        <MDBCol xl='12' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            Profile Description:&nbsp;&nbsp;{profileDesc}
+            <strong>Profile Description:</strong>&nbsp;&nbsp;{profileDesc}
           </Text>
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>
-          <Text className='booking-profile-info pl-2' style={style.profileInfo}>
-            Tel Number:&nbsp;&nbsp;
+          <Text className='booking-profile-info' style={style.profileInfo}>
+            <strong>Tel Number:</strong>&nbsp;&nbsp;
             {phoneNumber && (
               <MediaQuery maxDeviceWidth={768}>
                 <EllipsisText text={phoneNumber} length={40} />
@@ -61,7 +61,7 @@ const Informations = ({ account, OnHandleOpenProfile }) => {
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            Name:&nbsp;&nbsp;
+            <strong>Name:</strong>&nbsp;&nbsp;
             {firstName && (
               <MediaQuery maxDeviceWidth={768}>
                 <EllipsisText text={`${firstName} ${lastName}`} length={39} />
@@ -75,36 +75,27 @@ const Informations = ({ account, OnHandleOpenProfile }) => {
           </Text>
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>
-          <Text className='booking-profile-info pl-2 text-lowercase' style={style.profileInfo}>
-            Email:&nbsp;&nbsp;
-            {email}
+          <Text className='booking-profile-info' style={style.profileInfo}>
+            <strong>Email:</strong>&nbsp;&nbsp;
+            <span className='text-lowercase'>{email}</span>
           </Text>
         </MDBCol>
         <MDBCol xl='12' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            Job Title:&nbsp;&nbsp;
-            {jobTitle && (
-              <MediaQuery maxDeviceWidth={768}>
-                <EllipsisText text={jobTitle} length={45} />
-              </MediaQuery>
-            )}
-            {jobTitle && (
-              <MediaQuery minDeviceWidth={768}>
-                <EllipsisText text={jobTitle} length={27} />
-              </MediaQuery>
-            )}
+            <strong>Job Title:</strong>&nbsp;&nbsp;
+            {jobTitle}
           </Text>
         </MDBCol>
         <br />
         <br />
         <MDBCol md='12' xl='6' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            Country:&nbsp;&nbsp; {countryInfo}
+            <strong>Country:</strong>&nbsp;&nbsp; {countryInfo}
           </Text>
         </MDBCol>
         <MDBCol md='12' xl='6' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            Province:&nbsp;&nbsp; {provinceInfo}
+            <strong>Province:</strong>&nbsp;&nbsp; {provinceInfo}
           </Text>
         </MDBCol>
         <MDBCol md='12' xl='6' className='p-0'>
@@ -114,7 +105,16 @@ const Informations = ({ account, OnHandleOpenProfile }) => {
         </MDBCol>
         <MDBCol md='12' xl='6' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            Website:&nbsp;&nbsp; {websiteInfo}
+            <strong>Website:</strong>&nbsp;&nbsp;
+            <a
+              href={`${websiteInfo}`}
+              className='text-lowercase'
+              rel='noopener noreferrer'
+              target='_blank'
+              alt='website'
+            >
+              {websiteInfo}
+            </a>
           </Text>
         </MDBCol>
         <br />

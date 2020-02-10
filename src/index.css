@@ -1327,3 +1327,7 @@ input#otherInstitution {
 .text-lowercase {
   text-transform: lowercase !important;
 }
+
+strong {
+  font-weight: bold !important;
+}

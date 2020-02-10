@@ -169,26 +169,14 @@ const Informations = ({ parent }) => {
             </Text>
           </MDBCol>
         )}
-        <MDBCol xl='6' md='12' className='p-0'>
+        <MDBCol xl='12' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            Profile Description:&nbsp;&nbsp;{profileDesc}
-            {/* <MediaQuery maxDeviceWidth={768}>
-              <EllipsisText
-                text={}
-                length={35}
-              />
-            </MediaQuery> */}
-            {/* <MediaQuery minDeviceWidth={768}>
-              <EllipsisText
-                text={`sdsds ssds sds dsds ds dsdsdsd dsdsdsd  dsdsdsd dsdsdsd dsdsdsd dsdsdsd v dsdsdsd dsdsdsd`}
-                length={18}
-              />
-            </MediaQuery> */}
+            <strong>Profile Description:</strong>&nbsp;&nbsp;{profileDesc}
           </Text>
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>
-          <Text className='booking-profile-info pl-2' style={style.profileInfo}>
-            Tel Number:&nbsp;&nbsp;
+          <Text className='booking-profile-info' style={style.profileInfo}>
+            <strong>Tel Number:</strong>&nbsp;&nbsp;
             {phoneNumber && (
               <MediaQuery maxDeviceWidth={768}>
                 <EllipsisText text={phoneNumber} length={40} />
@@ -203,8 +191,10 @@ const Informations = ({ parent }) => {
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            {localStorage.getItem('userType') == 'exhibitor' ? 'Participant' : 'Exhibitor'}
-            &nbsp; Name:&nbsp;&nbsp;
+            <strong>
+              {localStorage.getItem('userType') == 'exhibitor' ? 'Participant' : 'Exhibitor'}
+              &nbsp; Name:&nbsp;&nbsp;
+            </strong>
             {firstName && (
               <MediaQuery maxDeviceWidth={768}>
                 <EllipsisText text={`${firstName} ${lastName}`} length={39} />
@@ -218,14 +208,14 @@ const Informations = ({ parent }) => {
           </Text>
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>
-          <Text className='booking-profile-info pl-2 text-lowercase' style={style.profileInfo}>
-            Email:&nbsp;&nbsp;
+          <Text className='booking-profile-info text-lowercase' style={style.profileInfo}>
+            <strong>Email:</strong>&nbsp;&nbsp;
             {email}
           </Text>
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            Job Title:&nbsp;&nbsp;
+            <strong>Job Title:</strong>&nbsp;&nbsp;
             {jobTitle && (
               <MediaQuery maxDeviceWidth={768}>
                 <EllipsisText text={jobTitle} length={45} />
@@ -240,7 +230,7 @@ const Informations = ({ parent }) => {
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>
           <Text className='booking-profile-info pl-2' style={style.profileInfo}>
-            Available Slots:&nbsp;&nbsp;{parent.state.slots.length}
+            <strong>Available Slots:</strong>&nbsp;&nbsp;{parent.state.slots.length}
           </Text>
         </MDBCol>
         {!title && parent.state.slots.length > 0 && (
