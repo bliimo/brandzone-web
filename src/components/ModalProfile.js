@@ -63,16 +63,25 @@ class ModalProfile extends Component {
       websiteState,
       profileState,
       programsState = '';
-    const { isOpenModal, account, institution, updateErr, userUpdated, upload } = nextProps;
+    const {
+      isOpenModal,
+      account,
+      institution,
+      updateErr,
+      userUpdated,
+      uploadErr,
+      upload,
+      isLoadingUpload
+    } = nextProps;
     let institutionTypeId = 0;
     if (!this.props.updateErr && updateErr && isOpenModal) {
       toast.error(updateErr);
     }
-    if (!this.props.updateErr && !updateErr && userUpdated.user && this.state.pic) {
+
+    if (!this.props.updateErr && !updateErr && !this.props.userUpdated.user && userUpdated.user) {
       const { pic } = this.state;
-      if (pic) {
-        this.OnHandleUpload(pic.files[0], this.state.id);
-      }
+      if (pic) this.OnHandleUpload(pic.files[0], this.state.id);
+
       if (institution && localStorage.getItem('userType') === 'participant') {
         institution.map((e, i) => {
           if (e.id == userUpdated.user.institutionType.id) {
@@ -81,10 +90,13 @@ class ModalProfile extends Component {
           }
         });
       }
-      setTimeout(() => {
-        window.location.reload();
-      }, 3000);
+
+      if (!pic) {
+        this.props.logoutUser();
+        window.location.replace('/');
+      }
     }
+
     if (institution) {
       this.OnHandleSetInstitution(institution);
     }
@@ -416,10 +428,13 @@ class ModalProfile extends Component {
   OnHandleUpload = (pic, id) => {
     if (pic) {
       const formData = new FormData();
+      this.setState({ isOpenModal: false });
       formData.append('file', pic);
       try {
         this.props.upload(formData, id);
-        this.setState({ pic: undefined });
+        this.setState({ pic: undefined, isOpenModal: false });
+        this.props.logoutUser();
+        window.location.replace('/');
       } catch (error) {
         console.log(error);
       }
@@ -512,7 +527,9 @@ const mapStateToProps = state => ({
   user: state.updateUser,
   isLoading: state.updateUser.isLoading,
   updateErr: state.updateUser.error,
-  upload: state.upload
+  upload: state.upload,
+  uploadErr: state.upload.error,
+  isLoadingUpload: state.upload.isLoading
 });
 
 export default connect(

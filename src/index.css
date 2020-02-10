@@ -1331,3 +1331,7 @@ input#otherInstitution {
 strong {
   font-weight: bold !important;
 }
+
+.modal-open .modal {
+  overflow: scroll !important;
+}

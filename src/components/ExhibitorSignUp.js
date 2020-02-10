@@ -239,6 +239,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         style={style.inputs}
       />
       <PictureUpload OnHandlePicture={parent.OnHandlePicture} parent={parent} />
+      {!isUpdate && <Text style={style.txt}>Choose an event you will participating in:</Text>}
       {!isUpdate && parent.state.events.length > 0 && (
         <Dropdown
           items={items}
@@ -271,5 +272,10 @@ const style = {
     width: 150,
     marginBottom: '2.5em',
     marginTop: '1.8em'
+  },
+  txt: {
+    font: '14px helvetica',
+    color: '#fff',
+    marginBottom: '1em'
   }
 };

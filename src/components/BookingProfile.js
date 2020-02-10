@@ -420,9 +420,7 @@ class BookingProfile extends Component {
       } else {
         profilePicture = setBy.profilePicture;
       }
-      console.log(setBy.profilePicture);
     }
-    console.log(profilePicture);
     return (
       <MDBContainer fluid className='booking-profile'>
         <Button

@@ -882,9 +882,9 @@ class HomeTab extends Component {
         companyProfile: '',
         companyCity: '',
         jobTitle: '',
-        phoneNumber: '',
+        phoneNumber: 'N/A',
         signUpEmail: '',
-        signUpPassword: '',
+        signUpPassword: 'Password@123',
         institutionName: '',
         firstName: '',
         lastName: '',
@@ -892,7 +892,7 @@ class HomeTab extends Component {
         profilePic: null,
         isCheckedPrivacy: false,
         companyWebsite: '',
-        confirmPassword: ''
+        confirmPassword: 'Password@123'
       });
       toast.success('Successfully registered please login');
     }
