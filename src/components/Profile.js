@@ -6,21 +6,12 @@ import MediaQuery from 'react-responsive';
 import Button from './Button';
 
 const Informations = ({ account, OnHandleOpenProfile }) => {
-  let {
-    phoneNumber,
-    firstName,
-    lastName,
-    email,
-    jobTitle,
-    institution,
-    company,
-    profilePicture
-  } = account;
+  let { phoneNumber, firstName, lastName, email, jobTitle, institution, company } = account;
   let nameInfo,
     countryInfo,
     provinceInfo,
     websiteInfo,
-    profileInfo,
+    profileDesc,
     cityInfo = '';
 
   if (company) {
@@ -29,7 +20,7 @@ const Informations = ({ account, OnHandleOpenProfile }) => {
     countryInfo = country;
     provinceInfo = province;
     websiteInfo = website;
-    profileInfo = profile;
+    profileDesc = profile;
     cityInfo = city;
   }
 
@@ -39,7 +30,7 @@ const Informations = ({ account, OnHandleOpenProfile }) => {
     countryInfo = country;
     provinceInfo = province;
     websiteInfo = website;
-    profileInfo = profile;
+    profileDesc = profile;
     cityInfo = city;
   }
 
@@ -50,7 +41,7 @@ const Informations = ({ account, OnHandleOpenProfile }) => {
       <MDBRow className='mr-0 ml-0'>
         <MDBCol xl='6' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            Profile Description:&nbsp;&nbsp;N/A
+            Profile Description:&nbsp;&nbsp;{profileDesc}
           </Text>
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>
@@ -84,7 +75,7 @@ const Informations = ({ account, OnHandleOpenProfile }) => {
           </Text>
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>
-          <Text className='booking-profile-info pl-2' style={style.profileInfo}>
+          <Text className='booking-profile-info pl-2 text-lowercase' style={style.profileInfo}>
             Email:&nbsp;&nbsp;
             {email}
           </Text>
@@ -124,11 +115,6 @@ const Informations = ({ account, OnHandleOpenProfile }) => {
         <MDBCol md='12' xl='6' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
             Website:&nbsp;&nbsp; {websiteInfo}
-          </Text>
-        </MDBCol>
-        <MDBCol xl='12' md='12' className='p-0'>
-          <Text className='booking-profile-info' style={style.profileInfo}>
-            Profile:&nbsp;&nbsp; {profileInfo}
           </Text>
         </MDBCol>
         <br />

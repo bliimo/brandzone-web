@@ -111,15 +111,19 @@ const Informations = ({ parent }) => {
     lastName,
     email,
     jobTitle,
-    institution,
-    profilePicture
+    institution
   } = parent.state.profile.setBy;
   let institutionName = '';
+  let profileDesc = '';
 
   try {
-    institutionName = institution.name;
+    const { name, profile } = institution;
+    institutionName = name;
+    profileDesc = profile;
   } catch (error) {
-    institutionName = parent.state.profile.setBy.company.name;
+    const { name, profile } = parent.state.profile.setBy.company;
+    institutionName = name;
+    profileDesc = profile;
   }
 
   if (parent.state.profile.setBy.id == parent.state.account.id) {
@@ -167,7 +171,7 @@ const Informations = ({ parent }) => {
         )}
         <MDBCol xl='6' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            Profile Description:&nbsp;&nbsp;N/A
+            Profile Description:&nbsp;&nbsp;{profileDesc}
             {/* <MediaQuery maxDeviceWidth={768}>
               <EllipsisText
                 text={}
@@ -214,7 +218,7 @@ const Informations = ({ parent }) => {
           </Text>
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>
-          <Text className='booking-profile-info pl-2' style={style.profileInfo}>
+          <Text className='booking-profile-info pl-2 text-lowercase' style={style.profileInfo}>
             Email:&nbsp;&nbsp;
             {email}
           </Text>
@@ -517,7 +521,7 @@ const style = {
     font: '10.5px Helvetica',
     marginLeft: 10,
     position: 'relative',
-    bottom: '.1em'
+    bottom: '.5em'
   },
   backIcon: {
     fontSize: 13
