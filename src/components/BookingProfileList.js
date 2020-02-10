@@ -2,7 +2,6 @@ import React, { Component } from 'react';
 import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
 import Text from './Text';
 import Button from './Button';
-import EllipsisText from 'react-ellipsis-text';
 import ModalBooking from './ModalBooking';
 
 const Profile = ({ parent }) => {
@@ -45,15 +44,7 @@ const Profile = ({ parent }) => {
             <MDBContainer>
               <MDBRow style={style.rowProfile} id='row-profile'>
                 <MDBCol className='p-0' xl='5' lg={'6'} md={'6'} sm={'12'}>
-                  <img
-                    src={
-                      profilePicture
-                        ? profilePicture
-                        : 'https://bpxk748cf4n2yzlvi1rkrh61-wpengine.netdna-ssl.com/wp-content/uploads/sites/17/2018/06/Avatar-Unisex-Default.jpg'
-                    }
-                    alt='Profile'
-                    className={`${parent.props.isShowList ? 'h-230' : 'h-100'} w-100 `}
-                  />
+                  <img src={profilePicture} alt='Profile' style={style.pic} className='w-100' />
                 </MDBCol>
                 <MDBCol
                   style={style.actionList}
@@ -69,9 +60,7 @@ const Profile = ({ parent }) => {
                   >
                     {institution}
                   </Text>
-                  <Text style={style.name}>
-                    <EllipsisText text={`${setBy.firstName} ${setBy.lastName}`} length={19} />
-                  </Text>
+                  <Text style={style.name}>{`${setBy.firstName} ${setBy.lastName}`}</Text>
                   <div className='mt-2'>
                     <Button
                       className='profileBtnList'
@@ -107,7 +96,7 @@ const Profile = ({ parent }) => {
     profiles
   ) : (
     <Text className='mt-2' style={style.noAvailable}>
-      No available schedules in this event.
+      {parent.state.isLoaded ? 'No available schedules in this event.' : 'Please wait...'}
     </Text>
   );
 };
@@ -123,6 +112,7 @@ class BookingProfileList extends Component {
     selectedSlot: null,
     selectedSchedule: {},
     event: {},
+    isLoaded: false,
     OnHandleResetEvents: () => {}
   };
 
@@ -133,6 +123,16 @@ class BookingProfileList extends Component {
   OnHandleCloseModal() {
     this.setState({ isOpenModal: false });
     this.state.OnHandleResetEvents();
+  }
+  componentDidMount() {
+    setTimeout(() => {
+      try {
+        if (this.props.parent.state.isOpenList) {
+          document.getElementById(`tab-${this.props.parent.state.activeItem}`).click();
+        }
+      } catch (error) {}
+      this.setState({ isLoaded: true });
+    }, 3000);
   }
 
   componentWillReceiveProps(nextProps) {
@@ -247,6 +247,11 @@ const style = {
     position: 'relative',
     top: '1.8em',
     letterSpacing: 1
+  },
+  pic: {
+    backgroundColor: '#fff',
+    objectFit: 'contain',
+    padding: '.2em'
   }
 };
 export default BookingProfileList;

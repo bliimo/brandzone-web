@@ -13,15 +13,7 @@ const Profile = ({ OnHandleShowSideBar, account }) => {
   return (
     <div className='d-flex' style={style.profile}>
       <div className='d-flex' id='profile-lg'>
-        <img
-          src={
-            profilePicture
-              ? profilePicture
-              : 'https://bpxk748cf4n2yzlvi1rkrh61-wpengine.netdna-ssl.com/wp-content/uploads/sites/17/2018/06/Avatar-Unisex-Default.jpg'
-          }
-          style={style.avatar}
-          alt='profile'
-        />
+        <img src={profilePicture} style={style.avatar} alt='profile' />
         <Text style={style.userName}>
           Hi, {firstName} {lastName}!
         </Text>
@@ -122,9 +114,12 @@ const style = {
     top: 13
   },
   avatar: {
-    height: 40,
-    width: 40,
-    borderRadius: 4
+    height: 45,
+    width: 45,
+    borderRadius: 4,
+    objectFit: 'contain',
+    background: '#fff',
+    padding: '.2em'
   },
   profile: {
     position: 'relative',

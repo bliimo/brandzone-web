@@ -33,15 +33,7 @@ const SideBar = ({
       <div style={style.content}>
         <div style={style.sidebarProfile}>
           <div style={style.profileInfo}>
-            <img
-              src={
-                profilePicture
-                  ? profilePicture
-                  : 'https://bpxk748cf4n2yzlvi1rkrh61-wpengine.netdna-ssl.com/wp-content/uploads/sites/17/2018/06/Avatar-Unisex-Default.jpg'
-              }
-              style={style.avatar}
-              alt='profile'
-            />
+            <img src={profilePicture} style={style.avatar} alt='profile' />
             <div style={style.profileContent}>
               <p style={style.userName}>
                 {firstName} {lastName}
@@ -85,7 +77,7 @@ const SideBar = ({
           <NavLink
             to='#'
             onClick={e => {
-              OnHandleToggle('104');
+              OnHandleToggle('profile');
               OnHandleShowSideBar();
             }}
             style={style.links}
@@ -112,7 +104,7 @@ const SideBar = ({
             <NavLink
               to='#'
               onClick={e => {
-                OnHandleToggle('102');
+                OnHandleToggle('about');
                 OnHandleShowSideBar();
               }}
               style={style.links}
@@ -123,7 +115,7 @@ const SideBar = ({
             <NavLink
               to='#'
               onClick={e => {
-                OnHandleToggle('103');
+                OnHandleToggle('contact');
                 OnHandleShowSideBar();
               }}
               style={style.links}
@@ -134,7 +126,7 @@ const SideBar = ({
             <NavLink
               to='#'
               onClick={e => {
-                OnHandleToggle('100');
+                OnHandleToggle('privacy');
                 OnHandleShowSideBar();
               }}
               style={style.links}
@@ -145,7 +137,7 @@ const SideBar = ({
             <NavLink
               to='#'
               onClick={e => {
-                OnHandleToggle('101');
+                OnHandleToggle('terms');
                 OnHandleShowSideBar();
               }}
               style={style.links}
@@ -202,7 +194,10 @@ const style = {
   avatar: {
     height: 65,
     width: 65,
-    borderRadius: 5
+    borderRadius: 5,
+    objectFit: 'contain',
+    background: '#fff',
+    padding: '.2em'
   },
   userName: {
     margin: 0,

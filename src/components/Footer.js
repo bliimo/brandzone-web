@@ -93,24 +93,24 @@ const Footer = ({
                   <React.Fragment>
                     <ul className='d-inline-block footer-link mt-2 mb-0'>
                       <li className='d-inline-block'>
-                        <NavLink to='#' onClick={e => OnHandleToggle('102')}>
+                        <NavLink to='#' onClick={e => OnHandleToggle('about')}>
                           <Text style={style.footerLink}>About us</Text>
                         </NavLink>
                       </li>
                       <li className='d-inline-block'>
-                        <NavLink to='#' onClick={e => OnHandleToggle('103')}>
+                        <NavLink to='#' onClick={e => OnHandleToggle('contact')}>
                           <Text style={style.footerLink}>Contact us</Text>
                         </NavLink>
                       </li>
                     </ul>
                     <ul className='d-inline-block footer-link mb-0 mt-2'>
                       <li className='d-inline-block'>
-                        <NavLink to='#' onClick={e => OnHandleToggle('100')}>
+                        <NavLink to='#' onClick={e => OnHandleToggle('privacy')}>
                           <Text style={style.footerLink}>Privacy Policy</Text>
                         </NavLink>
                       </li>
                       <li className='d-inline-block'>
-                        <NavLink to='#' onClick={e => OnHandleToggle('101')}>
+                        <NavLink to='#' onClick={e => OnHandleToggle('terms')}>
                           <Text style={style.footerLink}>Terms & Schedule</Text>
                         </NavLink>
                       </li>

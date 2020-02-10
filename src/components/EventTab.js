@@ -17,8 +17,7 @@ import PrivacyContent from './PrivacyContent';
 import TermsContent from './TermsContent';
 import ModalProfile from './ModalProfile';
 import Profile from './Profile';
-import EllipsisText from 'react-ellipsis-text/lib/components/EllipsisText';
-
+import loader from '../assets/images/loader.gif';
 const Link = ({ data, parent, index }) => {
   const { title } = data;
   return (
@@ -225,6 +224,7 @@ const Schedule = ({ data, parent, index }) => {
           schedule={data}
           account={parent.props.account}
           isShowList={parent.state.isShowList}
+          isLoading={parent.props.isLoading}
         />
       </div>
     </div>
@@ -244,7 +244,7 @@ const Schedules = ({ parent }) => {
   return scheds;
 };
 
-const List = ({ parent }) => {
+const List = ({ parent, isLoading }) => {
   const { activeItem, events } = parent.state;
   let users = {};
   let schedule = {};
@@ -282,13 +282,14 @@ const List = ({ parent }) => {
       schedule={schedule}
       account={parent.props.account}
       isShowList={parent.state.isShowList}
+      isLoading={parent.props.isLoading}
     />
   );
 };
 
 const PrivacyPolicyTab = ({ parent }) => {
   return (
-    <MDBTabPane tabId='100' role='tabpanel' className='fade-effect'>
+    <MDBTabPane tabId='privacy' role='tabpanel' className='fade-effect'>
       <Button
         className='cursor-pointer booking-signup-back'
         onClick={() => window.location.reload()}
@@ -311,7 +312,7 @@ const PrivacyPolicyTab = ({ parent }) => {
 
 const TermsTab = ({ parent }) => {
   return (
-    <MDBTabPane tabId='101' role='tabpanel' className='fade-effect'>
+    <MDBTabPane tabId='terms' role='tabpanel' className='fade-effect'>
       <Button
         className='cursor-pointer booking-signup-back'
         onClick={() => window.location.reload()}
@@ -338,15 +339,15 @@ const TabLinks = ({ parent }) => {
       <MDBNavItem
         style={{
           display:
-            parent.state.activeItem === '100' || parent.state.activeItem === '101'
+            parent.state.activeItem === 'privacy' || parent.state.activeItem === 'terms'
               ? 'block'
               : 'none'
         }}
       >
         <NavLink
           to='#'
-          className={`nav-links ${parent.state.activeItem === '100' ? 'active-tab' : ''}`}
-          onClick={() => parent.OnHandleTogglePrivacy('100')}
+          className={`nav-links ${parent.state.activeItem === 'privacy' ? 'active-tab' : ''}`}
+          onClick={() => parent.OnHandleTogglePrivacy('privacy')}
           role='tab'
         >
           <Text style={style.tabTitle}>PRIVACY POLICY</Text>
@@ -356,15 +357,15 @@ const TabLinks = ({ parent }) => {
       <MDBNavItem
         style={{
           display:
-            parent.state.activeItem === '100' || parent.state.activeItem === '101'
+            parent.state.activeItem === 'privacy' || parent.state.activeItem === 'terms'
               ? 'block'
               : 'none'
         }}
       >
         <NavLink
           to='#'
-          className={`nav-links ${parent.state.activeItem === '101' ? 'active-tab' : ''}`}
-          onClick={() => parent.OnHandleTogglePrivacy('101')}
+          className={`nav-links ${parent.state.activeItem === 'terms' ? 'active-tab' : ''}`}
+          onClick={() => parent.OnHandleTogglePrivacy('terms')}
           role='tab'
         >
           <Text style={style.tabTitle}>TERMS & CONDITIONS</Text>
@@ -389,7 +390,7 @@ const FooterTabs = ({ parent }) => {
 
 const AboutUsTab = ({ parent }) => {
   return (
-    <MDBTabPane tabId='102' role='tabpanel' className='fade-effect'>
+    <MDBTabPane tabId='about' role='tabpanel' className='fade-effect'>
       <Button
         className='cursor-pointer booking-signup-back mt-5 mb-5'
         onClick={() => window.location.reload()}
@@ -412,7 +413,7 @@ const AboutUsTab = ({ parent }) => {
 
 const ContactUsTab = ({ parent }) => {
   return (
-    <MDBTabPane tabId='103' role='tabpanel' className='fade-effect'>
+    <MDBTabPane tabId='contact' role='tabpanel' className='fade-effect'>
       <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('1')}>
         <Text style={style.backBtn} className='back-button-text-signup'>
           <div id='chevron'></div>
@@ -452,7 +453,7 @@ const ContactUsTab = ({ parent }) => {
 
 const ProfileTab = ({ parent }) => {
   return (
-    <MDBTabPane tabId='104' role='tabpanel' className='fade-effect'>
+    <MDBTabPane tabId='profile' role='tabpanel' className='fade-effect'>
       <Button
         className='cursor-pointer booking-signup-back mt-5'
         onClick={() => window.location.reload()}
@@ -466,7 +467,7 @@ const ProfileTab = ({ parent }) => {
       </Button>
       <br />
       <div style={{ ...style.about, ...style.aboutFirst }}>
-        {parent.state.activeItem === '104' && (
+        {parent.state.activeItem === 'profile' && (
           <Profile
             account={parent.state.account}
             OnHandleOpenProfile={parent.OnHandleOpenProfile}
@@ -487,7 +488,8 @@ class EventTab extends Component {
     selectedSchedule: {},
     account: {},
     isShowList: false,
-    isOpenProfile: false
+    isOpenProfile: false,
+    isOpenList: false
   };
 
   OnHandleToggle = tab => () => {
@@ -521,7 +523,7 @@ class EventTab extends Component {
   OnHandleOpenTime = id => {
     let { isOpen } = this.state;
     isOpen = id != isOpen ? id : null;
-    this.setState({ isOpen, selectedProfile: null });
+    this.setState({ isOpen, selectedProfile: null, isOpenList: false });
   };
 
   OnHandleGetTimeSlots = schedules => {
@@ -556,16 +558,16 @@ class EventTab extends Component {
   OnHandleShowList = isShow => {
     let { activeItem } = this.state;
     if (
-      activeItem === '100' ||
-      activeItem === '101' ||
-      activeItem === '102' ||
-      activeItem === '103' ||
-      activeItem === '104'
+      activeItem === 'privacy' ||
+      activeItem === 'terms' ||
+      activeItem === 'about' ||
+      activeItem === 'contact' ||
+      activeItem === 'profile'
     ) {
       activeItem = 0;
     }
     window.scrollTo(0, 0);
-    this.setState({ isShowList: isShow, activeItem });
+    this.setState({ isShowList: isShow, activeItem, isOpenList: true });
     this.OnHandleResetEvents();
   };
 
@@ -579,7 +581,7 @@ class EventTab extends Component {
       }
     } catch (error) {}
   }
-
+  x;
   componentWillMount() {
     this.props.getLatestEvents(localStorage.getItem('id'));
   }
@@ -605,31 +607,46 @@ class EventTab extends Component {
         <div
           style={style.main}
           className={`p-0 mb-5 ${
-            this.state.activeItem === '100' ||
-            this.state.activeItem === '101' ||
-            this.state.activeItem === '102' ||
-            this.state.activeItem === '103' ||
-            this.state.activeItem === '104'
+            this.state.activeItem === 'privacy' ||
+            this.state.activeItem === 'terms' ||
+            this.state.activeItem === 'about' ||
+            this.state.activeItem === 'contact' ||
+            this.state.activeItem === 'profile'
               ? 'open-privacy-terms'
               : ''
           }`}
           id='mainTab'
         >
+          {this.props.eventLoading && (
+            <div id='loading' className='text-dark bg-light'>
+              <img src={loader} alt='loader' />
+            </div>
+          )}
+
           {!this.props.auth.isAuthenticated && <Redirect to='/' />}
           {this.state.schedules &&
-            this.state.activeItem !== '100' &&
-            this.state.activeItem !== '101' &&
-            this.state.activeItem !== '102' &&
-            this.state.activeItem !== '103' &&
-            this.state.activeItem !== '104' && <Tabs parent={this} />}
+            this.state.activeItem !== 'privacy' &&
+            this.state.activeItem !== 'terms' &&
+            this.state.activeItem !== 'about' &&
+            this.state.activeItem !== 'contact' &&
+            this.state.activeItem !== 'profile' &&
+            !this.props.eventLoading && <Tabs parent={this} />}
 
-          {(this.state.activeItem === '100' && <FooterTabs parent={this} />) ||
-            (this.state.activeItem === '101' && <FooterTabs parent={this} />)}
+          {(this.state.activeItem === 'privacy' && <FooterTabs parent={this} />) ||
+            (this.state.activeItem === 'terms' && !this.props.eventLoading && (
+              <FooterTabs parent={this} />
+            ))}
 
-          {this.state.activeItem === '102' && <AboutUsTab parent={this} />}
-          {this.state.activeItem === '103' && <ContactUsTab parent={this} />}
+          {this.state.activeItem === 'about' && !this.props.eventLoading && (
+            <AboutUsTab parent={this} />
+          )}
+          {this.state.activeItem === 'contact' && !this.props.eventLoading && (
+            <ContactUsTab parent={this} />
+          )}
 
-          {this.state.activeItem === '104' && <ProfileTab parent={this} />}
+          {this.state.activeItem === 'profile' && !this.props.eventLoading && (
+            <ProfileTab parent={this} />
+          )}
           <ToastContainer />
         </div>
         <ModalProfile
@@ -777,7 +794,8 @@ const mapStateToProps = state => ({
   events: state.event.events,
   user: state.user,
   booking: state.booking.booking,
-  isLoading: state.booking.isLoading
+  isLoading: state.booking.isLoading,
+  eventLoading: state.event.isLoading
 });
 
 export default connect(

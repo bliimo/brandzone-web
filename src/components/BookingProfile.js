@@ -169,12 +169,13 @@ const Informations = ({ parent }) => {
             </Text>
           </MDBCol>
         )}
-        <MDBCol xl='12' md='12' className='p-0'>
+        <MDBCol xl='6' md='6' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            <strong>Profile Description:</strong>&nbsp;&nbsp;{profileDesc}
+            <strong>Profile Description:</strong>&nbsp;&nbsp;{' '}
+            <EllipsisText text={profileDesc} length={10} />
           </Text>
         </MDBCol>
-        <MDBCol xl='6' md='12' className='p-0'>
+        <MDBCol xl='6' md='6' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
             <strong>Tel Number:</strong>&nbsp;&nbsp;
             {phoneNumber && (
@@ -195,16 +196,7 @@ const Informations = ({ parent }) => {
               {localStorage.getItem('userType') == 'exhibitor' ? 'Participant' : 'Exhibitor'}
               &nbsp; Name:&nbsp;&nbsp;
             </strong>
-            {firstName && (
-              <MediaQuery maxDeviceWidth={768}>
-                <EllipsisText text={`${firstName} ${lastName}`} length={39} />
-              </MediaQuery>
-            )}
-            {firstName && (
-              <MediaQuery minDeviceWidth={768}>
-                <EllipsisText text={`${firstName} ${lastName}`} length={19} />
-              </MediaQuery>
-            )}
+            {firstName && `${firstName} ${lastName}`}
           </Text>
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>
@@ -437,12 +429,9 @@ class BookingProfile extends Component {
             <MDBCol xl={'4'} lg={'6'} md={'6'} className='col-img'>
               <img
                 className={`booking-profile-img w-100 mh-300`}
-                src={
-                  profilePicture
-                    ? profilePicture
-                    : 'https://bpxk748cf4n2yzlvi1rkrh61-wpengine.netdna-ssl.com/wp-content/uploads/sites/17/2018/06/Avatar-Unisex-Default.jpg'
-                }
+                src={profilePicture}
                 alt='profile'
+                style={style.pic}
               />
             </MDBCol>
             {Object.keys(profile).length > 0 && <Informations parent={this} />}
@@ -722,6 +711,11 @@ const style = {
     position: 'relative',
     top: '1em',
     height: 37
+  },
+  pic: {
+    objectFit: 'contain',
+    background: '#fff',
+    padding: '.5em'
   }
 };
 

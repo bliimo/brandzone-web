@@ -853,10 +853,11 @@ textarea.signup-input {
 }
 
 .col-img img {
-  object-fit: cover !important;
+  object-fit: contain !important;
 }
 #row-profile img {
-  object-fit: cover !important;
+  object-fit: contain !important;
+  height: 100% !important;
 }
 
 @media only screen and (max-width: 767px) {
@@ -1334,4 +1335,21 @@ strong {
 
 .modal-open .modal {
   overflow: scroll !important;
+}
+
+#loading {
+  position: fixed;
+  height: 100%;
+  width: 100%;
+  left: 0;
+  right: 0;
+  top: 0;
+  z-index: 2;
+  display: flex;
+  justify-content: center;
+}
+
+#loading img {
+  display: block;
+  margin: auto;
 }

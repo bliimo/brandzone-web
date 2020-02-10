@@ -73,6 +73,15 @@ class ModalProfile extends Component {
       upload,
       isLoadingUpload
     } = nextProps;
+
+    if (!this.props.upload && upload && !isLoadingUpload && uploadErr) {
+      toast.error(uploadErr);
+    }
+
+    if (!this.props.upload && upload && !isLoadingUpload && !uploadErr) {
+      window.location.reload();
+    }
+
     let institutionTypeId = 0;
     if (!this.props.updateErr && updateErr && isOpenModal) {
       toast.error(updateErr);
@@ -433,8 +442,8 @@ class ModalProfile extends Component {
       try {
         this.props.upload(formData, id);
         this.setState({ pic: undefined, isOpenModal: false });
-        this.props.logoutUser();
-        window.location.replace('/');
+        // this.props.logoutUser();
+        // window.location.replace('/');
       } catch (error) {
         console.log(error);
       }

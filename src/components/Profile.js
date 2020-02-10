@@ -41,7 +41,8 @@ const Informations = ({ account, OnHandleOpenProfile }) => {
       <MDBRow className='mr-0 ml-0'>
         <MDBCol xl='12' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            <strong>Profile Description:</strong>&nbsp;&nbsp;{profileDesc}
+            <strong>Profile Description:</strong>&nbsp;&nbsp;{' '}
+            <EllipsisText text={profileDesc} length={50} />
           </Text>
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>
@@ -162,12 +163,9 @@ class Profile extends Component {
           <MDBRow id='booking-profile-row'>
             <MDBCol xl={'4'} lg={'6'} md={'6'} className='col-img'>
               <img
+                style={style.profile}
                 className={`booking-profile-img w-100 mh-300`}
-                src={
-                  profilePicture
-                    ? profilePicture
-                    : 'https://bpxk748cf4n2yzlvi1rkrh61-wpengine.netdna-ssl.com/wp-content/uploads/sites/17/2018/06/Avatar-Unisex-Default.jpg'
-                }
+                src={profilePicture}
                 alt='profile'
               />
             </MDBCol>
@@ -241,6 +239,11 @@ const style = {
     font: '11px helvetica',
     position: 'relative',
     top: '.5em'
+  },
+  profile: {
+    objectFit: 'containt',
+    padding: '1em',
+    backgroundColor: '#fff'
   }
 };
 
