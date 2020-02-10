@@ -4,6 +4,8 @@ import TextInput from './TextInput';
 import PictureUpload from './PictureUpload';
 import Slots from './Slots';
 import Text from './Text';
+import { getMonthName } from '../helper/date';
+
 const ExhibitorSignUp = ({ parent, isUpdate }) => {
   let { multipleEvent, schedules } = parent.state;
   const items = parent.state.events;
@@ -11,10 +13,14 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
   if (schedules && schedules.isAllEvent && schedules.scheds) {
     schedules.scheds.map(s => {
       s.events.map((e, i) => {
+        let dateArr = e['date'].split('T')[0].split('-');
+        let date = `${getMonthName(dateArr[1])} ${dateArr[2]}`;
         let scheds = e.schedules;
         let eventId = e.id;
         schedules = { scheds, eventId };
-        slots.push(<Slots key={i} parent={parent} schedules={schedules} title={e.title} />);
+        slots.push(
+          <Slots key={i} parent={parent} schedules={schedules} title={`${date} - ${e.address}`} />
+        );
       });
     });
   } else {
@@ -236,6 +242,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
       {!isUpdate && parent.state.events.length > 0 && (
         <Dropdown
           items={items}
+          isEvent={true}
           action={parent.OnHandleEventType}
           isActive={true}
           customClass='mb-4'
