@@ -453,38 +453,42 @@ class ModalProfile extends Component {
 
   render() {
     return (
-      <MDBContainer>
-        <MDBModal
-          isOpen={this.state.isOpenModal}
-          toggle={() => {}}
-          style={style.modal}
-          centered
-          size='sm'
-        >
-          <MDBModalBody>
-            <h3 className='mb-3'>Edit Profile</h3>
-            {this.OnHandleSignUpForm(localStorage.getItem('userType'))}
-            <Button
-              className='btn-edit'
-              style={style.buttonConfirm}
-              onClick={() => this.OnHandleUpdate()}
+      <React.Fragment>
+        {localStorage.getItem('userType') && (
+          <MDBContainer>
+            <MDBModal
+              isOpen={this.state.isOpenModal}
+              toggle={() => {}}
+              style={style.modal}
+              centered
+              size='sm'
             >
-              <Text className='font-weight-bold' style={style.btnText}>
-                {this.props.isLoading ? 'Please wait' : 'Update'}
-              </Text>
-            </Button>
-            <Button
-              className='btn-edit'
-              style={style.buttonCancel}
-              onClick={this.props.OnHandleOpenProfile}
-            >
-              <Text className='font-weight-bold' style={style.btnText}>
-                Cancel
-              </Text>
-            </Button>
-          </MDBModalBody>
-        </MDBModal>
-      </MDBContainer>
+              <MDBModalBody>
+                <h3 className='mb-3'>Edit Profile</h3>
+                {this.OnHandleSignUpForm(localStorage.getItem('userType'))}
+                <Button
+                  className='btn-edit'
+                  style={style.buttonConfirm}
+                  onClick={() => this.OnHandleUpdate()}
+                >
+                  <Text className='font-weight-bold' style={style.btnText}>
+                    {this.props.isLoading ? 'Please wait' : 'Update'}
+                  </Text>
+                </Button>
+                <Button
+                  className='btn-edit'
+                  style={style.buttonCancel}
+                  onClick={this.props.OnHandleOpenProfile}
+                >
+                  <Text className='font-weight-bold' style={style.btnText}>
+                    Cancel
+                  </Text>
+                </Button>
+              </MDBModalBody>
+            </MDBModal>
+          </MDBContainer>
+        )}
+      </React.Fragment>
     );
   }
 }
@@ -542,7 +546,6 @@ const mapStateToProps = state => ({
   isLoadingUpload: state.upload.isLoading
 });
 
-export default connect(
-  mapStateToProps,
-  { book, getInstitution, updateUser, logoutUser, upload }
-)(withRouter(ModalProfile));
+export default connect(mapStateToProps, { book, getInstitution, updateUser, logoutUser, upload })(
+  withRouter(ModalProfile)
+);

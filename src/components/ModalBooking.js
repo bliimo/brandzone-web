@@ -48,43 +48,51 @@ class ModalBooking extends Component {
             <img src={loader} alt='loader' />
           </div>
         )}
-        <MDBModal
-          isOpen={this.props.parent.state.isOpenModal}
-          toggle={() => {}}
-          style={style.modal}
-          centered
-        >
-          <MDBModalBody>
-            <h6>
-              Get the {startTime}-{endTime}pm slot for this agency?
-            </h6>
-            <h6 className='mb-0'>
-              You are booking a slot on {date} in {title}
-            </h6>
-            <h6 className='mt-0'>
-              at {startTime}-{endTime}pm
-            </h6>
-            <p className='f-italic'>Once you confirm, you cannot cancel this meeting anymore.</p>
-            <Button
-              style={style.buttonConfirm}
-              onClick={() => (this.props.isLoading ? () => {} : this.onHandleBooking())}
-            >
-              <Text className='font-weight-bold' style={style.btnText}>
-                {this.props.isLoading ? 'Please wait...' : 'Confirm slot'}
-              </Text>
-            </Button>
-            {!this.props.isLoading && (
+        {!this.props.isLoading && (
+          <MDBModal
+            isOpen={this.props.parent.state.isOpenModal}
+            toggle={() => {}}
+            style={style.modal}
+            centered
+          >
+            <MDBModalBody>
+              {!this.props.isLoading && (
+                <React.Fragment>
+                  <h6>
+                    Get the {startTime}-{endTime}pm slot for this agency?
+                  </h6>
+                  <h6 className='mb-0'>
+                    You are booking a slot on {date} in {title}
+                  </h6>
+                  <h6 className='mt-0'>
+                    at {startTime}-{endTime}pm
+                  </h6>
+                  <p className='f-italic'>
+                    Once you confirm, you cannot cancel this meeting anymore.
+                  </p>
+                </React.Fragment>
+              )}
               <Button
-                style={style.buttonCancel}
-                onClick={() => this.props.parent.OnHandleToogleModal(undefined)}
+                style={style.buttonConfirm}
+                onClick={() => (this.props.isLoading ? () => {} : this.onHandleBooking())}
               >
                 <Text className='font-weight-bold' style={style.btnText}>
-                  Cancel
+                  {this.props.isLoading ? 'Please wait...' : 'Confirm slot'}
                 </Text>
               </Button>
-            )}
-          </MDBModalBody>
-        </MDBModal>
+              {!this.props.isLoading && (
+                <Button
+                  style={style.buttonCancel}
+                  onClick={() => this.props.parent.OnHandleToogleModal(undefined)}
+                >
+                  <Text className='font-weight-bold' style={style.btnText}>
+                    Cancel
+                  </Text>
+                </Button>
+              )}
+            </MDBModalBody>
+          </MDBModal>
+        )}
       </MDBContainer>
     );
   }

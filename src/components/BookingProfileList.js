@@ -164,21 +164,7 @@ class BookingProfileList extends Component {
       });
     }
   }
-  componentDidUpdate() {
-    const nodes = document.querySelectorAll('.col-sm-12.col-md-6.col-lg-6.col-xl-7.actionList');
-    let height = 0;
-    for (let i = 0; i < nodes.length; i++) {
-      if (height == 0) {
-        height = nodes[i].offsetHeight;
-      } else if (height < nodes[i].offsetHeight) {
-        height = nodes[i].offsetHeight;
-      }
-      console.log(height);
-    }
-    for (let i = 0; i < nodes.length; i++) {
-      nodes[i].style.height = height;
-    }
-  }
+  componentDidUpdate() {}
   render() {
     const { isOpenModal } = this.state;
     return (
