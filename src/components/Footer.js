@@ -49,7 +49,7 @@ const Footer = ({
               </Text>
             </a>
           </MDBCol>
-          <MDBCol lg='4' xl='4' sm='12' className='justify-content-center col-footer'>
+          <MDBCol lg='5' xl='5' sm='12' className='justify-content-center col-footer'>
             <MDBRow>
               <MDBCol lg='12' xl='12' sm='12'>
                 <ul className='d-inline-block footer-link mb-0'>
