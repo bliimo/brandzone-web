@@ -441,7 +441,7 @@ const ContactUsTab = ({ parent }) => {
           <div className='d-inline-flex'>
             <img src={fb} alt='fb' style={style.fb} />
             <Text className='m-0 mt-2 ml-2' style={style.address}>
-              https://www.facebook.com/brandzoneinc
+              /brandzoneinc
             </Text>
           </div>
         </div>

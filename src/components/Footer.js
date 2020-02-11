@@ -39,7 +39,7 @@ const Footer = ({
               <div className='d-flex'>
                 <img src={fb} alt='fb' className='mt-2' style={style.fb} />
                 <Text className='m-0 mt-2 ml-2' style={style.address}>
-                  https://www.facebook.com/brandzoneinc
+                  /brandzoneinc
                 </Text>
               </div>
             </a>
@@ -196,7 +196,9 @@ const style = {
     marginLeft: '1.3em'
   },
   img: {
-    height: 200
+    height: 200,
+    position: 'relative',
+    left: '4em'
   },
   imgWrapper: {
     padding: '2em 1em',
