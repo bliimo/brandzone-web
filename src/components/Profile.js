@@ -81,7 +81,7 @@ const Informations = ({ account, OnHandleOpenProfile }) => {
             <span className='text-lowercase'>{email}</span>
           </Text>
         </MDBCol>
-        <MDBCol xl='12' md='12' className='p-0'>
+        <MDBCol xl='6' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
             <strong>Job Title:</strong>&nbsp;&nbsp;
             {jobTitle}

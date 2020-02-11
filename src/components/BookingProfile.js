@@ -208,20 +208,11 @@ const Informations = ({ parent }) => {
         <MDBCol xl='6' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
             <strong>Job Title:</strong>&nbsp;&nbsp;
-            {jobTitle && (
-              <MediaQuery maxDeviceWidth={768}>
-                <EllipsisText text={jobTitle} length={45} />
-              </MediaQuery>
-            )}
-            {jobTitle && (
-              <MediaQuery minDeviceWidth={768}>
-                <EllipsisText text={jobTitle} length={27} />
-              </MediaQuery>
-            )}
+            {jobTitle}
           </Text>
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>
-          <Text className='booking-profile-info pl-2' style={style.profileInfo}>
+          <Text className='booking-profile-info' style={style.profileInfo}>
             <strong>Available Slots:</strong>&nbsp;&nbsp;{parent.state.slots.length}
           </Text>
         </MDBCol>
