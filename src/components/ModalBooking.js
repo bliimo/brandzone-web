@@ -7,6 +7,7 @@ import { book } from '../store/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { toast } from 'react-toastify';
+import loader from '../assets/images/loader.gif';
 
 import { getInstitution } from '../store/actions';
 class ModalBooking extends Component {
@@ -42,6 +43,11 @@ class ModalBooking extends Component {
 
     return (
       <MDBContainer>
+        {this.props.isLoading && (
+          <div id='loading' className='text-dark bg-light'>
+            <img src={loader} alt='loader' />
+          </div>
+        )}
         <MDBModal
           isOpen={this.props.parent.state.isOpenModal}
           toggle={() => {}}
@@ -131,7 +137,4 @@ const mapStateToProps = state => ({
   isLoading: state.booking.isLoading
 });
 
-export default connect(
-  mapStateToProps,
-  { book, getInstitution }
-)(withRouter(ModalBooking));
+export default connect(mapStateToProps, { book, getInstitution })(withRouter(ModalBooking));

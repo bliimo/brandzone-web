@@ -511,8 +511,11 @@ class HomeTab extends Component {
 
   OnHandleInstitutionType = index => {
     const { institutionTypes, isNewInstitution } = this.state;
+
     this.setState({ institutionTypeIndex: index });
-    if (!isNewInstitution) this.setState({ institutionType: institutionTypes[index].id });
+    if (!isNewInstitution) {
+      this.setState({ institutionType: institutionTypes[index] });
+    }
   };
 
   OnHandleSignUpForm = () => {
@@ -773,8 +776,9 @@ class HomeTab extends Component {
       } catch (error) {}
       const isValid = this.OnHandleValidateSignUp(user);
       if (isValid) {
+        user.institutionTypeId =
+          !otherInstitution && !isNewInstitution ? this.state.institutionType['id'] : 0;
         user.institutionType = isNewInstitution ? otherInstitution : '';
-        user.institutionTypeId = this.state.institutionType ? this.state.institutionType : 0;
         addUser(user);
       }
     }
@@ -1120,15 +1124,12 @@ const mapStateToProps = state => ({
   isloadingUpload: state.upload.isLoading
 });
 
-export default connect(
-  mapStateToProps,
-  {
-    loginUser,
-    getLatestEvents,
-    getInstitution,
-    addUser,
-    setBookings,
-    getMultipleLatestEvents,
-    upload
-  }
-)(withRouter(HomeTab));
+export default connect(mapStateToProps, {
+  loginUser,
+  getLatestEvents,
+  getInstitution,
+  addUser,
+  setBookings,
+  getMultipleLatestEvents,
+  upload
+})(withRouter(HomeTab));

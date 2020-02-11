@@ -168,7 +168,7 @@ const style = {
     margin: 0
   },
   main: {
-    background: '#8ec63f'
+    background: '#fff'
   },
   mainBottom: {
     background: '#37424B'
@@ -181,12 +181,12 @@ const style = {
   address: {
     fontFamily: 'Helvetica',
     fontSize: 14,
-    color: '#fff'
+    color: '#222'
   },
   footerLink: {
     fontFamily: 'Helvetica',
     fontSize: 14,
-    color: '#fff',
+    color: '#222',
     margin: 0
   },
   myschedLink: {

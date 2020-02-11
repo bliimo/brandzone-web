@@ -38,7 +38,7 @@ const Profile = ({ parent }) => {
             lg={'6'}
             md={'6'}
             sm={'12'}
-            className='profile-list-booking'
+            className='profile-list-booking masonry-column'
             style={style.mainCol}
           >
             <MDBContainer>
@@ -164,12 +164,26 @@ class BookingProfileList extends Component {
       });
     }
   }
-
+  componentDidUpdate() {
+    const nodes = document.querySelectorAll('.col-sm-12.col-md-6.col-lg-6.col-xl-7.actionList');
+    let height = 0;
+    for (let i = 0; i < nodes.length; i++) {
+      if (height == 0) {
+        height = nodes[i].offsetHeight;
+      } else if (height < nodes[i].offsetHeight) {
+        height = nodes[i].offsetHeight;
+      }
+      console.log(height);
+    }
+    for (let i = 0; i < nodes.length; i++) {
+      nodes[i].style.height = height;
+    }
+  }
   render() {
     const { isOpenModal } = this.state;
     return (
       <MDBContainer style={style.main}>
-        <MDBRow>
+        <MDBRow className='masonry-grid'>
           <Profile parent={this} />
         </MDBRow>
         {isOpenModal && <ModalBooking parent={this} />}
