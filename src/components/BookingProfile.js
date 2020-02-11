@@ -171,13 +171,12 @@ const Informations = ({ parent }) => {
         )}
         <MDBCol xl='6' md='6' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            <strong>Profile Description:</strong>&nbsp;&nbsp;{' '}
-            <EllipsisText text={profileDesc} length={10} />
+            Profile Description:&nbsp;&nbsp; <EllipsisText text={profileDesc} length={10} />
           </Text>
         </MDBCol>
         <MDBCol xl='6' md='6' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            <strong>Tel Number:</strong>&nbsp;&nbsp;
+            Tel Number:&nbsp;&nbsp;
             {phoneNumber && (
               <MediaQuery maxDeviceWidth={768}>
                 <EllipsisText text={phoneNumber} length={40} />
@@ -192,28 +191,26 @@ const Informations = ({ parent }) => {
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            <strong>
-              {localStorage.getItem('userType') == 'exhibitor' ? 'Participant' : 'Exhibitor'}
-              &nbsp; Name:&nbsp;&nbsp;
-            </strong>
+            {localStorage.getItem('userType') == 'exhibitor' ? 'Participant' : 'Exhibitor'}
+            &nbsp; Name:&nbsp;&nbsp;
             {firstName && `${firstName} ${lastName}`}
           </Text>
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>
           <Text className='booking-profile-info text-lowercase' style={style.profileInfo}>
-            <strong>Email:</strong>&nbsp;&nbsp;
+            Email:&nbsp;&nbsp;
             {email}
           </Text>
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            <strong>Job Title:</strong>&nbsp;&nbsp;
+            Job Title:&nbsp;&nbsp;
             {jobTitle}
           </Text>
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            <strong>Available Slots:</strong>&nbsp;&nbsp;{parent.state.slots.length}
+            Available Slots:&nbsp;&nbsp;{parent.state.slots.length}
           </Text>
         </MDBCol>
         {!title && parent.state.slots.length > 0 && (
