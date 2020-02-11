@@ -140,6 +140,9 @@ h6 {
 }
 
 @media only screen and (max-width: 768px) {
+  #footer-img img {
+    left: 0 !important;
+  }
   .btn-edit {
     width: 100% !important;
   }
