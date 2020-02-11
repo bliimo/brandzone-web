@@ -29,6 +29,7 @@ import { withRouter } from 'react-router-dom';
 import PrivacyContent from './PrivacyContent';
 import AboutContent from './AboutContent';
 import TermsContent from './TermsContent';
+import fb from '../assets/images/fb.png';
 
 const TabLinks = ({ parent }) => {
   return (
@@ -224,11 +225,14 @@ const ContactUsTab = ({ parent }) => {
         <Text className='m-0 mt-2' style={style.address}>
           Tel. +632 8296 9044
         </Text>
-        <a href='https://www.facebook.com/brandzoneinc'>
-          <Text className='m-0 mt-2' style={style.address}>
-            https://www.facebook.com/brandzoneinc
-          </Text>
-        </a>
+        <div className='d-inline m-auto text-center'>
+          <div className='d-inline-flex'>
+            <img src={fb} alt='fb' style={style.fb} />
+            <Text className='m-0 mt-2 ml-2' style={style.address}>
+              https://www.facebook.com/brandzoneinc
+            </Text>
+          </div>
+        </div>
         <a href='mailto:jjsaez@brandzone.ph'>
           <Text className='m-0 mt-2' style={style.address}>
             jjsaez@brandzone.ph
@@ -1107,6 +1111,10 @@ const style = {
     color: '#fff',
     fontFamily: 'Helvetica',
     fontSize: 12
+  },
+  fb: {
+    height: 20,
+    marginTop: 10
   }
 };
 

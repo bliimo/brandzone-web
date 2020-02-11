@@ -18,6 +18,7 @@ import TermsContent from './TermsContent';
 import ModalProfile from './ModalProfile';
 import Profile from './Profile';
 import loader from '../assets/images/loader.gif';
+import fb from '../assets/images/fb.png';
 const Link = ({ data, parent, index }) => {
   const { title } = data;
   return (
@@ -436,11 +437,14 @@ const ContactUsTab = ({ parent }) => {
           <br />
           Mobile (0917) 165 2805
         </Text>
-        <a href='https://www.facebook.com/brandzoneinc'>
-          <Text className='m-0 mt-2' style={style.address}>
-            https://www.facebook.com/brandzoneinc
-          </Text>
-        </a>
+        <div className='d-inline m-auto text-center'>
+          <div className='d-inline-flex'>
+            <img src={fb} alt='fb' style={style.fb} />
+            <Text className='m-0 mt-2 ml-2' style={style.address}>
+              https://www.facebook.com/brandzoneinc
+            </Text>
+          </div>
+        </div>
         <a href='mailto:admin@brandzone.ph'>
           <Text className='m-0 mt-2' style={style.address}>
             admin@brandzone.ph
@@ -784,6 +788,10 @@ const style = {
     color: '#fff',
     fontFamily: 'Helvetica',
     fontSize: 12
+  },
+  fb: {
+    height: 20,
+    marginTop: 10
   }
 };
 
@@ -798,7 +806,6 @@ const mapStateToProps = state => ({
   eventLoading: state.event.isLoading
 });
 
-export default connect(
-  mapStateToProps,
-  { loginUser, getLatestEvents, setNotes }
-)(withRouter(EventTab));
+export default connect(mapStateToProps, { loginUser, getLatestEvents, setNotes })(
+  withRouter(EventTab)
+);

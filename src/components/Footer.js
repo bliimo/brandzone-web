@@ -2,7 +2,7 @@ import React from 'react';
 import { MDBContainer, MDBRow, MDBCol } from 'mdbreact';
 import { NavLink } from 'react-router-dom';
 import Text from './Text';
-
+import fb from '../assets/images/fb.png';
 import footer from '../assets/images/footer.jpg';
 
 const Footer = ({
@@ -36,9 +36,12 @@ const Footer = ({
               Tel. +632 8296 9044
             </Text>
             <a href='https://www.facebook.com/brandzoneinc'>
-              <Text className='m-0 mt-2' style={style.address}>
-                https://www.facebook.com/brandzoneinc
-              </Text>
+              <div className='d-flex'>
+                <img src={fb} alt='fb' className='mt-2' style={style.fb} />
+                <Text className='m-0 mt-2 ml-2' style={style.address}>
+                  https://www.facebook.com/brandzoneinc
+                </Text>
+              </div>
             </a>
             <a href='mailto:admin@brandzone.ph'>
               <Text className='m-0 mt-2' style={style.address}>
@@ -174,19 +177,19 @@ const style = {
     background: '#37424B'
   },
   brand: {
-    color: '#fff',
+    color: '#37424B',
     fontFamily: 'Helvetica',
     fontWeight: 'bold'
   },
   address: {
     fontFamily: 'Helvetica',
     fontSize: 14,
-    color: '#222'
+    color: '#37424B'
   },
   footerLink: {
     fontFamily: 'Helvetica',
     fontSize: 14,
-    color: '#222',
+    color: '#37424B',
     margin: 0
   },
   myschedLink: {
@@ -198,6 +201,9 @@ const style = {
   imgWrapper: {
     padding: '2em 1em',
     background: '#fff'
+  },
+  fb: {
+    height: 20
   }
 };
 export default Footer;

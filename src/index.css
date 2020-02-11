@@ -1160,7 +1160,7 @@ div.slot-list-row:not(:first-of-type) {
   }
   .col-footer {
     position: relative;
-    left: 10em;
+    left: 5em;
   }
 }
 

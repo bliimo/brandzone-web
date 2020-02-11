@@ -239,7 +239,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         style={style.inputs}
       />
       <PictureUpload OnHandlePicture={parent.OnHandlePicture} parent={parent} />
-      {!isUpdate && <Text style={style.txt}>Choose an event you will participating in:</Text>}
+      {!isUpdate && <Text style={style.txt}>Choose an event you'll participating in:</Text>}
       {!isUpdate && parent.state.events.length > 0 && (
         <Dropdown
           items={items}
