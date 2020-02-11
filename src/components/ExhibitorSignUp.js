@@ -239,7 +239,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         style={style.inputs}
       />
       <PictureUpload OnHandlePicture={parent.OnHandlePicture} parent={parent} />
-      {!isUpdate && <Text style={style.txt}>Choose an event you'll participating in:</Text>}
+      {!isUpdate && <Text style={style.txt}>Choose an event you'll participate in:</Text>}
       {!isUpdate && parent.state.events.length > 0 && (
         <Dropdown
           items={items}
@@ -247,7 +247,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
           action={parent.OnHandleEventType}
           isActive={true}
           customClass='mb-4'
-          label='Choose an event you will participating in:'
+          label='Choose an event you will participate in:'
         />
       )}
       {!isUpdate && parent.state.events.length > 0 && slots}

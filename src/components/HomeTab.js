@@ -781,7 +781,9 @@ class HomeTab extends Component {
       const isValid = this.OnHandleValidateSignUp(user);
       if (isValid) {
         user.institutionTypeId =
-          !otherInstitution && !isNewInstitution ? this.state.institutionType['id'] : 0;
+          !otherInstitution && !isNewInstitution && this.state.institutionType
+            ? this.state.institutionType['id']
+            : 0;
         user.institutionType = isNewInstitution ? otherInstitution : '';
         addUser(user);
       }
