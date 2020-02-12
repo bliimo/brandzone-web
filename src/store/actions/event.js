@@ -6,7 +6,9 @@ import { API } from '../../constants/api';
 export const getLatestEvents = id => dispatch => {
   dispatch({ type: EVENTS_REQUEST });
   axios
-    .get(`${API}/event/latest${id || localStorage.getItem('userType') ? `?userId=${id}` : ''}`)
+    .get(
+      `${API}/event/latest${id || localStorage.getItem('userType') != null ? `?userId=${id}` : ''}`
+    )
     .then(res => {
       dispatch({
         type: EVENTS_SUCCESS,

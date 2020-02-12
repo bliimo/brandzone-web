@@ -150,7 +150,7 @@ const AboutTab = ({ parent }) => {
         className='text-center tab-title'
         style={{ ...style.tabTitleHeader, padding: '80px 0 0 0' }}
       >
-        Welcome to Brandzone E-Scheduler
+        Welcome to Brandzone
       </Text>
       <hr style={style.tabTitleHeaderHr} />
       <h4 className='text-center mt-5' style={style.abouth4}>
@@ -854,6 +854,7 @@ class HomeTab extends Component {
       multipleEvent,
       isLoadingMulti
     } = nextProps;
+
     let multiArray = [];
     if (multipleEvent.multiplEvents.length > 0) {
       let multi = {};
@@ -909,6 +910,7 @@ class HomeTab extends Component {
 
     if (auth.isAuthenticated) window.location.reload();
 
+    console.log(events);
     if (events && !auth.isLoading) {
       if (!isLoadingMulti) {
         this.OnHandleSetEvents(events, multiArray);
