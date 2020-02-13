@@ -376,12 +376,6 @@ class ModalProfile extends Component {
       }
     }
 
-    if (!validation.isUrl(user.companyWebsite)) {
-      document.getElementById('companyWebsite').classList.add('invalid-field');
-      this.notify('Invalid website: (https://website.com)');
-      return false;
-    }
-
     return true;
   };
 
