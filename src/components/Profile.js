@@ -111,15 +111,7 @@ const Informations = ({ account, OnHandleOpenProfile, OnHandleGetReports, isLoad
         <MDBCol md='12' xl='6' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
             Website:&nbsp;&nbsp;
-            <a
-              href={`${websiteInfo}`}
-              className='text-lowercase'
-              rel='noopener noreferrer'
-              target='_blank'
-              alt='website'
-            >
-              {websiteInfo}
-            </a>
+            {websiteInfo}
           </Text>
         </MDBCol>
         <MDBCol size='12' className='justify-content-center'>
