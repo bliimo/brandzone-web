@@ -5,8 +5,11 @@ import EllipsisText from 'react-ellipsis-text';
 import MediaQuery from 'react-responsive';
 import Button from './Button';
 import ShowMoreText from 'react-show-more-text';
+import { getReports } from '../store/actions';
+import { withRouter } from 'react-router-dom';
+import { connect } from 'react-redux';
 
-const Informations = ({ account, OnHandleOpenProfile }) => {
+const Informations = ({ account, OnHandleOpenProfile, OnHandleGetReports, isLoading }) => {
   let { phoneNumber, firstName, lastName, email, jobTitle, institution, company } = account;
   let nameInfo,
     countryInfo,
@@ -119,8 +122,19 @@ const Informations = ({ account, OnHandleOpenProfile }) => {
             </a>
           </Text>
         </MDBCol>
-        <br />
         <MDBCol size='12' className='justify-content-center'>
+          <Button
+            className='w-75'
+            id='btn-edit-profile'
+            onClick={() => {
+              OnHandleGetReports();
+            }}
+            style={style.btnDownLoad}
+          >
+            <Text style={style.time}>{isLoading ? 'Please wait ...' : 'Download schedules'}</Text>
+          </Button>
+        </MDBCol>
+        <MDBCol size='12' className='justify-content-center mt-3'>
           <Button
             className='w-75'
             id='btn-edit-profile'
@@ -142,7 +156,13 @@ class Profile extends Component {
     account: undefined
   };
 
-  componentWillReceiveProps(nextProps) {}
+  componentWillReceiveProps(nextProps) {
+    const { report } = nextProps;
+    if (Object.keys(report).length > 0) {
+      window.open(report['MyBookedUrl']);
+      window.open(report['BookedOnMeUrl']);
+    }
+  }
 
   componentDidMount() {
     if (this.props.account) {
@@ -174,6 +194,8 @@ class Profile extends Component {
               <Informations
                 account={account}
                 OnHandleOpenProfile={this.props.OnHandleOpenProfile}
+                OnHandleGetReports={this.props.getReports}
+                isLoading={this.props.isLoading}
               />
             )}
           </MDBRow>
@@ -236,6 +258,24 @@ const style = {
     right: '1.7em',
     letterSpacing: 0.7
   },
+  btnDownLoad: {
+    backgroundColor: '#8ec63f',
+    color: '#fff',
+    borderRadius: '6px',
+    padding: '.5em',
+    textAlign: 'center',
+    fontSize: '13.5px',
+    fontWeight: 'bolder',
+    cursor: 'pointer',
+    margin: 'auto',
+    position: 'relative',
+    top: '2em',
+    height: 35,
+    width: '110%',
+    float: 'left',
+    right: '1.7em',
+    letterSpacing: 0.7
+  },
   time: {
     font: '11px helvetica',
     position: 'relative',
@@ -248,4 +288,9 @@ const style = {
   }
 };
 
-export default Profile;
+const mapStateToProps = state => ({
+  isLoading: state.report.isLoading,
+  report: state.report.reports
+});
+
+export default connect(mapStateToProps, { getReports })(withRouter(Profile));

@@ -8,6 +8,7 @@ import updateUserReducer from './updateUser';
 import addInstitutionReducer from './addInstitution';
 import multipleEventReducer from './multipleEvent';
 import uploadReducer from './upload';
+import reportReducer from './report';
 
 export default combineReducers({
   auth: authReducer,
@@ -18,5 +19,6 @@ export default combineReducers({
   updateUser: updateUserReducer,
   addInstitution: addInstitutionReducer,
   multipleEvent: multipleEventReducer,
-  upload: uploadReducer
+  upload: uploadReducer,
+  report: reportReducer
 });

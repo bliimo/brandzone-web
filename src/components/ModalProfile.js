@@ -9,6 +9,7 @@ import ParticipantSignUp from './ParticipantSignUp';
 import ExhibitorSignUp from './ExhibitorSignUp';
 import { getInstitution, updateUser, upload } from '../store/actions';
 import { toast } from 'react-toastify';
+import validation from '../helper/validation';
 
 class ModalProfile extends Component {
   toastId = null;
@@ -373,6 +374,12 @@ class ModalProfile extends Component {
           return false;
         }
       }
+    }
+
+    if (!validation.isUrl(user.companyWebsite)) {
+      document.getElementById('companyWebsite').classList.add('invalid-field');
+      this.notify('Invalid website: (https://website.com)');
+      return false;
     }
 
     return true;
