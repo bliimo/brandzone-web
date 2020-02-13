@@ -187,9 +187,6 @@ h6 {
   .actionList {
     padding: 2em 1em !important;
   }
-  #row-profile {
-    height: auto !important;
-  }
   .btn-animate-time {
     width: 90% !important;
   }
@@ -232,9 +229,6 @@ h6 {
   }
   .time-slots {
     margin-right: 0.5em !important;
-  }
-  #row-profile {
-    height: auto !important;
   }
   #sideBar {
     width: 50vw !important;
@@ -1355,4 +1349,27 @@ strong {
 #loading img {
   display: block;
   margin: auto;
+}
+
+.spaces {
+  word-wrap: break-word;
+  font-family: 'Harabara';
+  text-transform: capitalize;
+  bottom: 0.2em;
+  text-align: left;
+  color: rgb(255, 255, 255);
+  display: none;
+}
+
+.spaces span {
+  font-size: 16px;
+  letter-spacing: 10px;
+}
+.masonry-column .container,
+.masonry-column .container .row {
+  height: 100% !important;
+}
+
+.row.masonry-grid .col {
+  height: 100% !important;
 }

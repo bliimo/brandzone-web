@@ -30,6 +30,10 @@ const Profile = ({ parent }) => {
         if (role.authority === 'ROLE_EXHIBITOR') institution = setBy.institution.name;
         if (role.authority === 'ROLE_PARTICIPANT') institution = setBy.company.name;
       });
+      if (institution.length > parent.state.text.length) {
+        parent.setState({ text: institution });
+      }
+
       if (isValid) {
         profiles.push(
           <MDBCol
@@ -112,6 +116,7 @@ class BookingProfileList extends Component {
     selectedSlot: null,
     selectedSchedule: {},
     event: {},
+    text: '',
     isLoaded: false,
     OnHandleResetEvents: () => {}
   };

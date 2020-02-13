@@ -476,6 +476,7 @@ class BookingProfile extends Component {
                   className='signup-input'
                   style={style.inputs}
                   rows={5}
+                  max
                 />
                 <Button
                   onClick={() =>
