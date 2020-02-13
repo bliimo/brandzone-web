@@ -229,32 +229,34 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
           style={style.inputs}
         />
       )}
-      {isUpdate && <Text className='label-input'>Password</Text>}
-      <TextInput
-        placeHolder='Password'
-        id='signUpPassword'
-        onChange={parent.OnHandleChange}
-        type='password'
-        value={parent.state.signUpPassword}
-        size='sm'
-        required={true}
-        autocomplete='off'
-        className='signup-input'
-        style={style.inputs}
-      />
-      {isUpdate && <Text className='label-input'>Confirm Password</Text>}
-      <TextInput
-        placeHolder='Confirm Password'
-        id='confirmPassword'
-        onChange={parent.OnHandleChange}
-        type='password'
-        value={parent.state.confirmPassword}
-        size='sm'
-        required={true}
-        autocomplete='off'
-        className='signup-input'
-        style={style.inputs}
-      />
+      {!isUpdate && (
+        <TextInput
+          placeHolder='Password'
+          id='signUpPassword'
+          onChange={parent.OnHandleChange}
+          type='password'
+          value={parent.state.signUpPassword}
+          size='sm'
+          required={true}
+          autocomplete='off'
+          className='signup-input'
+          style={style.inputs}
+        />
+      )}
+      {!isUpdate && (
+        <TextInput
+          placeHolder='Confirm Password'
+          id='confirmPassword'
+          onChange={parent.OnHandleChange}
+          type='password'
+          value={parent.state.confirmPassword}
+          size='sm'
+          required={true}
+          autocomplete='off'
+          className='signup-input'
+          style={style.inputs}
+        />
+      )}
       {isUpdate && <Text className='label-input'>Telephone Number</Text>}
       <TextInput
         placeHolder='Telephone Number'

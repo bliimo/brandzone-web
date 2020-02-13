@@ -224,7 +224,9 @@ const ContactUsTab = ({ parent }) => {
           5388 Curie St., Brgy. Palanan, Makati City, Philippines
         </Text>
         <Text className='m-0 mt-2' style={style.address}>
-          Tel. +632 8296 9044
+          Landline (02) 7618 3979
+          <br />
+          Mobile (0917) 165 2805
         </Text>
         <div className='d-inline m-auto text-center'>
           <div className='d-inline-flex'>
