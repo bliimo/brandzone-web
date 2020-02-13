@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { MDBContainer, MDBTabPane, MDBTabContent, MDBNav, MDBNavItem } from 'mdbreact';
-
 import { NavLink, Redirect } from 'react-router-dom';
 import Button from '../components/Button';
 import contents from '../constants/contents';
@@ -30,6 +29,8 @@ import PrivacyContent from './PrivacyContent';
 import AboutContent from './AboutContent';
 import TermsContent from './TermsContent';
 import fb from '../assets/images/fb.png';
+import ReCAPTCHA from 'react-google-recaptcha';
+import { captchaSiteKey } from '../constants/api';
 
 const TabLinks = ({ parent }) => {
   return (
@@ -368,6 +369,9 @@ const SingUpTab = ({ parent }) => {
           label='Registration Type'
         />
         {parent.OnHandleSignUpForm()}
+        {parent.state.userTypeSelected != null && (
+          <ReCAPTCHA sitekey={captchaSiteKey} onChange={parent.OnHandleChangeRecaptcha} />
+        )}
         {parent.state.userTypeSelected != null && <SubmitSignUp parent={parent} />}
       </MDBContainer>
     </MDBTabPane>
@@ -450,7 +454,8 @@ class HomeTab extends Component {
       isNewInstitution: false,
       otherInstitution: '',
       multipleEvent: [],
-      pic: null
+      pic: null,
+      isRecaptcha: false
     };
   }
 
@@ -459,7 +464,9 @@ class HomeTab extends Component {
       this.toastId = toast.error(txt);
     }
   };
-
+  OnHandleChangeRecaptcha = e => {
+    console.log(e);
+  };
   OnHandleNewInstitutions = () => {
     const { isNewInstitution, institutionTypes, institutionTypeIndex } = this.state;
     if (!isNewInstitution) {
