@@ -203,6 +203,13 @@ const Informations = ({ parent }) => {
             </ShowMoreText>
           </Text>
         </MDBCol>
+        <MDBCol xl='6' md='12' className='p-0'>
+          <Text className='booking-profile-info' style={style.profileInfo}>
+            {localStorage.getItem('userType') == 'exhibitor' ? 'Participant' : 'Exhibitor'}
+            &nbsp; name:&nbsp;&nbsp;
+            <span className='text-capitalize'> {firstName && `${firstName} ${lastName}`}</span>
+          </Text>
+        </MDBCol>
         <MDBCol xl='6' md='6' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
             Tel Number:&nbsp;&nbsp;
@@ -216,13 +223,6 @@ const Informations = ({ parent }) => {
                 <EllipsisText text={phoneNumber} length={18} />
               </MediaQuery>
             )}
-          </Text>
-        </MDBCol>
-        <MDBCol xl='6' md='12' className='p-0'>
-          <Text className='booking-profile-info' style={style.profileInfo}>
-            {localStorage.getItem('userType') == 'exhibitor' ? 'Participant' : 'Exhibitor'}
-            &nbsp; name:&nbsp;&nbsp;
-            <span className='text-capitalize'> {firstName && `${firstName} ${lastName}`}</span>
           </Text>
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>

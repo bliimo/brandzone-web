@@ -1216,7 +1216,7 @@ div.slot-list-row:not(:first-of-type) {
 }
 
 .mh-300 {
-  min-height: 300px !important;
+  min-height: 340px !important;
 }
 
 .h-230 {
@@ -1319,6 +1319,7 @@ input#otherInstitution {
 }
 
 .booking-profile-info {
+  word-break: break-all;
   text-transform: none;
 }
 

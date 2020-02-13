@@ -761,6 +761,18 @@ class HomeTab extends Component {
       return false;
     }
 
+    if (!validation.isUrl(user.companyWebsite)) {
+      document.getElementById('companyWebsite').classList.add('invalid-field');
+      this.notify('Invalid website: (https://website.com)');
+      return false;
+    }
+
+    if (!validation.isEmail(user.signUpEmail)) {
+      document.getElementById('signUpEmail').classList.add('invalid-field');
+      this.notify('Invalid email');
+      return false;
+    }
+
     if (!isCheckedPrivacy) {
       this.notify('Please agree with the terms and conditions');
       return false;
