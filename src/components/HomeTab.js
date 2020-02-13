@@ -182,6 +182,7 @@ const AboutTab = ({ parent }) => {
     </MDBTabPane>
   );
 };
+
 const AboutUsTab = ({ parent }) => {
   return (
     <MDBTabPane tabId='6' role='tabpanel' className='fade-effect'>
@@ -510,6 +511,7 @@ class HomeTab extends Component {
   };
 
   OnHandleSignUpType = index => {
+    this.OnHandleEventType(this.state.events.length - 1);
     this.setState({ userTypeSelected: index });
   };
 

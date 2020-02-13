@@ -46,11 +46,9 @@ const Items = ({ parent }) => {
     if (e.roles && usertype) {
       const roles = e.roles.split(',');
       roles.map(r => {
-        console.log(r, usertype);
         if (r == usertype) isValidRole = true;
       });
     }
-    console.log(isValidRole);
     if (parent.state.isEvent && isValidRole) {
       elem.push(<Item data={e} index={i} key={`${i} ${e.id}`} setActive={parent.OnHandleActive} />);
     } else if (parent.state.isEvent && e.isSingleSelection == true && e.title !== 'All') {
