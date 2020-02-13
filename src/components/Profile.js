@@ -4,6 +4,7 @@ import Text from './Text';
 import EllipsisText from 'react-ellipsis-text';
 import MediaQuery from 'react-responsive';
 import Button from './Button';
+import ShowMoreText from 'react-show-more-text';
 
 const Informations = ({ account, OnHandleOpenProfile }) => {
   let { phoneNumber, firstName, lastName, email, jobTitle, institution, company } = account;
@@ -41,13 +42,28 @@ const Informations = ({ account, OnHandleOpenProfile }) => {
       <MDBRow className='mr-0 ml-0'>
         <MDBCol xl='12' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            <strong>Profile Description:</strong>&nbsp;&nbsp;{' '}
-            <EllipsisText text={profileDesc} length={50} />
+            <ShowMoreText
+              lines={6}
+              more='show more'
+              less='show less'
+              anchorClass=''
+              expanded={false}
+            >
+              {profileDesc}
+            </ShowMoreText>
           </Text>
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            <strong>Tel Number:</strong>&nbsp;&nbsp;
+            Name of representative:&nbsp;&nbsp;
+            <span className='text-capitalize'>
+              {firstName}&nbsp;{lastName}
+            </span>
+          </Text>
+        </MDBCol>
+        <MDBCol xl='6' md='12' className='p-0'>
+          <Text className='booking-profile-info' style={style.profileInfo}>
+            Tel Number:&nbsp;&nbsp;
             {phoneNumber && (
               <MediaQuery maxDeviceWidth={768}>
                 <EllipsisText text={phoneNumber} length={40} />
@@ -62,51 +78,36 @@ const Informations = ({ account, OnHandleOpenProfile }) => {
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            <strong>Name:</strong>&nbsp;&nbsp;
-            {firstName && (
-              <MediaQuery maxDeviceWidth={768}>
-                <EllipsisText text={`${firstName} ${lastName}`} length={39} />
-              </MediaQuery>
-            )}
-            {firstName && (
-              <MediaQuery minDeviceWidth={768}>
-                <EllipsisText text={`${firstName} ${lastName}`} length={19} />
-              </MediaQuery>
-            )}
+            Job title:&nbsp;&nbsp;
+            <span className='text-capitalize'>{jobTitle}</span>
           </Text>
         </MDBCol>
         <MDBCol xl='6' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            <strong>Email:</strong>&nbsp;&nbsp;
+            Email:&nbsp;&nbsp;
             <span className='text-lowercase'>{email}</span>
           </Text>
         </MDBCol>
-        <MDBCol xl='6' md='12' className='p-0'>
-          <Text className='booking-profile-info' style={style.profileInfo}>
-            <strong>Job Title:</strong>&nbsp;&nbsp;
-            {jobTitle}
-          </Text>
-        </MDBCol>
         <br />
         <br />
         <MDBCol md='12' xl='6' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            <strong>Country:</strong>&nbsp;&nbsp; {countryInfo}
+            Country:&nbsp;&nbsp; <span className='text-capitalize'>{countryInfo}</span>
           </Text>
         </MDBCol>
         <MDBCol md='12' xl='6' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            <strong>Province:</strong>&nbsp;&nbsp; {provinceInfo}
+            Province:&nbsp;&nbsp; <span className='text-capitalize'>{provinceInfo}</span>
           </Text>
         </MDBCol>
         <MDBCol md='12' xl='6' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            City:&nbsp;&nbsp; {cityInfo}
+            City:&nbsp;&nbsp; <span className='text-capitalize'>{cityInfo}</span>
           </Text>
         </MDBCol>
         <MDBCol md='12' xl='6' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            <strong>Website:</strong>&nbsp;&nbsp;
+            Website:&nbsp;&nbsp;
             <a
               href={`${websiteInfo}`}
               className='text-lowercase'

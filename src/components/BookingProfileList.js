@@ -30,6 +30,10 @@ const Profile = ({ parent }) => {
         if (role.authority === 'ROLE_EXHIBITOR') institution = setBy.institution.name;
         if (role.authority === 'ROLE_PARTICIPANT') institution = setBy.company.name;
       });
+      if (institution.length > parent.state.text.length) {
+        parent.setState({ text: institution });
+      }
+
       if (isValid) {
         profiles.push(
           <MDBCol
@@ -112,6 +116,7 @@ class BookingProfileList extends Component {
     selectedSlot: null,
     selectedSchedule: {},
     event: {},
+    text: '',
     isLoaded: false,
     OnHandleResetEvents: () => {}
   };
@@ -139,7 +144,6 @@ class BookingProfileList extends Component {
     const { parent, bookingScheduleId, users, schedule, account, isShowList } = nextProps;
     const { events, activeItem } = parent.state;
     let bookings = [];
-    users.sort((a, b) => a.setBy.firstName.localeCompare(b.setBy.firstName));
 
     users.map(user => {
       user.setBy.roles.map(role => {
@@ -149,6 +153,16 @@ class BookingProfileList extends Component {
           bookings.push(user);
         }
       });
+    });
+
+    bookings.sort((a, b) => {
+      let currentRole =
+        localStorage.getItem('userType') == 'exhibitor' ? 'ROLE_PARTICIPANT' : 'ROLE_EXHIBITOR';
+      if (currentRole == 'ROLE_PARTICIPANT') {
+        return a.setBy.company.name.localeCompare(b.setBy.company.name);
+      } else {
+        return a.setBy.institution.name.localeCompare(b.setBy.institution.name);
+      }
     });
 
     if (events && events.length > 0) {

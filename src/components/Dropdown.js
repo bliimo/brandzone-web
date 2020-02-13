@@ -41,7 +41,17 @@ const Items = ({ parent }) => {
   const { items, isOpen } = parent.state;
   let elem = [];
   items.map((e, i) => {
-    if (parent.state.isEvent && e.isSingleSelection == true && e.title !== 'All') {
+    let isValidRole = false;
+    const usertype = parent.props.usertype + 1;
+    if (e.roles && usertype) {
+      const roles = e.roles.split(',');
+      roles.map(r => {
+        if (r == usertype) isValidRole = true;
+      });
+    }
+    if (parent.state.isEvent && isValidRole) {
+      elem.push(<Item data={e} index={i} key={`${i} ${e.id}`} setActive={parent.OnHandleActive} />);
+    } else if (parent.state.isEvent && e.isSingleSelection == true && e.title !== 'All') {
       elem.push(<Item data={e} index={i} key={`${i} ${e.id}`} setActive={parent.OnHandleActive} />);
     } else if (e.title == 'All') {
       elem.push(<Item data={e} index={i} key={`${i} ${e.id}`} setActive={parent.OnHandleActive} />);
@@ -82,15 +92,23 @@ class Dropdown extends Component {
     label: '',
     id: '',
     action: () => {},
-    isEvent: false
+    isEvent: false,
+    usertype: undefined
   };
 
   componentWillMount() {
-    const { items, action, label, id, isActive, Activeid, isEvent } = this.props;
+    const { items, action, label, id, isActive, Activeid, isEvent, usertype } = this.props;
     if (isActive) {
-      this.setState({ items, action, label, id, active: Activeid ? Activeid : items.length - 1 });
+      this.setState({
+        items,
+        action,
+        label,
+        id,
+        active: Activeid ? Activeid : items.length - 1,
+        usertype
+      });
     } else {
-      this.setState({ items, action, label, id });
+      this.setState({ items, action, label, id, usertype });
     }
     this.setState({ isEvent });
   }

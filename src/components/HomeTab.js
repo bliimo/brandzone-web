@@ -150,7 +150,7 @@ const AboutTab = ({ parent }) => {
         className='text-center tab-title'
         style={{ ...style.tabTitleHeader, padding: '80px 0 0 0' }}
       >
-        Welcome to Brandzone E-Scheduler
+        Welcome to Brandzone
       </Text>
       <hr style={style.tabTitleHeaderHr} />
       <h4 className='text-center mt-5' style={style.abouth4}>
@@ -182,6 +182,7 @@ const AboutTab = ({ parent }) => {
     </MDBTabPane>
   );
 };
+
 const AboutUsTab = ({ parent }) => {
   return (
     <MDBTabPane tabId='6' role='tabpanel' className='fade-effect'>
@@ -223,7 +224,9 @@ const ContactUsTab = ({ parent }) => {
           5388 Curie St., Brgy. Palanan, Makati City, Philippines
         </Text>
         <Text className='m-0 mt-2' style={style.address}>
-          Tel. +632 8296 9044
+          Landline (02) 7618 3979
+          <br />
+          Mobile (0917) 165 2805
         </Text>
         <div className='d-inline m-auto text-center'>
           <div className='d-inline-flex'>
@@ -510,6 +513,7 @@ class HomeTab extends Component {
   };
 
   OnHandleSignUpType = index => {
+    this.OnHandleEventType(this.state.events.length - 1);
     this.setState({ userTypeSelected: index });
   };
 
@@ -854,6 +858,7 @@ class HomeTab extends Component {
       multipleEvent,
       isLoadingMulti
     } = nextProps;
+
     let multiArray = [];
     if (multipleEvent.multiplEvents.length > 0) {
       let multi = {};
@@ -909,6 +914,7 @@ class HomeTab extends Component {
 
     if (auth.isAuthenticated) window.location.reload();
 
+    console.log(events);
     if (events && !auth.isLoading) {
       if (!isLoadingMulti) {
         this.OnHandleSetEvents(events, multiArray);

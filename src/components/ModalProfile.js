@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import ParticipantSignUp from './ParticipantSignUp';
 import ExhibitorSignUp from './ExhibitorSignUp';
-import { getInstitution, updateUser, logoutUser, upload } from '../store/actions';
+import { getInstitution, updateUser, upload } from '../store/actions';
 import { toast } from 'react-toastify';
 
 class ModalProfile extends Component {
@@ -79,8 +79,7 @@ class ModalProfile extends Component {
     }
 
     if (typeof this.props.uploadData == 'object' && uploadData.length > 0 && !isLoadingUpload) {
-      this.props.logoutUser();
-      window.location.replace('/');
+      window.location.reload();
     }
 
     let institutionTypeId = 0;
@@ -102,8 +101,7 @@ class ModalProfile extends Component {
       }
 
       if (!pic) {
-        this.props.logoutUser();
-        window.location.replace('/');
+        window.location.reload();
       }
     }
 
@@ -249,9 +247,7 @@ class ModalProfile extends Component {
       lastName,
       jobTitle,
       phoneNumber,
-      email,
-      confirmPassword,
-      signUpPassword
+      email
     } = this.state;
 
     return {
@@ -268,8 +264,6 @@ class ModalProfile extends Component {
       lastName,
       jobTitle,
       phoneNumber,
-      password: signUpPassword,
-      confirmPassword,
       userType: 'participant'
     };
   };
@@ -288,8 +282,6 @@ class ModalProfile extends Component {
       firstName,
       lastName,
       jobTitle,
-      signUpPassword,
-      confirmPassword,
       setBookings,
       email
     } = this.state;
@@ -309,8 +301,6 @@ class ModalProfile extends Component {
       lastName,
       jobTitle,
       phoneNumber,
-      password: signUpPassword,
-      confirmPassword,
       bookingScheduleId: { scheduleId: setBookings },
       userType: 'exhibitor'
     };
@@ -443,8 +433,6 @@ class ModalProfile extends Component {
       try {
         this.props.upload(formData, id);
         this.setState({ pic: undefined, isOpenModal: false });
-        // this.props.logoutUser();
-        // window.location.replace('/');
       } catch (error) {
         console.log(error);
       }
@@ -546,6 +534,6 @@ const mapStateToProps = state => ({
   isLoadingUpload: state.upload.isLoading
 });
 
-export default connect(mapStateToProps, { book, getInstitution, updateUser, logoutUser, upload })(
+export default connect(mapStateToProps, { book, getInstitution, updateUser, upload })(
   withRouter(ModalProfile)
 );

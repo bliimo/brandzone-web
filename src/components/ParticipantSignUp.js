@@ -19,9 +19,16 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
         let scheds = e.schedules;
         let eventId = e.id;
         schedules = { scheds, eventId };
-        slots.push(
-          <Slots key={i} parent={parent} schedules={schedules} title={`${date} - ${e.address}`} />
-        );
+        const roles = e.roles.split(',');
+        let isParticipants = false;
+        roles.map(r => {
+          if (parseInt(r) == 1) isParticipants = true;
+        });
+        if (isParticipants) {
+          slots.push(
+            <Slots key={i} parent={parent} schedules={schedules} title={`${date} - ${e.address}`} />
+          );
+        }
       });
     });
   } else {
@@ -34,7 +41,6 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
       />
     );
   }
-
   if (items) {
     items.map((e, i) => {
       if (e) {
@@ -167,7 +173,8 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
         autocomplete='off'
         className='signup-input'
         style={style.inputs}
-        rows={5}
+        rows={10}
+        maxLength={5000}
       />
       <hr style={style.divider} />
       {isUpdate && <Text className='label-input'>Representative First name</Text>}
@@ -223,32 +230,34 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
           style={style.inputs}
         />
       )}
-      {isUpdate && <Text className='label-input'>Password</Text>}
-      <TextInput
-        placeHolder='Password'
-        id='signUpPassword'
-        onChange={parent.OnHandleChange}
-        type='password'
-        value={parent.state.signUpPassword}
-        size='sm'
-        required={true}
-        autocomplete='off'
-        className='signup-input'
-        style={style.inputs}
-      />
-      {isUpdate && <Text className='label-input'>Confirm Password</Text>}
-      <TextInput
-        placeHolder='Confirm Password'
-        id='confirmPassword'
-        onChange={parent.OnHandleChange}
-        type='password'
-        value={parent.state.confirmPassword}
-        size='sm'
-        required={true}
-        autocomplete='off'
-        className='signup-input'
-        style={style.inputs}
-      />
+      {!isUpdate && (
+        <TextInput
+          placeHolder='Password'
+          id='signUpPassword'
+          onChange={parent.OnHandleChange}
+          type='password'
+          value={parent.state.signUpPassword}
+          size='sm'
+          required={true}
+          autocomplete='off'
+          className='signup-input'
+          style={style.inputs}
+        />
+      )}
+      {!isUpdate && (
+        <TextInput
+          placeHolder='Confirm Password'
+          id='confirmPassword'
+          onChange={parent.OnHandleChange}
+          type='password'
+          value={parent.state.confirmPassword}
+          size='sm'
+          required={true}
+          autocomplete='off'
+          className='signup-input'
+          style={style.inputs}
+        />
+      )}
       {isUpdate && <Text className='label-input'>Telephone Number</Text>}
       <TextInput
         placeHolder='Telephone Number'
@@ -272,6 +281,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
           isActive={true}
           customClass='mb-4'
           label={`Choose an event you you\'ll participate in:`}
+          usertype={parent.state.userTypeSelected}
         />
       )}
       {!isUpdate && parent.state.events.length > 0 && slots}
