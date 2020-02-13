@@ -768,17 +768,6 @@ class HomeTab extends Component {
       return false;
     }
 
-    if (!validation.isUrl(user.companyWebsite)) {
-      document.getElementById('companyWebsite').classList.add('invalid-field');
-      this.notify('Invalid website: (https://website.com)');
-      return false;
-    }
-
-    if (!validation.isEmail(user.signUpEmail)) {
-      document.getElementById('signUpEmail').classList.add('invalid-field');
-      this.notify('Invalid email');
-      return false;
-    }
     if (this.state.isRecaptcha == null || this.state.isRecaptcha == undefined) {
       this.notify('Please pass the captcha test');
       return false;
