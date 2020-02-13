@@ -1325,7 +1325,7 @@ input#otherInstitution {
 }
 
 .booking-profile-info {
-  text-transform: capitalize;
+  text-transform: none;
 }
 
 .text-lowercase {

@@ -173,7 +173,8 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
         autocomplete='off'
         className='signup-input'
         style={style.inputs}
-        rows={5}
+        rows={10}
+        maxLength={5000}
       />
       <hr style={style.divider} />
       {isUpdate && <Text className='label-input'>Representative First name</Text>}

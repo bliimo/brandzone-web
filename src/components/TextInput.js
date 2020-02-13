@@ -15,7 +15,9 @@ const TextInput = ({
   autocomplete,
   className,
   rows,
-  disabled
+  disabled,
+  max,
+  maxLength
 }) => {
   return (
     <MDBInput
@@ -33,6 +35,7 @@ const TextInput = ({
       required={required}
       autoComplete={autocomplete}
       rows={rows}
+      maxLength={maxLength}
     />
   );
 };

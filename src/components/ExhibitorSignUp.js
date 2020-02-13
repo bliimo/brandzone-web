@@ -122,14 +122,15 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         placeHolder='Institution Profile'
         id='companyProfile'
         onChange={parent.OnHandleChange}
-        type='text'
+        type='textarea'
         value={parent.state.companyProfile}
         size='sm'
         required={true}
         autocomplete='off'
         className='signup-input'
         style={style.inputs}
-        rows={5}
+        rows={10}
+        maxLength={5000}
       />
       {isUpdate && <Text className='label-input'>Unique and Strong Programs</Text>}
       <TextInput
