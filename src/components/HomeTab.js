@@ -455,7 +455,7 @@ class HomeTab extends Component {
       otherInstitution: '',
       multipleEvent: [],
       pic: null,
-      isRecaptcha: false
+      isRecaptcha: undefined
     };
   }
 
@@ -465,7 +465,7 @@ class HomeTab extends Component {
     }
   };
   OnHandleChangeRecaptcha = e => {
-    console.log(e);
+    this.setState({ isRecaptcha: e });
   };
   OnHandleNewInstitutions = () => {
     const { isNewInstitution, institutionTypes, institutionTypeIndex } = this.state;
@@ -777,6 +777,10 @@ class HomeTab extends Component {
     if (!validation.isEmail(user.signUpEmail)) {
       document.getElementById('signUpEmail').classList.add('invalid-field');
       this.notify('Invalid email');
+      return false;
+    }
+    if (this.state.isRecaptcha == null || this.state.isRecaptcha == undefined) {
+      this.notify('Please pass the captcha test');
       return false;
     }
 
