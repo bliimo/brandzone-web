@@ -171,7 +171,7 @@ const Informations = ({ parent }) => {
             </Text>
           </MDBCol>
         )}
-        <MDBCol xl='12' md='12' className='p-0'>
+        <MDBCol size='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
             <ShowMoreText
               lines={6}
@@ -180,37 +180,18 @@ const Informations = ({ parent }) => {
               anchorClass=''
               expanded={false}
             >
-              Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean finibus dapibus velit
-              eu faucibus. Donec vitae orci felis. Etiam vestibulum tellus dui, nec lacinia lacus
-              fermentum eu. Aliquam erat volutpat. Morbi at rhoncus sem. Pellentesque consectetur
-              vehicula arcu, quis condimentum nunc blandit nec. Proin tempus blandit mi eget
-              pulvinar. Nullam viverra lacus eget velit egestas porta. Integer gravida quam sit amet
-              lectus feugiat elementum. Mauris luctus blandit erat vel ultrices. Vestibulum
-              porttitor libero justo, nec commodo risus ultricies tristique. Donec consectetur neque
-              tortor, et interdum arcu volutpat non. Quisque ultrices enim efficitur, laoreet dui
-              non, hendrerit justo. In a ligula lacus. Integer ex eros, hendrerit congue est in,
-              scelerisque bibendum arcu. Curabitur interdum sem id est elementum tempor. Nulla
-              ornare faucibus dolor, pellentesque ultricies ligula aliquam quis. Vivamus molestie
-              magna vel iaculis finibus. Nam luctus posuere nulla in dignissim. Duis felis enim,
-              sagittis at est a, dignissim sollicitudin lectus. Donec eu dapibus nisl. Donec congue
-              odio ex, vel rhoncus ex eleifend ac. Nam at sem justo. Duis efficitur, ligula eu
-              congue scelerisque, ex tellus accumsan augue, vitae iaculis lectus urna ac ante.
-              Aliquam non est ac neque tincidunt congue ullamcorper eget urna. Phasellus et
-              vulputate lorem, at pretium odio. Quisque vel ex nec quam facilisis auctor. Aenean ut
-              interdum diam. Curabitur efficitur metus et nunc mattis sagittis. Nunc sem magna,
-              accumsan non dignissim ac, faucibus sit amet mauris. Nam in iaculis nisi. Nulla
-              facilisi. Cras odio eros, condimentum non mollis vitae, varius rhoncus magna.
+              {profileDesc}
             </ShowMoreText>
           </Text>
         </MDBCol>
-        <MDBCol xl='6' md='12' className='p-0'>
+        <MDBCol size='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
             {localStorage.getItem('userType') == 'exhibitor' ? 'Participant' : 'Exhibitor'}
-            &nbsp; name:&nbsp;&nbsp;
+            &nbsp; Name:&nbsp;&nbsp;
             <span className='text-capitalize'> {firstName && `${firstName} ${lastName}`}</span>
           </Text>
         </MDBCol>
-        <MDBCol xl='6' md='6' className='p-0'>
+        <MDBCol size='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
             Tel Number:&nbsp;&nbsp;
             {phoneNumber && (
@@ -225,19 +206,19 @@ const Informations = ({ parent }) => {
             )}
           </Text>
         </MDBCol>
-        <MDBCol xl='6' md='12' className='p-0'>
+        <MDBCol size='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
             Email:&nbsp;&nbsp;
             <span className='text-lowercase'>{email}</span>
           </Text>
         </MDBCol>
-        <MDBCol xl='6' md='12' className='p-0'>
+        <MDBCol size='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
             Job Title:&nbsp;&nbsp;
             {jobTitle}
           </Text>
         </MDBCol>
-        <MDBCol xl='6' md='12' className='p-0'>
+        <MDBCol size='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
             Available Slots:&nbsp;&nbsp;{parent.state.slots.length}
           </Text>
