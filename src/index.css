@@ -1303,6 +1303,7 @@ input#otherInstitution {
   font-size: 10px;
   letter-spacing: 1px;
   margin-left: 2px;
+  transition: 0.5s;
 }
 
 .back-button-text {
@@ -1373,4 +1374,21 @@ strong {
 
 .row.masonry-grid .col {
   height: 100% !important;
+}
+
+a {
+  color: #8ec642;
+}
+
+a:hover {
+  color: #8ec642;
+}
+
+.modal-header,
+.modal-footer {
+  border: none !important;
+}
+
+.modal-header span {
+  color: #fff;
 }

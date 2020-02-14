@@ -53,7 +53,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
 
   return (
     <div>
-      {isUpdate && <Text className='label-input'>Institution Name</Text>}
+      {parent.state.institutionName && <Text className='label-input'>Institution Name</Text>}
       <TextInput
         placeHolder='Institution Name'
         id='institutionName'
@@ -65,7 +65,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         autocomplete='off'
         className='signup-input'
       />
-      {isUpdate && <Text className='label-input'>Country</Text>}
+      {parent.state.companyCountry && <Text className='label-input'>Country</Text>}
       <TextInput
         placeHolder='Country'
         id='companyCountry'
@@ -78,7 +78,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         className='signup-input'
         style={style.inputs}
       />
-      {isUpdate && <Text className='label-input'>Province</Text>}
+      {parent.state.companyProvince && <Text className='label-input'>Province</Text>}
       <TextInput
         placeHolder='Province'
         id='companyProvince'
@@ -91,7 +91,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         className='signup-input'
         style={style.inputs}
       />
-      {isUpdate && <Text className='label-input'>City</Text>}
+      {parent.state.companyCity && <Text className='label-input'>City</Text>}
       <TextInput
         placeHolder='City'
         id='companyCity'
@@ -104,7 +104,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         className='signup-input'
         style={style.inputs}
       />
-      {isUpdate && <Text className='label-input'>Website</Text>}
+      {parent.state.companyWebsite && <Text className='label-input'>Website</Text>}
       <TextInput
         placeHolder='Website'
         id='companyWebsite'
@@ -117,7 +117,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         className='signup-input'
         style={style.inputs}
       />
-      {isUpdate && <Text className='label-input'>Institution Profile</Text>}
+      {parent.state.companyProfile && <Text className='label-input'>Institution Profile</Text>}
       <TextInput
         placeHolder='Institution Profile'
         id='companyProfile'
@@ -132,7 +132,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         rows={10}
         maxLength={5000}
       />
-      {isUpdate && <Text className='label-input'>Unique and Strong Programs</Text>}
+      {parent.state.programs && <Text className='label-input'>Unique and Strong Programs</Text>}
       <TextInput
         placeHolder='Unique and Strong Programs'
         id='programs'
@@ -147,7 +147,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         rows={5}
       />
       <hr style={style.divider} />
-      {isUpdate && <Text className='label-input'>Representative First name</Text>}
+      {parent.state.firstName && <Text className='label-input'>Representative First name</Text>}
       <TextInput
         placeHolder='Representative First name'
         id='firstName'
@@ -160,7 +160,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         className='signup-input'
         style={style.inputs}
       />
-      {isUpdate && <Text className='label-input'>Representative Last name</Text>}
+      {parent.state.lastName && <Text className='label-input'>Representative Last name</Text>}
       <TextInput
         placeHolder='Representative Last name'
         id='lastName'
@@ -173,7 +173,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         className='signup-input'
         style={style.inputs}
       />
-      {isUpdate && <Text className='label-input'>Job Title</Text>}
+      {parent.state.jobTitle && <Text className='label-input'>Job Title</Text>}
       <TextInput
         placeHolder='Job Title'
         id='jobTitle'
@@ -186,6 +186,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         className='signup-input'
         style={style.inputs}
       />
+      {!isUpdate && parent.state.signUpEmail && <Text className='label-input'>Email</Text>}
       {!isUpdate && (
         <TextInput
           placeHolder='Email'
@@ -200,6 +201,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
           style={style.inputs}
         />
       )}
+      {!isUpdate && parent.state.signUpPassword && <Text className='label-input'>Password</Text>}
       {!isUpdate && (
         <TextInput
           placeHolder='Password'
@@ -213,6 +215,9 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
           className='signup-input'
           style={style.inputs}
         />
+      )}
+      {!isUpdate && parent.state.confirmPassword && (
+        <Text className='label-input'>Confirm Password</Text>
       )}
       {!isUpdate && (
         <TextInput
@@ -228,7 +233,7 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
           style={style.inputs}
         />
       )}
-      {isUpdate && <Text className='label-input'>Telephone Number</Text>}
+      {parent.state.phoneNumber && <Text className='label-input'>Telephone Number</Text>}
       <TextInput
         placeHolder='Telephone Number'
         id='phoneNumber'

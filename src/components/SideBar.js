@@ -11,7 +11,8 @@ const SideBar = ({
   isEvent,
   OnHandleToggle,
   parent,
-  OnHandleOpenProfile
+  OnHandleOpenProfile,
+  OnHandleOpenPassword
 }) => {
   const { firstName, lastName, profilePicture } = account;
   return (
@@ -97,6 +98,19 @@ const SideBar = ({
             }}
           >
             Edit Profile
+          </NavLink>
+        )}
+        {isEvent && (
+          <NavLink
+            to='#'
+            onClick={e => {
+              OnHandleOpenPassword();
+              OnHandleShowSideBar();
+            }}
+            style={style.links}
+            className='sideBarLink'
+          >
+            Change Password
           </NavLink>
         )}
         {isEvent && (

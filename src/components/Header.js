@@ -77,6 +77,7 @@ class Header extends Component {
             OnHandleToggle={this.props.OnHandleToggle}
             isEvent={this.props.isEvent}
             OnHandleOpenProfile={this.props.OnHandleOpenProfile}
+            OnHandleOpenPassword={this.props.OnHandleOpenPassword}
           />
         )}
       </div>
@@ -134,7 +135,4 @@ const mapStateToProps = state => ({
   account: state.auth.currentUser
 });
 
-export default connect(
-  mapStateToProps,
-  { loginUser, logoutUser }
-)(withRouter(Header));
+export default connect(mapStateToProps, { loginUser, logoutUser })(withRouter(Header));

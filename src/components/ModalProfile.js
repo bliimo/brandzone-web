@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { MDBContainer, MDBModal, MDBModalBody } from 'mdbreact';
+import { MDBContainer, MDBModal, MDBModalBody, MDBModalHeader } from 'mdbreact';
 import Button from './Button';
 import Text from './Text';
 import { book } from '../store/actions';
@@ -452,8 +452,8 @@ class ModalProfile extends Component {
               centered
               size='sm'
             >
+              <MDBModalHeader toggle={this.props.OnHandleOpenProfile}>Edit Profile</MDBModalHeader>
               <MDBModalBody>
-                <h3 className='mb-3'>Edit Profile</h3>
                 {this.OnHandleSignUpForm(localStorage.getItem('userType'))}
                 <Button
                   className='btn-edit'
@@ -490,11 +490,11 @@ const style = {
   buttonConfirm: {
     border: 'solid 1px #8ec63f85',
     color: '#8ec63f',
-    width: '23em',
+    width: '100%',
     borderRadius: '5px',
     padding: '.75em',
     textAlign: 'center',
-    fontSize: '1.1em',
+    fontSize: '14px',
     fontWeight: 'bolder',
     cursor: 'pointer',
     margin: 'auto',
@@ -505,11 +505,11 @@ const style = {
   buttonCancel: {
     border: '1px solid rgba(255, 255, 255, 0.35)',
     color: 'rgba(255, 255, 255, 0.51)',
-    width: '23em',
+    width: '100%',
     borderRadius: '5px',
     padding: '.75em',
     textAlign: 'center',
-    fontSize: '1.1em',
+    fontSize: '14px',
     fontWeight: 'bolder',
     cursor: 'pointer',
     margin: 'auto',
@@ -518,7 +518,7 @@ const style = {
     height: 40
   },
   btnText: {
-    bottom: '.5em',
+    bottom: '.1em',
     position: 'relative'
   }
 };
