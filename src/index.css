@@ -1374,3 +1374,11 @@ strong {
 .row.masonry-grid .col {
   height: 100% !important;
 }
+
+a {
+  color: #8ec63e;
+}
+
+a:hover {
+  color: #8ec63e;
+}
