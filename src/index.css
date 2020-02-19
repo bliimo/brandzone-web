@@ -140,6 +140,15 @@ h6 {
 }
 
 @media only screen and (max-width: 768px) {
+  .sm-notif {
+    display: block;
+  }
+  .dropdown-menu-right.show.basic.dropdown-menu {
+    width: 95vw !important;
+  }
+  .notif-btn-list {
+    width: 100px !important;
+  }
   #footer-img img {
     left: 0 !important;
   }
@@ -291,9 +300,6 @@ h6 {
   }
   div#signUpForm {
     min-width: 40vw !important;
-  }
-  .header-nav {
-    padding: 3em 4em !important;
   }
   .time-slots {
     margin-right: 0.8em !important;
@@ -893,7 +899,10 @@ textarea.signup-input {
     text-align: left;
   }
   p.back-button-text-signup span {
-    margin-left: 2em !important;
+    left: 2em !important;
+  }
+  .back-button-text-signup span {
+    left: 2em !important;
   }
   #first-row-profile-btn {
     margin-top: 4em !important;
@@ -1040,6 +1049,9 @@ div.slot-list-row:not(:first-of-type) {
   }
 }
 @media only screen and (min-width: 768px) {
+  .sm-notif {
+    display: none !important;
+  }
   .back-button-text-signup span {
     margin-left: 3em !important;
   }
@@ -1381,4 +1393,82 @@ a {
 
 a:hover {
   color: #8ec63e;
+}
+
+#notif-btn {
+  background: transparent !important;
+  box-shadow: none;
+  padding: 0;
+  position: relative;
+  top: 0.2em;
+  font-size: 16px;
+  right: 0.5em;
+}
+
+.dropdown-menu-right.show.basic.dropdown-menu {
+  width: 400px;
+  padding: 0 !important;
+  border-radius: 5px;
+}
+.notif-btn-list *,
+.notif-btn-list ul li,
+.notif-btn-list a {
+  font-size: 11px !important;
+  text-transform: capitalize !important;
+  font-family: Helvetica !important;
+  color: #222 !important;
+  text-decoration: none !important;
+  font-weight: 400 !important;
+  font-style: normal !important;
+  padding: 0 !important;
+}
+
+.notif-date {
+  font-size: 8px;
+  font-family: Helvetica !important;
+  margin-left: auto;
+}
+
+button.dropdown-item {
+  border-bottom: solid 1px #80808036 !important;
+}
+
+.bg-gray {
+  background: #80808036 !important;
+}
+
+.text-gray {
+  color: #80808036 !important;
+}
+
+.info-icon {
+  position: relative;
+  top: 2px;
+  right: 0.5em;
+}
+
+.notif-btn-list img,
+.notif-btn-list iframe {
+  display: none !important;
+}
+
+.notif-btn-list ul li {
+  list-style: none !important;
+}
+
+.notif-btn-list {
+  padding: 0.2em !important;
+  white-space: nowrap !important;
+  width: 220px;
+  overflow: hidden;
+  text-overflow: ellipsis !important;
+}
+
+.notif-btn-list * {
+  max-width: 100% !important;
+}
+
+.dropdown-menu-right.show.basic.dropdown-menu {
+  max-height: 30vh;
+  overflow: scroll;
 }

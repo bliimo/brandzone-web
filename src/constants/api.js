@@ -1,4 +1,4 @@
-export const API = 'http://brandzone-api-dev.ap-southeast-1.elasticbeanstalk.com/api';
+export const API = 'http://127.0.0.1:5000/api';
 export const cloudName = '';
 export const cloudVideoPreset = '';
 export const cloudImagesPreset = '';
