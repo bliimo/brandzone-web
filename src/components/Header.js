@@ -53,7 +53,7 @@ const Notification = ({ parent, className }) => {
   return notification.data && notification.data.length > 0 ? (
     <MDBDropdown className={`p-0 ${className}`}>
       <MDBDropdownToggle id='notif-btn'>
-        <MDBBadge color='danger' className='ml-2'>
+        <MDBBadge color='danger'>
           <MDBIcon icon='bell' />
           {notification.count > 0 && <strong>{notification.count}</strong>}
         </MDBBadge>

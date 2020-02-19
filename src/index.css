@@ -534,7 +534,7 @@ ul.md-tabs > li hr {
   transition: 0.15s;
 }
 .back-button-text > span {
-  bottom: 0.5em !important;
+  bottom: 0.55em !important;
 }
 .btn-animate-text-login:hover {
   font-size: 15px;
@@ -1470,5 +1470,10 @@ button.dropdown-item {
 
 .dropdown-menu-right.show.basic.dropdown-menu {
   max-height: 30vh;
+  min-height: 30vh;
   overflow: scroll;
+}
+
+span.notif-date {
+  line-height: 2.4em;
 }
