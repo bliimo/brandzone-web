@@ -174,7 +174,7 @@ const Informations = ({ parent }) => {
           </MDBCol>
         )}
         <MDBCol size='12' className='p-0'>
-          <Text className='booking-profile-info p-desc' style={style.profileInfo}>
+          <Text className='booking-profile-info p-desc p-main-desc' style={style.profileInfo}>
             {profileDesc}
           </Text>
         </MDBCol>
@@ -504,7 +504,7 @@ const style = {
     fontWeight: 'bold',
     display: 'inline-block',
     background: 'red',
-    marginRight:'auto'
+    marginRight: 'auto'
   },
   profileInfo: {
     color: '#fff',
