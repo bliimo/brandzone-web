@@ -78,7 +78,7 @@ const Tabs = ({ parent }) => {
       <MDBNav tabs className='justify-content-center event-tabs'>
         {link}
       </MDBNav>
-      <div className={`text-center ${parent.state.selectedProfile != null ? 'd-none' : 'd-block'}`}>
+      <div className={`${parent.state.selectedProfile != null ? 'd-none' : 'd-block'}`}>
         <MDBTabContent className='card' activeItem={parent.state.activeItem} style={style.tabs}>
           {event}
         </MDBTabContent>
@@ -87,7 +87,7 @@ const Tabs = ({ parent }) => {
           {parent.state.isShowList && <List parent={parent} />}
         </div>
       </div>
-      <div className={`text-center ${parent.state.selectedProfile != null ? 'd-block' : 'd-none'}`}>
+      <div className={`${parent.state.selectedProfile != null ? 'd-block' : 'd-none'}`}>
         <BookingProfile parent={parent} />
       </div>
     </div>

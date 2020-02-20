@@ -183,7 +183,7 @@ const style = {
   },
   bars: {
     position: 'relative',
-    top: 7
+    top: 8
   },
   brand: {
     color: '#fff'

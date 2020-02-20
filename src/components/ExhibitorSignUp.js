@@ -247,7 +247,11 @@ const ExhibitorSignUp = ({ parent, isUpdate }) => {
         style={style.inputs}
       />
       <PictureUpload OnHandlePicture={parent.OnHandlePicture} parent={parent} />
-      {!isUpdate && <Text style={style.txt}>Choose an event you'll participate in:</Text>}
+      {!isUpdate && (
+        <Text style={style.txt}>
+          Choose all timeslot/s that you will be available to meet with the Canadian Institutions.
+        </Text>
+      )}
       {!isUpdate && parent.state.events.length > 0 && (
         <Dropdown
           items={items}
