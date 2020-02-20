@@ -10,6 +10,7 @@ import multipleEventReducer from './multipleEvent';
 import uploadReducer from './upload';
 import reportReducer from './report';
 import passwordReducer from './password';
+import notificationReducer from './notification';
 
 export default combineReducers({
   auth: authReducer,
@@ -22,5 +23,6 @@ export default combineReducers({
   multipleEvent: multipleEventReducer,
   upload: uploadReducer,
   report: reportReducer,
+  notification: notificationReducer,
   password: passwordReducer
 });

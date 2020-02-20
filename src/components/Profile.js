@@ -56,7 +56,7 @@ const Informations = ({ account, OnHandleOpenProfile, OnHandleGetReports, isLoad
             </ShowMoreText>
           </Text>
         </MDBCol>
-        <MDBCol xl='6' md='12' className='p-0'>
+        <MDBCol xl='12' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
             Name of representative:&nbsp;&nbsp;
             <span className='text-capitalize'>
@@ -64,7 +64,7 @@ const Informations = ({ account, OnHandleOpenProfile, OnHandleGetReports, isLoad
             </span>
           </Text>
         </MDBCol>
-        <MDBCol xl='6' md='12' className='p-0'>
+        <MDBCol xl='12' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
             Tel Number:&nbsp;&nbsp;
             {phoneNumber && (
@@ -79,36 +79,34 @@ const Informations = ({ account, OnHandleOpenProfile, OnHandleGetReports, isLoad
             )}
           </Text>
         </MDBCol>
-        <MDBCol xl='6' md='12' className='p-0'>
+        <MDBCol size='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
             Job title:&nbsp;&nbsp;
             <span className='text-capitalize'>{jobTitle}</span>
           </Text>
         </MDBCol>
-        <MDBCol xl='6' md='12' className='p-0'>
+        <MDBCol size='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
             Email:&nbsp;&nbsp;
             <span className='text-lowercase'>{email}</span>
           </Text>
         </MDBCol>
-        <br />
-        <br />
-        <MDBCol md='12' xl='6' className='p-0'>
+        <MDBCol size='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
             Country:&nbsp;&nbsp; <span className='text-capitalize'>{countryInfo}</span>
           </Text>
         </MDBCol>
-        <MDBCol md='12' xl='6' className='p-0'>
+        <MDBCol size='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
             Province:&nbsp;&nbsp; <span className='text-capitalize'>{provinceInfo}</span>
           </Text>
         </MDBCol>
-        <MDBCol md='12' xl='6' className='p-0'>
+        <MDBCol size='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
             City:&nbsp;&nbsp; <span className='text-capitalize'>{cityInfo}</span>
           </Text>
         </MDBCol>
-        <MDBCol md='12' xl='6' className='p-0'>
+        <MDBCol size='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
             Website:&nbsp;&nbsp;
             {websiteInfo}

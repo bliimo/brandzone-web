@@ -9,3 +9,4 @@ export { getMultipleLatestEvents } from './multipleEvent';
 export { upload } from './upload';
 export { getReports } from './report';
 export { passwordUpdate } from './password';
+export { getNotifications, viewNotifications } from './notification';
