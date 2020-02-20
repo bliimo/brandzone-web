@@ -57,11 +57,14 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
       }
     });
   }
-
   return (
     <div>
-      {parent.state.institutionTypes ||
-        (parent.state.otherInstitution && <Text className='label-input'>Institution name</Text>)}
+      {parent.state.institutionType && !parent.state.isNewInstitution && (
+        <Text className='label-input mt-4'>Institution name</Text>
+      )}
+      {parent.state.otherInstitution && parent.state.isNewInstitution && (
+        <Text className='label-input mt-4'>Institution name</Text>
+      )}
       <div className='d-flex institution-type-wrapper'>
         {!parent.state.isNewInstitution && (
           <div style={style.participant} className='other-institution'>

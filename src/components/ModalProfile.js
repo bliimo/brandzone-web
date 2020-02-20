@@ -461,7 +461,7 @@ class ModalProfile extends Component {
                   onClick={() => this.OnHandleUpdate()}
                 >
                   <Text className='font-weight-bold' style={style.btnText}>
-                    {this.props.isLoading ? 'Please wait' : 'Update'}
+                    {this.props.isLoading || this.props.isLoadingUpload ? 'Please wait' : 'Update'}
                   </Text>
                 </Button>
                 <Button

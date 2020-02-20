@@ -7,6 +7,7 @@ export const getInstitution = () => dispatch => {
   axios
     .get(`${API}/institutionType/showAll`)
     .then(res => {
+      console.log(res);
       dispatch({
         type: INSTITUTION_SUCCESS,
         payload: res.data
