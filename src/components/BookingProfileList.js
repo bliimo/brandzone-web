@@ -33,8 +33,7 @@ const Profile = ({ parent }) => {
       if (institution.length > parent.state.text.length) {
         parent.setState({ text: institution });
       }
-
-      if (isValid) {
+      if (isValid && setBy.userStatus == 'APPROVED') {
         profiles.push(
           <MDBCol
             key={i}
