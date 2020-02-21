@@ -46,7 +46,7 @@ const Informations = ({ account, OnHandleOpenProfile, OnHandleGetReports, isLoad
       <MDBRow className='mr-0 ml-0'>
         <MDBCol xl='12' md='12' className='p-0'>
           <Text className='booking-profile-info p-desc p-main-desc' style={style.profileInfo}>
-            {profileDesc}
+            <div dangerouslySetInnerHTML={{ __html: profileDesc }} />
           </Text>
         </MDBCol>
         <MDBCol xl='12' md='12' className='p-0 mt-3'>

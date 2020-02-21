@@ -175,7 +175,7 @@ const Informations = ({ parent }) => {
         )}
         <MDBCol size='12' className='p-0'>
           <Text className='booking-profile-info p-desc p-main-desc' style={style.profileInfo}>
-            {profileDesc}
+            <div dangerouslySetInnerHTML={{ __html: profileDesc }} />
           </Text>
         </MDBCol>
         <MDBCol size='12' className='p-0 mt-3'>

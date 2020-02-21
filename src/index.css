@@ -1516,6 +1516,14 @@ span.notif-date {
 button.close {
   color: #fff !important;
 }
-.modal-header , .modal-footer{
+.modal-header,
+.modal-footer {
   border: none !important;
+}
+
+.booking-profile-info.p-desc.p-main-desc * {
+  color: #fff !important;
+}
+.booking-profile-info.p-desc.p-main-desc ul {
+  padding-left: 1.2em;
 }
