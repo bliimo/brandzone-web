@@ -140,6 +140,9 @@ h6 {
 }
 
 @media only screen and (max-width: 768px) {
+  .booking-profile-img {
+    width: 100% !important;
+  }
   .sm-notif {
     display: block;
   }
@@ -285,9 +288,6 @@ h6 {
 }
 
 @media only screen and (max-width: 768px) {
-  .booking-profile-info {
-    text-align: center !important;
-  }
   .booking-profile-info.pl-2 {
     padding-left: 0 !important;
   }
@@ -851,7 +851,7 @@ textarea.signup-input {
     padding-right: 0 !important;
   }
   #booking-profile-row .col-info {
-    padding: 1.1em 2.6em;
+    padding: 0.5em;
   }
 }
 
@@ -1056,7 +1056,7 @@ div.slot-list-row:not(:first-of-type) {
     margin-left: 3em !important;
   }
   .back-button-text span {
-    margin-left: 1.8em !important;
+    margin-left: 2.5em !important;
   }
   .container.booking-profile-main {
     position: relative;
@@ -1315,6 +1315,7 @@ input#otherInstitution {
   font-size: 10px;
   letter-spacing: 1px;
   margin-left: 2px;
+  transition: 0.5s;
 }
 
 .back-button-text {
@@ -1476,4 +1477,38 @@ button.dropdown-item {
 
 span.notif-date {
   line-height: 2.4em;
+}
+
+.p-desc {
+  font-weight: bold !important;
+}
+
+.booking-profile-img {
+  padding: 1em !important;
+  width: 50%;
+}
+
+#row-profile img {
+  padding: 0.8em !important;
+}
+
+.notif-btn-list * {
+  display: inline !important;
+}
+.p-desc {
+  letter-spacing: 0.7px;
+}
+
+.swal2-content {
+  text-align: initial !important;
+}
+
+.divider-counter {
+  position: relative;
+  bottom: 0.5em;
+}
+
+.p-main-desc {
+  text-align: justify !important;
+  word-break: normal;
 }

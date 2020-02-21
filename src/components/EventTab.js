@@ -19,6 +19,8 @@ import ModalProfile from './ModalProfile';
 import Profile from './Profile';
 import loader from '../assets/images/loader.gif';
 import fb from '../assets/images/fb.png';
+import PasswordModal from './PasswordModal';
+
 const Link = ({ data, parent, index }) => {
   const { title } = data;
   return (
@@ -76,7 +78,7 @@ const Tabs = ({ parent }) => {
       <MDBNav tabs className='justify-content-center event-tabs'>
         {link}
       </MDBNav>
-      <div className={`text-center ${parent.state.selectedProfile != null ? 'd-none' : 'd-block'}`}>
+      <div className={`${parent.state.selectedProfile != null ? 'd-none' : 'd-block'}`}>
         <MDBTabContent className='card' activeItem={parent.state.activeItem} style={style.tabs}>
           {event}
         </MDBTabContent>
@@ -85,7 +87,7 @@ const Tabs = ({ parent }) => {
           {parent.state.isShowList && <List parent={parent} />}
         </div>
       </div>
-      <div className={`text-center ${parent.state.selectedProfile != null ? 'd-block' : 'd-none'}`}>
+      <div className={`${parent.state.selectedProfile != null ? 'd-block' : 'd-none'}`}>
         <BookingProfile parent={parent} />
       </div>
     </div>
@@ -493,7 +495,8 @@ class EventTab extends Component {
     account: {},
     isShowList: false,
     isOpenProfile: false,
-    isOpenList: false
+    isOpenList: false,
+    isOpenPassword: false
   };
 
   OnHandleToggle = tab => () => {
@@ -588,11 +591,17 @@ class EventTab extends Component {
   componentWillMount() {
     this.props.getLatestEvents();
   }
+
   componentDidUpdate() {}
 
   OnHandleOpenProfile = () => {
     const { isOpenProfile } = this.state;
     this.setState({ isOpenProfile: !isOpenProfile });
+  };
+
+  OnHandleOpenPassword = () => {
+    const { isOpenPassword } = this.state;
+    this.setState({ isOpenPassword: !isOpenPassword });
   };
 
   OnHandleToggleHome(tab) {}
@@ -606,6 +615,7 @@ class EventTab extends Component {
           isEvent={true}
           OnHandleToggleHome={this.OnHandleToggleHome}
           OnHandleOpenProfile={this.OnHandleOpenProfile}
+          OnHandleOpenPassword={this.OnHandleOpenPassword}
         />
         <div
           style={style.main}
@@ -655,6 +665,10 @@ class EventTab extends Component {
         <ModalProfile
           OnHandleOpenProfile={this.OnHandleOpenProfile}
           isOpenModal={this.state.isOpenProfile}
+        />
+        <PasswordModal
+          OnHandleToogleModal={this.OnHandleOpenPassword}
+          toggle={this.state.isOpenPassword}
         />
         <Footer
           isShow={this.OnHandleShowList}

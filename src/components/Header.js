@@ -160,6 +160,7 @@ class Header extends Component {
             OnHandleToggle={this.props.OnHandleToggle}
             isEvent={this.props.isEvent}
             OnHandleOpenProfile={this.props.OnHandleOpenProfile}
+            OnHandleOpenPassword={this.props.OnHandleOpenPassword}
           />
         )}
       </div>
@@ -182,7 +183,7 @@ const style = {
   },
   bars: {
     position: 'relative',
-    top: 7
+    top: 8
   },
   brand: {
     color: '#fff'

@@ -57,10 +57,14 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
       }
     });
   }
-
   return (
     <div>
-      {isUpdate && <Text className='label-input'>Institution name</Text>}
+      {parent.state.institutionType && !parent.state.isNewInstitution && (
+        <Text className='label-input mt-4'>Institution name</Text>
+      )}
+      {parent.state.otherInstitution && parent.state.isNewInstitution && (
+        <Text className='label-input mt-4'>Institution name</Text>
+      )}
       <div className='d-flex institution-type-wrapper'>
         {!parent.state.isNewInstitution && (
           <div style={style.participant} className='other-institution'>
@@ -96,7 +100,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
           id='check-others'
         />
       </div>
-      {isUpdate && <Text className='label-input mt-3'>Name of Company</Text>}
+      {parent.state.companyName && <Text className='label-input mt-3'>Name of Company</Text>}
       <TextInput
         placeHolder='Name of Company'
         id='companyName'
@@ -109,7 +113,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
         className='signup-input'
         style={style.inputs}
       />
-      {isUpdate && <Text className='label-input'>Country</Text>}
+      {parent.state.companyCountry && <Text className='label-input'>Country</Text>}
       <TextInput
         placeHolder='Country'
         id='companyCountry'
@@ -122,7 +126,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
         className='signup-input'
         style={style.inputs}
       />
-      {isUpdate && <Text className='label-input'>Province</Text>}
+      {parent.state.companyProvince && <Text className='label-input'>Province</Text>}
       <TextInput
         placeHolder='Province'
         id='companyProvince'
@@ -135,7 +139,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
         className='signup-input'
         style={style.inputs}
       />
-      {isUpdate && <Text className='label-input'>City</Text>}
+      {parent.state.companyCity && <Text className='label-input'>City</Text>}
       <TextInput
         placeHolder='City'
         id='companyCity'
@@ -148,7 +152,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
         className='signup-input'
         style={style.inputs}
       />
-      {isUpdate && <Text className='label-input'>Website</Text>}
+      {parent.state.companyWebsite && <Text className='label-input'>Website</Text>}
       <TextInput
         placeHolder='Website'
         id='companyWebsite'
@@ -161,7 +165,9 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
         className='signup-input'
         style={style.inputs}
       />
-      {isUpdate && <Text className='label-input'>Short profile of the Company</Text>}
+      {parent.state.companyProfile && (
+        <Text className='label-input'>Short profile of the Company</Text>
+      )}
       <TextInput
         placeHolder='Short profile of the Company'
         id='companyProfile'
@@ -177,7 +183,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
         maxLength={5000}
       />
       <hr style={style.divider} />
-      {isUpdate && <Text className='label-input'>Representative First name</Text>}
+      {parent.state.firstName && <Text className='label-input'>Representative First name</Text>}
       <TextInput
         placeHolder='Representative First name'
         id='firstName'
@@ -190,7 +196,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
         className='signup-input'
         style={style.inputs}
       />
-      {isUpdate && <Text className='label-input'>Representative Last name</Text>}
+      {parent.state.lastName && <Text className='label-input'>Representative Last name</Text>}
       <TextInput
         placeHolder='Representative Last name'
         id='lastName'
@@ -203,7 +209,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
         className='signup-input'
         style={style.inputs}
       />
-      {isUpdate && <Text className='label-input'>Job Title</Text>}
+      {parent.state.jobTitle && <Text className='label-input'>Job Title</Text>}
       <TextInput
         placeHolder='Job Title'
         id='jobTitle'
@@ -216,6 +222,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
         className='signup-input'
         style={style.inputs}
       />
+      {!isUpdate && parent.state.signUpEmail && <Text className='label-input'>Email</Text>}
       {!isUpdate && (
         <TextInput
           placeHolder='Email'
@@ -230,6 +237,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
           style={style.inputs}
         />
       )}
+      {!isUpdate && parent.state.signUpPassword && <Text className='label-input'>Password</Text>}
       {!isUpdate && (
         <TextInput
           placeHolder='Password'
@@ -243,6 +251,9 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
           className='signup-input'
           style={style.inputs}
         />
+      )}
+      {!isUpdate && parent.state.confirmPassword && (
+        <Text className='label-input'>Confirm Password</Text>
       )}
       {!isUpdate && (
         <TextInput
@@ -258,7 +269,7 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
           style={style.inputs}
         />
       )}
-      {isUpdate && <Text className='label-input'>Telephone Number</Text>}
+      {parent.state.phoneNumber && <Text className='label-input'>Telephone Number</Text>}
       <TextInput
         placeHolder='Telephone Number'
         id='phoneNumber'
@@ -272,7 +283,11 @@ const ParticipantSignUp = ({ parent, events, isUpdate, id, Activeid, isActive })
         style={style.inputs}
       />
       <PictureUpload OnHandlePicture={parent.OnHandlePicture} parent={parent} />
-      {!isUpdate && <Text style={style.txt}>Choose an event you'll participate in:</Text>}
+      {!isUpdate && (
+        <Text style={style.txt}>
+          Choose all timeslot/s that you will be available to meet with the Canadian Institutions.
+        </Text>
+      )}
       {!isUpdate && parent.state.events.length > 0 && (
         <Dropdown
           items={items}

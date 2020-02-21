@@ -39,7 +39,9 @@ const Counter = ({ parent }) => {
                 </p>
                 <p style={style.counterTitleMin}>Minutes</p>
               </Text>
-              <Text style={style.counter}>:</Text>
+              <Text className='divider-counter' style={style.counter}>
+                :
+              </Text>
               <Text>
                 <p style={style.counter}>
                   {props.seconds > 9 ? props.seconds : `0${props.seconds}`}
@@ -161,7 +163,7 @@ const Informations = ({ parent }) => {
   let dateTime = new Date(date[0], parseInt(date[1]) - 1, date[2], hour, min);
   const isDone = dateTime < new Date();
   return (
-    <MDBCol xl='8' lg='6' md='6' className='col-info profile-institution-info'>
+    <MDBCol size='12' className='col-info profile-institution-info mt-3'>
       {!title && <Text style={style.institutionName}>{institutionName}</Text>}
       <MDBRow className='mr-0 ml-0'>
         {title && (
@@ -172,28 +174,19 @@ const Informations = ({ parent }) => {
           </MDBCol>
         )}
         <MDBCol size='12' className='p-0'>
-          <Text className='booking-profile-info' style={style.profileInfo}>
-            <ShowMoreText
-              lines={6}
-              more='show more'
-              less='show less'
-              anchorClass=''
-              expanded={false}
-            >
-              {profileDesc}
-            </ShowMoreText>
+          <Text className='booking-profile-info p-desc p-main-desc' style={style.profileInfo}>
+            {profileDesc}
           </Text>
         </MDBCol>
-        <MDBCol size='12' className='p-0'>
+        <MDBCol size='12' className='p-0 mt-3'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            {localStorage.getItem('userType') == 'exhibitor' ? 'Participant' : 'Exhibitor'}
-            &nbsp; Name:&nbsp;&nbsp;
+            <span className='p-desc'>Name of representative:</span>&nbsp;
             <span className='text-capitalize'> {firstName && `${firstName} ${lastName}`}</span>
           </Text>
         </MDBCol>
-        <MDBCol size='12' className='p-0'>
+        {/* <MDBCol size='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            Tel Number:&nbsp;&nbsp;
+            <span className='p-desc'>Tel Number:</span>&nbsp;
             {phoneNumber && (
               <MediaQuery maxDeviceWidth={768}>
                 <EllipsisText text={phoneNumber} length={40} />
@@ -205,22 +198,22 @@ const Informations = ({ parent }) => {
               </MediaQuery>
             )}
           </Text>
+        </MDBCol> */}
+        <MDBCol size='12' className='p-0'>
+          <Text className='booking-profile-info' style={style.profileInfo}>
+            <span className='p-desc'>Job Title:</span>&nbsp;
+            <span className='text-capitalize'>{jobTitle}</span>
+          </Text>
         </MDBCol>
         <MDBCol size='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            Email:&nbsp;&nbsp;
+            <span className='p-desc'>Email:</span>&nbsp;
             <span className='text-lowercase'>{email}</span>
           </Text>
         </MDBCol>
         <MDBCol size='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            Job Title:&nbsp;&nbsp;
-            {jobTitle}
-          </Text>
-        </MDBCol>
-        <MDBCol size='12' className='p-0'>
-          <Text className='booking-profile-info' style={style.profileInfo}>
-            Available Slots:&nbsp;&nbsp;{parent.state.slots.length}
+            <span className='p-desc'>Available Slots:</span>&nbsp;{parent.state.slots.length}
           </Text>
         </MDBCol>
         {!title && parent.state.slots.length > 0 && (
@@ -263,8 +256,8 @@ const Informations = ({ parent }) => {
         )}
         {title && !parent.OnHandleType() && !isDone && (
           <MDBCol size='12' className='p-0 mt-2'>
-            <Text style={style.bookedSlot}>
-              Booked Slot:&nbsp;{startTime}&nbsp;-&nbsp;{endTime}pm
+            <Text style={style.bookedSlot} className='p-desc'>
+              Booked Slot:&nbsp;{startTime}pm&nbsp;-&nbsp;{endTime}pm
             </Text>
           </MDBCol>
         )}
@@ -424,9 +417,9 @@ class BookingProfile extends Component {
         </Button>
         <MDBContainer className='booking-profile-main'>
           <MDBRow id='booking-profile-row'>
-            <MDBCol xl={'4'} lg={'6'} md={'6'} className='col-img'>
+            <MDBCol size='12' className='col-img'>
               <img
-                className={`booking-profile-img w-100 mh-300`}
+                className={`booking-profile-img`}
                 src={profilePicture}
                 alt='profile'
                 style={style.pic}
@@ -441,9 +434,9 @@ class BookingProfile extends Component {
               </MDBCol>
             )}
             {title && (
-              <MDBCol size={'12'}>
-                <Text>
-                  <p style={style.notes}>Notes:</p>
+              <MDBCol size={'12'} className='pl-2 pr-2'>
+                <Text className='p-desc'>
+                  <p style={style.notes}>Please input your notes about the meeting here:</p>
                 </Text>
                 <TextInput
                   id='notes'
@@ -504,24 +497,31 @@ const style = {
   },
   institutionName: {
     color: '#fff',
-    font: '30px Harabara',
+    font: '16px Harabara',
     textTransform: 'uppercase',
-    letterSpacing: 4,
-    textAlign: 'left'
+    letterSpacing: 1,
+    textAlign: 'left',
+    fontWeight: 'bold',
+    display: 'inline-block',
+    background: 'red',
+    marginRight: 'auto'
   },
   profileInfo: {
     color: '#fff',
     textAlign: 'left',
-    font: '14px Helvetica',
-    marginBottom: '.65em'
+    fontSize: '13px',
+    fontFamily: 'Helvetica'
   },
   profileInfoTitle: {
-    color: 'rgb(255, 255, 255)',
-    textAlign: 'left',
-    font: '30px Harabara',
+    color: '#fff',
+    font: '16px Harabara',
     textTransform: 'uppercase',
-    letterSpacing: 8,
-    marginBottom: '0.65em'
+    letterSpacing: 1,
+    textAlign: 'left',
+    fontWeight: 'bold',
+    display: 'inline-block',
+    background: 'red',
+    float: 'left'
   },
   btnSlot: {
     color: '#b1b1b1',
@@ -612,7 +612,7 @@ const style = {
   counter: {
     color: '#8ec63f',
     fontSize: 45,
-    fontFamily: 'harabara',
+    fontFamily: 'Harabara',
     letterSpacing: 7,
     textAlign: 'center',
     padding: '0 .1em'
@@ -620,22 +620,22 @@ const style = {
   counterMin: {
     color: '#8ec63f',
     fontSize: 45,
-    fontFamily: 'harabara',
+    fontFamily: 'Harabara',
     letterSpacing: 7,
     textAlign: 'center',
     padding: '0 .1em 0 0'
   },
   counterTitle: {
     color: '#fff',
-    fontFamily: 'harabara',
-    letterSpacing: 2,
+    fontFamily: 'Helvetica',
+    letterSpacing: 1,
     paddingTop: '.2em'
   },
   counterTitleMin: {
     color: '#fff',
-    fontFamily: 'harabara',
-    letterSpacing: 2,
-    paddingTop: '.8em',
+    fontFamily: 'Helvetica',
+    letterSpacing: 1,
+    paddingTop: '1.2em',
     textAlign: 'left',
     fontSize: '.7em'
   },
@@ -643,27 +643,29 @@ const style = {
     position: 'absolute',
     marginLeft: '.3em',
     color: '#fff',
-    fontFamily: 'harabara',
-    letterSpacing: 2,
-    paddingTop: '.8em',
+    fontFamily: 'Helvetica',
+    letterSpacing: 1,
+    paddingTop: '1.2em',
     fontSize: '.7em',
     textAlign: 'left'
   },
   counterRemaining: {
     color: '#fff',
-    fontFamily: 'harabara',
-    letterSpacing: 2,
-    fontSize: '.6em',
+    fontFamily: 'Helvetica',
+    letterSpacing: 1,
+    fontSize: '.9em',
     textAlign: 'left',
-    paddingBottom: '2em'
+    paddingTop: '.8em',
+    paddingBottom: '1.5em',
+    fontWeight: 'bold'
   },
   notes: {
     color: '#fff',
-    fontFamily: 'harabara',
-    letterSpacing: 2,
-    fontSize: '.9em',
+    fontFamily: 'Helvetica',
+    letterSpacing: 1,
+    fontSize: '.8em',
     textAlign: 'left',
-    marginTop: '1.7em'
+    marginTop: '.5em'
   },
   inputs: {
     margin: 0,
@@ -690,7 +692,7 @@ const style = {
     bottom: '.5em'
   },
   bookedSlot: {
-    color: '#fff',
+    color: '#8ec63e',
     fontSize: 18,
     fontFamily: 'Helvetica Neue',
     fontWeight: '400',
@@ -713,8 +715,9 @@ const style = {
   },
   pic: {
     objectFit: 'contain',
+    float: 'left',
     background: '#fff',
-    padding: '.5em'
+    padding: '.8em'
   }
 };
 

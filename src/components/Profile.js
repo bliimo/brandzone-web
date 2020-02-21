@@ -39,26 +39,19 @@ const Informations = ({ account, OnHandleOpenProfile, OnHandleGetReports, isLoad
   }
 
   return (
-    <MDBCol xl='8' lg='6' md='6' className='col-info profile-institution-info'>
-      <Text style={style.institutionName}>{nameInfo}</Text>
-      <br />
+    <MDBCol size='12' className='col-info profile-institution-info'>
+      <Text style={style.institutionName} className='mt-3'>
+        {nameInfo}
+      </Text>
       <MDBRow className='mr-0 ml-0'>
         <MDBCol xl='12' md='12' className='p-0'>
-          <Text className='booking-profile-info' style={style.profileInfo}>
-            <ShowMoreText
-              lines={6}
-              more='show more'
-              less='show less'
-              anchorClass=''
-              expanded={false}
-            >
-              {profileDesc}
-            </ShowMoreText>
+          <Text className='booking-profile-info p-desc p-main-desc' style={style.profileInfo}>
+            {profileDesc}
           </Text>
         </MDBCol>
-        <MDBCol xl='12' md='12' className='p-0'>
+        <MDBCol xl='12' md='12' className='p-0 mt-3'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            Name of representative:&nbsp;&nbsp;
+            <span className='p-desc'>Name of representative:</span>&nbsp;
             <span className='text-capitalize'>
               {firstName}&nbsp;{lastName}
             </span>
@@ -66,7 +59,7 @@ const Informations = ({ account, OnHandleOpenProfile, OnHandleGetReports, isLoad
         </MDBCol>
         <MDBCol xl='12' md='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            Tel Number:&nbsp;&nbsp;
+            <span className='p-desc'>Tel Number:</span>&nbsp;
             {phoneNumber && (
               <MediaQuery maxDeviceWidth={768}>
                 <EllipsisText text={phoneNumber} length={40} />
@@ -81,40 +74,43 @@ const Informations = ({ account, OnHandleOpenProfile, OnHandleGetReports, isLoad
         </MDBCol>
         <MDBCol size='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            Job title:&nbsp;&nbsp;
+            <span className='p-desc'>Job title:</span>&nbsp;
             <span className='text-capitalize'>{jobTitle}</span>
           </Text>
         </MDBCol>
         <MDBCol size='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            Email:&nbsp;&nbsp;
+            <span className='p-desc'>Email:</span>&nbsp;
             <span className='text-lowercase'>{email}</span>
           </Text>
         </MDBCol>
         <MDBCol size='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            Country:&nbsp;&nbsp; <span className='text-capitalize'>{countryInfo}</span>
+            <span className='p-desc'>Country:</span>&nbsp;{' '}
+            <span className='text-capitalize'>{countryInfo}</span>
           </Text>
         </MDBCol>
         <MDBCol size='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            Province:&nbsp;&nbsp; <span className='text-capitalize'>{provinceInfo}</span>
+            <span className='p-desc'>Province:</span>&nbsp;{' '}
+            <span className='text-capitalize'>{provinceInfo}</span>
           </Text>
         </MDBCol>
         <MDBCol size='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            City:&nbsp;&nbsp; <span className='text-capitalize'>{cityInfo}</span>
+            <span className='p-desc'>City:</span>&nbsp;{' '}
+            <span className='text-capitalize'>{cityInfo}</span>
           </Text>
         </MDBCol>
         <MDBCol size='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            Website:&nbsp;&nbsp;
+            <span className='p-desc'>Website:</span>&nbsp;
             {websiteInfo}
           </Text>
         </MDBCol>
-        <MDBCol size='12' className='justify-content-center'>
+        <MDBCol sm='12' md='6' lg='6' className='justify-content-center'>
           <Button
-            className='w-75'
+            className='w-100'
             id='btn-edit-profile'
             onClick={() => {
               OnHandleGetReports();
@@ -124,9 +120,9 @@ const Informations = ({ account, OnHandleOpenProfile, OnHandleGetReports, isLoad
             <Text style={style.time}>{isLoading ? 'Please wait ...' : 'Download schedules'}</Text>
           </Button>
         </MDBCol>
-        <MDBCol size='12' className='justify-content-center mt-3'>
+        <MDBCol sm='12' md='6' lg='6' className='justify-content-center'>
           <Button
-            className='w-75'
+            className='w-100'
             id='btn-edit-profile'
             onClick={() => {
               OnHandleOpenProfile();
@@ -170,12 +166,12 @@ class Profile extends Component {
 
     return (
       <div className='w-100'>
-        <MDBContainer>
+        <MDBContainer className='booking-profile'>
           <MDBRow id='booking-profile-row'>
-            <MDBCol xl={'4'} lg={'6'} md={'6'} className='col-img'>
+            <MDBCol size='12' className='col-img'>
               <img
                 style={style.profile}
-                className={`booking-profile-img w-100 mh-300`}
+                className={`booking-profile-img`}
                 src={profilePicture}
                 alt='profile'
               />
@@ -211,24 +207,29 @@ const style = {
   },
   institutionName: {
     color: '#fff',
-    font: '30px Harabara',
+    font: '16px Harabara',
     textTransform: 'uppercase',
-    letterSpacing: 4,
-    textAlign: 'left'
+    letterSpacing: 1,
+    textAlign: 'left',
+    fontWeight: 'bold',
+    display: 'inline-block',
+    background: 'red'
   },
   profileInfo: {
     color: '#fff',
     textAlign: 'left',
-    font: '15px Helvetica',
-    marginBottom: '.65em'
+    fontSize: '13px',
+    fontFamily: 'Helvetica'
   },
   profileInfoTitle: {
     color: 'rgb(255, 255, 255)',
     textAlign: 'left',
-    font: '30px Harabara',
+    font: '16px Harabara',
     textTransform: 'uppercase',
     letterSpacing: 8,
-    marginBottom: '0.65em'
+    marginBottom: '0.65em',
+    display: 'inline-block',
+    background: 'red'
   },
   btnBookList: {
     color: '#b1b1b1',
@@ -272,9 +273,10 @@ const style = {
     top: '.5em'
   },
   profile: {
-    objectFit: 'containt',
-    padding: '1em',
-    backgroundColor: '#fff'
+    objectFit: 'contain',
+    float: 'left',
+    background: '#fff',
+    padding: '.8em'
   }
 };
 
