@@ -1512,3 +1512,10 @@ span.notif-date {
   text-align: justify !important;
   word-break: normal;
 }
+
+button.close {
+  color: #fff !important;
+}
+.modal-header , .modal-footer{
+  border: none !important;
+}
