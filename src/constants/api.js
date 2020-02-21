@@ -1,4 +1,4 @@
-export const API = 'http://brandzone-prod.cnez5xpwzhii.ap-southeast-1.rds.amazonaws.com/api';
+export const API = 'http://brandzone-prod.ap-southeast-1.elasticbeanstalk.com/api';
 export const cloudName = '';
 export const cloudVideoPreset = '';
 export const cloudImagesPreset = '';
