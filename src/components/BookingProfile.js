@@ -498,12 +498,11 @@ const style = {
   institutionName: {
     color: '#fff',
     font: '16px Harabara',
-    textTransform: 'uppercase',
+    textTransform: 'capitalize',
     letterSpacing: 1,
     textAlign: 'left',
     fontWeight: 'bold',
     display: 'inline-block',
-    background: 'red',
     marginRight: 'auto'
   },
   profileInfo: {
@@ -515,12 +514,11 @@ const style = {
   profileInfoTitle: {
     color: '#fff',
     font: '16px Harabara',
-    textTransform: 'uppercase',
+    textTransform: 'capitalize',
     letterSpacing: 1,
     textAlign: 'left',
     fontWeight: 'bold',
     display: 'inline-block',
-    background: 'red',
     float: 'left'
   },
   btnSlot: {

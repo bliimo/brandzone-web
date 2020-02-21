@@ -208,12 +208,11 @@ const style = {
   institutionName: {
     color: '#fff',
     font: '16px Harabara',
-    textTransform: 'uppercase',
+    textTransform: 'capitalize',
     letterSpacing: 1,
     textAlign: 'left',
     fontWeight: 'bold',
-    display: 'inline-block',
-    background: 'red'
+    display: 'inline-block'
   },
   profileInfo: {
     color: '#fff',
@@ -225,11 +224,10 @@ const style = {
     color: 'rgb(255, 255, 255)',
     textAlign: 'left',
     font: '16px Harabara',
-    textTransform: 'uppercase',
+    textTransform: 'capitalize',
     letterSpacing: 8,
     marginBottom: '0.65em',
-    display: 'inline-block',
-    background: 'red'
+    display: 'inline-block'
   },
   btnBookList: {
     color: '#b1b1b1',
