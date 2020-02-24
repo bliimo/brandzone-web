@@ -9,8 +9,21 @@ import { getReports } from '../store/actions';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const Informations = ({ account, OnHandleOpenProfile, OnHandleGetReports, isLoading }) => {
-  let { phoneNumber, firstName, lastName, email, jobTitle, institution, company } = account;
+const Informations = ({
+  account,
+  OnHandleOpenProfile,
+  OnHandleGetReports,
+  isLoading
+}) => {
+  let {
+    phoneNumber,
+    firstName,
+    lastName,
+    email,
+    jobTitle,
+    institution,
+    company
+  } = account;
   let nameInfo,
     countryInfo,
     provinceInfo,
@@ -45,13 +58,16 @@ const Informations = ({ account, OnHandleOpenProfile, OnHandleGetReports, isLoad
       </Text>
       <MDBRow className='mr-0 ml-0'>
         <MDBCol xl='12' md='12' className='p-0'>
-          <Text className='booking-profile-info p-desc p-main-desc' style={style.profileInfo}>
+          <Text
+            className='booking-profile-info p-desc p-main-desc'
+            style={style.profileInfo}
+          >
             <div dangerouslySetInnerHTML={{ __html: profileDesc }} />
           </Text>
         </MDBCol>
         <MDBCol xl='12' md='12' className='p-0 mt-3'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            <span className='p-desc'>Name of representative:</span>&nbsp;
+            <span className='p-desc'>Name of Representative:</span>&nbsp;
             <span className='text-capitalize'>
               {firstName}&nbsp;{lastName}
             </span>
@@ -74,7 +90,7 @@ const Informations = ({ account, OnHandleOpenProfile, OnHandleGetReports, isLoad
         </MDBCol>
         <MDBCol size='12' className='p-0'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            <span className='p-desc'>Job title:</span>&nbsp;
+            <span className='p-desc'>Job Title:</span>&nbsp;
             <span className='text-capitalize'>{jobTitle}</span>
           </Text>
         </MDBCol>
@@ -117,7 +133,9 @@ const Informations = ({ account, OnHandleOpenProfile, OnHandleGetReports, isLoad
             }}
             style={style.btnDownLoad}
           >
-            <Text style={style.time}>{isLoading ? 'Please wait ...' : 'Download schedules'}</Text>
+            <Text style={style.time}>
+              {isLoading ? 'Please wait ...' : 'Download schedules'}
+            </Text>
           </Button>
         </MDBCol>
         <MDBCol sm='12' md='6' lg='6' className='justify-content-center'>

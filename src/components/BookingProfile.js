@@ -180,7 +180,7 @@ const Informations = ({ parent }) => {
         </MDBCol>
         <MDBCol size='12' className='p-0 mt-3'>
           <Text className='booking-profile-info' style={style.profileInfo}>
-            <span className='p-desc'>Name of representative:</span>&nbsp;
+            <span className='p-desc'>Name of Representative:</span>&nbsp;
             <span className='text-capitalize'> {firstName && `${firstName} ${lastName}`}</span>
           </Text>
         </MDBCol>
