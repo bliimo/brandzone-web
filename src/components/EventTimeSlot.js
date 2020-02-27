@@ -6,10 +6,21 @@ const Schedules = ({ parent, schedules }) => {
   let timeSlots = [];
   if (schedules && schedules.scheds) {
     schedules.scheds.map((e, i) => {
-      let startTime = e.startTime.substring(0, e.startTime.length - 3);
-      let endTime = e.endTime.substring(0, e.endTime.length - 3);
-      startTime = startTime.substring(0, 1) == '0' ? startTime.substring(1) : startTime;
-      endTime = endTime.substring(0, 1) == '0' ? endTime.substring(1) : endTime;
+      let { startTime, endTime } = e;
+
+      let initStartTime =
+        parseInt(startTime.split(':')[0]) > 12
+          ? parseInt(startTime.split(':')[0]) - 12
+          : parseInt(startTime.split(':')[0]);
+
+      let initEndTime =
+        parseInt(endTime.split(':')[0]) > 12
+          ? parseInt(endTime.split(':')[0]) - 12
+          : parseInt(endTime.split(':')[0]);
+
+      startTime = `${initStartTime}:${startTime.split(':')[1]}`;
+      endTime = `${initEndTime}:${endTime.split(':')[1]}`;
+
       const props = {
         text: `${startTime} - ${endTime}`,
         data: e,

@@ -137,21 +137,30 @@ const Schedule = ({ data, parent, index }) => {
 
   let currentDate = new Date();
   let date = events[activeItem].date;
-  let hour = parseInt(endTime.split(':')[0]) + 12;
+  let hour = parseInt(endTime.split(':')[0]);
   let min = endTime.split(':')[1];
 
   date = date.split('T')[0].split('-');
   dateTime = new Date(date[0], parseInt(date[1]) - 1, date[2], hour, min);
   isDone = currentDate > dateTime;
-  hour = parseInt(startTime.split(':')[0]) + 12;
+  hour = parseInt(startTime.split(':')[0]);
   min = startTime.split(':')[1];
   dateTime = new Date(date[0], parseInt(date[1]) - 1, date[2], hour, min);
   isStart = dateTime;
 
-  startTime = startTime.substring(0, startTime.length - 3);
-  endTime = endTime.substring(0, endTime.length - 3);
-  startTime = startTime.substring(0, 1) === '0' ? startTime.substring(1) : startTime;
-  endTime = endTime.substring(0, 1) === '0' ? endTime.substring(1) : endTime;
+  let initStartTime =
+    parseInt(startTime.split(':')[0]) > 12
+      ? parseInt(startTime.split(':')[0]) - 12
+      : parseInt(startTime.split(':')[0]);
+
+  let initEndTime =
+    parseInt(endTime.split(':')[0]) > 12
+      ? parseInt(endTime.split(':')[0]) - 12
+      : parseInt(endTime.split(':')[0]);
+
+  startTime = `${initStartTime}:${startTime.split(':')[1]}:${startTime.split(':')[2]}`;
+
+  endTime = `${initEndTime}:${endTime.split(':')[1]}:${endTime.split(':')[2]}`;
 
   return (
     <div
@@ -257,7 +266,7 @@ const List = ({ parent, isLoading }) => {
       const { startTime } = sched;
       let currentDate = new Date();
       let date = events[activeItem].date;
-      let hour = parseInt(startTime.split(':')[0]) + 12;
+      let hour = parseInt(startTime.split(':')[0]);
       let min = startTime.split(':')[1];
       date = date.split('T')[0].split('-');
       const dateTime = new Date(date[0], parseInt(date[1]) - 1, date[2], hour, min);
