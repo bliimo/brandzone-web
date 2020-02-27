@@ -147,13 +147,19 @@ const Informations = ({ parent }) => {
       const { name, profile } = parent.state.profile.bookedBy.company;
       profileDesc = profile;
     }
-
     try {
       institutionName = booked.institution.name;
     } catch (error) {
       institutionName = booked.company.name;
     }
+  } else {
+    try {
+      institutionName = parent.state.profile.setBy.institution.name;
+    } catch (error) {
+      institutionName = parent.state.profile.setBy.company.name;
+    }
   }
+  console.log(institutionName);
 
   const { id, title } = parent.state.profile;
   let { startTime, endTime } =
@@ -180,7 +186,7 @@ const Informations = ({ parent }) => {
         {title && (
           <MDBCol size='12' className='p-0'>
             <Text className='booking-profile-info' style={style.profileInfoTitle}>
-              {title}
+              {institutionName ? institutionName : title}
             </Text>
           </MDBCol>
         )}
