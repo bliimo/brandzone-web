@@ -758,10 +758,10 @@ class HomeTab extends Component {
       }
     }
 
-    if (!this.state.pic) {
-      this.notify('Required profile picture');
-      return false;
-    }
+    // if (!this.state.pic) {
+    //   this.notify('Required profile picture');
+    //   return false;
+    // }
 
     if (Object.keys(selectedSchedules).length <= 0) {
       this.notify('Please select time slot');
@@ -897,7 +897,7 @@ class HomeTab extends Component {
       return false;
     }
     if (user.user && Object.keys(user.user).length > 0 && this.state.activeItem === '3') {
-      this.OnHandleUpload(this.state.pic.files[0], user.user.id);
+      if (this.state.pic.files[0]) this.OnHandleUpload(this.state.pic.files[0], user.user.id);
       this.setState({
         id: undefined,
         activeItem: '2',
