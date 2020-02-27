@@ -122,8 +122,8 @@ const Informations = ({ parent }) => {
 
   try {
     const { name, profile } = institution;
-    institutionName = name;
     profileDesc = profile;
+    institutionName = name;
   } catch (error) {
     const { name, profile } = parent.state.profile.setBy.company;
     institutionName = name;
@@ -137,6 +137,17 @@ const Informations = ({ parent }) => {
     lastName = booked.lastName;
     email = booked.email;
     jobTitle = booked.jobTitle;
+
+    let { institution } = parent.state.profile.bookedBy;
+
+    try {
+      const { name, profile } = institution;
+      profileDesc = profile;
+    } catch (error) {
+      const { name, profile } = parent.state.profile.bookedBy.company;
+      profileDesc = profile;
+    }
+
     try {
       institutionName = booked.institution.name;
     } catch (error) {
