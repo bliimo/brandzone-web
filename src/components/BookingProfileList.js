@@ -47,7 +47,16 @@ const Profile = ({ parent }) => {
             <MDBContainer>
               <MDBRow style={style.rowProfile} id='row-profile'>
                 <MDBCol className='p-0' xl='5' lg={'6'} md={'6'} sm={'12'}>
-                  <img src={profilePicture} alt='Profile' style={style.pic} className='w-100' />
+                  <img
+                    src={
+                      profilePicture
+                        ? profilePicture
+                        : 'https://brandzone.ph/upload/default-avatar.jpeg'
+                    }
+                    alt='Profile'
+                    style={style.pic}
+                    className='w-100'
+                  />
                 </MDBCol>
                 <MDBCol
                   style={style.actionList}

@@ -437,7 +437,11 @@ class BookingProfile extends Component {
             <MDBCol size='12' className='col-img'>
               <img
                 className={`booking-profile-img`}
-                src={profilePicture}
+                src={
+                  profilePicture
+                    ? profilePicture
+                    : 'https://brandzone.ph/upload/default-avatar.jpeg'
+                }
                 alt='profile'
                 style={style.pic}
               />

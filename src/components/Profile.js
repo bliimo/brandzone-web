@@ -9,21 +9,8 @@ import { getReports } from '../store/actions';
 import { withRouter } from 'react-router-dom';
 import { connect } from 'react-redux';
 
-const Informations = ({
-  account,
-  OnHandleOpenProfile,
-  OnHandleGetReports,
-  isLoading
-}) => {
-  let {
-    phoneNumber,
-    firstName,
-    lastName,
-    email,
-    jobTitle,
-    institution,
-    company
-  } = account;
+const Informations = ({ account, OnHandleOpenProfile, OnHandleGetReports, isLoading }) => {
+  let { phoneNumber, firstName, lastName, email, jobTitle, institution, company } = account;
   let nameInfo,
     countryInfo,
     provinceInfo,
@@ -58,10 +45,7 @@ const Informations = ({
       </Text>
       <MDBRow className='mr-0 ml-0'>
         <MDBCol xl='12' md='12' className='p-0'>
-          <Text
-            className='booking-profile-info p-desc p-main-desc'
-            style={style.profileInfo}
-          >
+          <Text className='booking-profile-info p-desc p-main-desc' style={style.profileInfo}>
             <div dangerouslySetInnerHTML={{ __html: profileDesc }} />
           </Text>
         </MDBCol>
@@ -133,9 +117,7 @@ const Informations = ({
             }}
             style={style.btnDownLoad}
           >
-            <Text style={style.time}>
-              {isLoading ? 'Please wait ...' : 'Download schedules'}
-            </Text>
+            <Text style={style.time}>{isLoading ? 'Please wait ...' : 'Download schedules'}</Text>
           </Button>
         </MDBCol>
         <MDBCol sm='12' md='6' lg='6' className='justify-content-center'>
@@ -190,7 +172,11 @@ class Profile extends Component {
               <img
                 style={style.profile}
                 className={`booking-profile-img`}
-                src={profilePicture}
+                src={
+                  profilePicture
+                    ? profilePicture
+                    : 'https://brandzone.ph/upload/default-avatar.jpeg'
+                }
                 alt='profile'
               />
             </MDBCol>

@@ -71,7 +71,11 @@ const Profile = ({ OnHandleShowSideBar, account, parent }) => {
   return (
     <div className='d-flex' style={style.profile}>
       <div className='d-flex' id='profile-lg'>
-        <img src={profilePicture} style={style.avatar} alt='profile' />
+        <img
+          src={profilePicture ? profilePicture : 'https://brandzone.ph/upload/default-avatar.jpeg'}
+          style={style.avatar}
+          alt='profile'
+        />
         <Text style={style.userName}>
           Hi, {firstName} {lastName}!
         </Text>
