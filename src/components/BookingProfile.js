@@ -14,7 +14,7 @@ const Counter = ({ parent }) => {
   const { event, selectedSchedule } = parent.state;
   const { endTime } = selectedSchedule;
   let date = event.date;
-  let hour = parseInt(endTime.split(':')[0]) + 12;
+  let hour = parseInt(endTime.split(':')[0]);
   let min = endTime.split(':')[1];
 
   date = date.split('T')[0].split('-');
@@ -60,10 +60,21 @@ const Slot = ({ slots, parent }) => {
   const { profile } = parent.state;
   slots.map((booking, index) => {
     let { startTime, endTime } = booking.schedule;
-    startTime = startTime.substring(0, startTime.length - 3);
-    endTime = endTime.substring(0, endTime.length - 3);
-    startTime = startTime.substring(0, 1) === '0' ? startTime.substring(1) : startTime;
-    endTime = endTime.substring(0, 1) === '0' ? endTime.substring(1) : endTime;
+
+    let initStartTime =
+      parseInt(startTime.split(':')[0]) > 12
+        ? parseInt(startTime.split(':')[0]) - 12
+        : parseInt(startTime.split(':')[0]);
+
+    let initEndTime =
+      parseInt(endTime.split(':')[0]) > 12
+        ? parseInt(endTime.split(':')[0]) - 12
+        : parseInt(endTime.split(':')[0]);
+
+    startTime = `${initStartTime}:${startTime.split(':')[1]}:${startTime.split(':')[2]}`;
+
+    endTime = `${initEndTime}:${endTime.split(':')[1]}:${endTime.split(':')[2]}`;
+
     if (profile.id != booking.booking.id) {
       slot.push(
         <MDBRow
@@ -159,7 +170,6 @@ const Informations = ({ parent }) => {
       institutionName = parent.state.profile.setBy.company.name;
     }
   }
-  console.log(institutionName);
 
   const { id, title } = parent.state.profile;
   let { startTime, endTime } =
@@ -167,18 +177,26 @@ const Informations = ({ parent }) => {
       ? parent.state.selectedSchedule
       : parent.state.profile.schedule;
 
-  startTime = startTime.substring(0, startTime.length - 3);
-  endTime = endTime.substring(0, endTime.length - 3);
-  startTime = startTime.substring(0, 1) === '0' ? startTime.substring(1) : startTime;
-  endTime = endTime.substring(0, 1) === '0' ? endTime.substring(1) : endTime;
-
   let date = parent.state.event.date;
-  let hour = parseInt(endTime.split(':')[0]) + 12;
+  let hour = parseInt(endTime.split(':')[0]);
   let min = endTime.split(':')[1];
 
   date = date.split('T')[0].split('-');
   let dateTime = new Date(date[0], parseInt(date[1]) - 1, date[2], hour, min);
   const isDone = dateTime < new Date();
+  let initStartTime =
+    parseInt(startTime.split(':')[0]) > 12
+      ? parseInt(startTime.split(':')[0]) - 12
+      : parseInt(startTime.split(':')[0]);
+
+  let initEndTime =
+    parseInt(endTime.split(':')[0]) > 12
+      ? parseInt(endTime.split(':')[0]) - 12
+      : parseInt(endTime.split(':')[0]);
+
+  startTime = `${initStartTime}:${startTime.split(':')[1]}:${startTime.split(':')[2]}`;
+
+  endTime = `${initEndTime}:${endTime.split(':')[1]}:${endTime.split(':')[2]}`;
   return (
     <MDBCol size='12' className='col-info profile-institution-info mt-3'>
       {!title && <Text style={style.institutionName}>{institutionName}</Text>}
@@ -260,8 +278,11 @@ const Informations = ({ parent }) => {
         )}
 
         {title && isDone && (
-          <MDBCol size='12' className='p-0 mt-2'>
-            <Button style={style.buttonTimeBooked} className='btn-done inactive meeting-done'>
+          <MDBCol size='12' className='p-0 mt-2 mb-4 text-center'>
+            <Button
+              style={style.buttonTimeBooked}
+              className='btn-done inactive meeting-done m-auto'
+            >
               <Text className='text-capitalize btn-booked done'>Meeting Done</Text>
             </Button>
           </MDBCol>
@@ -393,11 +414,11 @@ class BookingProfile extends Component {
     const { event, selectedSchedule } = this.state;
     const { startTime, endTime } = selectedSchedule;
     let date = event.date;
-    let hour = parseInt(startTime.split(':')[0]) + 12;
+    let hour = parseInt(startTime.split(':')[0]);
     let min = startTime.split(':')[1];
     date = date.split('T')[0].split('-');
     let start = new Date(date[0], parseInt(date[1]) - 1, date[2], hour, min);
-    hour = parseInt(endTime.split(':')[0]) + 12;
+    hour = parseInt(endTime.split(':')[0]);
     min = endTime.split(':')[1];
     let end = new Date(date[0], parseInt(date[1]) - 1, date[2], hour, min);
 
