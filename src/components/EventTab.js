@@ -1,5 +1,12 @@
 import React, { Component } from 'react';
-import { MDBTabPane, MDBTabContent, MDBNav, MDBNavItem, MDBRow, MDBCol } from 'mdbreact';
+import {
+  MDBTabPane,
+  MDBTabContent,
+  MDBNav,
+  MDBNavItem,
+  MDBRow,
+  MDBCol
+} from 'mdbreact';
 import { NavLink, Redirect } from 'react-router-dom';
 import Text from '../components/Text';
 import Button from './Button';
@@ -28,7 +35,9 @@ const Link = ({ data, parent, index }) => {
       <NavLink
         id={`tab-${index}`}
         to='#'
-        className={`nav-links ${parent.state.activeItem === index ? 'active-tab' : ''}`}
+        className={`nav-links ${
+          parent.state.activeItem === index ? 'active-tab' : ''
+        }`}
         onClick={parent.OnHandleToggle(index)}
         role='tab'
       >
@@ -44,7 +53,12 @@ const Tab = ({ data, index, isShowList }) => {
   let dateArr = date.split('T')[0].split('-');
   date = `${getMonthName(dateArr[1])} ${dateArr[2]}`;
   return (
-    <MDBTabPane tabId={`${index}`} role='tabpanel' className='fade-effect' style={style.pane}>
+    <MDBTabPane
+      tabId={`${index}`}
+      role='tabpanel'
+      className='fade-effect'
+      style={style.pane}
+    >
       <Text className='text-center' style={style.tabTitleHeader}>
         {!isShowList
           ? title
@@ -70,7 +84,14 @@ const Tabs = ({ parent }) => {
   let link = [];
   events.map((e, i) => {
     link.push(<Link data={e} key={i} index={i.toString()} parent={parent} />);
-    event.push(<Tab data={e} key={i} isShowList={parent.state.isShowList} index={i.toString()} />);
+    event.push(
+      <Tab
+        data={e}
+        key={i}
+        isShowList={parent.state.isShowList}
+        index={i.toString()}
+      />
+    );
   });
 
   return (
@@ -78,8 +99,16 @@ const Tabs = ({ parent }) => {
       <MDBNav tabs className='justify-content-center event-tabs'>
         {link}
       </MDBNav>
-      <div className={`${parent.state.selectedProfile != null ? 'd-none' : 'd-block'}`}>
-        <MDBTabContent className='card' activeItem={parent.state.activeItem} style={style.tabs}>
+      <div
+        className={`${
+          parent.state.selectedProfile != null ? 'd-none' : 'd-block'
+        }`}
+      >
+        <MDBTabContent
+          className='card'
+          activeItem={parent.state.activeItem}
+          style={style.tabs}
+        >
           {event}
         </MDBTabContent>
         <div style={style.schedules}>
@@ -87,7 +116,11 @@ const Tabs = ({ parent }) => {
           {parent.state.isShowList && <List parent={parent} />}
         </div>
       </div>
-      <div className={`${parent.state.selectedProfile != null ? 'd-block' : 'd-none'}`}>
+      <div
+        className={`${
+          parent.state.selectedProfile != null ? 'd-block' : 'd-none'
+        }`}
+      >
         <BookingProfile parent={parent} />
       </div>
     </div>
@@ -158,7 +191,9 @@ const Schedule = ({ data, parent, index }) => {
       ? parseInt(endTime.split(':')[0]) - 12
       : parseInt(endTime.split(':')[0]);
 
-  startTime = `${initStartTime}:${startTime.split(':')[1]}:${startTime.split(':')[2]}`;
+  startTime = `${initStartTime}:${startTime.split(':')[1]}:${
+    startTime.split(':')[2]
+  }`;
 
   endTime = `${initEndTime}:${endTime.split(':')[1]}:${endTime.split(':')[2]}`;
 
@@ -173,15 +208,21 @@ const Schedule = ({ data, parent, index }) => {
       <Button
         style={isBooked || isDone ? style.buttonTimeBooked : style.buttonTime}
         className={`${
-          !isBooked && !isDone ? 'btn-animate-time' : isDone ? 'btn-done' : 'btn-inprogress'
+          !isBooked && !isDone
+            ? 'btn-animate-time'
+            : isDone
+            ? 'btn-done'
+            : 'btn-inprogress'
         } ${parent.state.isOpen === null ? 'inactive' : ''}`}
         onClick={() => {
           if (!isDone) {
-            isBooked ? parent.OnHandleSelectProfile(booked, data) : parent.OnHandleOpenTime(id);
+            isBooked
+              ? parent.OnHandleSelectProfile(booked, data)
+              : parent.OnHandleOpenTime(id);
           } else {
             isBooked
               ? parent.OnHandleSelectProfile(booked, data)
-              : toast.error('This schedules are elapsed/done');
+              : toast.error('This schedule has lapsed.');
           }
         }}
       >
@@ -192,11 +233,17 @@ const Schedule = ({ data, parent, index }) => {
               : isDone
               ? 'btn-booked done'
               : 'btn-booked'
-          } ${id === parent.state.isOpen ? 'font-weight-bold text-light font-size-15' : ''}`}
+          } ${
+            id === parent.state.isOpen
+              ? 'font-weight-bold text-light font-size-15'
+              : ''
+          }`}
           title={`${startTime} - ${endTime}${
             isBooked
               ? ` | ${institutionName} | ${
-                  Object.keys(bookedBy).length > 0 ? bookedBy.firstName : setBy.firstName
+                  Object.keys(bookedBy).length > 0
+                    ? bookedBy.firstName
+                    : setBy.firstName
                 } ${
                   Object.keys(bookedBy).length > 0
                     ? bookedBy.lastName.substr(0, 1)
@@ -211,7 +258,11 @@ const Schedule = ({ data, parent, index }) => {
                   institutionName.length > 20
                     ? `${institutionName.substr(0, 20)}...`
                     : institutionName
-                } | ${Object.keys(bookedBy).length > 0 ? bookedBy.firstName : setBy.firstName} ${
+                } | ${
+                  Object.keys(bookedBy).length > 0
+                    ? bookedBy.firstName
+                    : setBy.firstName
+                } ${
                   Object.keys(bookedBy).length > 0
                     ? bookedBy.lastName.substr(0, 1)
                     : setBy.lastName.substr(0, 1)
@@ -227,7 +278,10 @@ const Schedule = ({ data, parent, index }) => {
       >
         <Text className='text-center' style={style.participantText}>
           Available&nbsp;
-          {localStorage.getItem('userType') == 'participant' ? 'Exhibitors' : 'Participants'}:
+          {localStorage.getItem('userType') == 'participant'
+            ? 'Exhibitors'
+            : 'Participants'}
+          :
         </Text>
         <BookingProfileList
           parent={parent}
@@ -249,7 +303,9 @@ const Schedules = ({ parent }) => {
   if (events.length > 0 && events[activeItem]) {
     events[activeItem].schedules.map((e, i) => {
       if (e.booking.length > 0) {
-        scheds.push(<Schedule key={i} parent={parent} data={e} index={i + 1} />);
+        scheds.push(
+          <Schedule key={i} parent={parent} data={e} index={i + 1} />
+        );
       }
     });
   }
@@ -269,7 +325,13 @@ const List = ({ parent, isLoading }) => {
       let hour = parseInt(startTime.split(':')[0]);
       let min = startTime.split(':')[1];
       date = date.split('T')[0].split('-');
-      const dateTime = new Date(date[0], parseInt(date[1]) - 1, date[2], hour, min);
+      const dateTime = new Date(
+        date[0],
+        parseInt(date[1]) - 1,
+        date[2],
+        hour,
+        min
+      );
       if (currentDate <= dateTime) {
         if (sched.booking.length > 0) {
           sched.booking.map(booking => {
@@ -351,14 +413,17 @@ const TabLinks = ({ parent }) => {
       <MDBNavItem
         style={{
           display:
-            parent.state.activeItem === 'privacy' || parent.state.activeItem === 'terms'
+            parent.state.activeItem === 'privacy' ||
+            parent.state.activeItem === 'terms'
               ? 'block'
               : 'none'
         }}
       >
         <NavLink
           to='#'
-          className={`nav-links ${parent.state.activeItem === 'privacy' ? 'active-tab' : ''}`}
+          className={`nav-links ${
+            parent.state.activeItem === 'privacy' ? 'active-tab' : ''
+          }`}
           onClick={() => parent.OnHandleTogglePrivacy('privacy')}
           role='tab'
         >
@@ -369,14 +434,17 @@ const TabLinks = ({ parent }) => {
       <MDBNavItem
         style={{
           display:
-            parent.state.activeItem === 'privacy' || parent.state.activeItem === 'terms'
+            parent.state.activeItem === 'privacy' ||
+            parent.state.activeItem === 'terms'
               ? 'block'
               : 'none'
         }}
       >
         <NavLink
           to='#'
-          className={`nav-links ${parent.state.activeItem === 'terms' ? 'active-tab' : ''}`}
+          className={`nav-links ${
+            parent.state.activeItem === 'terms' ? 'active-tab' : ''
+          }`}
           onClick={() => parent.OnHandleTogglePrivacy('terms')}
           role='tab'
         >
@@ -392,7 +460,11 @@ const FooterTabs = ({ parent }) => {
   return (
     <React.Fragment>
       <TabLinks parent={parent} />
-      <MDBTabContent className='card' activeItem={parent.state.activeItem} style={style.tabs}>
+      <MDBTabContent
+        className='card'
+        activeItem={parent.state.activeItem}
+        style={style.tabs}
+      >
         <PrivacyPolicyTab parent={parent} />
         <TermsTab parent={parent} />
       </MDBTabContent>
@@ -426,7 +498,10 @@ const AboutUsTab = ({ parent }) => {
 const ContactUsTab = ({ parent }) => {
   return (
     <MDBTabPane tabId='contact' role='tabpanel' className='fade-effect'>
-      <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('1')}>
+      <Button
+        className='cursor-pointer booking-signup-back'
+        onClick={parent.OnHandleToggle('1')}
+      >
         <Text style={style.backBtn} className='back-button-text-signup'>
           <div id='chevron'></div>
           <span style={style.backText}>Back to signup</span>
@@ -511,7 +586,11 @@ class EventTab extends Component {
   OnHandleToggle = tab => () => {
     const { events } = this.state;
     if (events[tab])
-      this.setState({ isOpen: null, schedules: events[tab].schedules, selectedProfile: null });
+      this.setState({
+        isOpen: null,
+        schedules: events[tab].schedules,
+        selectedProfile: null
+      });
     if (this.state.activeItem !== tab) this.setState({ activeItem: tab });
   };
 
@@ -592,7 +671,11 @@ class EventTab extends Component {
       if (account) this.setState({ account });
       if (events.length > 0 || Object.keys(this.props.events).length > 0) {
         events[this.state.activeItem].schedules.map(e => {});
-        this.setState({ isOpen: null, events, schedules: events[this.state.activeItem].schedules });
+        this.setState({
+          isOpen: null,
+          events,
+          schedules: events[this.state.activeItem].schedules
+        });
       }
     } catch (error) {}
   }
@@ -654,7 +737,9 @@ class EventTab extends Component {
             this.state.activeItem !== 'profile' &&
             !this.props.eventLoading && <Tabs parent={this} />}
 
-          {(this.state.activeItem === 'privacy' && <FooterTabs parent={this} />) ||
+          {(this.state.activeItem === 'privacy' && (
+            <FooterTabs parent={this} />
+          )) ||
             (this.state.activeItem === 'terms' && !this.props.eventLoading && (
               <FooterTabs parent={this} />
             ))}
@@ -828,6 +913,8 @@ const mapStateToProps = state => ({
   eventLoading: state.event.isLoading
 });
 
-export default connect(mapStateToProps, { loginUser, getLatestEvents, setNotes })(
-  withRouter(EventTab)
-);
+export default connect(mapStateToProps, {
+  loginUser,
+  getLatestEvents,
+  setNotes
+})(withRouter(EventTab));
