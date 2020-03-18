@@ -58,8 +58,9 @@ const SideBar = ({
           style={style.links}
           className='sideBarLink'
           onClick={() => {
-            isShow(false);
-            OnHandleShowSideBar();
+            // isShow(false);
+            // OnHandleShowSideBar();
+            window.location.href = '/events';
           }}
         >
           My Schedule
