@@ -650,14 +650,14 @@ const style = {
     marginTop: 10
   },
   notificationBody: {
-    padding: '20px 30px',
+    padding: '20px 10%',
     color: 'white',
     fontSize: '20px',
     lineHeight: '30px'
   },
   notificationDate: {
     color: 'white',
-    padding: '20px 30px',
+    padding: '20px 10%',
     fontSize: '18px',
     fontStyle: 'italic'
   },
