@@ -65,7 +65,7 @@ class UpdatesAndNotifications extends Component {
         ) : (
           Notifications
         )}
-        {notification.data && (
+        {notification.data && notification.data.length > itemsCountPerPage && (
           <Pagination
             activePage={activePage}
             itemsCountPerPage={itemsCountPerPage}

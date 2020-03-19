@@ -8,6 +8,9 @@ import {
   MDBCol
 } from 'mdbreact';
 import { NavLink, Redirect } from 'react-router-dom';
+import moment from 'moment';
+import ReactHtmlParser from 'react-html-parser';
+
 import Text from '../components/Text';
 import Button from './Button';
 
@@ -17,7 +20,8 @@ import {
   loginUser,
   getLatestEvents,
   setNotes,
-  viewNotifications
+  viewNotifications,
+  viewNotificationById
 } from '../store/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
@@ -378,10 +382,15 @@ class NotificationTab extends Component {
   x;
   componentWillMount() {
     const { notifId } = this.state;
-    const { viewNotifications, getLatestEvents } = this.props;
+    const {
+      viewNotifications,
+      getLatestEvents,
+      viewNotificationById
+    } = this.props;
 
     getLatestEvents();
     viewNotifications(notifId);
+    viewNotificationById(notifId);
   }
 
   componentDidUpdate() {}
@@ -399,7 +408,14 @@ class NotificationTab extends Component {
   OnHandleToggleHome(tab) {}
 
   render() {
-    const { notifId } = this.state;
+    const { isLoadingNotification, notificationById } = this.props;
+    const notifications = [
+      'registered',
+      'booked',
+      'bookedMe',
+      'removeSlots',
+      'removeBooking'
+    ];
 
     return (
       <React.Fragment>
@@ -432,50 +448,34 @@ class NotificationTab extends Component {
             this.state.activeItem !== 'contact' &&
             this.state.activeItem !== 'updatesAndNotifs' &&
             this.state.activeItem !== 'profile' &&
-            !this.props.eventLoading && (
-              <>
-                <Text
-                  className='text-center tab-title mt-5'
-                  style={style.tabTitleHeader}
-                >
-                  NOTIFICATION
-                </Text>
-                <hr style={style.tabTitleHeaderHr} />
+            !this.props.eventLoading &&
+            (isLoadingNotification ? (
+              <p>Fetching notification...</p>
+            ) : (
+              notificationById && (
+                <>
+                  <Text
+                    className='text-center tab-title mt-5'
+                    style={style.tabTitleHeader}
+                  >
+                    {notifications.includes(
+                      notificationById.content.split("'")[1]
+                    )
+                      ? 'NOTIFICATION'
+                      : 'UPDATE'}
+                  </Text>
+                  <hr style={style.tabTitleHeaderHr} />
+                  <p style={style.notificationDate}>
+                    <span style={style.notificationDateTitle}>Date: </span>
+                    {moment(notificationById.date).format('lll')}
+                  </p>
 
-                <p style={style.notificationBody}>
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Suspendisse et dui magna. Phasellus quam justo, dapibus ut
-                  luctus nec, auctor facilisis dolor. Fusce vel magna venenatis,
-                  sollicitudin mauris vel, lobortis massa. Curabitur id nulla a
-                  dolor sagittis sagittis sed non tellus. In porttitor
-                  consectetur sapien in tincidunt. Etiam sit amet odio a eros
-                  placerat mollis eget eget mi. Nam ullamcorper sem ligula,
-                  vitae tincidunt est malesuada eu. Etiam convallis, sem at
-                  sagittis faucibus, tortor magna blandit velit, vehicula
-                  dapibus dui neque quis erat. Integer sagittis enim turpis,
-                  eget hendrerit nunc fermentum eget. Nunc et imperdiet metus.
-                  Integer aliquam tellus eget metus ultrices ultrices. Curabitur
-                  scelerisque diam lacus, et faucibus ex vestibulum ac.
-                </p>
-
-                <p style={style.notificationBody}>
-                  Fusce varius dolor quis massa mollis, et venenatis dolor
-                  posuere. Nunc vitae leo eget ante rhoncus iaculis a nec nunc.
-                  Maecenas efficitur fermentum arcu ut ullamcorper. Nunc
-                  pulvinar sapien in felis convallis, quis convallis dolor
-                  congue. Cras a est ac dui fringilla varius. Interdum et
-                  malesuada fames ac ante ipsum primis in faucibus. Nullam ut
-                  dapibus sem. Fusce volutpat quam sed augue efficitur
-                  facilisis. Aliquam erat volutpat. Curabitur porttitor sodales
-                  eros a congue. In luctus ante dui, sed accumsan justo maximus
-                  et. Sed bibendum urna vitae tristique malesuada. Curabitur ut
-                  diam purus. Suspendisse fringilla ex tristique dui
-                  ullamcorper, et laoreet arcu tincidunt. Sed ut ullamcorper
-                  magna, in pellentesque urna. Nunc at efficitur leo, id congue
-                  neque.
-                </p>
-              </>
-            )}
+                  <div style={style.notificationBody}>
+                    {ReactHtmlParser(notificationById.content)}
+                  </div>
+                </>
+              )
+            ))}
 
           {this.props.eventLoading && (
             <div id='loading' className='text-dark bg-light'>
@@ -653,8 +653,17 @@ const style = {
     padding: '20px 30px',
     color: 'white',
     fontSize: '20px',
-    lineHeight: '30px',
-    textIndent: '20px'
+    lineHeight: '30px'
+  },
+  notificationDate: {
+    color: 'white',
+    padding: '20px 30px',
+    fontSize: '18px',
+    fontStyle: 'italic'
+  },
+  notificationDateTitle: {
+    color: 'rgb(142, 198, 63)',
+    fontWeight: 'bold'
   }
 };
 
@@ -666,12 +675,15 @@ const mapStateToProps = state => ({
   user: state.user,
   booking: state.booking.booking,
   isLoading: state.booking.isLoading,
-  eventLoading: state.event.isLoading
+  eventLoading: state.event.isLoading,
+  isLoadingNotification: state.notification.isLoading,
+  notificationById: state.notification.notificationById
 });
 
 export default connect(mapStateToProps, {
   loginUser,
   getLatestEvents,
   setNotes,
-  viewNotifications
+  viewNotifications,
+  viewNotificationById
 })(withRouter(NotificationTab));

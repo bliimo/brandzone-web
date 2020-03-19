@@ -1,5 +1,11 @@
 import React, { Component } from 'react';
-import { MDBContainer, MDBTabPane, MDBTabContent, MDBNav, MDBNavItem } from 'mdbreact';
+import {
+  MDBContainer,
+  MDBTabPane,
+  MDBTabContent,
+  MDBNav,
+  MDBNavItem
+} from 'mdbreact';
 import { NavLink, Redirect } from 'react-router-dom';
 import Button from '../components/Button';
 import contents from '../constants/contents';
@@ -36,9 +42,9 @@ const TabLinks = ({ parent }) => {
   return (
     <MDBNav
       tabs
-      className={`justify-content-center ${parent.state.activeItem === '7' ? 'mt-4' : ''} ${
-        parent.state.activeItem == 1 ? 'd-none' : ''
-      }`}
+      className={`justify-content-center ${
+        parent.state.activeItem === '7' ? 'mt-4' : ''
+      } ${parent.state.activeItem == 1 ? 'd-none' : ''}`}
     >
       <MDBNavItem
         style={{
@@ -47,7 +53,9 @@ const TabLinks = ({ parent }) => {
       >
         <NavLink
           to='#'
-          className={`nav-links ${parent.state.activeItem === '1' ? 'active-tab' : ''}`}
+          className={`nav-links ${
+            parent.state.activeItem === '1' ? 'active-tab' : ''
+          }`}
           onClick={parent.OnHandleToggle('1')}
           role='tab'
         >
@@ -55,10 +63,14 @@ const TabLinks = ({ parent }) => {
           <hr />
         </NavLink>
       </MDBNavItem>
-      <MDBNavItem style={{ display: parent.state.activeItem === '2' ? 'block' : 'none' }}>
+      <MDBNavItem
+        style={{ display: parent.state.activeItem === '2' ? 'block' : 'none' }}
+      >
         <NavLink
           to='#'
-          className={`nav-links ${parent.state.activeItem === '2' ? 'active-tab' : ''}`}
+          className={`nav-links ${
+            parent.state.activeItem === '2' ? 'active-tab' : ''
+          }`}
           onClick={parent.OnHandleToggle('2')}
           role='tab'
         >
@@ -66,10 +78,14 @@ const TabLinks = ({ parent }) => {
           <hr />
         </NavLink>
       </MDBNavItem>
-      <MDBNavItem style={{ display: parent.state.activeItem === '3' ? 'block' : 'none' }}>
+      <MDBNavItem
+        style={{ display: parent.state.activeItem === '3' ? 'block' : 'none' }}
+      >
         <NavLink
           to='#'
-          className={`nav-links ${parent.state.activeItem === '3' ? 'active-tab' : ''}`}
+          className={`nav-links ${
+            parent.state.activeItem === '3' ? 'active-tab' : ''
+          }`}
           onClick={parent.OnHandleToggle('3')}
           role='tab'
         >
@@ -80,12 +96,16 @@ const TabLinks = ({ parent }) => {
       <MDBNavItem
         style={{
           display:
-            parent.state.activeItem === '4' || parent.state.activeItem === '5' ? 'block' : 'none'
+            parent.state.activeItem === '4' || parent.state.activeItem === '5'
+              ? 'block'
+              : 'none'
         }}
       >
         <NavLink
           to='#'
-          className={`nav-links ${parent.state.activeItem === '4' ? 'active-tab' : ''}`}
+          className={`nav-links ${
+            parent.state.activeItem === '4' ? 'active-tab' : ''
+          }`}
           onClick={parent.OnHandleToggle('4')}
           role='tab'
         >
@@ -96,12 +116,16 @@ const TabLinks = ({ parent }) => {
       <MDBNavItem
         style={{
           display:
-            parent.state.activeItem === '5' || parent.state.activeItem === '4' ? 'block' : 'none'
+            parent.state.activeItem === '5' || parent.state.activeItem === '4'
+              ? 'block'
+              : 'none'
         }}
       >
         <NavLink
           to='#'
-          className={`nav-links ${parent.state.activeItem === '5' ? 'active-tab' : ''}`}
+          className={`nav-links ${
+            parent.state.activeItem === '5' ? 'active-tab' : ''
+          }`}
           onClick={parent.OnHandleToggle('5')}
           role='tab'
         >
@@ -117,7 +141,9 @@ const TabLinks = ({ parent }) => {
       >
         <NavLink
           to='#'
-          className={`nav-links ${parent.state.activeItem === '6' ? 'active-tab' : ''}`}
+          className={`nav-links ${
+            parent.state.activeItem === '6' ? 'active-tab' : ''
+          }`}
           onClick={parent.OnHandleToggle('6')}
           role='tab'
         >
@@ -132,7 +158,9 @@ const TabLinks = ({ parent }) => {
       >
         <NavLink
           to='#'
-          className={`nav-links ${parent.state.activeItem === '7' ? 'active-tab' : ''}`}
+          className={`nav-links ${
+            parent.state.activeItem === '7' ? 'active-tab' : ''
+          }`}
           onClick={parent.OnHandleToggle('7')}
           role='tab'
         >
@@ -161,8 +189,8 @@ const AboutTab = ({ parent }) => {
         className='text-center m-0'
         style={{ ...style.about, ...style.aboutFirst, fontSize: '18px' }}
       >
-        This business matching platform is made exclusively for exhibitors and participants at
-        Brandzone's organized events.
+        This business matching platform is made exclusively for exhibitors and
+        participants at Brandzone's organized events.
       </Text>
       <div className='mt-5'>
         <Button
@@ -187,7 +215,10 @@ const AboutTab = ({ parent }) => {
 const AboutUsTab = ({ parent }) => {
   return (
     <MDBTabPane tabId='6' role='tabpanel' className='fade-effect'>
-      <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('1')}>
+      <Button
+        className='cursor-pointer booking-signup-back'
+        onClick={parent.OnHandleToggle('1')}
+      >
         <Text style={style.backBtn} className='back-button-text-signup'>
           <div id='chevron'></div>
           <span style={style.backText}>Back to Home</span>
@@ -197,7 +228,10 @@ const AboutUsTab = ({ parent }) => {
         ABOUT US
       </Text>
       <hr style={style.tabTitleHeaderHr} />
-      <div className='text-justify' style={{ ...style.about, ...style.aboutFirst }}>
+      <div
+        className='text-justify'
+        style={{ ...style.about, ...style.aboutFirst }}
+      >
         <AboutContent />
       </div>
     </MDBTabPane>
@@ -207,7 +241,10 @@ const AboutUsTab = ({ parent }) => {
 const ContactUsTab = ({ parent }) => {
   return (
     <MDBTabPane tabId='7' role='tabpanel' className='fade-effect'>
-      <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('1')}>
+      <Button
+        className='cursor-pointer booking-signup-back'
+        onClick={parent.OnHandleToggle('1')}
+      >
         <Text style={style.backBtn} className='back-button-text-signup'>
           <div id='chevron'></div>
           <span style={style.backText}>Back to Home</span>
@@ -250,7 +287,10 @@ const ContactUsTab = ({ parent }) => {
 const PrivacyPolicyTab = ({ parent }) => {
   return (
     <MDBTabPane tabId='4' role='tabpanel' className='fade-effect'>
-      <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('1')}>
+      <Button
+        className='cursor-pointer booking-signup-back'
+        onClick={parent.OnHandleToggle('1')}
+      >
         <Text style={style.backBtn} className='back-button-text-signup'>
           <div id='chevron'></div>
           <span style={style.backText}>Back to Home</span>
@@ -260,7 +300,10 @@ const PrivacyPolicyTab = ({ parent }) => {
         PRIVACY POLICY
       </Text>
       <hr style={style.tabTitleHeaderHr} />
-      <div className='text-justify' style={{ ...style.about, ...style.aboutFirst }}>
+      <div
+        className='text-justify'
+        style={{ ...style.about, ...style.aboutFirst }}
+      >
         <PrivacyContent />
       </div>
     </MDBTabPane>
@@ -270,7 +313,10 @@ const PrivacyPolicyTab = ({ parent }) => {
 const TermsTab = ({ parent }) => {
   return (
     <MDBTabPane tabId='5' role='tabpanel' className='fade-effect'>
-      <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('1')}>
+      <Button
+        className='cursor-pointer booking-signup-back'
+        onClick={parent.OnHandleToggle('1')}
+      >
         <Text style={style.backBtn} className='back-button-text-signup'>
           <div id='chevron'></div>
           <span style={style.backText}>Back to Home</span>
@@ -280,7 +326,10 @@ const TermsTab = ({ parent }) => {
         TERMS & CONDITIONS
       </Text>
       <hr style={style.tabTitleHeaderHr} />
-      <div className='text-justify' style={{ ...style.about, ...style.aboutFirst }}>
+      <div
+        className='text-justify'
+        style={{ ...style.about, ...style.aboutFirst }}
+      >
         <TermsContent />
       </div>
     </MDBTabPane>
@@ -295,7 +344,10 @@ const LoginTab = ({ parent }) => {
       className='fade-effect'
       style={{ display: parent.state.activeItem === '2' ? 'block' : 'none' }}
     >
-      <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('1')}>
+      <Button
+        className='cursor-pointer booking-signup-back'
+        onClick={parent.OnHandleToggle('1')}
+      >
         <Text style={style.backBtn} className='back-button-text-signup'>
           <div id='chevron'></div>
           <span style={style.backText}>Back to Home</span>
@@ -352,7 +404,10 @@ const LoginTab = ({ parent }) => {
 const SingUpTab = ({ parent }) => {
   return (
     <MDBTabPane tabId='3' role='tabpanel' className='fade-effect'>
-      <Button className='cursor-pointer booking-signup-back' onClick={parent.OnHandleToggle('1')}>
+      <Button
+        className='cursor-pointer booking-signup-back'
+        onClick={parent.OnHandleToggle('1')}
+      >
         <Text style={style.backBtn} className='back-button-text-signup'>
           <div id='chevron'></div>
           <span style={style.backText}>Back to Home</span>
@@ -370,9 +425,14 @@ const SingUpTab = ({ parent }) => {
         />
         {parent.OnHandleSignUpForm()}
         {parent.state.userTypeSelected != null && (
-          <ReCAPTCHA sitekey={captchaSiteKey} onChange={parent.OnHandleChangeRecaptcha} />
+          <ReCAPTCHA
+            sitekey={captchaSiteKey}
+            onChange={parent.OnHandleChangeRecaptcha}
+          />
         )}
-        {parent.state.userTypeSelected != null && <SubmitSignUp parent={parent} />}
+        {parent.state.userTypeSelected != null && (
+          <SubmitSignUp parent={parent} />
+        )}
       </MDBContainer>
     </MDBTabPane>
   );
@@ -383,11 +443,19 @@ const SubmitSignUp = ({ parent }) => {
     <div className='mt-5'>
       <Text style={style.privacyPolicy}>
         Read&nbsp;
-        <NavLink to='#' style={style.privacyPolicyLinks} onClick={parent.OnHandleToggle('4')}>
+        <NavLink
+          to='#'
+          style={style.privacyPolicyLinks}
+          onClick={parent.OnHandleToggle('4')}
+        >
           <strong>Privacy Policy</strong>
         </NavLink>
         &nbsp;and&nbsp;
-        <NavLink to='#' style={style.privacyPolicyLinks} onClick={parent.OnHandleToggle('5')}>
+        <NavLink
+          to='#'
+          style={style.privacyPolicyLinks}
+          onClick={parent.OnHandleToggle('5')}
+        >
           <strong>Terms and Conditions</strong>
         </NavLink>
       </Text>
@@ -398,13 +466,17 @@ const SubmitSignUp = ({ parent }) => {
             style={style.privacyCheckBox}
             className={parent.state.isCheckedPrivacy ? 'privacy-checked' : ''}
           ></span>
-          <span style={style.agree}>I agree to the terms and conditions of BrandZone</span>
+          <span style={style.agree}>
+            I agree to the terms and conditions of BrandZone
+          </span>
         </div>
         <Button
           style={style.buttonSignUp}
           className='btn-animate-signup'
           id='btnSignup'
-          onClick={parent.props.user.isLoading ? () => {} : parent.OnHandleSignUp}
+          onClick={
+            parent.props.user.isLoading ? () => {} : parent.OnHandleSignUp
+          }
         >
           <Text className='btn-animate-text-signup' style={{ color: '#fff' }}>
             {parent.props.user.isLoading ? 'Please wait...' : 'Sign Up'}
@@ -468,12 +540,20 @@ class HomeTab extends Component {
     this.setState({ isRecaptcha: e });
   };
   OnHandleNewInstitutions = () => {
-    const { isNewInstitution, institutionTypes, institutionTypeIndex } = this.state;
+    const {
+      isNewInstitution,
+      institutionTypes,
+      institutionTypeIndex
+    } = this.state;
     if (!isNewInstitution) {
-      this.setState({ institutionType: institutionTypes[institutionTypeIndex] });
+      this.setState({
+        institutionType: institutionTypes[institutionTypeIndex]
+      });
     }
     try {
-      document.getElementById('institutionTypeId').classList.remove('invalid-field');
+      document
+        .getElementById('institutionTypeId')
+        .classList.remove('invalid-field');
     } catch (error) {}
     this.setState({ isNewInstitution: !isNewInstitution });
   };
@@ -492,14 +572,21 @@ class HomeTab extends Component {
   OnHandleChange = event => {
     let { emailError, passwordError } = this.state;
     if (event.target.value !== '') {
-      document.getElementById(event.target.id).classList.remove('invalid-field');
+      document
+        .getElementById(event.target.id)
+        .classList.remove('invalid-field');
     } else {
       document.getElementById(event.target.id).classList.add('invalid-field');
     }
-    if (event.target.id === 'email') emailError = !validation.isEmail(event.target.value);
+    if (event.target.id === 'email')
+      emailError = !validation.isEmail(event.target.value);
     if (event.target.id === 'password')
       passwordError = !validation.isValidPassword(event.target.value);
-    this.setState({ [event.target.id]: event.target.value, emailError, passwordError });
+    this.setState({
+      [event.target.id]: event.target.value,
+      emailError,
+      passwordError
+    });
   };
 
   OnHandleGetTimeSlots = selectedSchedule => {
@@ -542,7 +629,11 @@ class HomeTab extends Component {
   };
 
   OnHandleSetEvents = (events, multipleEvent) => {
-    if (events.length > 0 && multipleEvent.length > 0 && this.state.events.length == 0) {
+    if (
+      events.length > 0 &&
+      multipleEvent.length > 0 &&
+      this.state.events.length == 0
+    ) {
       const allEvents = {
         id: events[events.length - 1].id + 1,
         date: new Date(),
@@ -560,13 +651,18 @@ class HomeTab extends Component {
         events,
         allEvents,
         schedules: {
-          scheds: multipleEvent.length > 0 ? multipleEvent : allEvents.schedules,
+          scheds:
+            multipleEvent.length > 0 ? multipleEvent : allEvents.schedules,
           eventId: events[events.length - 1].id + 1,
           isAllEvent: true
         },
         selectedEvent: allEvents
       });
-    } else if (events.length > 0 && multipleEvent.length == 0 && this.state.events.length == 0) {
+    } else if (
+      events.length > 0 &&
+      multipleEvent.length == 0 &&
+      this.state.events.length == 0
+    ) {
       this.setState({
         events,
         allEvents: {},
@@ -606,7 +702,10 @@ class HomeTab extends Component {
         setBookings.push(id);
       });
     });
-    this.setState({ setBookings: [...new Set(setBookings)], selectedSchedules });
+    this.setState({
+      setBookings: [...new Set(setBookings)],
+      selectedSchedules
+    });
   };
 
   OnHandleGetParticipants = () => {
@@ -689,7 +788,11 @@ class HomeTab extends Component {
   };
 
   OnHandleValidateSignUp = user => {
-    const { userTypeSelected, isCheckedPrivacy, selectedSchedules } = this.state;
+    const {
+      userTypeSelected,
+      isCheckedPrivacy,
+      selectedSchedules
+    } = this.state;
     for (const key of Object.keys(user)) {
       if (user[key] <= 0 || user[key] === undefined) {
         if (user[key] === null || user[key] === undefined || user[key] === '') {
@@ -768,10 +871,10 @@ class HomeTab extends Component {
       return false;
     }
 
-    if (this.state.isRecaptcha == null || this.state.isRecaptcha == undefined) {
-      this.notify('Please pass the captcha test');
-      return false;
-    }
+    // if (this.state.isRecaptcha == null || this.state.isRecaptcha == undefined) {
+    //   this.notify('Please pass the captcha test');
+    //   return false;
+    // }
 
     if (!isCheckedPrivacy) {
       this.notify('Please agree with the terms and conditions');
@@ -785,14 +888,20 @@ class HomeTab extends Component {
     const { addUser } = this.props;
     const { userTypeSelected, otherInstitution, isNewInstitution } = this.state;
     const user =
-      userTypeSelected == 0 ? this.OnHandleGetParticipants() : this.OnHandleGetExibitors();
+      userTypeSelected == 0
+        ? this.OnHandleGetParticipants()
+        : this.OnHandleGetExibitors();
     if (!this.OnHandleValidateAddInstitution()) {
       this.notify('Required institution name');
-      document.getElementById('otherInstitution').classList.add('invalid-field');
+      document
+        .getElementById('otherInstitution')
+        .classList.add('invalid-field');
       window.scrollTo(0, 0);
     } else {
       try {
-        document.getElementById('otherInstitution').classList.remove('invalid-field');
+        document
+          .getElementById('otherInstitution')
+          .classList.remove('invalid-field');
       } catch (error) {}
       const isValid = this.OnHandleValidateSignUp(user);
       if (isValid) {
@@ -807,16 +916,28 @@ class HomeTab extends Component {
   };
 
   OnHandleEventType = index => {
-    let { events, multipleEvent, selectedSchedules, selectedEvent } = this.state;
+    let {
+      events,
+      multipleEvent,
+      selectedSchedules,
+      selectedEvent
+    } = this.state;
     if (events.length > 0) {
       if (events[index].isAllEvent) {
         this.setState({
-          schedules: { scheds: multipleEvent, eventId: events[index].id, isAllEvent: true },
+          schedules: {
+            scheds: multipleEvent,
+            eventId: events[index].id,
+            isAllEvent: true
+          },
           selectedEvent: events[index]
         });
       } else {
         this.setState({
-          schedules: { scheds: events[index].schedules, eventId: events[index].id },
+          schedules: {
+            scheds: events[index].schedules,
+            eventId: events[index].id
+          },
           selectedEvent: events[index]
         });
       }
@@ -838,7 +959,8 @@ class HomeTab extends Component {
 
   OnHandleAddInstitution = () => {
     const { isNewInstitution, otherInstitution } = this.state;
-    if (isNewInstitution && otherInstitution) this.props.addInstitution(otherInstitution);
+    if (isNewInstitution && otherInstitution)
+      this.props.addInstitution(otherInstitution);
   };
 
   OnHandleValidateAddInstitution = () => {
@@ -847,7 +969,11 @@ class HomeTab extends Component {
   };
 
   componentWillMount() {
-    const { getLatestEvents, getInstitution, getMultipleLatestEvents } = this.props;
+    const {
+      getLatestEvents,
+      getInstitution,
+      getMultipleLatestEvents
+    } = this.props;
     getLatestEvents();
     getMultipleLatestEvents();
     getInstitution();
@@ -887,7 +1013,12 @@ class HomeTab extends Component {
 
     const { activeItem } = this.state;
 
-    if (loginError && activeItem === '2' && this.state.email != '' && this.state.password != '') {
+    if (
+      loginError &&
+      activeItem === '2' &&
+      this.state.email != '' &&
+      this.state.password != ''
+    ) {
       this.notify(loginError);
       return false;
     }
@@ -896,8 +1027,13 @@ class HomeTab extends Component {
       this.notify(signUpError);
       return false;
     }
-    if (user.user && Object.keys(user.user).length > 0 && this.state.activeItem === '3') {
-      if (this.state.pic.files[0]) this.OnHandleUpload(this.state.pic.files[0], user.user.id);
+    if (
+      user.user &&
+      Object.keys(user.user).length > 0 &&
+      this.state.activeItem === '3'
+    ) {
+      if (this.state.pic.files[0])
+        this.OnHandleUpload(this.state.pic.files[0], user.user.id);
       this.setState({
         id: undefined,
         activeItem: '2',
@@ -942,7 +1078,11 @@ class HomeTab extends Component {
         <MDBContainer style={style.main} id='mainTab'>
           <TabLinks parent={this} />
           {this.props.auth.isAuthenticated && <Redirect to='/events' />}
-          <MDBTabContent className='card' activeItem={this.state.activeItem} style={style.tabs}>
+          <MDBTabContent
+            className='card'
+            activeItem={this.state.activeItem}
+            style={style.tabs}
+          >
             <AboutTab parent={this} />
             <LoginTab parent={this} />
             <SingUpTab parent={this} />
