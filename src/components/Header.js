@@ -130,15 +130,17 @@ class Header extends Component {
   }
 
   onHandleNotification = data => {
-    if (!data.isViewed) this.props.viewNotifications(data.id);
-    Swal.fire({
-      title: 'Notification',
-      html: data.content,
-      showCancelButton: false,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Ok'
-    }).then(result => {});
+    window.location.href = `/notification/${data.id}`;
+
+    // if (!data.isViewed) this.props.viewNotifications(data.id);
+    // Swal.fire({
+    //   title: 'Notification',
+    //   html: data.content,
+    //   showCancelButton: false,
+    //   confirmButtonColor: '#3085d6',
+    //   cancelButtonColor: '#d33',
+    //   confirmButtonText: 'Ok'
+    // }).then(result => {});
   };
 
   render() {
