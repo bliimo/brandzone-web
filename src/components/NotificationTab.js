@@ -8,13 +8,21 @@ import {
   MDBCol
 } from 'mdbreact';
 import { NavLink, Redirect } from 'react-router-dom';
+import moment from 'moment';
+import ReactHtmlParser from 'react-html-parser';
+
 import Text from '../components/Text';
 import Button from './Button';
-import BookingProfileList from './BookingProfileList';
-import BookingProfile from './BookingProfile';
+
 import Footer from './Footer';
 import { ToastContainer, toast } from 'react-toastify';
-import { loginUser, getLatestEvents, setNotes } from '../store/actions';
+import {
+  loginUser,
+  getLatestEvents,
+  setNotes,
+  viewNotifications,
+  viewNotificationById
+} from '../store/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getMonthName } from '../helper/date';
@@ -28,339 +36,6 @@ import UpdatesAndNotifications from './UpdatesAndNotifications';
 import loader from '../assets/images/loader.gif';
 import fb from '../assets/images/fb.png';
 import PasswordModal from './PasswordModal';
-
-const Link = ({ data, parent, index }) => {
-  const { title } = data;
-  return (
-    <MDBNavItem>
-      <NavLink
-        id={`tab-${index}`}
-        to='#'
-        className={`nav-links ${
-          parent.state.activeItem === index ? 'active-tab' : ''
-        }`}
-        onClick={parent.OnHandleToggle(index)}
-        role='tab'
-      >
-        <Text style={style.tabTitle}>{title}</Text>
-        <hr />
-      </NavLink>
-    </MDBNavItem>
-  );
-};
-
-const Tab = ({ data, index, isShowList }) => {
-  let { title, address, date } = data;
-  let dateArr = date.split('T')[0].split('-');
-  date = `${getMonthName(dateArr[1])} ${dateArr[2]}`;
-  return (
-    <MDBTabPane
-      tabId={`${index}`}
-      role='tabpanel'
-      className='fade-effect'
-      style={style.pane}
-    >
-      <Text className='text-center' style={style.tabTitleHeader}>
-        {!isShowList
-          ? title
-          : localStorage.getItem('userType') == 'exhibitor'
-          ? 'List of Participants'
-          : 'List of Exhibitors'}
-      </Text>
-      {!isShowList && (
-        <React.Fragment>
-          <Text className='text-center' style={style.tabTitleSmall}>
-            {`${date} - ${address}`}
-          </Text>
-          <hr style={style.tabTitleHeaderHr} />
-        </React.Fragment>
-      )}
-    </MDBTabPane>
-  );
-};
-
-const Tabs = ({ parent }) => {
-  const { events } = parent.state;
-  let event = [];
-  let link = [];
-  events.map((e, i) => {
-    link.push(<Link data={e} key={i} index={i.toString()} parent={parent} />);
-    event.push(
-      <Tab
-        data={e}
-        key={i}
-        isShowList={parent.state.isShowList}
-        index={i.toString()}
-      />
-    );
-  });
-
-  return (
-    <div>
-      <MDBNav tabs className='justify-content-center event-tabs'>
-        {link}
-      </MDBNav>
-      <div
-        className={`${
-          parent.state.selectedProfile != null ? 'd-none' : 'd-block'
-        }`}
-      >
-        <MDBTabContent
-          className='card'
-          activeItem={parent.state.activeItem}
-          style={style.tabs}
-        >
-          {event}
-        </MDBTabContent>
-        <div style={style.schedules}>
-          {!parent.state.isShowList && <Schedules parent={parent} />}
-          {parent.state.isShowList && <List parent={parent} />}
-        </div>
-      </div>
-      <div
-        className={`${
-          parent.state.selectedProfile != null ? 'd-block' : 'd-none'
-        }`}
-      >
-        <BookingProfile parent={parent} />
-      </div>
-    </div>
-  );
-};
-
-const Schedule = ({ data, parent, index }) => {
-  let { id, startTime, endTime, booking } = data;
-  const { account } = parent.props;
-  const { events, activeItem } = parent.state;
-  let isBooked = false;
-  let setBy,
-    bookedBy = {};
-  let bookingId = null;
-  let dateTime = null;
-  let isDone = false;
-  let isStart = false;
-  let booked = {};
-  if (booking && account) {
-    booking.map(e => {
-      if (e.bookedBy !== null && e.bookedBy.id == account.id) {
-        booked = e;
-        isBooked = true;
-        setBy = e.setBy;
-        bookingId = e.id;
-      } else if (e.bookedBy !== null && e.setBy.id == account.id) {
-        booked = e;
-        isBooked = true;
-        bookedBy = e.bookedBy;
-        bookingId = e.id;
-      }
-    });
-  }
-
-  let user = setBy ? setBy : bookedBy;
-  let institutionName = '';
-
-  if (user) {
-    if (user.institutionType) {
-      institutionName = user.institutionType.name;
-    } else if (user.institution) {
-      institutionName = user.institution.name;
-    }
-  }
-
-  booked['title'] = institutionName;
-
-  let currentDate = new Date();
-  let date = events[activeItem].date;
-  let hour = parseInt(endTime.split(':')[0]);
-  let min = endTime.split(':')[1];
-
-  date = date.split('T')[0].split('-');
-  dateTime = new Date(date[0], parseInt(date[1]) - 1, date[2], hour, min);
-  isDone = currentDate > dateTime;
-  hour = parseInt(startTime.split(':')[0]);
-  min = startTime.split(':')[1];
-  dateTime = new Date(date[0], parseInt(date[1]) - 1, date[2], hour, min);
-  isStart = dateTime;
-
-  let initStartTime =
-    parseInt(startTime.split(':')[0]) > 12
-      ? parseInt(startTime.split(':')[0]) - 12
-      : parseInt(startTime.split(':')[0]);
-
-  let initEndTime =
-    parseInt(endTime.split(':')[0]) > 12
-      ? parseInt(endTime.split(':')[0]) - 12
-      : parseInt(endTime.split(':')[0]);
-
-  startTime = `${initStartTime}:${startTime.split(':')[1]}:${
-    startTime.split(':')[2]
-  }`;
-
-  endTime = `${initEndTime}:${endTime.split(':')[1]}:${endTime.split(':')[2]}`;
-
-  return (
-    <div
-      className={`mb-3 text-light mt-3 fade-effect ${
-        id === parent.state.isOpen || parent.state.isOpen === null
-          ? 'd-block'
-          : 'd-none margin-absolute'
-      }`}
-    >
-      <Button
-        style={isBooked || isDone ? style.buttonTimeBooked : style.buttonTime}
-        className={`${
-          !isBooked && !isDone
-            ? 'btn-animate-time'
-            : isDone
-            ? 'btn-done'
-            : 'btn-inprogress'
-        } ${parent.state.isOpen === null ? 'inactive' : ''}`}
-        onClick={() => {
-          if (!isDone) {
-            isBooked
-              ? parent.OnHandleSelectProfile(booked, data)
-              : parent.OnHandleOpenTime(id);
-          } else {
-            isBooked
-              ? parent.OnHandleSelectProfile(booked, data)
-              : toast.error('This schedules are elapsed/done');
-          }
-        }}
-      >
-        <Text
-          className={`text-capitalize font-bold ${
-            !isBooked && !isDone && !isStart
-              ? 'btn-animate-text-time'
-              : isDone
-              ? 'btn-booked done'
-              : 'btn-booked'
-          } ${
-            id === parent.state.isOpen
-              ? 'font-weight-bold text-light font-size-15'
-              : ''
-          }`}
-          title={`${startTime} - ${endTime}${
-            isBooked
-              ? ` | ${institutionName} | ${
-                  Object.keys(bookedBy).length > 0
-                    ? bookedBy.firstName
-                    : setBy.firstName
-                } ${
-                  Object.keys(bookedBy).length > 0
-                    ? bookedBy.lastName.substr(0, 1)
-                    : setBy.lastName.substr(0, 1)
-                }.`
-              : ''
-          }`}
-        >
-          {`${startTime} - ${endTime}${
-            isBooked
-              ? ` | ${
-                  institutionName.length > 20
-                    ? `${institutionName.substr(0, 20)}...`
-                    : institutionName
-                } | ${
-                  Object.keys(bookedBy).length > 0
-                    ? bookedBy.firstName
-                    : setBy.firstName
-                } ${
-                  Object.keys(bookedBy).length > 0
-                    ? bookedBy.lastName.substr(0, 1)
-                    : setBy.lastName.substr(0, 1)
-                }.`
-              : ''
-          }`}
-        </Text>
-      </Button>
-      <div
-        className={`fade-effect .fade-out-effect mt-3 time-collapse ${
-          id === parent.state.isOpen ? 'd-block' : 'd-none'
-        }`}
-      >
-        <Text className='text-center' style={style.participantText}>
-          Available&nbsp;
-          {localStorage.getItem('userType') == 'participant'
-            ? 'Exhibitors'
-            : 'Participants'}
-          :
-        </Text>
-        <BookingProfileList
-          parent={parent}
-          bookingScheduleId={id}
-          users={booking}
-          schedule={data}
-          account={parent.props.account}
-          isShowList={parent.state.isShowList}
-          isLoading={parent.props.isLoading}
-        />
-      </div>
-    </div>
-  );
-};
-
-const Schedules = ({ parent }) => {
-  let scheds = [];
-  const { activeItem, events } = parent.state;
-  if (events.length > 0 && events[activeItem]) {
-    events[activeItem].schedules.map((e, i) => {
-      if (e.booking.length > 0) {
-        scheds.push(
-          <Schedule key={i} parent={parent} data={e} index={i + 1} />
-        );
-      }
-    });
-  }
-  return scheds;
-};
-
-const List = ({ parent, isLoading }) => {
-  const { activeItem, events } = parent.state;
-  let users = {};
-  let schedule = {};
-  let usersArr = [];
-  if (events.length > 0) {
-    events[activeItem].schedules.map((sched, i) => {
-      const { startTime } = sched;
-      let currentDate = new Date();
-      let date = events[activeItem].date;
-      let hour = parseInt(startTime.split(':')[0]);
-      let min = startTime.split(':')[1];
-      date = date.split('T')[0].split('-');
-      const dateTime = new Date(
-        date[0],
-        parseInt(date[1]) - 1,
-        date[2],
-        hour,
-        min
-      );
-      if (currentDate <= dateTime) {
-        if (sched.booking.length > 0) {
-          sched.booking.map(booking => {
-            if (!users[booking.setBy.id] && booking.bookedBy == null) {
-              booking = { ...booking, schedule: sched };
-              users[booking.setBy.id] = booking;
-            }
-          });
-        }
-      }
-    });
-  }
-
-  Object.values(users).map(user => {
-    usersArr.push(user);
-  });
-  return (
-    <BookingProfileList
-      parent={parent}
-      bookingScheduleId={null}
-      users={usersArr}
-      schedule={schedule}
-      account={parent.props.account}
-      isShowList={parent.state.isShowList}
-      isLoading={parent.props.isLoading}
-    />
-  );
-};
 
 const PrivacyPolicyTab = ({ parent }) => {
   return (
@@ -592,7 +267,7 @@ const UpdatesAndNotifsTab = ({ parent }) => {
   );
 };
 
-class EventTab extends Component {
+class NotificationTab extends Component {
   state = {
     activeItem: '0',
     events: [],
@@ -604,7 +279,8 @@ class EventTab extends Component {
     isShowList: false,
     isOpenProfile: false,
     isOpenList: false,
-    isOpenPassword: false
+    isOpenPassword: false,
+    notifId: window.location.pathname.split('/')[2]
   };
 
   OnHandleToggle = tab => () => {
@@ -705,7 +381,16 @@ class EventTab extends Component {
   }
   x;
   componentWillMount() {
-    this.props.getLatestEvents();
+    const { notifId } = this.state;
+    const {
+      viewNotifications,
+      getLatestEvents,
+      viewNotificationById
+    } = this.props;
+
+    getLatestEvents();
+    viewNotifications(notifId);
+    viewNotificationById(notifId);
   }
 
   componentDidUpdate() {}
@@ -723,6 +408,15 @@ class EventTab extends Component {
   OnHandleToggleHome(tab) {}
 
   render() {
+    const { isLoadingNotification, notificationById } = this.props;
+    const notifications = [
+      'registered',
+      'booked',
+      'bookedMe',
+      'removeSlots',
+      'removeBooking'
+    ];
+
     return (
       <React.Fragment>
         <Header
@@ -747,13 +441,6 @@ class EventTab extends Component {
           }`}
           id='mainTab'
         >
-          {this.props.eventLoading && (
-            <div id='loading' className='text-dark bg-light'>
-              <img src={loader} alt='loader' />
-            </div>
-          )}
-
-          {!this.props.auth.isAuthenticated && <Redirect to='/' />}
           {this.state.schedules &&
             this.state.activeItem !== 'privacy' &&
             this.state.activeItem !== 'terms' &&
@@ -761,7 +448,42 @@ class EventTab extends Component {
             this.state.activeItem !== 'contact' &&
             this.state.activeItem !== 'updatesAndNotifs' &&
             this.state.activeItem !== 'profile' &&
-            !this.props.eventLoading && <Tabs parent={this} />}
+            !this.props.eventLoading &&
+            (isLoadingNotification ? (
+              <p>Fetching notification...</p>
+            ) : (
+              notificationById && (
+                <>
+                  <Text
+                    className='text-center tab-title mt-5'
+                    style={style.tabTitleHeader}
+                  >
+                    {notifications.includes(
+                      notificationById.content.split("'")[1]
+                    )
+                      ? 'NOTIFICATION'
+                      : 'UPDATE'}
+                  </Text>
+                  <hr style={style.tabTitleHeaderHr} />
+                  <p style={style.notificationDate}>
+                    <span style={style.notificationDateTitle}>Date: </span>
+                    {moment(notificationById.date).format('lll')}
+                  </p>
+
+                  <div style={style.notificationBody}>
+                    {ReactHtmlParser(notificationById.content)}
+                  </div>
+                </>
+              )
+            ))}
+
+          {this.props.eventLoading && (
+            <div id='loading' className='text-dark bg-light'>
+              <img src={loader} alt='loader' />
+            </div>
+          )}
+
+          {!this.props.auth.isAuthenticated && <Redirect to='/' />}
 
           {(this.state.activeItem === 'privacy' && (
             <FooterTabs parent={this} />
@@ -926,6 +648,22 @@ const style = {
   fb: {
     height: 20,
     marginTop: 10
+  },
+  notificationBody: {
+    padding: '20px 10%',
+    color: 'white',
+    fontSize: '20px',
+    lineHeight: '30px'
+  },
+  notificationDate: {
+    color: 'white',
+    padding: '20px 10%',
+    fontSize: '18px',
+    fontStyle: 'italic'
+  },
+  notificationDateTitle: {
+    color: 'rgb(142, 198, 63)',
+    fontWeight: 'bold'
   }
 };
 
@@ -937,11 +675,15 @@ const mapStateToProps = state => ({
   user: state.user,
   booking: state.booking.booking,
   isLoading: state.booking.isLoading,
-  eventLoading: state.event.isLoading
+  eventLoading: state.event.isLoading,
+  isLoadingNotification: state.notification.isLoading,
+  notificationById: state.notification.notificationById
 });
 
 export default connect(mapStateToProps, {
   loginUser,
   getLatestEvents,
-  setNotes
-})(withRouter(EventTab));
+  setNotes,
+  viewNotifications,
+  viewNotificationById
+})(withRouter(NotificationTab));

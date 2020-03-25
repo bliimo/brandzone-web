@@ -43,7 +43,11 @@ const SideBar = ({
             </div>
           </div>
           <span className='cursor-pointer' style={style.closeBtn}>
-            <MDBIcon icon='times' style={style.close} onClick={() => OnHandleShowSideBar()} />
+            <MDBIcon
+              icon='times'
+              style={style.close}
+              onClick={() => OnHandleShowSideBar()}
+            />
           </span>
         </div>
       </div>
@@ -54,11 +58,24 @@ const SideBar = ({
           style={style.links}
           className='sideBarLink'
           onClick={() => {
-            isShow(false);
-            OnHandleShowSideBar();
+            // isShow(false);
+            // OnHandleShowSideBar();
+            window.location.href = '/events';
           }}
         >
           My Schedule
+        </NavLink>
+
+        <NavLink
+          to='#'
+          style={style.links}
+          className='sideBarLink'
+          onClick={() => {
+            OnHandleToggle('updatesAndNotifs');
+            OnHandleShowSideBar();
+          }}
+        >
+          Updates and Notifications
         </NavLink>
 
         <NavLink
@@ -71,7 +88,9 @@ const SideBar = ({
           }}
         >
           List of&nbsp;
-          {localStorage.getItem('userType') == 'exhibitor' ? 'Participants' : 'Exhibitors'}
+          {localStorage.getItem('userType') == 'exhibitor'
+            ? 'Participants'
+            : 'Exhibitors'}
         </NavLink>
 
         {isEvent && (

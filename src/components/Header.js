@@ -15,7 +15,12 @@ import { NavLink } from 'react-router-dom';
 import SideBar from './SideBar';
 import Text from './Text';
 import logo from '../assets/images/logo.png';
-import { loginUser, logoutUser, getNotifications, viewNotifications } from '../store/actions';
+import {
+  loginUser,
+  logoutUser,
+  getNotifications,
+  viewNotifications
+} from '../store/actions';
 import { connect } from 'react-redux';
 import { withRouter } from 'react-router-dom';
 import { getMonthName } from '../helper/date';
@@ -31,7 +36,7 @@ const Notification = ({ parent, className }) => {
       let dateArr = newDate.split('-');
 
       notifs.push(
-        <React.Fragment>
+        <React.Fragment key={i}>
           <MDBDropdownItem
             onClick={() => parent.onHandleNotification(e)}
             key={i}
@@ -39,7 +44,10 @@ const Notification = ({ parent, className }) => {
           >
             <div className='d-flex'>
               <MDBIcon icon='info-circle' className='text-gray info-icon' />
-              <div className='notif-btn-list' dangerouslySetInnerHTML={{ __html: content }} />
+              <div
+                className='notif-btn-list'
+                dangerouslySetInnerHTML={{ __html: content }}
+              />
               <span className='notif-date'>
                 {getMonthName(dateArr[1])} {dateArr[2]}, {dateArr[0]}{' '}
                 {date.split('T')[1].split('.')[0]}
@@ -72,7 +80,11 @@ const Profile = ({ OnHandleShowSideBar, account, parent }) => {
     <div className='d-flex' style={style.profile}>
       <div className='d-flex' id='profile-lg'>
         <img
-          src={profilePicture ? profilePicture : 'https://brandzone.ph/upload/default-avatar.jpeg'}
+          src={
+            profilePicture
+              ? profilePicture
+              : 'https://brandzone.ph/upload/default-avatar.jpeg'
+          }
           style={style.avatar}
           alt='profile'
         />
@@ -118,15 +130,17 @@ class Header extends Component {
   }
 
   onHandleNotification = data => {
-    if (!data.isViewed) this.props.viewNotifications(data.id);
-    Swal.fire({
-      title: 'Notification',
-      html: data.content,
-      showCancelButton: false,
-      confirmButtonColor: '#3085d6',
-      cancelButtonColor: '#d33',
-      confirmButtonText: 'Ok'
-    }).then(result => {});
+    window.location.href = `/notification/${data.id}`;
+
+    // if (!data.isViewed) this.props.viewNotifications(data.id);
+    // Swal.fire({
+    //   title: 'Notification',
+    //   html: data.content,
+    //   showCancelButton: false,
+    //   confirmButtonColor: '#3085d6',
+    //   cancelButtonColor: '#d33',
+    //   confirmButtonText: 'Ok'
+    // }).then(result => {});
   };
 
   render() {
@@ -136,7 +150,10 @@ class Header extends Component {
       <div>
         <MDBNavbar color='transparent' expand='md' className='header-nav'>
           <MDBNavbarBrand>
-            <NavLink to={auth.isAuthenticated ? '#' : '/'} onClick={OnHandleToggleHome('1')}>
+            <NavLink
+              to={auth.isAuthenticated ? '#' : '/'}
+              onClick={OnHandleToggleHome('1')}
+            >
               <img src={logo} alt='logo' className='logo' />
             </NavLink>
           </MDBNavbarBrand>
