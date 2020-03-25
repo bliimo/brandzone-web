@@ -223,7 +223,7 @@ const Schedule = ({ data, parent, index }) => {
           } else {
             isBooked
               ? parent.OnHandleSelectProfile(booked, data)
-              : toast.error('This schedules are elapsed/done');
+              : toast.error('This schedule has lapsed.');
           }
         }}
       >
