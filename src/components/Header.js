@@ -71,8 +71,8 @@ const Notification = ({ parent, className }) => {
       </MDBDropdownMenu>
     </MDBDropdown>
   ) : (
-    <span></span>
-  );
+      <span></span>
+    );
 };
 const Profile = ({ OnHandleShowSideBar, account, parent }) => {
   const { firstName, lastName, profilePicture } = account;

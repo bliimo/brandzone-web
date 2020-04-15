@@ -299,8 +299,11 @@ h6 {
     width: 90% !important;
     margin: auto !important;
   }
+  .logo{
+    width: 100% !important;
+  }
   .tab-title {
-    font-size: 13px !important;
+    font-size: 25px !important;
   }
   div#signUpForm {
     min-width: 40vw !important;
@@ -580,10 +583,10 @@ input {
   background: #4b5755 !important;
 }
 
-.logo {
+/* .logo {
   width: auto;
   height: 50px;
-}
+} */
 
 .nav-links p {
   opacity: 0.5;
